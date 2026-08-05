@@ -1,6 +1,6 @@
 {
   "name": "@getyetty-sdk/qonto",
-  "version": "2026.1.26-1",
+  "version": "2026.8.5",
   "description": "TypeScript client for the Qonto API, auto-generated from OpenAPI spec",
   "keywords": [
     "api",
