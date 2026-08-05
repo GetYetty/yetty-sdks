@@ -1,6 +1,6 @@
 {
   "name": "@getyetty-sdk/pennylane",
-  "version": "2026.6.4-1",
+  "version": "2026.8.5",
   "description": "TypeScript client for the Pennylane Accounting API, auto-generated from OpenAPI spec",
   "keywords": [
     "accounting",
