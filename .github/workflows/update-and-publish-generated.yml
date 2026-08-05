@@ -130,8 +130,7 @@ jobs:
         run: |
           PREV_VERSION=$(git describe --tags --match "@getyetty-sdk/${{ matrix.name }}@*" --abbrev=0 2>/dev/null | sed 's/.*@//' || true)
           export PREV_VERSION
-          cd packages/${{ matrix.name }}
-          node ../../scripts/generate-recap.ts \
+          node scripts/generate-recap.ts \
             --spec-git-path "packages/${{ matrix.name }}/${{ matrix.specFile }}" \
             --repo-url "https://github.com/GetYetty/yetty-sdks" \
             > "$RUNNER_TEMP/release-notes.md"
@@ -148,14 +147,13 @@ jobs:
           } > "$RUNNER_TEMP/commit-msg.txt"
           git commit -F "$RUNNER_TEMP/commit-msg.txt"
           git tag "$TAG"
+          git pull --rebase origin main
           git push
           git push --tags
 
       - name: Publish to npm
         if: steps.status.outputs.has_changes == 'true'
-        run: npm publish --access public --tag latest -w @getyetty-sdk/${{ matrix.name }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag latest --provenance -w @getyetty-sdk/${{ matrix.name }}
 
       - name: Create GitHub Release
         if: steps.status.outputs.has_changes == 'true'

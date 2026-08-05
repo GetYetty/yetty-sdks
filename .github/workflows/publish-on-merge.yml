@@ -98,9 +98,7 @@ jobs:
           git push --tags
 
       - name: Publish to npm
-        run: npm publish --access public --tag latest -w @getyetty-sdk/${{ matrix.package }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag latest --provenance -w @getyetty-sdk/${{ matrix.package }}
 
       - name: Create GitHub Release
         env:
