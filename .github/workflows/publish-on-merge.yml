@@ -1,0 +1,107 @@
+name: Publish on Merge (Hand-written SDKs)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/odoo/src/**'
+      - 'packages/zohobooks/src/**'
+      - 'packages/rubypayeur/src/**'
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.detect.outputs.packages }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed packages
+        id: detect
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- packages/*/src/ | \
+            sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | \
+            jq -R -s -c 'split("\n") | map(select(. != ""))')
+          echo "packages=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Changed packages: $CHANGED"
+
+  publish:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.packages != '[]' && needs.detect-changes.outputs.packages != '' }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.detect-changes.outputs.packages) }}
+
+    name: publish-${{ matrix.package }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Type check
+        run: npm run typecheck -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Test
+        run: npm run test -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Build
+        run: npm run build -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Bump version
+        run: |
+          cd packages/${{ matrix.package }}
+          NEW_VERSION=$(node ../../scripts/bump-version.ts .)
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Generate changelog
+        run: |
+          PREV_TAG=$(git describe --tags --match "@getyetty-sdk/${{ matrix.package }}@*" --abbrev=0 2>/dev/null || true)
+          if [ -n "$PREV_TAG" ]; then
+            git log --oneline "$PREV_TAG"..HEAD -- "packages/${{ matrix.package }}/" > "$RUNNER_TEMP/release-notes.md"
+          else
+            echo "Initial release." > "$RUNNER_TEMP/release-notes.md"
+          fi
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/${{ matrix.package }}/
+          TAG="@getyetty-sdk/${{ matrix.package }}@${NEW_VERSION}"
+          git commit -m "chore(${{ matrix.package }}): release v${NEW_VERSION}"
+          git tag "$TAG"
+          git push
+          git push --tags
+
+      - name: Publish to npm
+        run: npm publish --access public --tag latest -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="@getyetty-sdk/${{ matrix.package }}@${NEW_VERSION}"
+          gh release create "$TAG" --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md"

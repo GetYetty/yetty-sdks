@@ -1,0 +1,5 @@
+# Mark large spec files as generated to keep PR diffs clean
+packages/*/openapi.json linguist-generated=true
+packages/*/openapi.yaml linguist-generated=true
+packages/*/business_api.yml linguist-generated=true
+packages/*/src/generated/** linguist-generated=true

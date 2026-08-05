@@ -1,0 +1,54 @@
+{
+  "name": "@getyetty-sdk/sellsy",
+  "version": "2026.1.28",
+  "description": "TypeScript client for the Sellsy API, auto-generated from OpenAPI spec",
+  "keywords": [
+    "api",
+    "client",
+    "crm",
+    "openapi",
+    "sellsy",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "GetYetty",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetYetty/yetty-sdks.git",
+    "directory": "packages/sellsy"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "fetch-spec": "curl -o openapi.yaml https://docs.sellsy.com/api/v2/dist/sellsy.v2.latest.yaml",
+    "check-spec-changes": "node ../../scripts/check-spec-changes.ts --spec-url https://docs.sellsy.com/api/v2/dist/sellsy.v2.latest.yaml --hash-file ./openapi.hash --output ./openapi.yaml",
+    "bump-version": "node ../../scripts/bump-version.ts .",
+    "generate": "openapi-ts",
+    "build": "tsdown",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "~0.88.0",
+    "@stoplight/prism-cli": "^5.15.11",
+    "@types/node": "^25.9.1",
+    "tsdown": "^0.22.2",
+    "vitest": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

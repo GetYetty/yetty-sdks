@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [pennylane, qonto, sellsy]
+
+    name: ${{ matrix.package }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate client
+        run: npm run generate -w @getyetty-sdk/${{ matrix.package }}
+        if: ${{ hashFiles(format('packages/{0}/openapi-ts.config.ts', matrix.package)) != '' }}
+
+      # Sellsy spec generates unresolvable _heyapi_* symbols — skip typecheck (matches standalone repo)
+      - name: Type check
+        if: matrix.package != 'sellsy'
+        run: npm run typecheck -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build -w @getyetty-sdk/${{ matrix.package }}
+
+      - name: Run tests
+        run: npm run test -w @getyetty-sdk/${{ matrix.package }}

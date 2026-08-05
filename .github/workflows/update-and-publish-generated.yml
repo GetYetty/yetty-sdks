@@ -1,0 +1,200 @@
+name: Update and Publish (Generated SDKs)
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Single package to update (leave empty for all)'
+        required: false
+        type: choice
+        options:
+          - ''
+          - pennylane
+          - qonto
+          - sellsy
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+
+jobs:
+  update-and-publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: pennylane
+            specMode: remote
+            specUrl: 'https://pennylane.readme.io/openapi/accounting.json'
+            specFile: openapi.json
+            hasRecap: true
+          - name: qonto
+            specMode: local
+            specUrl: ''
+            specFile: business_api.yml
+            hasRecap: false
+          - name: sellsy
+            specMode: remote
+            specUrl: 'https://docs.sellsy.com/api/v2/dist/sellsy.v2.latest.yaml'
+            specFile: openapi.yaml
+            hasRecap: false
+
+    name: ${{ matrix.name }}
+
+    # Skip packages not matching the manual input (if specified)
+    if: ${{ github.event.inputs.package == '' || github.event.inputs.package == matrix.name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Check for spec changes (remote)
+        if: matrix.specMode == 'remote'
+        id: check-remote
+        run: |
+          cd packages/${{ matrix.name }}
+          node ../../scripts/check-spec-changes.ts \
+            --spec-url "${{ matrix.specUrl }}" \
+            --hash-file ./openapi.hash \
+            --output ./${{ matrix.specFile }}
+          echo "changed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Check for spec changes (local)
+        if: matrix.specMode == 'local'
+        id: check-local
+        run: |
+          cd packages/${{ matrix.name }}
+          node ../../scripts/check-spec-changes.ts \
+            --spec-file ./${{ matrix.specFile }} \
+            --hash-file ./openapi.hash
+          echo "changed=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Set change status
+        id: status
+        run: |
+          REMOTE="${{ steps.check-remote.outcome }}"
+          LOCAL="${{ steps.check-local.outcome }}"
+          if [ "$REMOTE" == "success" ] || [ "$LOCAL" == "success" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Regenerate client
+        if: steps.status.outputs.has_changes == 'true'
+        run: npm run generate -w @getyetty-sdk/${{ matrix.name }}
+
+      - name: Type check
+        if: steps.status.outputs.has_changes == 'true' && matrix.name != 'sellsy'
+        run: npm run typecheck -w @getyetty-sdk/${{ matrix.name }}
+
+      - name: Test
+        if: steps.status.outputs.has_changes == 'true'
+        run: npm run test -w @getyetty-sdk/${{ matrix.name }}
+
+      - name: Build
+        if: steps.status.outputs.has_changes == 'true'
+        run: npm run build -w @getyetty-sdk/${{ matrix.name }}
+
+      - name: Bump version
+        if: steps.status.outputs.has_changes == 'true'
+        run: |
+          cd packages/${{ matrix.name }}
+          NEW_VERSION=$(node ../../scripts/bump-version.ts .)
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Install oasdiff
+        if: steps.status.outputs.has_changes == 'true' && matrix.hasRecap
+        run: |
+          OASDIFF_VERSION=1.27.0
+          BASE_URL="https://github.com/oasdiff/oasdiff/releases/download/v${OASDIFF_VERSION}"
+          ASSET="oasdiff_${OASDIFF_VERSION}_linux_amd64.tar.gz"
+          cd "$RUNNER_TEMP"
+          curl -fsSL -o "$ASSET" "${BASE_URL}/${ASSET}"
+          curl -fsSL -o checksums.txt "${BASE_URL}/checksums.txt"
+          grep " ${ASSET}\$" checksums.txt | sha256sum -c -
+          sudo tar -xzf "$ASSET" -C /usr/local/bin oasdiff
+          oasdiff --version
+
+      - name: Generate release notes
+        if: steps.status.outputs.has_changes == 'true' && matrix.hasRecap
+        env:
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        run: |
+          PREV_VERSION=$(git describe --tags --match "@getyetty-sdk/${{ matrix.name }}@*" --abbrev=0 2>/dev/null | sed 's/.*@//' || true)
+          export PREV_VERSION
+          cd packages/${{ matrix.name }}
+          node ../../scripts/generate-recap.ts \
+            --spec-git-path "packages/${{ matrix.name }}/${{ matrix.specFile }}" \
+            --repo-url "https://github.com/GetYetty/yetty-sdks" \
+            > "$RUNNER_TEMP/release-notes.md"
+
+      - name: Commit and push
+        if: steps.status.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/${{ matrix.name }}/
+          TAG="@getyetty-sdk/${{ matrix.name }}@${NEW_VERSION}"
+          {
+            echo "chore(${{ matrix.name }}): update API spec v${NEW_VERSION}"
+          } > "$RUNNER_TEMP/commit-msg.txt"
+          git commit -F "$RUNNER_TEMP/commit-msg.txt"
+          git tag "$TAG"
+          git push
+          git push --tags
+
+      - name: Publish to npm
+        if: steps.status.outputs.has_changes == 'true'
+        run: npm publish --access public --tag latest -w @getyetty-sdk/${{ matrix.name }}
+
+      - name: Create GitHub Release
+        if: steps.status.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="@getyetty-sdk/${{ matrix.name }}@${NEW_VERSION}"
+          NOTES_FILE="$RUNNER_TEMP/release-notes.md"
+          if [ -f "$NOTES_FILE" ] && [ -s "$NOTES_FILE" ]; then
+            gh release create "$TAG" --title "$TAG" --notes-file "$NOTES_FILE"
+          else
+            gh release create "$TAG" --title "$TAG" --generate-notes
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.status.outputs.has_changes }}" == "true" ]; then
+            echo "### Published @getyetty-sdk/${{ matrix.name }}@${NEW_VERSION}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### No changes detected for ${{ matrix.name }}" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Scheduled publish failed for ${{ matrix.name }} ($(date -u +%F))" \
+            --body "The **Update and Publish** workflow failed for **${{ matrix.name }}**. Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            || echo "Could not open notification issue."
