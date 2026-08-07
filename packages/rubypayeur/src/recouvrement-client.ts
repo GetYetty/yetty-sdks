@@ -5,7 +5,6 @@ import {
   CreateDebtResponseSchema,
   type DebtResponse,
   DebtListResponseSchema,
-  DebtResponseSchema,
   ErrorResponseSchema,
   parseResponse,
 } from './schemas.js';
@@ -141,8 +140,12 @@ export class RubyPayeurRecouvrementClient {
       this.http.throwOnErrorStatus(response);
 
       const raw = await response.json();
-      const data = parseResponse(DebtResponseSchema, raw, 'GET /api/debts/:reference');
-      return this.mapDebtResponse(data);
+      const body = parseResponse(DebtListResponseSchema, raw, 'GET /api/debts/:reference');
+      const entry = body.data?.[0];
+      if (!entry) {
+        throw new NotFoundError(`debt reference=${externalDebtId}`);
+      }
+      return this.mapDebtResponse(entry.attributes);
     });
   }
 

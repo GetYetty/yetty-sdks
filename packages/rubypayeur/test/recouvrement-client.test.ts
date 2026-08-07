@@ -460,7 +460,7 @@ describe('RubyPayeurRecouvrementClient', () => {
       });
     }
 
-    const SAMPLE_DEBT_RESPONSE = {
+    const SAMPLE_DEBT_ATTRIBUTES = {
       reference: 'ABC123',
       Statut: 'En cours de recouvrement',
       montant_recouvre: 150.5,
@@ -471,9 +471,15 @@ describe('RubyPayeurRecouvrementClient', () => {
       section: 'En cours',
     };
 
+    function wrapSingleDebt(overrides?: Partial<typeof SAMPLE_DEBT_ATTRIBUTES>): {
+      data: { attributes: typeof SAMPLE_DEBT_ATTRIBUTES }[];
+    } {
+      return { data: [{ attributes: { ...SAMPLE_DEBT_ATTRIBUTES, ...overrides } }] };
+    }
+
     it('fetches a single debt by reference via query param', async () => {
       const client = createAuthenticatedClient();
-      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, SAMPLE_DEBT_RESPONSE));
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, wrapSingleDebt()));
 
       await client.getDebt('ABC123');
 
@@ -486,7 +492,7 @@ describe('RubyPayeurRecouvrementClient', () => {
 
     it('maps RubyPayeur response fields to RecoveryDebt', async () => {
       const client = createAuthenticatedClient();
-      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, SAMPLE_DEBT_RESPONSE));
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, wrapSingleDebt()));
 
       const result = await client.getDebt('ABC123');
 
@@ -511,7 +517,7 @@ describe('RubyPayeurRecouvrementClient', () => {
     it('maps procedure_collective OUI to collectiveProceedings true', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
-        mockFetchResponse(200, { ...SAMPLE_DEBT_RESPONSE, procedure_collective: 'OUI' }),
+        mockFetchResponse(200, wrapSingleDebt({ procedure_collective: 'OUI' })),
       );
 
       const result = await client.getDebt('ABC123');
@@ -521,7 +527,7 @@ describe('RubyPayeurRecouvrementClient', () => {
     it('maps en_activite NON to debtorActive false', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
-        mockFetchResponse(200, { ...SAMPLE_DEBT_RESPONSE, en_activite: 'NON' }),
+        mockFetchResponse(200, wrapSingleDebt({ en_activite: 'NON' })),
       );
 
       const result = await client.getDebt('ABC123');
@@ -531,11 +537,10 @@ describe('RubyPayeurRecouvrementClient', () => {
     it('parses Date de clôture when present', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
-        mockFetchResponse(200, {
-          ...SAMPLE_DEBT_RESPONSE,
-          Statut: 'Clôturé',
-          'Date de clôture': '15/03/2025',
-        }),
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({ Statut: 'Clôturé', 'Date de clôture': '15/03/2025' }),
+        ),
       );
 
       const result = await client.getDebt('ABC123');
@@ -560,7 +565,7 @@ describe('RubyPayeurRecouvrementClient', () => {
 
       for (const [rubyPayeurStatus, expectedStatus] of statusCases) {
         fetchMock.mockResolvedValueOnce(
-          mockFetchResponse(200, { ...SAMPLE_DEBT_RESPONSE, Statut: rubyPayeurStatus }),
+          mockFetchResponse(200, wrapSingleDebt({ Statut: rubyPayeurStatus })),
         );
 
         const result = await client.getDebt('ABC123');
@@ -571,7 +576,7 @@ describe('RubyPayeurRecouvrementClient', () => {
     it('defaults unknown status to in_progress', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
-        mockFetchResponse(200, { ...SAMPLE_DEBT_RESPONSE, Statut: 'Some Future Status' }),
+        mockFetchResponse(200, wrapSingleDebt({ Statut: 'Some Future Status' })),
       );
 
       const result = await client.getDebt('ABC123');
@@ -590,10 +595,7 @@ describe('RubyPayeurRecouvrementClient', () => {
 
       for (const [remainingString, expectedCents] of cases) {
         fetchMock.mockResolvedValueOnce(
-          mockFetchResponse(200, {
-            ...SAMPLE_DEBT_RESPONSE,
-            'Reste dû à date': remainingString,
-          }),
+          mockFetchResponse(200, wrapSingleDebt({ 'Reste dû à date': remainingString })),
         );
 
         const result = await client.getDebt('ABC123');
@@ -604,6 +606,13 @@ describe('RubyPayeurRecouvrementClient', () => {
     it('throws NotFoundError on 404', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(mockFetchResponse(404, {}));
+
+      await expect(client.getDebt('UNKNOWN')).rejects.toThrow(NotFoundError);
+    });
+
+    it('throws NotFoundError when API returns empty data array', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, { data: [] }));
 
       await expect(client.getDebt('UNKNOWN')).rejects.toThrow(NotFoundError);
     });
@@ -729,9 +738,9 @@ describe('RubyPayeurRecouvrementClient', () => {
       });
     }
 
-    it('throws ResponseShapeError when getDebt response is missing required fields', async () => {
+    it('throws ResponseShapeError when getDebt response has wrong envelope', async () => {
       const client = createAuthenticatedClient();
-      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, { id: 123, status: 'open' }));
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, { data: 'not-an-array' }));
 
       const error = await client.getDebt('ABC123').catch((e: unknown) => e);
 
@@ -767,16 +776,22 @@ describe('RubyPayeurRecouvrementClient', () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(200, {
-          reference: 'ABC123',
-          Statut: 'En cours de recouvrement',
-          montant_recouvre: 150.5,
-          'Reste dû à date': '400,00 €',
-          procedure_collective: 'NON',
-          en_activite: 'OUI',
-          'Date de clôture': null,
-          section: 'En cours',
-          new_api_field: 'should not break',
-          nested: { extra: true },
+          data: [
+            {
+              attributes: {
+                reference: 'ABC123',
+                Statut: 'En cours de recouvrement',
+                montant_recouvre: 150.5,
+                'Reste dû à date': '400,00 €',
+                procedure_collective: 'NON',
+                en_activite: 'OUI',
+                'Date de clôture': null,
+                section: 'En cours',
+                new_api_field: 'should not break',
+                nested: { extra: true },
+              },
+            },
+          ],
         }),
       );
 
