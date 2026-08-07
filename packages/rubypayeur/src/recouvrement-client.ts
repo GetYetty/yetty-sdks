@@ -1,6 +1,14 @@
 import { AuthenticationError, NotFoundError, ValidationError } from './errors.js';
 import { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
 import { type RubyPayeurLogger, consoleLogger } from './logger.js';
+import {
+  CreateDebtResponseSchema,
+  type DebtResponse,
+  DebtListResponseSchema,
+  DebtResponseSchema,
+  ErrorResponseSchema,
+  parseResponse,
+} from './schemas.js';
 import type { CreateDebtInput, RecoveryDebt, RecoveryDebtInvoice } from './types.js';
 import {
   eurosToCents,
@@ -14,16 +22,6 @@ import {
 const RUBYPAYEUR_FALLBACK_PHONE = '0184807678';
 const RUBYPAYEUR_PAGE_SIZE = 50;
 const TEST_SIREN = '123456789';
-
-interface RubyPayeurCreateDebtResponse {
-  validation: string;
-  id: number;
-  ref: string;
-}
-
-interface RubyPayeurErrorResponse {
-  errors: Record<string, string[]>;
-}
 
 interface RubyPayeurDebtRequestBody {
   debt: {
@@ -47,24 +45,6 @@ interface RubyPayeurItemAttributes {
   invoiced_on: string;
   due_date: string;
   billing_proof_data_uri?: string;
-}
-
-interface RubyPayeurDebtResponse {
-  reference: string;
-  Statut: string;
-  montant_recouvre: string | number | null;
-  'Reste dû à date': string | null;
-  procedure_collective: 'OUI' | 'NON';
-  en_activite: 'OUI' | 'NON';
-  'Date de clôture': string | null;
-  etape?: string;
-  Commentaire?: string;
-  'Historique des procédures'?: string;
-  derniere_mise_a_jour?: string;
-  "Date d'ouverture"?: string;
-  'SIREN débiteur'?: string;
-  section: string;
-  [key: string]: unknown;
 }
 
 export interface RubyPayeurRecouvrementClientOptions {
@@ -123,7 +103,8 @@ export class RubyPayeurRecouvrementClient {
       });
 
       if (response.status === 422) {
-        const errorBody = (await response.json()) as Partial<RubyPayeurErrorResponse>;
+        const raw = await response.json();
+        const errorBody = parseResponse(ErrorResponseSchema, raw, 'POST /api/debts (422)');
         throw new ValidationError(errorBody.errors ?? {});
       }
 
@@ -133,7 +114,8 @@ export class RubyPayeurRecouvrementClient {
 
       this.http.throwOnErrorStatus(response);
 
-      const data = (await response.json()) as Partial<RubyPayeurCreateDebtResponse>;
+      const raw = await response.json();
+      const data = parseResponse(CreateDebtResponseSchema, raw, 'POST /api/debts');
 
       return {
         externalDebtId: String(data.ref ?? data.id),
@@ -158,7 +140,8 @@ export class RubyPayeurRecouvrementClient {
 
       this.http.throwOnErrorStatus(response);
 
-      const data = (await response.json()) as RubyPayeurDebtResponse;
+      const raw = await response.json();
+      const data = parseResponse(DebtResponseSchema, raw, 'GET /api/debts/:reference');
       return this.mapDebtResponse(data);
     });
   }
@@ -183,11 +166,10 @@ export class RubyPayeurRecouvrementClient {
 
         this.http.throwOnErrorStatus(response);
 
-        const body = (await response.json()) as {
-          data?: { attributes: RubyPayeurDebtResponse }[];
-        };
+        const raw = await response.json();
+        const body = parseResponse(DebtListResponseSchema, raw, 'GET /api/debts');
         const data = body.data;
-        if (!Array.isArray(data) || data.length === 0) {
+        if (!data || data.length === 0) {
           break;
         }
 
@@ -206,7 +188,7 @@ export class RubyPayeurRecouvrementClient {
     });
   }
 
-  private mapDebtResponse(data: RubyPayeurDebtResponse): RecoveryDebt {
+  private mapDebtResponse(data: DebtResponse): RecoveryDebt {
     return {
       externalDebtId: data.reference,
       status: mapStatus(data.Statut, this.logger),

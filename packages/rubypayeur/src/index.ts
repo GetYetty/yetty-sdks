@@ -2,6 +2,7 @@ export {
   AuthenticationError,
   NotFoundError,
   RateLimitedError,
+  ResponseShapeError,
   RubyPayeurError,
   ServerError,
   ValidationError,

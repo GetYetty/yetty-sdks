@@ -1,25 +1,13 @@
 import { NotFoundError } from './errors.js';
 import { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
 import type { RubyPayeurLogger } from './logger.js';
+import { CompanyResponseSchema, parseResponse } from './schemas.js';
 import {
   type RubyPayeurScoring,
   type ScoringLetter,
   isValidScoringLetter,
   scoringColorForLetter,
 } from './types.js';
-
-interface CompanyResponse {
-  data: {
-    attributes: CompanyAttributes;
-  };
-}
-
-interface CompanyAttributes {
-  current_scoring: string | null;
-  current_scoring_letter: string | null;
-  current_scoring_color: string | null;
-  current_scoring_risk: string | null;
-}
 
 export interface RubyPayeurScoringClientOptions {
   apiToken: string;
@@ -54,8 +42,9 @@ export class RubyPayeurScoringClient {
 
       this.http.throwOnErrorStatus(response);
 
-      const body = (await response.json()) as CompanyResponse;
-      const attributes = body.data?.attributes;
+      const raw = await response.json();
+      const body = parseResponse(CompanyResponseSchema, raw, 'GET /api/companies');
+      const attributes = body.data.attributes;
 
       if (
         !attributes?.current_scoring_letter ||

@@ -33,6 +33,17 @@ export class ServerError extends RubyPayeurError {
   }
 }
 
+export class ResponseShapeError extends RubyPayeurError {
+  constructor(
+    readonly endpoint: string,
+    readonly cause: Error,
+  ) {
+    super(
+      `RubyPayeur API response from ${endpoint} did not match the expected shape: ${cause.message}`,
+    );
+  }
+}
+
 export class ValidationError extends RubyPayeurError {
   constructor(readonly fieldErrors: Record<string, string[]>) {
     super(

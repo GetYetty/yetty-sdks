@@ -5,6 +5,7 @@ import {
   AuthenticationError,
   NotFoundError,
   RateLimitedError,
+  ResponseShapeError,
   ServerError,
 } from '../src/errors.js';
 
@@ -355,6 +356,66 @@ describe('RubyPayeurScoringClient', () => {
 
       expect(scoring.score).toBe(75);
       expect(fetchMock).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  describe('response shape validation', () => {
+    it('throws ResponseShapeError when response structure is completely wrong', async () => {
+      fetchMock
+        .mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE))
+        .mockResolvedValueOnce(mockFetchResponse(200, { unexpected: 'shape' }));
+
+      const client = createClient();
+      const error = await client.getCompanyScoring('123456789').catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ResponseShapeError);
+      expect((error as ResponseShapeError).endpoint).toBe('GET /api/companies');
+    });
+
+    it('throws ResponseShapeError when attributes have wrong types', async () => {
+      fetchMock
+        .mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE))
+        .mockResolvedValueOnce(
+          mockFetchResponse(200, {
+            data: {
+              attributes: {
+                current_scoring: 75,
+                current_scoring_letter: 'A',
+                current_scoring_color: '#0A7E4E',
+                current_scoring_risk: 'Very low',
+              },
+            },
+          }),
+        );
+
+      const client = createClient();
+      const error = await client.getCompanyScoring('123456789').catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ResponseShapeError);
+    });
+
+    it('accepts extra fields in the response (passthrough)', async () => {
+      fetchMock
+        .mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE))
+        .mockResolvedValueOnce(
+          mockFetchResponse(200, {
+            data: {
+              attributes: {
+                current_scoring: '75.0',
+                current_scoring_letter: 'A',
+                current_scoring_color: '#0A7E4E',
+                current_scoring_risk: 'Very low',
+                some_new_field: 'should not break',
+              },
+            },
+            meta: { page: 1 },
+          }),
+        );
+
+      const client = createClient();
+      const scoring = await client.getCompanyScoring('123456789');
+
+      expect(scoring.score).toBe(75);
     });
   });
 
