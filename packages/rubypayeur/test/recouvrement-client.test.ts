@@ -4,6 +4,7 @@ import { RubyPayeurRecouvrementClient } from '../src/recouvrement-client.js';
 import {
   NotFoundError,
   RateLimitedError,
+  ResponseShapeError,
   ServerError,
   ValidationError,
 } from '../src/errors.js';
@@ -715,6 +716,74 @@ describe('RubyPayeurRecouvrementClient', () => {
       fetchMock.mockResolvedValue(mockFetchResponse(500, {}));
 
       await expect(client.getDebts(['REF-1'])).rejects.toThrow(ServerError);
+    });
+  });
+
+  describe('response shape validation', () => {
+    function createAuthenticatedClient() {
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE));
+      return new RubyPayeurRecouvrementClient({
+        apiToken: ORG_TOKEN,
+        isProduction: true,
+        logger: silentLogger,
+      });
+    }
+
+    it('throws ResponseShapeError when getDebt response is missing required fields', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, { id: 123, status: 'open' }));
+
+      const error = await client.getDebt('ABC123').catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ResponseShapeError);
+      expect((error as ResponseShapeError).endpoint).toBe('GET /api/debts/:reference');
+    });
+
+    it('throws ResponseShapeError when getDebts list has wrong item shape', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, {
+          data: [{ wrong: 'shape' }],
+        }),
+      );
+
+      const error = await client.getDebts([]).catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ResponseShapeError);
+      expect((error as ResponseShapeError).endpoint).toBe('GET /api/debts');
+    });
+
+    it('throws ResponseShapeError when createDebt response is not an object', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, 'plain text'));
+
+      const error = await client.createDebt(createTestCreateDebtInput()).catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ResponseShapeError);
+      expect((error as ResponseShapeError).endpoint).toBe('POST /api/debts');
+    });
+
+    it('accepts extra fields in debt response (passthrough)', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, {
+          reference: 'ABC123',
+          Statut: 'En cours de recouvrement',
+          montant_recouvre: 150.5,
+          'Reste dû à date': '400,00 €',
+          procedure_collective: 'NON',
+          en_activite: 'OUI',
+          'Date de clôture': null,
+          section: 'En cours',
+          new_api_field: 'should not break',
+          nested: { extra: true },
+        }),
+      );
+
+      const result = await client.getDebt('ABC123');
+
+      expect(result.externalDebtId).toBe('ABC123');
+      expect(result.status).toBe('in_progress');
     });
   });
 });
