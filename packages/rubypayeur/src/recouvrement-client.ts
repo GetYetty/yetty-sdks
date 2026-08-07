@@ -29,6 +29,12 @@ const RUBYPAYEUR_FALLBACK_PHONE = '0184807678';
 const RUBYPAYEUR_PAGE_SIZE = 50;
 const TEST_SIREN = '123456789';
 
+const NATURE_MAP: Record<string, CollectiveProceedingNature> = {
+  Redressement: 'restructuring',
+  Liquidation: 'liquidation',
+  Sauvegarde: 'safeguard',
+};
+
 interface RubyPayeurDebtRequestBody {
   debt: {
     siren: string;
@@ -255,11 +261,6 @@ export class RubyPayeurRecouvrementClient {
   }
 
   private parseNature(value: string | null | undefined): CollectiveProceedingNature | undefined {
-    const NATURE_MAP: Record<string, CollectiveProceedingNature> = {
-      Redressement: 'restructuring',
-      Liquidation: 'liquidation',
-      Sauvegarde: 'safeguard',
-    };
     if (!value) return undefined;
     return NATURE_MAP[value];
   }
