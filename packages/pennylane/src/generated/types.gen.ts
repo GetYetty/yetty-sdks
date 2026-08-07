@@ -4,7 +4,11 @@ export type ClientOptions = {
     baseUrl: 'https://app.pennylane.com' | (string & {});
 };
 
-export const CompanyWebhookSubscriptionEvents = { CUSTOMER_INVOICE_E_INVOICING_STATUS_UPDATED: 'customer_invoice.e_invoicing_status_updated', DMS_FILE_CREATED: 'dms_file.created' } as const;
+export const CompanyWebhookSubscriptionEvents = {
+    CUSTOMER_INVOICE_E_INVOICING_STATUS_UPDATED: 'customer_invoice.e_invoicing_status_updated',
+    DMS_FILE_CREATED: 'dms_file.created',
+    SUPPLIER_INVOICE_E_INVOICING_RECEIVED: 'supplier_invoice.e_invoicing_received'
+} as const;
 
 export type CompanyWebhookSubscriptionEvents = typeof CompanyWebhookSubscriptionEvents[keyof typeof CompanyWebhookSubscriptionEvents];
 
@@ -14,7 +18,7 @@ export type CompanyWebhookSubscriptionEvents = typeof CompanyWebhookSubscription
  * - `dms_file.created`: the event is triggered when a dms file is created.
  *
  */
-export type WebhookSubscriptionsEvents = Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+export type WebhookSubscriptionsEvents = Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
 
 export type WebhookSubscriptionsResponse = {
     /**
@@ -31,7 +35,7 @@ export type WebhookSubscriptionsResponse = {
      * - `dms_file.created`: the event is triggered when a dms file is created.
      *
      */
-    events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+    events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
     /**
      * Indicates whether the webhook subscription is active
      */
@@ -86,7 +90,7 @@ export type WebhookSubscriptionsIndexResponse = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */
@@ -179,7 +183,7 @@ export type WebhookSubscriptionsCreateResponse = {
      * - `dms_file.created`: the event is triggered when a dms file is created.
      *
      */
-    events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+    events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
     /**
      * Indicates whether the webhook subscription is active
      */
@@ -6080,7 +6084,7 @@ export type GetWebhookSubscriptionsResponses = {
              * - `dms_file.created`: the event is triggered when a dms file is created.
              *
              */
-            events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+            events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
             /**
              * Indicates whether the webhook subscription is active
              */
@@ -6143,7 +6147,7 @@ export type PostWebhookSubscriptionsData = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */
@@ -6224,7 +6228,7 @@ export type PostWebhookSubscriptionsResponses = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */
@@ -6402,7 +6406,7 @@ export type GetWebhookSubscriptionResponses = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */
@@ -6456,7 +6460,7 @@ export type PutWebhookSubscriptionData = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events?: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events?: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */
@@ -6549,7 +6553,7 @@ export type PutWebhookSubscriptionResponses = {
          * - `dms_file.created`: the event is triggered when a dms file is created.
          *
          */
-        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created'>;
+        events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
         /**
          * Indicates whether the webhook subscription is active
          */

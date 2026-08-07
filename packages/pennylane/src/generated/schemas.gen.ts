@@ -4,7 +4,8 @@ export const CompanyWebhookSubscriptionEventsSchema = {
     type: 'string',
     enum: [
         'customer_invoice.e_invoicing_status_updated',
-        'dms_file.created'
+        'dms_file.created',
+        'supplier_invoice.e_invoicing_received'
     ]
 } as const;
 
@@ -15,7 +16,8 @@ export const WebhookSubscriptions__EventsSchema = {
         type: 'string',
         enum: [
             'customer_invoice.e_invoicing_status_updated',
-            'dms_file.created'
+            'dms_file.created',
+            'supplier_invoice.e_invoicing_received'
         ]
     },
     example: [
@@ -47,7 +49,8 @@ export const WebhookSubscriptions__ResponseSchema = {
                 type: 'string',
                 enum: [
                     'customer_invoice.e_invoicing_status_updated',
-                    'dms_file.created'
+                    'dms_file.created',
+                    'supplier_invoice.e_invoicing_received'
                 ]
             },
             example: [
@@ -152,7 +155,8 @@ export const WebhookSubscriptions__IndexResponseSchema = {
                             type: 'string',
                             enum: [
                                 'customer_invoice.e_invoicing_status_updated',
-                                'dms_file.created'
+                                'dms_file.created',
+                                'supplier_invoice.e_invoicing_received'
                             ]
                         },
                         example: [
@@ -299,7 +303,8 @@ export const WebhookSubscriptions__CreateResponseSchema = {
                 type: 'string',
                 enum: [
                     'customer_invoice.e_invoicing_status_updated',
-                    'dms_file.created'
+                    'dms_file.created',
+                    'supplier_invoice.e_invoicing_received'
                 ]
             },
             example: [

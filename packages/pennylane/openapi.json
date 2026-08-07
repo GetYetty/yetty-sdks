@@ -60,7 +60,8 @@
                               "type": "string",
                               "enum": [
                                 "customer_invoice.e_invoicing_status_updated",
-                                "dms_file.created"
+                                "dms_file.created",
+                                "supplier_invoice.e_invoicing_received"
                               ]
                             },
                             "example": [
@@ -392,7 +393,11 @@
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                      "enum": [
+                        "customer_invoice.e_invoicing_status_updated",
+                        "dms_file.created",
+                        "supplier_invoice.e_invoicing_received"
+                      ]
                     },
                     "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
                     "minItems": 1
@@ -434,7 +439,11 @@
                       "type": "array",
                       "items": {
                         "type": "string",
-                        "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                        "enum": [
+                          "customer_invoice.e_invoicing_status_updated",
+                          "dms_file.created",
+                          "supplier_invoice.e_invoicing_received"
+                        ]
                       },
                       "example": [
                         "dms_file.created",
@@ -754,7 +763,11 @@
                       "type": "array",
                       "items": {
                         "type": "string",
-                        "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                        "enum": [
+                          "customer_invoice.e_invoicing_status_updated",
+                          "dms_file.created",
+                          "supplier_invoice.e_invoicing_received"
+                        ]
                       },
                       "example": [
                         "dms_file.created",
@@ -1097,7 +1110,11 @@
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                      "enum": [
+                        "customer_invoice.e_invoicing_status_updated",
+                        "dms_file.created",
+                        "supplier_invoice.e_invoicing_received"
+                      ]
                     },
                     "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
                     "minItems": 1
@@ -1137,7 +1154,11 @@
                       "type": "array",
                       "items": {
                         "type": "string",
-                        "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                        "enum": [
+                          "customer_invoice.e_invoicing_status_updated",
+                          "dms_file.created",
+                          "supplier_invoice.e_invoicing_received"
+                        ]
                       },
                       "example": [
                         "dms_file.created",
@@ -89781,14 +89802,22 @@
     "schemas": {
       "CompanyWebhookSubscriptionEvents": {
         "type": "string",
-        "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+        "enum": [
+          "customer_invoice.e_invoicing_status_updated",
+          "dms_file.created",
+          "supplier_invoice.e_invoicing_received"
+        ]
       },
       "WebhookSubscriptions__Events": {
         "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
         "type": "array",
         "items": {
           "type": "string",
-          "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+          "enum": [
+            "customer_invoice.e_invoicing_status_updated",
+            "dms_file.created",
+            "supplier_invoice.e_invoicing_received"
+          ]
         },
         "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
         "minItems": 1
@@ -89813,7 +89842,11 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+              "enum": [
+                "customer_invoice.e_invoicing_status_updated",
+                "dms_file.created",
+                "supplier_invoice.e_invoicing_received"
+              ]
             },
             "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
             "minItems": 1
@@ -89907,7 +89940,11 @@
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+                    "enum": [
+                      "customer_invoice.e_invoicing_status_updated",
+                      "dms_file.created",
+                      "supplier_invoice.e_invoicing_received"
+                    ]
                   },
                   "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
                   "minItems": 1
@@ -90038,7 +90075,11 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["customer_invoice.e_invoicing_status_updated", "dms_file.created"]
+              "enum": [
+                "customer_invoice.e_invoicing_status_updated",
+                "dms_file.created",
+                "supplier_invoice.e_invoicing_received"
+              ]
             },
             "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
             "minItems": 1
