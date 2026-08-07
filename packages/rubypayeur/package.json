@@ -1,6 +1,6 @@
 {
   "name": "@getyetty-sdk/rubypayeur",
-  "version": "2026.8.7",
+  "version": "2026.8.7-1",
   "description": "TypeScript client for the RubyPayeur scoring and debt recovery APIs",
   "keywords": [
     "api",
