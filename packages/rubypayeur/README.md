@@ -65,6 +65,12 @@ const all = await client.getDebts([]);
 
 // Fetch specific debts by reference
 const filtered = await client.getDebts(['REF-1', 'REF-2']);
+
+// Iterate page by page (memory-efficient for large datasets)
+for await (const page of client.iterateDebts()) {
+  console.log(`Got ${page.length} debts`);
+  // break early if needed — remaining pages won't be fetched
+}
 ```
 
 ### Custom logger
@@ -87,14 +93,14 @@ const client = new RubyPayeurRecouvrementClient({
 
 The SDK throws typed errors you can catch individually:
 
-| Error | When |
-|---|---|
-| `AuthenticationError` | Invalid or expired API token |
-| `NotFoundError` | Resource not found (404 or empty result) |
-| `ValidationError` | Validation failed (422), `.fieldErrors` has details |
-| `RateLimitedError` | Rate limited (429), `.retryAfterSeconds` if available |
-| `ServerError` | 5xx after exhausting retries, `.statusCode` available |
-| `ResponseShapeError` | API response didn't match expected Zod schema |
+| Error                 | When                                                  |
+| --------------------- | ----------------------------------------------------- |
+| `AuthenticationError` | Invalid or expired API token                          |
+| `NotFoundError`       | Resource not found (404 or empty result)              |
+| `ValidationError`     | Validation failed (422), `.fieldErrors` has details   |
+| `RateLimitedError`    | Rate limited (429), `.retryAfterSeconds` if available |
+| `ServerError`         | 5xx after exhausting retries, `.statusCode` available |
+| `ResponseShapeError`  | API response didn't match expected Zod schema         |
 
 All errors extend `RubyPayeurError`.
 

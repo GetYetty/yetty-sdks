@@ -166,45 +166,46 @@ export class RubyPayeurRecouvrementClient {
   }
 
   async getDebts(externalDebtIds: string[]): Promise<RecoveryDebt[]> {
-    const filterByIds = externalDebtIds.length > 0;
-    const requestedIds = new Set(externalDebtIds);
+    const matched: RecoveryDebt[] = [];
+    for await (const page of this.iterateDebts()) {
+      if (externalDebtIds.length === 0) {
+        matched.push(...page);
+      } else {
+        const requestedIds = new Set(externalDebtIds);
+        matched.push(...page.filter((d) => requestedIds.has(d.externalDebtId)));
+      }
+    }
+    return matched;
+  }
 
-    return this.http.requestWithAuth(async (authToken) => {
-      const matched: RecoveryDebt[] = [];
-      let page = 1;
-      let pageSize = RUBYPAYEUR_PAGE_SIZE;
+  async *iterateDebts(): AsyncGenerator<RecoveryDebt[]> {
+    const authToken = await this.http.ensureAuthenticated();
+    let page = 1;
+    let pageSize = RUBYPAYEUR_PAGE_SIZE;
 
-      while (pageSize === RUBYPAYEUR_PAGE_SIZE) {
-        const url = new URL('/api/debts', this.http.baseUrl);
-        url.searchParams.set('page', String(page));
+    while (pageSize === RUBYPAYEUR_PAGE_SIZE) {
+      const url = new URL('/api/debts', this.http.baseUrl);
+      url.searchParams.set('page', String(page));
 
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
 
-        this.http.throwOnErrorStatus(response);
+      this.http.throwOnErrorStatus(response);
 
-        const raw = await response.json();
-        const body = parseResponse(DebtListResponseSchema, raw, 'GET /api/debts');
-        const data = body.data;
-        if (!data || data.length === 0) {
-          break;
-        }
-
-        for (const entry of data) {
-          const item = entry.attributes;
-          if (!filterByIds || requestedIds.has(item.reference)) {
-            matched.push(this.mapDebtResponse(item));
-          }
-        }
-
-        pageSize = data.length;
-        page++;
+      const raw = await response.json();
+      const body = parseResponse(DebtListResponseSchema, raw, 'GET /api/debts');
+      const data = body.data;
+      if (!data || data.length === 0) {
+        break;
       }
 
-      return matched;
-    });
+      yield data.map((entry) => this.mapDebtResponse(entry.attributes));
+
+      pageSize = data.length;
+      page++;
+    }
   }
 
   private mapDebtResponse(data: DebtResponse): RecoveryDebt {

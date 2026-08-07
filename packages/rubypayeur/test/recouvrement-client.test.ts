@@ -878,6 +878,95 @@ describe('RubyPayeurRecouvrementClient', () => {
     });
   });
 
+  describe('iterateDebts', () => {
+    function createAuthenticatedClient() {
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE));
+      return new RubyPayeurRecouvrementClient({
+        apiToken: ORG_TOKEN,
+        isProduction: true,
+        logger: silentLogger,
+      });
+    }
+
+    function makeDebtResponse(
+      reference: string,
+      overrides?: Partial<RubyPayeurDebtResponseForTest>,
+    ): RubyPayeurDebtResponseForTest {
+      return {
+        reference,
+        Statut: 'En cours de recouvrement',
+        montant_recouvre: 0,
+        'Reste dû à date': '100,00 €',
+        procedure_collective: 'NON',
+        en_activite: 'OUI',
+        'Date de clôture': null,
+        section: 'En cours',
+        ...overrides,
+      };
+    }
+
+    function wrapInJsonApi(items: RubyPayeurDebtResponseForTest[]): {
+      data: { attributes: RubyPayeurDebtResponseForTest }[];
+    } {
+      return { data: items.map((attrs) => ({ attributes: attrs })) };
+    }
+
+    it('yields one page at a time', async () => {
+      const client = createAuthenticatedClient();
+
+      const page1 = Array.from({ length: 50 }, (_, i) => makeDebtResponse(`REF-${i}`));
+      const page2 = Array.from({ length: 10 }, (_, i) => makeDebtResponse(`REF-${50 + i}`));
+
+      fetchMock
+        .mockResolvedValueOnce(mockFetchResponse(200, wrapInJsonApi(page1)))
+        .mockResolvedValueOnce(mockFetchResponse(200, wrapInJsonApi(page2)));
+
+      const pages: number[] = [];
+      for await (const page of client.iterateDebts()) {
+        pages.push(page.length);
+      }
+
+      expect(pages).toEqual([50, 10]);
+    });
+
+    it('yields nothing when API returns empty data', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, { data: [] }));
+
+      const pages: number[] = [];
+      for await (const page of client.iterateDebts()) {
+        pages.push(page.length);
+      }
+
+      expect(pages).toEqual([]);
+    });
+
+    it('allows early exit without fetching remaining pages', async () => {
+      const client = createAuthenticatedClient();
+
+      const page1 = Array.from({ length: 50 }, (_, i) => makeDebtResponse(`REF-${i}`));
+
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, wrapInJsonApi(page1)));
+
+      const collected: string[] = [];
+      for await (const page of client.iterateDebts()) {
+        collected.push(page[0].externalDebtId);
+        break;
+      }
+
+      expect(collected).toEqual(['REF-0']);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('propagates server error on first page', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValue(mockFetchResponse(500, {}));
+
+      const iter = client.iterateDebts();
+      await expect(iter.next()).rejects.toThrow(ServerError);
+    });
+  });
+
   describe('response shape validation', () => {
     function createAuthenticatedClient() {
       fetchMock.mockResolvedValueOnce(mockFetchResponse(200, VALID_AUTH_RESPONSE));
