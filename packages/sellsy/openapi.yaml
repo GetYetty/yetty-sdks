@@ -1,7 +1,7 @@
 'openapi': '3.0.2'
 'info':
   'title': 'Sellsy API'
-  'version': '2.283.0'
+  'version': '2.284.0'
   'description': "Find out the [Postman collections](dist/postman/CollectionsApiV2.json) with the required [environment variables](dist/postman/Environment.json)
 
 
@@ -935,6 +935,7 @@
                   'description': 'Auxiliary code'
                   'example': '0EX11C'
                   'nullable': true
+                  'maxLength': 50
                 'social':
                   '$ref': '#/components/schemas/Company/properties/social'
                 'rate_category_id':
@@ -1552,6 +1553,7 @@
                   'description': 'Auxiliary code'
                   'example': '0EX11C'
                   'nullable': true
+                  'maxLength': 50
                 'social':
                   '$ref': '#/components/schemas/Company/properties/social'
                 'rate_category_id':
@@ -5501,6 +5503,7 @@
                   'description': 'Auxiliary code'
                   'example': '0EX11C'
                   'nullable': true
+                  'maxLength': 50
                 'social':
                   '$ref': '#/components/schemas/Company/properties/social'
                 'rate_category_id':
@@ -5970,6 +5973,7 @@
                   'description': 'Auxiliary code'
                   'example': '0EX11C'
                   'nullable': true
+                  'maxLength': 50
                 'social':
                   '$ref': '#/components/schemas/Company/properties/social'
                 'rate_category_id':
@@ -28159,6 +28163,13 @@
                 'type': 'integer'
                 'example': 33
               'description': 'Filter by assigned staffs'
+            'owners':
+              'title': 'Owners'
+              'type': 'array'
+              'items':
+                'type': 'integer'
+                'example': 33
+              'description': 'Filter the opportunity list by owner (staff id)'
             'statuses':
               'title': 'Filter the opportunity list by an array of statuses'
               'type': 'array'
