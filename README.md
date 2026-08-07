@@ -8,6 +8,7 @@ Monorepo for Yetty's third-party API client packages.
 |---------|-------------|------|
 | [`@getyetty-sdk/pennylane`](packages/pennylane) | Pennylane accounting API | Generated from OpenAPI spec |
 | [`@getyetty-sdk/qonto`](packages/qonto) | Qonto banking API | Generated from OpenAPI spec |
+| [`@getyetty-sdk/rubypayeur`](packages/rubypayeur) | RubyPayeur scoring & debt recovery API | Hand-written |
 | [`@getyetty-sdk/sellsy`](packages/sellsy) | Sellsy CRM API | Generated from OpenAPI spec |
 
 ## Installation
@@ -15,6 +16,7 @@ Monorepo for Yetty's third-party API client packages.
 ```bash
 npm install @getyetty-sdk/pennylane
 npm install @getyetty-sdk/qonto
+npm install @getyetty-sdk/rubypayeur
 npm install @getyetty-sdk/sellsy
 ```
 
@@ -58,7 +60,7 @@ A daily cron job ([`update-and-publish-generated.yml`](.github/workflows/update-
 
 Can also be triggered manually via `workflow_dispatch`.
 
-### Hand-written SDKs (future: Odoo, ZohoBooks, RubyPayeur)
+### Hand-written SDKs (Odoo, ZohoBooks, RubyPayeur)
 
 Merged changes to `src/` trigger [`publish-on-merge.yml`](.github/workflows/publish-on-merge.yml), which runs checks, bumps the version, and publishes.
 
