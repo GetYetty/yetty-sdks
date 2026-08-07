@@ -8,6 +8,8 @@ export {
   ValidationError,
 } from './errors.js';
 
+export type { ScoringClient, RecouvrementClient } from './interfaces.js';
+
 export { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
 
 export { consoleLogger, type RubyPayeurLogger } from './logger.js';
