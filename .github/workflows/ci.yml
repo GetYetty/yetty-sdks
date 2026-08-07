@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [pennylane, qonto, sellsy]
+        package: [pennylane, qonto, rubypayeur, sellsy]
 
     name: ${{ matrix.package }}
 
