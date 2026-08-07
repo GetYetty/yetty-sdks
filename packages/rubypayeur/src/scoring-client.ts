@@ -1,5 +1,6 @@
 import { NotFoundError } from './errors.js';
 import { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
+import type { ScoringClient } from './interfaces.js';
 import type { RubyPayeurLogger } from './logger.js';
 import { CompanyResponseSchema, parseResponse } from './schemas.js';
 import { type RubyPayeurScoring, isValidScoringLetter, scoringColorForLetter } from './types.js';
@@ -9,7 +10,7 @@ export interface RubyPayeurScoringClientOptions {
   logger?: RubyPayeurLogger;
 }
 
-export class RubyPayeurScoringClient {
+export class RubyPayeurScoringClient implements ScoringClient {
   private readonly http: RubyPayeurHttpClient;
 
   constructor(options: RubyPayeurScoringClientOptions) {

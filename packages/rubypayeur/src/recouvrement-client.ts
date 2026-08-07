@@ -1,5 +1,6 @@
 import { AuthenticationError, NotFoundError, ValidationError } from './errors.js';
 import { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
+import type { RecouvrementClient } from './interfaces.js';
 import { type RubyPayeurLogger, consoleLogger } from './logger.js';
 import {
   CreateDebtResponseSchema,
@@ -65,7 +66,7 @@ export interface RubyPayeurRecouvrementClientOptions {
   logger?: RubyPayeurLogger;
 }
 
-export class RubyPayeurRecouvrementClient {
+export class RubyPayeurRecouvrementClient implements RecouvrementClient {
   private readonly http: RubyPayeurHttpClient;
   private readonly isProduction: boolean;
   private readonly logger: RubyPayeurLogger;
