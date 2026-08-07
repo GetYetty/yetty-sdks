@@ -20,6 +20,7 @@ export {
 export { RubyPayeurScoringClient, type RubyPayeurScoringClientOptions } from './scoring-client.js';
 
 export type {
+  CollectiveProceedingNature,
   CreateDebtInput,
   DebtorGender,
   RecoveryDebt,
