@@ -7,6 +7,16 @@ on:
       - 'packages/odoo/src/**'
       - 'packages/zohobooks/src/**'
       - 'packages/rubypayeur/src/**'
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package to publish (e.g. rubypayeur, odoo, zohobooks)'
+        required: true
+        type: choice
+        options:
+          - odoo
+          - rubypayeur
+          - zohobooks
 
 permissions:
   id-token: write
@@ -15,6 +25,7 @@ permissions:
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     outputs:
       packages: ${{ steps.detect.outputs.packages }}
 
@@ -22,12 +33,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Detect changed packages
         id: detect
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- packages/*/src/ | \
+          BEFORE="${{ github.event.before }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            BEFORE="HEAD~1"
+          fi
+          CHANGED=$(git diff --name-only "$BEFORE" "${{ github.sha }}" -- packages/*/src/ | \
             sed 's|packages/\([^/]*\)/.*|\1|' | sort -u | \
             jq -R -s -c 'split("\n") | map(select(. != ""))')
           echo "packages=$CHANGED" >> $GITHUB_OUTPUT
@@ -35,13 +50,17 @@ jobs:
 
   publish:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.packages != '[]' && needs.detect-changes.outputs.packages != '' }}
+    if: >-
+      always() && (
+        (github.event_name == 'push' && needs.detect-changes.outputs.packages != '[]' && needs.detect-changes.outputs.packages != '') ||
+        github.event_name == 'workflow_dispatch'
+      )
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJson(needs.detect-changes.outputs.packages) }}
+        package: ${{ github.event_name == 'workflow_dispatch' && fromJson(format('["{0}"]', inputs.package)) || fromJson(needs.detect-changes.outputs.packages) }}
 
     name: publish-${{ matrix.package }}
 
