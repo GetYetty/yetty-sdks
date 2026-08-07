@@ -137,7 +137,7 @@ describe('mapStatus', () => {
     ['Injonction opposée', 'in_progress'],
     ['Recouvré', 'resolved'],
     ['Recouvrement terminé', 'resolved'],
-    ['Recouvrement partiel', 'resolved'],
+    ['Recouvrement partiel', 'partially_resolved'],
     ['Injonction terminée', 'resolved'],
     ['Saisie terminée', 'resolved'],
     ['Clôturé', 'resolved'],
