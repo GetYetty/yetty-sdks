@@ -54,11 +54,21 @@ export const DebtResponseSchema = z
     'Date de clôture': z.string().nullable(),
     section: z.string(),
     etape: z.string().optional(),
-    Commentaire: z.string().optional(),
+    Commentaire: z.string().optional().nullable(),
     'Historique des procédures': z.string().optional(),
     derniere_mise_a_jour: z.string().optional(),
     "Date d'ouverture": z.string().optional(),
     'SIREN débiteur': z.string().optional(),
+    Débiteur: z.string().optional(),
+    actions: z.string().optional(),
+    nature: z.string().optional().nullable(),
+    signalement: z.string().optional(),
+    'Message de votre chargé de recouvrement': z.string().optional().nullable(),
+    'Détails de la créance confiée': z.string().optional(),
+    echeancier: z.string().optional(),
+    "Détail de l'échéancier": z.string().optional().nullable(),
+    "Statut de l'échéancier": z.string().optional().nullable(),
+    ouvert_par: z.string().optional().nullable(),
   })
   .passthrough();
 

@@ -8,7 +8,12 @@ import {
   ErrorResponseSchema,
   parseResponse,
 } from './schemas.js';
-import type { CreateDebtInput, RecoveryDebt, RecoveryDebtInvoice } from './types.js';
+import type {
+  CollectiveProceedingNature,
+  CreateDebtInput,
+  RecoveryDebt,
+  RecoveryDebtInvoice,
+} from './types.js';
 import {
   eurosToCents,
   mapStatus,
@@ -198,18 +203,39 @@ export class RubyPayeurRecouvrementClient {
       amountRecoveredCents: eurosToCents(data.montant_recouvre ?? 0),
       amountRemainingCents: parseAmountStringToCents(data['Reste dû à date'] ?? '0'),
       collectiveProceedings: parseOuiNon(data.procedure_collective ?? 'NON'),
+      collectiveProceedingNature: this.parseNature(data.nature),
       debtorActive: parseOuiNon(data.en_activite ?? 'OUI'),
+      debtorDisplayName: data['Débiteur'] || undefined,
+      debtorRegistrationNumber: data['SIREN débiteur'] || undefined,
       phase: data.etape || undefined,
       partnerStatus: data.Statut || undefined,
       partnerComment: data.Commentaire || undefined,
+      partnerMessage: data['Message de votre chargé de recouvrement'] || undefined,
+      availableActions: data.actions || undefined,
+      latePaymentFlagged: data.signalement ? this.parseOuiNonFrench(data.signalement) : undefined,
       procedureHistory: data['Historique des procédures'] || undefined,
+      debtDetails: data['Détails de la créance confiée'] || undefined,
+      paymentSchedule: data.echeancier ? this.parseOuiNonFrench(data.echeancier) : undefined,
+      paymentScheduleDetails: data["Détail de l'échéancier"] || undefined,
+      paymentScheduleStatus: data["Statut de l'échéancier"] || undefined,
+      caseManagerName: data.ouvert_par || undefined,
       lastPartnerUpdateAt: data.derniere_mise_a_jour
         ? parseFrenchDate(data.derniere_mise_a_jour)
         : undefined,
       openedAt: data["Date d'ouverture"] ? parseFrenchDate(data["Date d'ouverture"]) : undefined,
       closedAt: data['Date de clôture'] ? parseFrenchDate(data['Date de clôture']) : undefined,
-      debtorRegistrationNumber: data['SIREN débiteur'] || undefined,
     };
+  }
+
+  private parseNature(value: string | null | undefined): CollectiveProceedingNature | undefined {
+    if (value === 'Redressement' || value === 'Liquidation' || value === 'Sauvegarde') {
+      return value;
+    }
+    return undefined;
+  }
+
+  private parseOuiNonFrench(value: string): boolean {
+    return value === 'Oui' || value === 'OUI';
   }
 
   private buildCreateDebtBody(input: CreateDebtInput): RubyPayeurDebtRequestBody {

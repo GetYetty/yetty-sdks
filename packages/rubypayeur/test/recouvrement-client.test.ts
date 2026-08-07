@@ -502,15 +502,25 @@ describe('RubyPayeurRecouvrementClient', () => {
         amountRecoveredCents: 15050,
         amountRemainingCents: 40000,
         collectiveProceedings: false,
+        collectiveProceedingNature: undefined,
         debtorActive: true,
+        debtorDisplayName: undefined,
+        debtorRegistrationNumber: undefined,
         partnerStatus: 'En cours de recouvrement',
         phase: undefined,
         partnerComment: undefined,
+        partnerMessage: undefined,
+        availableActions: undefined,
+        latePaymentFlagged: undefined,
         procedureHistory: undefined,
+        debtDetails: undefined,
+        paymentSchedule: undefined,
+        paymentScheduleDetails: undefined,
+        paymentScheduleStatus: undefined,
+        caseManagerName: undefined,
         lastPartnerUpdateAt: undefined,
         openedAt: undefined,
         closedAt: undefined,
-        debtorRegistrationNumber: undefined,
       });
     });
 
@@ -532,6 +542,113 @@ describe('RubyPayeurRecouvrementClient', () => {
 
       const result = await client.getDebt('ABC123');
       expect(result.debtorActive).toBe(false);
+    });
+
+    it('maps collective proceeding nature', async () => {
+      const client = createAuthenticatedClient();
+
+      for (const nature of ['Redressement', 'Liquidation', 'Sauvegarde'] as const) {
+        fetchMock.mockResolvedValueOnce(
+          mockFetchResponse(200, wrapSingleDebt({ procedure_collective: 'OUI', nature })),
+        );
+        const result = await client.getDebt('ABC123');
+        expect(result.collectiveProceedingNature).toBe(nature);
+      }
+    });
+
+    it('returns undefined nature for unknown values', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, wrapSingleDebt({ nature: null })));
+      const result = await client.getDebt('ABC123');
+      expect(result.collectiveProceedingNature).toBeUndefined();
+    });
+
+    it('maps debtor display name', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ Débiteur: 'ACME CORP (123456789)' } as never)),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.debtorDisplayName).toBe('ACME CORP (123456789)');
+    });
+
+    it('maps available actions', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({ actions: 'Lancer une injonction de payer.' } as never),
+        ),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.availableActions).toBe('Lancer une injonction de payer.');
+    });
+
+    it('maps late payment flagged from signalement', async () => {
+      const client = createAuthenticatedClient();
+
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ signalement: 'Oui' } as never)),
+      );
+      expect((await client.getDebt('ABC123')).latePaymentFlagged).toBe(true);
+
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ signalement: 'Non' } as never)),
+      );
+      expect((await client.getDebt('ABC123')).latePaymentFlagged).toBe(false);
+    });
+
+    it('maps case manager name', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ ouvert_par: 'Marine Mugica' } as never)),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.caseManagerName).toBe('Marine Mugica');
+    });
+
+    it('maps partner message (HTML)', async () => {
+      const client = createAuthenticatedClient();
+      const html = '<p>Votre débiteur a payé.</p>';
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({ 'Message de votre chargé de recouvrement': html } as never),
+        ),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.partnerMessage).toBe(html);
+    });
+
+    it('maps debt details', async () => {
+      const client = createAuthenticatedClient();
+      const details = '- Facture INV-001 : 1 000,00 euros';
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({ 'Détails de la créance confiée': details } as never),
+        ),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.debtDetails).toBe(details);
+    });
+
+    it('maps payment schedule fields', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({
+            echeancier: 'Oui',
+            "Détail de l'échéancier": '3 mensualités',
+            "Statut de l'échéancier": 'En cours',
+          } as never),
+        ),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.paymentSchedule).toBe(true);
+      expect(result.paymentScheduleDetails).toBe('3 mensualités');
+      expect(result.paymentScheduleStatus).toBe('En cours');
     });
 
     it('parses Date de clôture when present', async () => {

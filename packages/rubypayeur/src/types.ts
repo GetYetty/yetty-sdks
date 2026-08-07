@@ -62,19 +62,31 @@ export interface CreateDebtInput {
   dunningLetterProofBase64?: string;
 }
 
+export type CollectiveProceedingNature = 'Redressement' | 'Liquidation' | 'Sauvegarde';
+
 export interface RecoveryDebt {
   externalDebtId: string;
   status: RecoveryDebtStatus;
   amountRecoveredCents?: number;
   amountRemainingCents?: number;
   collectiveProceedings?: boolean;
+  collectiveProceedingNature?: CollectiveProceedingNature;
   debtorActive?: boolean;
+  debtorDisplayName?: string;
+  debtorRegistrationNumber?: string;
   phase?: string;
   partnerStatus?: string;
   partnerComment?: string;
+  partnerMessage?: string;
+  availableActions?: string;
+  latePaymentFlagged?: boolean;
   procedureHistory?: string;
+  debtDetails?: string;
+  paymentSchedule?: boolean;
+  paymentScheduleDetails?: string;
+  paymentScheduleStatus?: string;
+  caseManagerName?: string;
   lastPartnerUpdateAt?: string;
   openedAt?: string;
   closedAt?: string;
-  debtorRegistrationNumber?: string;
 }
