@@ -7184,6 +7184,12 @@ export type OpportunityFilters = {
          */
         assigned_staffs?: Array<number>;
         /**
+         * Owners
+         *
+         * Filter the opportunity list by owner (staff id)
+         */
+        owners?: Array<number>;
+        /**
          * Filter the opportunity list by an array of statuses
          */
         statuses?: Array<'open' | 'won' | 'lost' | 'cancelled' | 'closed' | 'late'> | null;

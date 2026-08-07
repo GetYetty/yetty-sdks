@@ -12459,6 +12459,15 @@ export const OpportunityFiltersSchema = {
                     },
                     description: 'Filter by assigned staffs'
                 },
+                owners: {
+                    title: 'Owners',
+                    type: 'array',
+                    items: {
+                        type: 'integer',
+                        example: 33
+                    },
+                    description: 'Filter the opportunity list by owner (staff id)'
+                },
                 statuses: {
                     title: 'Filter the opportunity list by an array of statuses',
                     type: 'array',
