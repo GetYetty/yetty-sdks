@@ -10,7 +10,7 @@ export interface RecouvrementClientCall {
 export class FakeRecouvrementClient implements RecouvrementClient {
   private debts = new Map<string, RecoveryDebt>();
   private credentialsValid = true;
-  private pendingErrors = new Map<string, Error>();
+  private pendingErrors = new Map<RecouvrementClientCall['method'], Error>();
   private recordedCalls: RecouvrementClientCall[] = [];
   private nextDebtId = 1;
 
@@ -28,8 +28,9 @@ export class FakeRecouvrementClient implements RecouvrementClient {
     return this;
   }
 
-  failNext(method: RecouvrementClientCall['method'], error: Error): void {
+  failNext(method: RecouvrementClientCall['method'], error: Error): this {
     this.pendingErrors.set(method, error);
+    return this;
   }
 
   reset(): void {
