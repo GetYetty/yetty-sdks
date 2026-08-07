@@ -21,8 +21,9 @@ export class FakeScoringClient implements ScoringClient {
     return this;
   }
 
-  failNext(error: Error): void {
+  failNext(error: Error): this {
     this.pendingError = error;
+    return this;
   }
 
   reset(): void {
