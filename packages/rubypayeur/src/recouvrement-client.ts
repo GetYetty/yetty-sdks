@@ -10,7 +10,9 @@ import {
 } from './schemas.js';
 import type {
   CollectiveProceedingNature,
+  CollectiveProceedings,
   CreateDebtInput,
+  PaymentSchedule,
   RecoveryDebt,
   RecoveryDebtInvoice,
 } from './types.js';
@@ -124,6 +126,9 @@ export class RubyPayeurRecouvrementClient {
       return {
         externalDebtId: String(data.ref ?? data.id),
         status: 'pending' as const,
+        partnerStatusLabel: 'Dossier en attente de validation',
+        amountRecoveredCents: 0,
+        amountRemainingCents: 0,
       };
     });
   }
@@ -200,25 +205,22 @@ export class RubyPayeurRecouvrementClient {
     return {
       externalDebtId: data.reference,
       status: mapStatus(data.Statut, this.logger),
+      partnerStatusLabel: data.Statut,
       amountRecoveredCents: eurosToCents(data.montant_recouvre ?? 0),
       amountRemainingCents: parseAmountStringToCents(data['Reste dû à date'] ?? '0'),
-      collectiveProceedings: parseOuiNon(data.procedure_collective ?? 'NON'),
-      collectiveProceedingNature: this.parseNature(data.nature),
-      debtorActive: parseOuiNon(data.en_activite ?? 'OUI'),
-      debtorDisplayName: data['Débiteur'] || undefined,
+      debtorCompanyName: this.parseDebtorName(data['Débiteur']),
       debtorRegistrationNumber: data['SIREN débiteur'] || undefined,
-      phase: data.etape || undefined,
-      partnerStatus: data.Statut || undefined,
-      partnerComment: data.Commentaire || undefined,
-      partnerMessage: data['Message de votre chargé de recouvrement'] || undefined,
-      availableActions: data.actions || undefined,
-      latePaymentFlagged: data.signalement ? this.parseOuiNonFrench(data.signalement) : undefined,
+      debtorActive: parseOuiNon(data.en_activite ?? 'OUI'),
+      collectiveProceedings: this.mapCollectiveProceedings(data),
+      recoveryPhase: data.etape || undefined,
       procedureHistory: data['Historique des procédures'] || undefined,
-      debtDetails: data['Détails de la créance confiée'] || undefined,
-      paymentSchedule: data.echeancier ? this.parseOuiNonFrench(data.echeancier) : undefined,
-      paymentScheduleDetails: data["Détail de l'échéancier"] || undefined,
-      paymentScheduleStatus: data["Statut de l'échéancier"] || undefined,
+      latePaymentSignaled: data.signalement ? this.parseOuiNonFrench(data.signalement) : undefined,
+      statusVerdict: data.Commentaire || undefined,
       caseManagerName: data.ouvert_par || undefined,
+      caseManagerMessage: data['Message de votre chargé de recouvrement'] || undefined,
+      nextStepsSuggestion: data.actions || undefined,
+      debtBreakdown: data['Détails de la créance confiée'] || undefined,
+      paymentSchedule: this.mapPaymentSchedule(data),
       lastPartnerUpdateAt: data.derniere_mise_a_jour
         ? parseFrenchDate(data.derniere_mise_a_jour)
         : undefined,
@@ -227,11 +229,39 @@ export class RubyPayeurRecouvrementClient {
     };
   }
 
-  private parseNature(value: string | null | undefined): CollectiveProceedingNature | undefined {
-    if (value === 'Redressement' || value === 'Liquidation' || value === 'Sauvegarde') {
-      return value;
+  private mapCollectiveProceedings(data: DebtResponse): CollectiveProceedings | undefined {
+    if (!parseOuiNon(data.procedure_collective ?? 'NON')) {
+      return undefined;
     }
-    return undefined;
+    return {
+      active: true,
+      nature: this.parseNature(data.nature),
+    };
+  }
+
+  private mapPaymentSchedule(data: DebtResponse): PaymentSchedule | undefined {
+    if (!data.echeancier || !this.parseOuiNonFrench(data.echeancier)) {
+      return undefined;
+    }
+    return {
+      details: data["Détail de l'échéancier"] || undefined,
+      status: data["Statut de l'échéancier"] || undefined,
+    };
+  }
+
+  private parseDebtorName(value: string | null | undefined): string | undefined {
+    if (!value) return undefined;
+    return value.replace(/\s*\(\d{9}\)\s*$/, '') || undefined;
+  }
+
+  private parseNature(value: string | null | undefined): CollectiveProceedingNature | undefined {
+    const NATURE_MAP: Record<string, CollectiveProceedingNature> = {
+      Redressement: 'restructuring',
+      Liquidation: 'liquidation',
+      Sauvegarde: 'safeguard',
+    };
+    if (!value) return undefined;
+    return NATURE_MAP[value];
   }
 
   private parseOuiNonFrench(value: string): boolean {

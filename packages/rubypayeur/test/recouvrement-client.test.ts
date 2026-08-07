@@ -284,6 +284,9 @@ describe('RubyPayeurRecouvrementClient', () => {
       expect(result).toEqual({
         externalDebtId: 'ABC123',
         status: 'pending',
+        partnerStatusLabel: 'Dossier en attente de validation',
+        amountRecoveredCents: 0,
+        amountRemainingCents: 0,
       });
     });
 
@@ -499,39 +502,36 @@ describe('RubyPayeurRecouvrementClient', () => {
       expect(result).toEqual({
         externalDebtId: 'ABC123',
         status: 'in_progress',
+        partnerStatusLabel: 'En cours de recouvrement',
         amountRecoveredCents: 15050,
         amountRemainingCents: 40000,
-        collectiveProceedings: false,
-        collectiveProceedingNature: undefined,
-        debtorActive: true,
-        debtorDisplayName: undefined,
+        debtorCompanyName: undefined,
         debtorRegistrationNumber: undefined,
-        partnerStatus: 'En cours de recouvrement',
-        phase: undefined,
-        partnerComment: undefined,
-        partnerMessage: undefined,
-        availableActions: undefined,
-        latePaymentFlagged: undefined,
+        debtorActive: true,
+        collectiveProceedings: undefined,
+        recoveryPhase: undefined,
         procedureHistory: undefined,
-        debtDetails: undefined,
-        paymentSchedule: undefined,
-        paymentScheduleDetails: undefined,
-        paymentScheduleStatus: undefined,
+        latePaymentSignaled: undefined,
+        statusVerdict: undefined,
         caseManagerName: undefined,
+        caseManagerMessage: undefined,
+        nextStepsSuggestion: undefined,
+        debtBreakdown: undefined,
+        paymentSchedule: undefined,
         lastPartnerUpdateAt: undefined,
         openedAt: undefined,
         closedAt: undefined,
       });
     });
 
-    it('maps procedure_collective OUI to collectiveProceedings true', async () => {
+    it('maps procedure_collective OUI to collectiveProceedings object', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(200, wrapSingleDebt({ procedure_collective: 'OUI' })),
       );
 
       const result = await client.getDebt('ABC123');
-      expect(result.collectiveProceedings).toBe(true);
+      expect(result.collectiveProceedings).toEqual({ active: true, nature: undefined });
     });
 
     it('maps en_activite NON to debtorActive false', async () => {
@@ -544,35 +544,58 @@ describe('RubyPayeurRecouvrementClient', () => {
       expect(result.debtorActive).toBe(false);
     });
 
-    it('maps collective proceeding nature', async () => {
+    it('maps collective proceeding nature to English', async () => {
       const client = createAuthenticatedClient();
 
-      for (const nature of ['Redressement', 'Liquidation', 'Sauvegarde'] as const) {
+      const cases: Array<[string, string]> = [
+        ['Redressement', 'restructuring'],
+        ['Liquidation', 'liquidation'],
+        ['Sauvegarde', 'safeguard'],
+      ];
+
+      for (const [frenchNature, englishNature] of cases) {
         fetchMock.mockResolvedValueOnce(
-          mockFetchResponse(200, wrapSingleDebt({ procedure_collective: 'OUI', nature })),
+          mockFetchResponse(
+            200,
+            wrapSingleDebt({ procedure_collective: 'OUI', nature: frenchNature } as never),
+          ),
         );
         const result = await client.getDebt('ABC123');
-        expect(result.collectiveProceedingNature).toBe(nature);
+        expect(result.collectiveProceedings).toEqual({ active: true, nature: englishNature });
       }
     });
 
     it('returns undefined nature for unknown values', async () => {
       const client = createAuthenticatedClient();
-      fetchMock.mockResolvedValueOnce(mockFetchResponse(200, wrapSingleDebt({ nature: null })));
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(
+          200,
+          wrapSingleDebt({ procedure_collective: 'OUI', nature: null } as never),
+        ),
+      );
       const result = await client.getDebt('ABC123');
-      expect(result.collectiveProceedingNature).toBeUndefined();
+      expect(result.collectiveProceedings).toEqual({ active: true, nature: undefined });
     });
 
-    it('maps debtor display name', async () => {
+    it('maps debtor company name and strips SIREN suffix', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(200, wrapSingleDebt({ Débiteur: 'ACME CORP (123456789)' } as never)),
       );
       const result = await client.getDebt('ABC123');
-      expect(result.debtorDisplayName).toBe('ACME CORP (123456789)');
+      expect(result.debtorCompanyName).toBe('ACME CORP');
     });
 
-    it('maps available actions', async () => {
+    it('maps debtor company name without SIREN suffix', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ Débiteur: 'ACME CORP' } as never)),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.debtorCompanyName).toBe('ACME CORP');
+    });
+
+    it('maps next steps suggestion', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(
@@ -581,21 +604,21 @@ describe('RubyPayeurRecouvrementClient', () => {
         ),
       );
       const result = await client.getDebt('ABC123');
-      expect(result.availableActions).toBe('Lancer une injonction de payer.');
+      expect(result.nextStepsSuggestion).toBe('Lancer une injonction de payer.');
     });
 
-    it('maps late payment flagged from signalement', async () => {
+    it('maps late payment signaled from signalement', async () => {
       const client = createAuthenticatedClient();
 
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(200, wrapSingleDebt({ signalement: 'Oui' } as never)),
       );
-      expect((await client.getDebt('ABC123')).latePaymentFlagged).toBe(true);
+      expect((await client.getDebt('ABC123')).latePaymentSignaled).toBe(true);
 
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(200, wrapSingleDebt({ signalement: 'Non' } as never)),
       );
-      expect((await client.getDebt('ABC123')).latePaymentFlagged).toBe(false);
+      expect((await client.getDebt('ABC123')).latePaymentSignaled).toBe(false);
     });
 
     it('maps case manager name', async () => {
@@ -607,7 +630,7 @@ describe('RubyPayeurRecouvrementClient', () => {
       expect(result.caseManagerName).toBe('Marine Mugica');
     });
 
-    it('maps partner message (HTML)', async () => {
+    it('maps case manager message (HTML)', async () => {
       const client = createAuthenticatedClient();
       const html = '<p>Votre débiteur a payé.</p>';
       fetchMock.mockResolvedValueOnce(
@@ -617,10 +640,10 @@ describe('RubyPayeurRecouvrementClient', () => {
         ),
       );
       const result = await client.getDebt('ABC123');
-      expect(result.partnerMessage).toBe(html);
+      expect(result.caseManagerMessage).toBe(html);
     });
 
-    it('maps debt details', async () => {
+    it('maps debt breakdown', async () => {
       const client = createAuthenticatedClient();
       const details = '- Facture INV-001 : 1 000,00 euros';
       fetchMock.mockResolvedValueOnce(
@@ -630,10 +653,10 @@ describe('RubyPayeurRecouvrementClient', () => {
         ),
       );
       const result = await client.getDebt('ABC123');
-      expect(result.debtDetails).toBe(details);
+      expect(result.debtBreakdown).toBe(details);
     });
 
-    it('maps payment schedule fields', async () => {
+    it('maps payment schedule as nested object', async () => {
       const client = createAuthenticatedClient();
       fetchMock.mockResolvedValueOnce(
         mockFetchResponse(
@@ -646,9 +669,19 @@ describe('RubyPayeurRecouvrementClient', () => {
         ),
       );
       const result = await client.getDebt('ABC123');
-      expect(result.paymentSchedule).toBe(true);
-      expect(result.paymentScheduleDetails).toBe('3 mensualités');
-      expect(result.paymentScheduleStatus).toBe('En cours');
+      expect(result.paymentSchedule).toEqual({
+        details: '3 mensualités',
+        status: 'En cours',
+      });
+    });
+
+    it('returns undefined paymentSchedule when echeancier is Non', async () => {
+      const client = createAuthenticatedClient();
+      fetchMock.mockResolvedValueOnce(
+        mockFetchResponse(200, wrapSingleDebt({ echeancier: 'Non' } as never)),
+      );
+      const result = await client.getDebt('ABC123');
+      expect(result.paymentSchedule).toBeUndefined();
     });
 
     it('parses Date de clôture when present', async () => {
@@ -674,7 +707,7 @@ describe('RubyPayeurRecouvrementClient', () => {
         ['En attente de réglement', 'in_progress'],
         ['Echéancier en cours', 'in_progress'],
         ['Recouvré', 'resolved'],
-        ['Recouvrement partiel', 'resolved'],
+        ['Recouvrement partiel', 'partially_resolved'],
         ['Clôturé', 'resolved'],
         ['Irrécouvrable', 'failed'],
         ['Annulé', 'cancelled'],

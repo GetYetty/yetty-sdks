@@ -21,8 +21,10 @@ export { RubyPayeurScoringClient, type RubyPayeurScoringClientOptions } from './
 
 export type {
   CollectiveProceedingNature,
+  CollectiveProceedings,
   CreateDebtInput,
   DebtorGender,
+  PaymentSchedule,
   RecoveryDebt,
   RecoveryDebtInvoice,
   RecoveryDebtStatus,

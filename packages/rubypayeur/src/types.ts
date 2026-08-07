@@ -31,7 +31,13 @@ export interface RubyPayeurScoring {
 
 // --- Recouvrement types ---
 
-export type RecoveryDebtStatus = 'pending' | 'in_progress' | 'resolved' | 'failed' | 'cancelled';
+export type RecoveryDebtStatus =
+  | 'pending'
+  | 'in_progress'
+  | 'partially_resolved'
+  | 'resolved'
+  | 'failed'
+  | 'cancelled';
 
 export type DebtorGender = 'male' | 'female';
 
@@ -62,30 +68,43 @@ export interface CreateDebtInput {
   dunningLetterProofBase64?: string;
 }
 
-export type CollectiveProceedingNature = 'Redressement' | 'Liquidation' | 'Sauvegarde';
+export type CollectiveProceedingNature = 'restructuring' | 'liquidation' | 'safeguard';
+
+export interface CollectiveProceedings {
+  active: true;
+  nature?: CollectiveProceedingNature;
+}
+
+export interface PaymentSchedule {
+  details?: string;
+  status?: string;
+}
 
 export interface RecoveryDebt {
   externalDebtId: string;
   status: RecoveryDebtStatus;
-  amountRecoveredCents?: number;
-  amountRemainingCents?: number;
-  collectiveProceedings?: boolean;
-  collectiveProceedingNature?: CollectiveProceedingNature;
-  debtorActive?: boolean;
-  debtorDisplayName?: string;
+  partnerStatusLabel: string;
+
+  amountRecoveredCents: number;
+  amountRemainingCents: number;
+
+  debtorCompanyName?: string;
   debtorRegistrationNumber?: string;
-  phase?: string;
-  partnerStatus?: string;
-  partnerComment?: string;
-  partnerMessage?: string;
-  availableActions?: string;
-  latePaymentFlagged?: boolean;
+  debtorActive?: boolean;
+
+  collectiveProceedings?: CollectiveProceedings;
+  recoveryPhase?: string;
   procedureHistory?: string;
-  debtDetails?: string;
-  paymentSchedule?: boolean;
-  paymentScheduleDetails?: string;
-  paymentScheduleStatus?: string;
+  latePaymentSignaled?: boolean;
+
+  statusVerdict?: string;
   caseManagerName?: string;
+  caseManagerMessage?: string;
+  nextStepsSuggestion?: string;
+
+  debtBreakdown?: string;
+  paymentSchedule?: PaymentSchedule;
+
   lastPartnerUpdateAt?: string;
   openedAt?: string;
   closedAt?: string;
