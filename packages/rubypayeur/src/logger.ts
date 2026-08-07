@@ -5,7 +5,7 @@ export interface RubyPayeurLogger {
 }
 
 export const consoleLogger: RubyPayeurLogger = {
-  log: (message) => console.log(message),
-  warn: (message) => console.warn(message),
-  error: (message) => console.error(message),
+  log: (message) => console.log(`[rubypayeur] ${message}`),
+  warn: (message) => console.warn(`[rubypayeur] ${message}`),
+  error: (message) => console.error(`[rubypayeur] ${message}`),
 };
