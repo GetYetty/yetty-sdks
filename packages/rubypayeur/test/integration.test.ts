@@ -31,12 +31,20 @@ describe.skipIf(!token)(
 
       for (const debt of debts) {
         expect(debt.externalDebtId).toEqual(expect.any(String));
-        expect(['pending', 'in_progress', 'resolved', 'failed', 'cancelled']).toContain(
-          debt.status,
-        );
+        expect([
+          'pending',
+          'in_progress',
+          'partially_resolved',
+          'resolved',
+          'failed',
+          'cancelled',
+        ]).toContain(debt.status);
+        expect(debt.partnerStatusLabel).toEqual(expect.any(String));
         expect(debt.amountRecoveredCents).toEqual(expect.any(Number));
         expect(debt.amountRemainingCents).toEqual(expect.any(Number));
-        expect(typeof debt.collectiveProceedings).toBe('boolean');
+        if (debt.collectiveProceedings !== undefined) {
+          expect(debt.collectiveProceedings.active).toBe(true);
+        }
         expect(typeof debt.debtorActive).toBe('boolean');
       }
     });

@@ -2,12 +2,7 @@ import { NotFoundError } from './errors.js';
 import { RubyPayeurHttpClient, type RubyPayeurHttpClientOptions } from './http-client.js';
 import type { RubyPayeurLogger } from './logger.js';
 import { CompanyResponseSchema, parseResponse } from './schemas.js';
-import {
-  type RubyPayeurScoring,
-  type ScoringLetter,
-  isValidScoringLetter,
-  scoringColorForLetter,
-} from './types.js';
+import { type RubyPayeurScoring, isValidScoringLetter, scoringColorForLetter } from './types.js';
 
 export interface RubyPayeurScoringClientOptions {
   apiToken: string;
@@ -63,7 +58,7 @@ export class RubyPayeurScoringClient {
 
       return {
         score: Number(attributes.current_scoring),
-        letter: attributes.current_scoring_letter as ScoringLetter,
+        letter: attributes.current_scoring_letter,
         color: scoringColorForLetter(attributes.current_scoring_letter),
         risk: attributes.current_scoring_risk ?? '',
       };
