@@ -33,6 +33,11 @@ jobs:
             specUrl: 'https://docs.sellsy.com/api/v2/dist/sellsy.v2.latest.yaml'
             specFile: openapi.yaml
             hasRecap: false
+          - name: zohobooks
+            specMode: zip-merge
+            specUrl: ''
+            specFile: openapi.yaml
+            hasRecap: false
 
     name: ${{ matrix.name }}
 
@@ -53,6 +58,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Fetch and merge spec (zip-merge)
+        if: matrix.specMode == 'zip-merge'
+        run: |
+          cd packages/${{ matrix.name }}
+          node scripts/fetch-and-merge-spec.ts
+
       - name: Check for spec changes (remote)
         if: matrix.specMode == 'remote'
         id: check-remote
@@ -66,7 +77,7 @@ jobs:
         continue-on-error: true
 
       - name: Check for spec changes (local)
-        if: matrix.specMode == 'local'
+        if: matrix.specMode == 'local' || matrix.specMode == 'zip-merge'
         id: check-local
         run: |
           cd packages/${{ matrix.name }}
