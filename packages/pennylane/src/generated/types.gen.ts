@@ -2948,6 +2948,18 @@ export type BillingSubscriptionsResponse = {
     updated_at: string;
 };
 
+/**
+ * Registration status of a PA (Plateforme Agrée) address.
+ * - `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+ * - `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.
+ * - `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.
+ * - `activated`: live and confirmed in the PA directory; the address is registered.
+ * - `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).
+ * - `ineligible`: the directory callback indicates the address cannot be registered.
+ * - `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.
+ * - `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+ *
+ */
 export const PdpAddressStatuses = {
     PENDING: 'pending',
     ACTIVATED: 'activated',
@@ -2959,6 +2971,18 @@ export const PdpAddressStatuses = {
     LOST: 'lost'
 } as const;
 
+/**
+ * Registration status of a PA (Plateforme Agrée) address.
+ * - `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+ * - `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.
+ * - `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.
+ * - `activated`: live and confirmed in the PA directory; the address is registered.
+ * - `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).
+ * - `ineligible`: the directory callback indicates the address cannot be registered.
+ * - `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.
+ * - `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+ *
+ */
 export type PdpAddressStatuses = typeof PdpAddressStatuses[keyof typeof PdpAddressStatuses];
 
 export type PdpAddressesResponse = {
@@ -2969,6 +2993,18 @@ export type PdpAddressesResponse = {
      */
     siret: string | null;
     siren: string;
+    /**
+     * Registration status of a PA (Plateforme Agrée) address.
+     * - `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+     * - `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.
+     * - `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.
+     * - `activated`: live and confirmed in the PA directory; the address is registered.
+     * - `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).
+     * - `ineligible`: the directory callback indicates the address cannot be registered.
+     * - `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.
+     * - `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+     *
+     */
     status: 'pending' | 'activated' | 'provisioned' | 'draft' | 'archived' | 'conflict' | 'ineligible' | 'lost';
     exchange_direction: 'emission' | 'reception' | 'emission_and_reception';
     created_at: string;
@@ -13395,6 +13431,18 @@ export type GetPaRegistrationsResponses = {
              */
             siret: string | null;
             siren: string;
+            /**
+             * Registration status of a PA (Plateforme Agrée) address.
+             * - `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+             * - `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.
+             * - `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.
+             * - `activated`: live and confirmed in the PA directory; the address is registered.
+             * - `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).
+             * - `ineligible`: the directory callback indicates the address cannot be registered.
+             * - `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.
+             * - `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.
+             *
+             */
             status: 'pending' | 'activated' | 'provisioned' | 'draft' | 'archived' | 'conflict' | 'ineligible' | 'lost';
             exchange_direction: 'emission' | 'reception' | 'emission_and_reception';
             created_at: string;

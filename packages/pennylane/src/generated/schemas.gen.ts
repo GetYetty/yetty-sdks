@@ -8067,6 +8067,7 @@ export const BillingSubscriptions__ResponseSchema = {
 } as const;
 
 export const PDPAddressStatusesSchema = {
+    description: 'Registration status of a PA (Plateforme Agrée) address.\n- `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.\n- `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.\n- `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.\n- `activated`: live and confirmed in the PA directory; the address is registered.\n- `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).\n- `ineligible`: the directory callback indicates the address cannot be registered.\n- `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.\n- `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.\n',
     type: 'string',
     enum: [
         'pending',
@@ -8100,6 +8101,7 @@ export const PDPAddresses__ResponseSchema = {
             example: '993369859'
         },
         status: {
+            description: 'Registration status of a PA (Plateforme Agrée) address.\n- `provisioned`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.\n- `draft`: the SME user started registration but did not complete it and explicitly saved the address as draft.\n- `pending`: consent completed and registration submitted to the PA directory, waiting for confirmation.\n- `activated`: live and confirmed in the PA directory; the address is registered.\n- `conflict`: the directory callback indicates the address conflicts (e.g. already claimed elsewhere).\n- `ineligible`: the directory callback indicates the address cannot be registered.\n- `lost`: the address was lost to another PA — either after a portability transfer, or when another PA registered the same address on the PPF first.\n- `archived`: [DEPRECATED] please do not use, records with this status will be deleted in a future version.\n',
             type: 'string',
             enum: [
                 'pending',
