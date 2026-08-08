@@ -1,0 +1,61 @@
+{
+  "name": "@getyetty-sdk/zohobooks",
+  "version": "2026.8.8",
+  "description": "TypeScript client for the ZohoBooks API, auto-generated from OpenAPI spec",
+  "keywords": [
+    "api",
+    "client",
+    "invoice",
+    "oauth2",
+    "openapi",
+    "typescript",
+    "zohobooks"
+  ],
+  "license": "MIT",
+  "author": "GetYetty",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetYetty/yetty-sdks.git",
+    "directory": "packages/zohobooks"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.mts",
+      "default": "./dist/testing/index.mjs"
+    }
+  },
+  "scripts": {
+    "fetch-spec": "node scripts/fetch-and-merge-spec.ts",
+    "check-spec-changes": "node ../../scripts/check-spec-changes.ts --spec-file ./openapi.yaml --hash-file ./openapi.hash",
+    "bump-version": "node ../../scripts/bump-version.ts .",
+    "generate": "openapi-ts && npm run format",
+    "build": "tsdown",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.99.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.9.1",
+    "js-yaml": "^4.1.0",
+    "tsdown": "^0.22.2",
+    "vitest": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
