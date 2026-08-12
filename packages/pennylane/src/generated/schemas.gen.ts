@@ -10,7 +10,7 @@ export const CompanyWebhookSubscriptionEventsSchema = {
 } as const;
 
 export const WebhookSubscriptions__EventsSchema = {
-    description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n',
+    description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n',
     type: 'array',
     items: {
         type: 'string',
@@ -22,7 +22,8 @@ export const WebhookSubscriptions__EventsSchema = {
     },
     example: [
         'dms_file.created',
-        'customer_invoice.e_invoicing_status_updated'
+        'customer_invoice.e_invoicing_status_updated',
+        'supplier_invoice.e_invoicing_received'
     ],
     minItems: 1
 } as const;
@@ -43,7 +44,7 @@ export const WebhookSubscriptions__ResponseSchema = {
             example: 'https://example.com/webhooks'
         },
         events: {
-            description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n',
+            description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n',
             type: 'array',
             items: {
                 type: 'string',
@@ -55,7 +56,8 @@ export const WebhookSubscriptions__ResponseSchema = {
             },
             example: [
                 'dms_file.created',
-                'customer_invoice.e_invoicing_status_updated'
+                'customer_invoice.e_invoicing_status_updated',
+                'supplier_invoice.e_invoicing_received'
             ],
             minItems: 1
         },
@@ -149,7 +151,7 @@ export const WebhookSubscriptions__IndexResponseSchema = {
                         example: 'https://example.com/webhooks'
                     },
                     events: {
-                        description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n',
+                        description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n',
                         type: 'array',
                         items: {
                             type: 'string',
@@ -161,7 +163,8 @@ export const WebhookSubscriptions__IndexResponseSchema = {
                         },
                         example: [
                             'dms_file.created',
-                            'customer_invoice.e_invoicing_status_updated'
+                            'customer_invoice.e_invoicing_status_updated',
+                            'supplier_invoice.e_invoicing_received'
                         ],
                         minItems: 1
                     },
@@ -297,7 +300,7 @@ export const WebhookSubscriptions__CreateResponseSchema = {
             example: 'https://example.com/webhooks'
         },
         events: {
-            description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n',
+            description: 'Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n',
             type: 'array',
             items: {
                 type: 'string',
@@ -309,7 +312,8 @@ export const WebhookSubscriptions__CreateResponseSchema = {
             },
             example: [
                 'dms_file.created',
-                'customer_invoice.e_invoicing_status_updated'
+                'customer_invoice.e_invoicing_status_updated',
+                'supplier_invoice.e_invoicing_received'
             ],
             minItems: 1
         },
@@ -8719,7 +8723,8 @@ export const LanguageSchema = {
     enum: [
         'fr_FR',
         'en_GB',
-        'de_DE'
+        'de_DE',
+        'es_ES'
     ]
 } as const;
 
@@ -8875,7 +8880,8 @@ export const CompanyCustomers__ResponseSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         mandates: {
@@ -9099,7 +9105,8 @@ export const IndividualCustomers__ResponseSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         mandates: {
@@ -9333,7 +9340,8 @@ export const Customers__ResponseSchema = {
                     enum: [
                         'fr_FR',
                         'en_GB',
-                        'de_DE'
+                        'de_DE',
+                        'es_ES'
                     ]
                 },
                 mandates: {
@@ -9564,7 +9572,8 @@ export const Customers__ResponseSchema = {
                     enum: [
                         'fr_FR',
                         'en_GB',
-                        'de_DE'
+                        'de_DE',
+                        'es_ES'
                     ]
                 },
                 mandates: {

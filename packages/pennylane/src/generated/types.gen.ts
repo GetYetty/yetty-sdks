@@ -16,6 +16,7 @@ export type CompanyWebhookSubscriptionEvents = typeof CompanyWebhookSubscription
  * Array of event types to subscribe to.
  * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
  * - `dms_file.created`: the event is triggered when a dms file is created.
+ * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
  *
  */
 export type WebhookSubscriptionsEvents = Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -33,6 +34,7 @@ export type WebhookSubscriptionsResponse = {
      * Array of event types to subscribe to.
      * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
      * - `dms_file.created`: the event is triggered when a dms file is created.
+     * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
      *
      */
     events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -88,6 +90,7 @@ export type WebhookSubscriptionsIndexResponse = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -181,6 +184,7 @@ export type WebhookSubscriptionsCreateResponse = {
      * Array of event types to subscribe to.
      * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
      * - `dms_file.created`: the event is triggered when a dms file is created.
+     * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
      *
      */
     events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -3119,7 +3123,8 @@ export type PaymentConditions = typeof PaymentConditions[keyof typeof PaymentCon
 export const Language = {
     FR_FR: 'fr_FR',
     EN_GB: 'en_GB',
-    DE_DE: 'de_DE'
+    DE_DE: 'de_DE',
+    ES_ES: 'es_ES'
 } as const;
 
 /**
@@ -3169,7 +3174,7 @@ export type CompanyCustomersResponse = {
     /**
      * The language in which the customer will receive invoices. Default is `fr_FR`
      */
-    billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+    billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * GoCardless mandates associated with this customer
      */
@@ -3235,7 +3240,7 @@ export type IndividualCustomersResponse = {
     /**
      * The language in which the customer will receive invoices. Default is `fr_FR`
      */
-    billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+    billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * GoCardless mandates associated with this customer
      */
@@ -3305,7 +3310,7 @@ export type CustomersResponse = {
     /**
      * The language in which the customer will receive invoices. Default is `fr_FR`
      */
-    billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+    billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * GoCardless mandates associated with this customer
      */
@@ -3370,7 +3375,7 @@ export type CustomersResponse = {
     /**
      * The language in which the customer will receive invoices. Default is `fr_FR`
      */
-    billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+    billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * GoCardless mandates associated with this customer
      */
@@ -6118,6 +6123,7 @@ export type GetWebhookSubscriptionsResponses = {
              * Array of event types to subscribe to.
              * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
              * - `dms_file.created`: the event is triggered when a dms file is created.
+             * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
              *
              */
             events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -6181,6 +6187,7 @@ export type PostWebhookSubscriptionsData = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -6262,6 +6269,7 @@ export type PostWebhookSubscriptionsResponses = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -6440,6 +6448,7 @@ export type GetWebhookSubscriptionResponses = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -6494,6 +6503,7 @@ export type PutWebhookSubscriptionData = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events?: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -6587,6 +6597,7 @@ export type PutWebhookSubscriptionResponses = {
          * Array of event types to subscribe to.
          * - `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.
          * - `dms_file.created`: the event is triggered when a dms file is created.
+         * - `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).
          *
          */
         events: Array<'customer_invoice.e_invoicing_status_updated' | 'dms_file.created' | 'supplier_invoice.e_invoicing_received'>;
@@ -14803,7 +14814,7 @@ export type PostCompanyCustomerData = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     };
     path?: never;
     query?: never;
@@ -14921,7 +14932,7 @@ export type PostCompanyCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15060,7 +15071,7 @@ export type GetCompanyCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15124,7 +15135,7 @@ export type PutCompanyCustomerData = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     };
     path: {
         /**
@@ -15247,7 +15258,7 @@ export type PutCompanyCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15310,7 +15321,7 @@ export type PostIndividualCustomerData = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     };
     path?: never;
     query?: never;
@@ -15425,7 +15436,7 @@ export type PostIndividualCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15561,7 +15572,7 @@ export type GetIndividualCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15624,7 +15635,7 @@ export type PutIndividualCustomerData = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     };
     path: {
         /**
@@ -15744,7 +15755,7 @@ export type PutIndividualCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -15929,7 +15940,7 @@ export type GetCustomersResponses = {
             /**
              * The language in which the customer will receive invoices. Default is `fr_FR`
              */
-            billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+            billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             /**
              * GoCardless mandates associated with this customer
              */
@@ -15994,7 +16005,7 @@ export type GetCustomersResponses = {
             /**
              * The language in which the customer will receive invoices. Default is `fr_FR`
              */
-            billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+            billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             /**
              * GoCardless mandates associated with this customer
              */
@@ -16135,7 +16146,7 @@ export type GetCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */
@@ -16200,7 +16211,7 @@ export type GetCustomerResponses = {
         /**
          * The language in which the customer will receive invoices. Default is `fr_FR`
          */
-        billing_language: 'fr_FR' | 'en_GB' | 'de_DE';
+        billing_language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * GoCardless mandates associated with this customer
          */

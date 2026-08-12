@@ -54,7 +54,7 @@
                             "example": "https://example.com/webhooks"
                           },
                           "events": {
-                            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                             "type": "array",
                             "items": {
                               "type": "string",
@@ -66,7 +66,8 @@
                             },
                             "example": [
                               "dms_file.created",
-                              "customer_invoice.e_invoicing_status_updated"
+                              "customer_invoice.e_invoicing_status_updated",
+                              "supplier_invoice.e_invoicing_received"
                             ],
                             "minItems": 1
                           },
@@ -389,7 +390,7 @@
                     "example": "https://example.com/webhooks"
                   },
                   "events": {
-                    "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                    "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -399,7 +400,11 @@
                         "supplier_invoice.e_invoicing_received"
                       ]
                     },
-                    "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+                    "example": [
+                      "dms_file.created",
+                      "customer_invoice.e_invoicing_status_updated",
+                      "supplier_invoice.e_invoicing_received"
+                    ],
                     "minItems": 1
                   },
                   "enabled": {
@@ -435,7 +440,7 @@
                       "example": "https://example.com/webhooks"
                     },
                     "events": {
-                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                       "type": "array",
                       "items": {
                         "type": "string",
@@ -447,7 +452,8 @@
                       },
                       "example": [
                         "dms_file.created",
-                        "customer_invoice.e_invoicing_status_updated"
+                        "customer_invoice.e_invoicing_status_updated",
+                        "supplier_invoice.e_invoicing_received"
                       ],
                       "minItems": 1
                     },
@@ -759,7 +765,7 @@
                       "example": "https://example.com/webhooks"
                     },
                     "events": {
-                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                       "type": "array",
                       "items": {
                         "type": "string",
@@ -771,7 +777,8 @@
                       },
                       "example": [
                         "dms_file.created",
-                        "customer_invoice.e_invoicing_status_updated"
+                        "customer_invoice.e_invoicing_status_updated",
+                        "supplier_invoice.e_invoicing_received"
                       ],
                       "minItems": 1
                     },
@@ -1106,7 +1113,7 @@
                     "example": "https://example.com/webhooks"
                   },
                   "events": {
-                    "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                    "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -1116,7 +1123,11 @@
                         "supplier_invoice.e_invoicing_received"
                       ]
                     },
-                    "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+                    "example": [
+                      "dms_file.created",
+                      "customer_invoice.e_invoicing_status_updated",
+                      "supplier_invoice.e_invoicing_received"
+                    ],
                     "minItems": 1
                   },
                   "enabled": {
@@ -1150,7 +1161,7 @@
                       "example": "https://example.com/webhooks"
                     },
                     "events": {
-                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                      "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                       "type": "array",
                       "items": {
                         "type": "string",
@@ -1162,7 +1173,8 @@
                       },
                       "example": [
                         "dms_file.created",
-                        "customer_invoice.e_invoicing_status_updated"
+                        "customer_invoice.e_invoicing_status_updated",
+                        "supplier_invoice.e_invoicing_received"
                       ],
                       "minItems": 1
                     },
@@ -29789,7 +29801,7 @@
                   "billing_language": {
                     "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                     "type": "string",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   }
                 },
                 "required": ["name", "billing_address"]
@@ -29890,7 +29902,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -30338,7 +30350,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -30742,7 +30754,7 @@
                   "billing_language": {
                     "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                     "type": "string",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   }
                 }
               }
@@ -30842,7 +30854,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -31269,7 +31281,7 @@
                   "billing_language": {
                     "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                     "type": "string",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   }
                 },
                 "required": ["first_name", "last_name", "billing_address"]
@@ -31366,7 +31378,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -31810,7 +31822,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -32204,7 +32216,7 @@
                   "billing_language": {
                     "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                     "type": "string",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   }
                 }
               }
@@ -32300,7 +32312,7 @@
                     "billing_language": {
                       "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                       "type": "string",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "mandates": {
                       "description": "GoCardless mandates associated with this customer",
@@ -32799,7 +32811,7 @@
                               "billing_language": {
                                 "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                                 "type": "string",
-                                "enum": ["fr_FR", "en_GB", "de_DE"]
+                                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                               },
                               "mandates": {
                                 "description": "GoCardless mandates associated with this customer",
@@ -32959,7 +32971,7 @@
                               "billing_language": {
                                 "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                                 "type": "string",
-                                "enum": ["fr_FR", "en_GB", "de_DE"]
+                                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                               },
                               "mandates": {
                                 "description": "GoCardless mandates associated with this customer",
@@ -33383,7 +33395,7 @@
                         "billing_language": {
                           "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                           "type": "string",
-                          "enum": ["fr_FR", "en_GB", "de_DE"]
+                          "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                         },
                         "mandates": {
                           "description": "GoCardless mandates associated with this customer",
@@ -33535,7 +33547,7 @@
                         "billing_language": {
                           "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                           "type": "string",
-                          "enum": ["fr_FR", "en_GB", "de_DE"]
+                          "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                         },
                         "mandates": {
                           "description": "GoCardless mandates associated with this customer",
@@ -89810,7 +89822,7 @@
         ]
       },
       "WebhookSubscriptions__Events": {
-        "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+        "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
         "type": "array",
         "items": {
           "type": "string",
@@ -89820,7 +89832,11 @@
             "supplier_invoice.e_invoicing_received"
           ]
         },
-        "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+        "example": [
+          "dms_file.created",
+          "customer_invoice.e_invoicing_status_updated",
+          "supplier_invoice.e_invoicing_received"
+        ],
         "minItems": 1
       },
       "WebhookSubscriptions__Response": {
@@ -89839,7 +89855,7 @@
             "example": "https://example.com/webhooks"
           },
           "events": {
-            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
             "type": "array",
             "items": {
               "type": "string",
@@ -89849,7 +89865,11 @@
                 "supplier_invoice.e_invoicing_received"
               ]
             },
-            "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+            "example": [
+              "dms_file.created",
+              "customer_invoice.e_invoicing_status_updated",
+              "supplier_invoice.e_invoicing_received"
+            ],
             "minItems": 1
           },
           "enabled": {
@@ -89937,7 +89957,7 @@
                   "example": "https://example.com/webhooks"
                 },
                 "events": {
-                  "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+                  "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
                   "type": "array",
                   "items": {
                     "type": "string",
@@ -89947,7 +89967,11 @@
                       "supplier_invoice.e_invoicing_received"
                     ]
                   },
-                  "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+                  "example": [
+                    "dms_file.created",
+                    "customer_invoice.e_invoicing_status_updated",
+                    "supplier_invoice.e_invoicing_received"
+                  ],
                   "minItems": 1
                 },
                 "enabled": {
@@ -90072,7 +90096,7 @@
             "example": "https://example.com/webhooks"
           },
           "events": {
-            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n",
+            "description": "Array of event types to subscribe to.\n- `customer_invoice.e_invoicing_status_updated`: the event is triggered when a customer invoice e-invoicing status is updated.\n- `dms_file.created`: the event is triggered when a dms file is created.\n- `supplier_invoice.e_invoicing_received`: the event is triggered when a supplier e-invoice is received via the Pennylane PA (Plateforme Agrée).\n",
             "type": "array",
             "items": {
               "type": "string",
@@ -90082,7 +90106,11 @@
                 "supplier_invoice.e_invoicing_received"
               ]
             },
-            "example": ["dms_file.created", "customer_invoice.e_invoicing_status_updated"],
+            "example": [
+              "dms_file.created",
+              "customer_invoice.e_invoicing_status_updated",
+              "supplier_invoice.e_invoicing_received"
+            ],
             "minItems": 1
           },
           "enabled": {
@@ -97498,7 +97526,7 @@
       "Language": {
         "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
         "type": "string",
-        "enum": ["fr_FR", "en_GB", "de_DE"]
+        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
       },
       "CompanyCustomers__Response": {
         "type": "object",
@@ -97588,7 +97616,7 @@
           "billing_language": {
             "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
             "type": "string",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "mandates": {
             "description": "GoCardless mandates associated with this customer",
@@ -97737,7 +97765,7 @@
           "billing_language": {
             "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
             "type": "string",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "mandates": {
             "description": "GoCardless mandates associated with this customer",
@@ -97894,7 +97922,7 @@
               "billing_language": {
                 "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                 "type": "string",
-                "enum": ["fr_FR", "en_GB", "de_DE"]
+                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
               },
               "mandates": {
                 "description": "GoCardless mandates associated with this customer",
@@ -98046,7 +98074,7 @@
               "billing_language": {
                 "description": "The language in which the customer will receive invoices. Default is `fr_FR`",
                 "type": "string",
-                "enum": ["fr_FR", "en_GB", "de_DE"]
+                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
               },
               "mandates": {
                 "description": "GoCardless mandates associated with this customer",
