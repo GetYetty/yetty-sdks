@@ -1943,7 +1943,8 @@ export const TemplatesAvailablesLocalesSchema = {
     enum: [
         'fr_FR',
         'en_GB',
-        'de_DE'
+        'de_DE',
+        'es_ES'
     ]
 } as const;
 
@@ -2237,7 +2238,8 @@ export const CustomerInvoices__ResponseSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         paid: {
@@ -4869,7 +4871,8 @@ export const CustomerInvoices__PostDraft_RequestSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         discount: {
@@ -6376,7 +6379,8 @@ export const CustomerInvoices__PostFinalized_RequestSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         label: {
@@ -7927,7 +7931,8 @@ export const BillingSubscriptions__ResponseSchema = {
                     enum: [
                         'fr_FR',
                         'en_GB',
-                        'de_DE'
+                        'de_DE',
+                        'es_ES'
                     ]
                 },
                 customer_invoice_template: {
@@ -9997,7 +10002,8 @@ export const AccountingLogicSchema = {
         'FR_NON_PROFIT',
         'FR_NOTARY',
         'DE_SKR03',
-        'DE_SKR04'
+        'DE_SKR04',
+        'ES_PGC'
     ]
 } as const;
 
@@ -10656,7 +10662,8 @@ export const CustomerInvoices__PutDraft_RequestSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         invoice_lines: {
@@ -15118,7 +15125,8 @@ export const Quotes__ResponseSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         status: {
@@ -16109,7 +16117,8 @@ export const Quotes__Post_RequestSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         discount: {
@@ -16815,7 +16824,8 @@ export const Quotes__Put_RequestSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         invoice_lines: {
@@ -18318,7 +18328,8 @@ export const CommercialDocuments__ResponseSchema = {
             enum: [
                 'fr_FR',
                 'en_GB',
-                'de_DE'
+                'de_DE',
+                'es_ES'
             ]
         },
         discount: {

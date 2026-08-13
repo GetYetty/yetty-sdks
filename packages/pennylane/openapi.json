@@ -10325,7 +10325,7 @@
                       "language": {
                         "type": "string",
                         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                        "enum": ["fr_FR", "en_GB", "de_DE"]
+                        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                       },
                       "discount": {
                         "type": "object",
@@ -11156,7 +11156,7 @@
                       "language": {
                         "type": "string",
                         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                        "enum": ["fr_FR", "en_GB", "de_DE"]
+                        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                       },
                       "label": {
                         "description": "Custom label for the invoice used on accounting (ledger) entries. If not provided, Pennylane generates a label automatically.",
@@ -12070,7 +12070,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -13010,7 +13010,7 @@
                               "language": {
                                 "type": "string",
                                 "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                                "enum": ["fr_FR", "en_GB", "de_DE"]
+                                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                               },
                               "paid": {
                                 "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -14980,7 +14980,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -16797,7 +16797,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -17818,7 +17818,7 @@
                       "language": {
                         "type": "string",
                         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                        "enum": ["fr_FR", "en_GB", "de_DE"]
+                        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                       },
                       "discount": {
                         "type": "object",
@@ -18532,7 +18532,7 @@
                         "language": {
                           "type": "string",
                           "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                          "enum": ["fr_FR", "en_GB", "de_DE"]
+                          "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                         },
                         "customer_invoice_template": {
                           "type": "object",
@@ -19353,7 +19353,7 @@
                               "language": {
                                 "type": "string",
                                 "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                                "enum": ["fr_FR", "en_GB", "de_DE"]
+                                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                               },
                               "customer_invoice_template": {
                                 "type": "object",
@@ -20124,7 +20124,7 @@
                         "language": {
                           "type": "string",
                           "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                          "enum": ["fr_FR", "en_GB", "de_DE"]
+                          "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                         },
                         "customer_invoice_template": {
                           "type": "object",
@@ -20867,7 +20867,7 @@
                       "language": {
                         "type": "string",
                         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                        "enum": ["fr_FR", "en_GB", "de_DE"]
+                        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                       },
                       "discount": {
                         "type": "object",
@@ -21921,7 +21921,7 @@
                         "language": {
                           "type": "string",
                           "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                          "enum": ["fr_FR", "en_GB", "de_DE"]
+                          "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                         },
                         "customer_invoice_template": {
                           "type": "object",
@@ -37289,7 +37289,8 @@
                             "FR_NON_PROFIT",
                             "FR_NOTARY",
                             "DE_SKR03",
-                            "DE_SKR04"
+                            "DE_SKR04",
+                            "ES_PGC"
                           ]
                         }
                       },
@@ -41183,7 +41184,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -41926,7 +41927,7 @@
                       "language": {
                         "type": "string",
                         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                        "enum": ["fr_FR", "en_GB", "de_DE"]
+                        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                       },
                       "invoice_lines": {
                         "description": "Add, update, delete invoice lines.",
@@ -43098,7 +43099,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -46481,7 +46482,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -47384,7 +47385,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -48307,7 +48308,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "paid": {
                       "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -71822,7 +71823,7 @@
                           "language": {
                             "type": "string",
                             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                            "enum": ["fr_FR", "en_GB", "de_DE"]
+                            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                           },
                           "status": {
                             "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -72489,7 +72490,7 @@
                   "language": {
                     "type": "string",
                     "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   },
                   "discount": {
                     "type": "object",
@@ -73313,7 +73314,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "status": {
                       "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -74007,7 +74008,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "status": {
                       "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -74533,7 +74534,7 @@
                   "language": {
                     "type": "string",
                     "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                    "enum": ["fr_FR", "en_GB", "de_DE"]
+                    "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                   },
                   "invoice_lines": {
                     "description": "Add, update, delete invoice lines.",
@@ -75582,7 +75583,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "status": {
                       "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -78203,7 +78204,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "status": {
                       "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -78944,7 +78945,7 @@
                           "language": {
                             "type": "string",
                             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                            "enum": ["fr_FR", "en_GB", "de_DE"]
+                            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                           },
                           "discount": {
                             "type": "object",
@@ -79630,7 +79631,7 @@
                     "language": {
                       "type": "string",
                       "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                      "enum": ["fr_FR", "en_GB", "de_DE"]
+                      "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
                     },
                     "discount": {
                       "type": "object",
@@ -91455,7 +91456,7 @@
       "TemplatesAvailablesLocales": {
         "type": "string",
         "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-        "enum": ["fr_FR", "en_GB", "de_DE"]
+        "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
       },
       "InvoiceStatuses": {
         "type": "string",
@@ -91731,7 +91732,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "paid": {
             "description": "Invoice paid status (set to True if the invoice is paid)",
@@ -94102,7 +94103,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "discount": {
             "type": "object",
@@ -95485,7 +95486,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "label": {
             "description": "Custom label for the invoice used on accounting (ledger) entries. If not provided, Pennylane generates a label automatically.",
@@ -96835,7 +96836,7 @@
               "language": {
                 "type": "string",
                 "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-                "enum": ["fr_FR", "en_GB", "de_DE"]
+                "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
               },
               "customer_invoice_template": {
                 "type": "object",
@@ -98370,7 +98371,15 @@
         "description": "Chart of accounts framework used by the company.",
         "type": "string",
         "example": "FR_PCG",
-        "enum": ["FR_PCG", "FR_AGRICULTURE", "FR_NON_PROFIT", "FR_NOTARY", "DE_SKR03", "DE_SKR04"]
+        "enum": [
+          "FR_PCG",
+          "FR_AGRICULTURE",
+          "FR_NON_PROFIT",
+          "FR_NOTARY",
+          "DE_SKR03",
+          "DE_SKR04",
+          "ES_PGC"
+        ]
       },
       "PaymentStatus": {
         "type": "string",
@@ -98893,7 +98902,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "invoice_lines": {
             "description": "Add, update, delete invoice lines.",
@@ -102722,7 +102731,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "status": {
             "description": "- accepted: quote has been accepted\n- denied: quote has been denied\n- expired: quote has expired\n- invoiced: quote has been invoiced\n- pending: quote to be denied or accepted\n",
@@ -103629,7 +103638,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "discount": {
             "type": "object",
@@ -104282,7 +104291,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "invoice_lines": {
             "description": "Add, update, delete invoice lines.",
@@ -105705,7 +105714,7 @@
           "language": {
             "type": "string",
             "description": "The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.",
-            "enum": ["fr_FR", "en_GB", "de_DE"]
+            "enum": ["fr_FR", "en_GB", "de_DE", "es_ES"]
           },
           "discount": {
             "type": "object",

@@ -1179,7 +1179,8 @@ export type Currency2 = typeof Currency2[keyof typeof Currency2];
 export const TemplatesAvailablesLocales = {
     FR_FR: 'fr_FR',
     EN_GB: 'en_GB',
-    DE_DE: 'de_DE'
+    DE_DE: 'de_DE',
+    ES_ES: 'es_ES'
 } as const;
 
 /**
@@ -1282,7 +1283,7 @@ export type CustomerInvoicesResponse = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language: 'fr_FR' | 'en_GB' | 'de_DE';
+    language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * Invoice paid status (set to True if the invoice is paid)
      */
@@ -2146,7 +2147,7 @@ export type CustomerInvoicesPostDraftRequest = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language?: 'fr_FR' | 'en_GB' | 'de_DE';
+    language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     discount?: {
         /**
          * Discount type.
@@ -2483,7 +2484,7 @@ export type CustomerInvoicesPostFinalizedRequest = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language?: 'fr_FR' | 'en_GB' | 'de_DE';
+    language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * Custom label for the invoice used on accounting (ledger) entries. If not provided, Pennylane generates a label automatically.
      */
@@ -2905,7 +2906,7 @@ export type BillingSubscriptionsResponse = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         customer_invoice_template: {
             id: number;
         } | null;
@@ -3507,7 +3508,8 @@ export const AccountingLogic = {
     FR_NON_PROFIT: 'FR_NON_PROFIT',
     FR_NOTARY: 'FR_NOTARY',
     DE_SKR03: 'DE_SKR03',
-    DE_SKR04: 'DE_SKR04'
+    DE_SKR04: 'DE_SKR04',
+    ES_PGC: 'ES_PGC'
 } as const;
 
 /**
@@ -3687,7 +3689,7 @@ export type CustomerInvoicesPutDraftRequest = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language?: 'fr_FR' | 'en_GB' | 'de_DE';
+    language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * Add, update, delete invoice lines.
      */
@@ -4811,7 +4813,7 @@ export type QuotesResponse = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language: 'fr_FR' | 'en_GB' | 'de_DE';
+    language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * - accepted: quote has been accepted
      * - denied: quote has been denied
@@ -5047,7 +5049,7 @@ export type QuotesPostRequest = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language?: 'fr_FR' | 'en_GB' | 'de_DE';
+    language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     discount?: {
         /**
          * Discount type.
@@ -5219,7 +5221,7 @@ export type QuotesPutRequest = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language?: 'fr_FR' | 'en_GB' | 'de_DE';
+    language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     /**
      * Add, update, delete invoice lines.
      */
@@ -5549,7 +5551,7 @@ export type CommercialDocumentsResponse = {
     /**
      * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
      */
-    language: 'fr_FR' | 'en_GB' | 'de_DE';
+    language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
     discount: {
         /**
          * Discount type.
@@ -9638,7 +9640,7 @@ export type GetCustomerInvoicesResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             /**
              * Invoice paid status (set to True if the invoice is paid)
              */
@@ -9994,7 +9996,7 @@ export type PostCustomerInvoicesData = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         discount?: {
             /**
              * Discount type.
@@ -10164,7 +10166,7 @@ export type PostCustomerInvoicesData = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Custom label for the invoice used on accounting (ledger) entries. If not provided, Pennylane generates a label automatically.
          */
@@ -10445,7 +10447,7 @@ export type PostCustomerInvoicesResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -10911,7 +10913,7 @@ export type ImportCustomerInvoicesResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -11461,7 +11463,7 @@ export type CreateCustomerInvoiceFromQuoteResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -11857,7 +11859,7 @@ export type GetBillingSubscriptionsResponses = {
                 /**
                  * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
                  */
-                language: 'fr_FR' | 'en_GB' | 'de_DE';
+                language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
                 customer_invoice_template: {
                     id: number;
                 } | null;
@@ -12012,7 +12014,7 @@ export type PostBillingSubscriptionsData = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language?: 'fr_FR' | 'en_GB' | 'de_DE';
+            language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             discount?: {
                 /**
                  * Discount type.
@@ -12262,7 +12264,7 @@ export type PostBillingSubscriptionsResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             customer_invoice_template: {
                 id: number;
             } | null;
@@ -12484,7 +12486,7 @@ export type GetBillingSubscriptionResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             customer_invoice_template: {
                 id: number;
             } | null;
@@ -12641,7 +12643,7 @@ export type PutBillingSubscriptionsData = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language?: 'fr_FR' | 'en_GB' | 'de_DE';
+            language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             discount?: {
                 /**
                  * Discount type.
@@ -12985,7 +12987,7 @@ export type PutBillingSubscriptionsResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             customer_invoice_template: {
                 id: number;
             } | null;
@@ -17409,7 +17411,7 @@ export type GetMeResponses = {
             /**
              * Chart of accounts framework used by the company.
              */
-            accounting_logic: 'FR_PCG' | 'FR_AGRICULTURE' | 'FR_NON_PROFIT' | 'FR_NOTARY' | 'DE_SKR03' | 'DE_SKR04';
+            accounting_logic: 'FR_PCG' | 'FR_AGRICULTURE' | 'FR_NON_PROFIT' | 'FR_NOTARY' | 'DE_SKR03' | 'DE_SKR04' | 'ES_PGC';
         };
         /**
          * OAuth scopes associated with the access token
@@ -18603,7 +18605,7 @@ export type GetCustomerInvoiceResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -18838,7 +18840,7 @@ export type UpdateCustomerInvoiceData = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Add, update, delete invoice lines.
          */
@@ -19172,7 +19174,7 @@ export type UpdateCustomerInvoiceResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -20044,7 +20046,7 @@ export type UpdateImportedCustomerInvoiceResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -20345,7 +20347,7 @@ export type FinalizeCustomerInvoiceResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -20651,7 +20653,7 @@ export type LinkCreditNoteResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Invoice paid status (set to True if the invoice is paid)
          */
@@ -27467,7 +27469,7 @@ export type ListQuotesResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             /**
              * - accepted: quote has been accepted
              * - denied: quote has been denied
@@ -27599,7 +27601,7 @@ export type PostQuotesData = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         discount?: {
             /**
              * Discount type.
@@ -27830,7 +27832,7 @@ export type PostQuotesResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * - accepted: quote has been accepted
          * - denied: quote has been denied
@@ -28027,7 +28029,7 @@ export type GetQuoteResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * - accepted: quote has been accepted
          * - denied: quote has been denied
@@ -28168,7 +28170,7 @@ export type UpdateQuoteData = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language?: 'fr_FR' | 'en_GB' | 'de_DE';
+        language?: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * Add, update, delete invoice lines.
          */
@@ -28443,7 +28445,7 @@ export type UpdateQuoteResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * - accepted: quote has been accepted
          * - denied: quote has been denied
@@ -29267,7 +29269,7 @@ export type UpdateStatusQuoteResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         /**
          * - accepted: quote has been accepted
          * - denied: quote has been denied
@@ -29513,7 +29515,7 @@ export type ListCommercialDocumentsResponses = {
             /**
              * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
              */
-            language: 'fr_FR' | 'en_GB' | 'de_DE';
+            language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
             discount: {
                 /**
                  * Discount type.
@@ -29707,7 +29709,7 @@ export type GetCommercialDocumentResponses = {
         /**
          * The local default is based on the thirdparty (customer / supplier ) billing_language . In case the customer is not present, we will default to the company locale.
          */
-        language: 'fr_FR' | 'en_GB' | 'de_DE';
+        language: 'fr_FR' | 'en_GB' | 'de_DE' | 'es_ES';
         discount: {
             /**
              * Discount type.
