@@ -14060,7 +14060,7 @@
                 "additionalProperties": false,
                 "properties": {
                   "file_attachment_id": {
-                    "description": "File attachment id",
+                    "description": "ID of a previously uploaded file attachment. The attachment must already have a file.\nIf the file is not available yet, the API returns 409; retry after a few seconds.\n",
                     "type": "integer",
                     "format": "int64",
                     "example": 42
@@ -55949,7 +55949,7 @@
                 "additionalProperties": false,
                 "properties": {
                   "file_attachment_id": {
-                    "description": "The ID of the supplier invoice file attachment to import",
+                    "description": "ID of a previously uploaded file attachment. The attachment must already have a file.\nIf the file is not available yet, the API returns 409; retry after a few seconds.\n",
                     "type": "integer",
                     "format": "int64",
                     "example": 123

@@ -10634,7 +10634,9 @@ export type PostCustomerInvoicesResponse = PostCustomerInvoicesResponses[keyof P
 export type ImportCustomerInvoicesData = {
     body: {
         /**
-         * File attachment id
+         * ID of a previously uploaded file attachment. The attachment must already have a file.
+         * If the file is not available yet, the API returns 409; retry after a few seconds.
+         *
          */
         file_attachment_id: number;
         /**
@@ -22750,7 +22752,9 @@ export type PostSupplierInvoiceLinkedPurchaseRequestsResponse = PostSupplierInvo
 export type ImportSupplierInvoiceData = {
     body: {
         /**
-         * The ID of the supplier invoice file attachment to import
+         * ID of a previously uploaded file attachment. The attachment must already have a file.
+         * If the file is not available yet, the API returns 409; retry after a few seconds.
+         *
          */
         file_attachment_id: number;
         /**
