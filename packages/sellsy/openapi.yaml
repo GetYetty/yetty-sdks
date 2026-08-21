@@ -1,7 +1,7 @@
 'openapi': '3.0.2'
 'info':
   'title': 'Sellsy API'
-  'version': '2.285.1'
+  'version': '2.287.0'
   'description': "Find out the [Postman collections](dist/postman/CollectionsApiV2.json) with the required [environment variables](dist/postman/Environment.json)
 
 
@@ -4397,6 +4397,12 @@
                           'format': 'uri'
                           'description': 'Cosigner signature url'
                           'example': 'https://yousign.app/signatures/azerty'
+                        'public_link':
+                          'type': 'string'
+                          'format': 'uri'
+                          'nullable': true
+                          'description': 'Signature link, equivalent to the one available in the webapp.'
+                          'example': 'https://www.sellsy.com/s/azerty'
       'requestBody':
         'content':
           'application/json':
@@ -20314,6 +20320,11 @@
               'description': 'Date of the shipping'
               'nullable': true
               'example': '2024-01-31'
+            'company_reference':
+              'type': 'string'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
             'bank_account_id':
               'type': 'integer'
               'description': 'Bank account ID'
@@ -20482,10 +20493,6 @@
               'format': 'date'
               'description': 'Date of the shipping'
               'nullable': true
-            'company_reference':
-              'readOnly': true
-              'type': 'string'
-              'description': 'Company or individual reference.'
             'company_name':
               'type': 'string'
               'readOnly': true
@@ -20951,6 +20958,10 @@
                     'show_late_penalty_warning_text':
                       'type': 'boolean'
                       'description': 'Show legal text on late payment interests'
+                      'example': true
+                    'show_early_payment_discount_mention':
+                      'type': 'boolean'
+                      'description': 'Show the early payment discount mention'
                       'example': true
                     'show_sale_type':
                       'type': 'boolean'
@@ -21530,10 +21541,6 @@
                   'format': 'date'
                   'description': 'Date of the shipping'
                   'nullable': true
-                'company_reference':
-                  'readOnly': true
-                  'type': 'string'
-                  'description': 'Company or individual reference.'
                 'company_name':
                   'type': 'string'
                   'readOnly': true
@@ -23007,6 +23014,10 @@
                         'show_late_penalty_warning_text':
                           'type': 'boolean'
                           'description': 'Show legal text on late payment interests'
+                          'example': true
+                        'show_early_payment_discount_mention':
+                          'type': 'boolean'
+                          'description': 'Show the early payment discount mention'
                           'example': true
                         'show_sale_type':
                           'type': 'boolean'
@@ -32111,6 +32122,10 @@
           'type': 'string'
           'format': 'date-time'
           'nullable': true
+        'exclude_payment_footer':
+          'description': 'Exceptionally skip injecting the payment footer for this specific email, even if the corporation preference has it enabled'
+          'type': 'boolean'
+          'nullable': true
     'EmailSendBatchBody':
       'type': 'object'
       'required':
@@ -32156,6 +32171,10 @@
           'format': 'date-time'
           'description': 'Optional scheduled date for sending (must be at least 1 minute in the future)'
           'example': '2026-03-15T10:00:00Z'
+          'nullable': true
+        'exclude_payment_footer':
+          'type': 'boolean'
+          'description': 'Exceptionally skip injecting the payment footer for these emails, even if the corporation preference has it enabled'
           'nullable': true
         'related':
           'type': 'array'
@@ -33313,6 +33332,17 @@
           'readOnly': true
           'description': 'Label of payment method'
           'example': 'Paypal'
+        'parameters':
+          'type': 'object'
+          'description': 'specific parameters related to the payment method'
+          'nullable': true
+          'properties':
+            'code':
+              'type': 'string'
+              'minLength': 1
+              'maxLength': 3
+              'description': 'UN/EDIFACT 4461 payment means code used in e-invoicing documents'
+              'example': '58'
         '_embed':
           'type': 'object'
           'properties':
@@ -36601,9 +36631,10 @@
         'shipping_weight':
           '$ref': '#/components/schemas/EstimateCompute/properties/shipping_weight'
         'company_reference':
-          'readOnly': true
           'type': 'string'
-          'description': 'Company or individual reference.'
+          'nullable': true
+          'maxLength': 100
+          'description': 'Company or individual reference displayed on the document.'
         'company_name':
           'type': 'string'
           'readOnly': true
@@ -36999,9 +37030,10 @@
             'shipping_weight':
               '$ref': '#/components/schemas/EstimateCompute/properties/shipping_weight'
             'company_reference':
-              'readOnly': true
               'type': 'string'
-              'description': 'Company or individual reference.'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document.'
             'company_name':
               'type': 'string'
               'readOnly': true
@@ -38038,6 +38070,10 @@
                                           'type': 'boolean'
                                           'description': 'Show legal text on late payment interests'
                                           'example': true
+                                        'show_early_payment_discount_mention':
+                                          'type': 'boolean'
+                                          'description': 'Show the early payment discount mention'
+                                          'example': true
                                         'show_sale_type':
                                           'type': 'boolean'
                                           'description': 'Show sale type column on documents'
@@ -38461,6 +38497,11 @@
               'type': 'string'
             'shipping_weight':
               '$ref': '#/components/schemas/EstimateCompute/properties/shipping_weight'
+            'company_reference':
+              'type': 'string'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
             'bank_account_id':
               'type': 'integer'
               'description': 'Bank account ID'
@@ -39075,6 +39116,10 @@
                   'type': 'boolean'
                   'description': 'Show legal text on late payment interests'
                   'example': true
+                'show_early_payment_discount_mention':
+                  'type': 'boolean'
+                  'description': 'Show the early payment discount mention'
+                  'example': true
                 'show_sale_type':
                   'type': 'boolean'
                   'description': 'Show sale type column on documents'
@@ -39655,6 +39700,13 @@
               'type': 'string'
             'has_penalty_retard_warning_text':
               'description': 'Display the legal Terms & Conditions at the end of your document'
+              'type': 'boolean'
+            'early_payment_discount_mention_text':
+              'description': 'Early payment discount mention'
+              'nullable': true
+              'type': 'string'
+            'show_early_payment_discount_mention':
+              'description': 'Display the early payment discount mention'
               'type': 'boolean'
         'layout_id':
           'type': 'integer'
@@ -40498,6 +40550,10 @@
                   'type': 'boolean'
                   'description': 'Show legal text on late payment interests'
                   'example': true
+                'show_early_payment_discount_mention':
+                  'type': 'boolean'
+                  'description': 'Show the early payment discount mention'
+                  'example': true
                 'show_sale_type':
                   'type': 'boolean'
                   'description': 'Show sale type column on documents'
@@ -40971,7 +41027,7 @@
         'einvoicing_electronic_address':
           'type': 'string'
           'maxLength': 255
-          'description': 'E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.
+          'description': 'E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.
 
             '
         'einvoicing_flow':
@@ -41229,9 +41285,10 @@
               'example': 100.5
               'type': 'string'
         'company_reference':
-          'readOnly': true
           'type': 'string'
-          'description': 'Company or individual reference.'
+          'nullable': true
+          'maxLength': 100
+          'description': 'Company or individual reference displayed on the document.'
         'company_name':
           'type': 'string'
           'readOnly': true
@@ -41257,6 +41314,12 @@
           'type': 'integer'
           'description': 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.'
           'nullable': true
+        'payment_method_ids':
+          'type': 'array'
+          'description': 'payments methods allowed on the credit note'
+          'nullable': true
+          'items':
+            'type': 'integer'
         'einvoicing_electronic_address':
           'type': 'string'
           'nullable': true
@@ -41328,6 +41391,8 @@
                   '$ref': '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/invoicing_address'
                 'issuer_address':
                   '$ref': '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/invoicing_address'
+                'payment_method_ids':
+                  '$ref': '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/payment_method_ids'
     'CreditNoteOne':
       'allOf':
         - 'title': 'Credit Note'
@@ -41573,9 +41638,10 @@
                   'example': 100.5
                   'type': 'string'
             'company_reference':
-              'readOnly': true
               'type': 'string'
-              'description': 'Company or individual reference.'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document.'
             'company_name':
               'type': 'string'
               'readOnly': true
@@ -41601,6 +41667,12 @@
               'type': 'integer'
               'description': 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.'
               'nullable': true
+            'payment_method_ids':
+              'type': 'array'
+              'description': 'payments methods allowed on the credit note'
+              'nullable': true
+              'items':
+                'type': 'integer'
             'einvoicing_electronic_address':
               'type': 'string'
               'nullable': true
@@ -41747,6 +41819,11 @@
               'description': 'Notes of the credit note'
               'maxLength': 65535
               'example': 'This credit note is very important<br />'
+            'company_reference':
+              'type': 'string'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
             'analytic_code':
               'type': 'string'
               'nullable': true
@@ -41768,6 +41845,12 @@
               'type': 'integer'
               'description': 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.'
               'nullable': true
+            'payment_method_ids':
+              'type': 'array'
+              'description': 'payments methods allowed on the credit note'
+              'nullable': true
+              'items':
+                'type': 'integer'
             'invoicing_address_id':
               'description': 'Invoicing address, by default take invoicing address of company/individual.'
               'type': 'integer'
@@ -41825,7 +41908,7 @@
         'einvoicing_electronic_address':
           'type': 'string'
           'maxLength': 255
-          'description': 'E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.
+          'description': 'E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.
 
             '
         'einvoicing_flow':
@@ -42139,6 +42222,11 @@
               'format': 'date'
               'nullable': true
               'description': 'Date of the shipping'
+            'company_reference':
+              'type': 'string'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
             'analytic_code':
               'type': 'string'
               'nullable': true
@@ -42548,9 +42636,10 @@
           'nullable': true
           'example': '2024-01-31'
         'company_reference':
-          'readOnly': true
           'type': 'string'
-          'description': 'Company or individual reference.'
+          'nullable': true
+          'maxLength': 100
+          'description': 'Company or individual reference displayed on the document.'
         'company_name':
           'type': 'string'
           'readOnly': true
@@ -42880,9 +42969,10 @@
               'nullable': true
               'example': '2024-01-31'
             'company_reference':
-              'readOnly': true
               'type': 'string'
-              'description': 'Company or individual reference.'
+              'nullable': true
+              'maxLength': 100
+              'description': 'Company or individual reference displayed on the document.'
             'company_name':
               'type': 'string'
               'readOnly': true
@@ -49137,6 +49227,13 @@
             'has_penalty_retard_warning_text':
               'description': 'Display the legal Terms & Conditions at the end of your document'
               'type': 'boolean'
+            'early_payment_discount_mention_text':
+              'description': 'Early payment discount mention'
+              'nullable': true
+              'type': 'string'
+            'show_early_payment_discount_mention':
+              'description': 'Display the early payment discount mention'
+              'type': 'boolean'
         'layout_id':
           'type': 'integer'
           'description': 'default layout for invoices'
@@ -50435,7 +50532,7 @@
           'example': '+33612345678'
         'electronic_address':
           'type': 'string'
-          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'''
+          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. Ignored when types only includes ''issue'': the address is always generated server-side as ''{SIREN}_CDARTeamSystemSellsy'', so any value provided is overwritten.'
           'maxLength': 109
         'person_type':
           'type': 'string'
@@ -50572,7 +50669,7 @@
           'example': 'https://example.com/mandate.pdf'
         'electronic_address':
           'type': 'string'
-          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'''
+          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. For mandates whose types only includes ''issue'', it is always generated server-side as ''{SIREN}_CDARTeamSystemSellsy''.'
           'maxLength': 109
         'person_type':
           'type': 'string'
@@ -51817,6 +51914,7 @@
                 - 'invoicing_address'
                 - 'delivery_address'
                 - 'issuer_address'
+                - 'payment_method_ids'
             - '$ref': '#/components/parameters/contactEmbed/schema/items/oneOf/1'
     'creditNoteOneEmbed':
       'in': 'query'
@@ -51843,6 +51941,7 @@
                 - 'invoicing_address'
                 - 'delivery_address'
                 - 'issuer_address'
+                - 'payment_method_ids'
                 - 'file'
             - '$ref': '#/components/parameters/contactEmbed/schema/items/oneOf/1'
     'creditNoteOrder':

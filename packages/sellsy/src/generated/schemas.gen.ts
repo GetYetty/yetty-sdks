@@ -2139,6 +2139,12 @@ export const EstimateSchema = {
                     nullable: true,
                     example: '2024-01-31'
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
+                },
                 bank_account_id: {
                     type: 'integer',
                     description: 'Bank account ID',
@@ -2355,11 +2361,6 @@ export const EstimateSchema = {
                     format: 'date',
                     description: 'Date of the shipping',
                     nullable: true
-                },
-                company_reference: {
-                    readOnly: true,
-                    type: 'string',
-                    description: 'Company or individual reference.'
                 },
                 company_name: {
                     type: 'string',
@@ -3002,6 +3003,11 @@ export const EstimateCreateSchema = {
                                 show_late_penalty_warning_text: {
                                     type: 'boolean',
                                     description: 'Show legal text on late payment interests',
+                                    example: true
+                                },
+                                show_early_payment_discount_mention: {
+                                    type: 'boolean',
+                                    description: 'Show the early payment discount mention',
                                     example: true
                                 },
                                 show_sale_type: {
@@ -3828,11 +3834,6 @@ export const EstimateOneSchema = {
                             format: 'date',
                             description: 'Date of the shipping',
                             nullable: true
-                        },
-                        company_reference: {
-                            readOnly: true,
-                            type: 'string',
-                            description: 'Company or individual reference.'
                         },
                         company_name: {
                             type: 'string',
@@ -5732,6 +5733,11 @@ export const SaleEmbedSchema = {
                                         show_late_penalty_warning_text: {
                                             type: 'boolean',
                                             description: 'Show legal text on late payment interests',
+                                            example: true
+                                        },
+                                        show_early_payment_discount_mention: {
+                                            type: 'boolean',
+                                            description: 'Show the early payment discount mention',
                                             example: true
                                         },
                                         show_sale_type: {
@@ -17833,6 +17839,11 @@ export const EmailSendBodySchema = {
             type: 'string',
             format: 'date-time',
             nullable: true
+        },
+        exclude_payment_footer: {
+            description: 'Exceptionally skip injecting the payment footer for this specific email, even if the corporation preference has it enabled',
+            type: 'boolean',
+            nullable: true
         }
     }
 } as const;
@@ -17897,6 +17908,11 @@ export const EmailSendBatchBodySchema = {
             format: 'date-time',
             description: 'Optional scheduled date for sending (must be at least 1 minute in the future)',
             example: '2026-03-15T10:00:00Z',
+            nullable: true
+        },
+        exclude_payment_footer: {
+            type: 'boolean',
+            description: 'Exceptionally skip injecting the payment footer for these emails, even if the corporation preference has it enabled',
             nullable: true
         },
         related: {
@@ -19449,6 +19465,20 @@ export const PaymentMethodSchema = {
             readOnly: true,
             description: 'Label of payment method',
             example: 'Paypal'
+        },
+        parameters: {
+            type: 'object',
+            description: 'specific parameters related to the payment method',
+            nullable: true,
+            properties: {
+                code: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 3,
+                    description: 'UN/EDIFACT 4461 payment means code used in e-invoicing documents',
+                    example: '58'
+                }
+            }
         },
         _embed: {
             type: 'object',
@@ -23857,9 +23887,10 @@ export const InvoiceSchema = {
             $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
         },
         company_reference: {
-            readOnly: true,
             type: 'string',
-            description: 'Company or individual reference.'
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
         },
         company_name: {
             type: 'string',
@@ -24350,9 +24381,10 @@ export const InvoiceOneSchema = {
                     $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
                 },
                 company_reference: {
-                    readOnly: true,
                     type: 'string',
-                    description: 'Company or individual reference.'
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
                 },
                 company_name: {
                     type: 'string',
@@ -25753,6 +25785,11 @@ export const InvoiceOrProgressInvoiceOneSchema = {
                                                                             description: 'Show legal text on late payment interests',
                                                                             example: true
                                                                         },
+                                                                        show_early_payment_discount_mention: {
+                                                                            type: 'boolean',
+                                                                            description: 'Show the early payment discount mention',
+                                                                            example: true
+                                                                        },
                                                                         show_sale_type: {
                                                                             type: 'boolean',
                                                                             description: 'Show sale type column on documents',
@@ -26303,6 +26340,12 @@ export const InvoiceCreateSchema = {
                 },
                 shipping_weight: {
                     $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
+                },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
                 },
                 bank_account_id: {
                     type: 'integer',
@@ -27109,6 +27152,11 @@ export const DepositInvoiceCreateSchema = {
                         show_late_penalty_warning_text: {
                             type: 'boolean',
                             description: 'Show legal text on late payment interests',
+                            example: true
+                        },
+                        show_early_payment_discount_mention: {
+                            type: 'boolean',
+                            description: 'Show the early payment discount mention',
                             example: true
                         },
                         show_sale_type: {
@@ -27919,6 +27967,15 @@ export const DepositInvoiceMetadataSchema = {
                 },
                 has_penalty_retard_warning_text: {
                     description: 'Display the legal Terms & Conditions at the end of your document',
+                    type: 'boolean'
+                },
+                early_payment_discount_mention_text: {
+                    description: 'Early payment discount mention',
+                    nullable: true,
+                    type: 'string'
+                },
+                show_early_payment_discount_mention: {
+                    description: 'Display the early payment discount mention',
                     type: 'boolean'
                 }
             }
@@ -29037,6 +29094,11 @@ export const ProgressInvoiceCreateSchema = {
                             description: 'Show legal text on late payment interests',
                             example: true
                         },
+                        show_early_payment_discount_mention: {
+                            type: 'boolean',
+                            description: 'Show the early payment discount mention',
+                            example: true
+                        },
                         show_sale_type: {
                             type: 'boolean',
                             description: 'Show sale type column on documents',
@@ -29695,7 +29757,7 @@ export const ValidateInvoiceSchema = {
         einvoicing_electronic_address: {
             type: 'string',
             maxLength: 255,
-            description: 'E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.\n'
+            description: 'E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.\n'
         },
         einvoicing_flow: {
             type: 'string',
@@ -30013,9 +30075,10 @@ export const CreditNoteSchema = {
             }
         },
         company_reference: {
-            readOnly: true,
             type: 'string',
-            description: 'Company or individual reference.'
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
         },
         company_name: {
             type: 'string',
@@ -30047,6 +30110,14 @@ export const CreditNoteSchema = {
             type: 'integer',
             description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
             nullable: true
+        },
+        payment_method_ids: {
+            type: 'array',
+            description: 'payments methods allowed on the credit note',
+            nullable: true,
+            items: {
+                type: 'integer'
+            }
         },
         einvoicing_electronic_address: {
             type: 'string',
@@ -30145,6 +30216,9 @@ export const CreditNoteSchema = {
                         },
                         issuer_address: {
                             $ref: '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/invoicing_address'
+                        },
+                        payment_method_ids: {
+                            $ref: '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/payment_method_ids'
                         }
                     }
                 }
@@ -30461,9 +30535,10 @@ export const CreditNoteOneSchema = {
                     }
                 },
                 company_reference: {
-                    readOnly: true,
                     type: 'string',
-                    description: 'Company or individual reference.'
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
                 },
                 company_name: {
                     type: 'string',
@@ -30495,6 +30570,14 @@ export const CreditNoteOneSchema = {
                     type: 'integer',
                     description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
                     nullable: true
+                },
+                payment_method_ids: {
+                    type: 'array',
+                    description: 'payments methods allowed on the credit note',
+                    nullable: true,
+                    items: {
+                        type: 'integer'
+                    }
                 },
                 einvoicing_electronic_address: {
                     type: 'string',
@@ -30688,6 +30771,12 @@ export const CreditNoteCreateSchema = {
                     maxLength: 65535,
                     example: 'This credit note is very important<br />'
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
+                },
                 analytic_code: {
                     type: 'string',
                     nullable: true,
@@ -30713,6 +30802,14 @@ export const CreditNoteCreateSchema = {
                     type: 'integer',
                     description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
                     nullable: true
+                },
+                payment_method_ids: {
+                    type: 'array',
+                    description: 'payments methods allowed on the credit note',
+                    nullable: true,
+                    items: {
+                        type: 'integer'
+                    }
                 },
                 invoicing_address_id: {
                     description: 'Invoicing address, by default take invoicing address of company/individual.',
@@ -30800,7 +30897,7 @@ export const CreditNoteValidateSchema = {
         einvoicing_electronic_address: {
             type: 'string',
             maxLength: 255,
-            description: 'E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.\n'
+            description: 'E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.\n'
         },
         einvoicing_flow: {
             type: 'string',
@@ -31185,6 +31282,12 @@ export const OrderCreateSchema = {
                     format: 'date',
                     nullable: true,
                     description: 'Date of the shipping'
+                },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
                 },
                 analytic_code: {
                     type: 'string',
@@ -31721,9 +31824,10 @@ export const OrderSchema = {
             example: '2024-01-31'
         },
         company_reference: {
-            readOnly: true,
             type: 'string',
-            description: 'Company or individual reference.'
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
         },
         company_name: {
             type: 'string',
@@ -32130,9 +32234,10 @@ export const OrderOneSchema = {
                     example: '2024-01-31'
                 },
                 company_reference: {
-                    readOnly: true,
                     type: 'string',
-                    description: 'Company or individual reference.'
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
                 },
                 company_name: {
                     type: 'string',
@@ -40435,6 +40540,15 @@ export const ProgressInvoiceMetadataSchema = {
                 has_penalty_retard_warning_text: {
                     description: 'Display the legal Terms & Conditions at the end of your document',
                     type: 'boolean'
+                },
+                early_payment_discount_mention_text: {
+                    description: 'Early payment discount mention',
+                    nullable: true,
+                    type: 'string'
+                },
+                show_early_payment_discount_mention: {
+                    description: 'Display the early payment discount mention',
+                    type: 'boolean'
                 }
             }
         },
@@ -42199,7 +42313,7 @@ export const EInvoicingMandateInputSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\'',
+            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Ignored when types only includes \'issue\': the address is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\', so any value provided is overwritten.',
             maxLength: 109
         },
         person_type: {
@@ -42367,7 +42481,7 @@ export const EInvoicingMandateSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\'',
+            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. For mandates whose types only includes \'issue\', it is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\'.',
             maxLength: 109
         },
         person_type: {
@@ -43825,6 +43939,12 @@ export const EstimateWritableSchema = {
                     nullable: true,
                     example: '2024-01-31'
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
+                },
                 bank_account_id: {
                     type: 'integer',
                     description: 'Bank account ID',
@@ -44659,6 +44779,11 @@ export const EstimateCreateWritableSchema = {
                                 show_late_penalty_warning_text: {
                                     type: 'boolean',
                                     description: 'Show legal text on late payment interests',
+                                    example: true
+                                },
+                                show_early_payment_discount_mention: {
+                                    type: 'boolean',
+                                    description: 'Show the early payment discount mention',
                                     example: true
                                 },
                                 show_sale_type: {
@@ -46929,6 +47054,11 @@ export const SaleEmbedWritableSchema = {
                                         show_late_penalty_warning_text: {
                                             type: 'boolean',
                                             description: 'Show legal text on late payment interests',
+                                            example: true
+                                        },
+                                        show_early_payment_discount_mention: {
+                                            type: 'boolean',
+                                            description: 'Show the early payment discount mention',
                                             example: true
                                         },
                                         show_sale_type: {
@@ -52113,6 +52243,20 @@ export const EmailProviderMessageWritableSchema = {
 export const PaymentMethodWritableSchema = {
     type: 'object',
     properties: {
+        parameters: {
+            type: 'object',
+            description: 'specific parameters related to the payment method',
+            nullable: true,
+            properties: {
+                code: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 3,
+                    description: 'UN/EDIFACT 4461 payment means code used in e-invoicing documents',
+                    example: '58'
+                }
+            }
+        },
         _embed: {
             type: 'object',
             properties: {
@@ -52937,6 +53081,12 @@ export const InvoiceWritableSchema = {
         shipping_weight: {
             $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
         },
+        company_reference: {
+            type: 'string',
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
+        },
         layout_id: {
             type: 'integer',
             description: 'layout ID'
@@ -53232,6 +53382,12 @@ export const InvoiceOneWritableSchema = {
                 },
                 shipping_weight: {
                     $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
+                },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
                 },
                 layout_id: {
                     type: 'integer',
@@ -54433,6 +54589,11 @@ export const InvoiceOrProgressInvoiceOneWritableSchema = {
                                                                             description: 'Show legal text on late payment interests',
                                                                             example: true
                                                                         },
+                                                                        show_early_payment_discount_mention: {
+                                                                            type: 'boolean',
+                                                                            description: 'Show the early payment discount mention',
+                                                                            example: true
+                                                                        },
                                                                         show_sale_type: {
                                                                             type: 'boolean',
                                                                             description: 'Show sale type column on documents',
@@ -54706,6 +54867,12 @@ export const InvoiceCreateWritableSchema = {
                 },
                 shipping_weight: {
                     $ref: '#/components/schemas/EstimateCompute/properties/shipping_weight'
+                },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
                 },
                 bank_account_id: {
                     type: 'integer',
@@ -55508,6 +55675,11 @@ export const DepositInvoiceCreateWritableSchema = {
                             description: 'Show legal text on late payment interests',
                             example: true
                         },
+                        show_early_payment_discount_mention: {
+                            type: 'boolean',
+                            description: 'Show the early payment discount mention',
+                            example: true
+                        },
                         show_sale_type: {
                             type: 'boolean',
                             description: 'Show sale type column on documents',
@@ -55995,6 +56167,15 @@ export const DepositInvoiceMetadataWritableSchema = {
                 },
                 has_penalty_retard_warning_text: {
                     description: 'Display the legal Terms & Conditions at the end of your document',
+                    type: 'boolean'
+                },
+                early_payment_discount_mention_text: {
+                    description: 'Early payment discount mention',
+                    nullable: true,
+                    type: 'string'
+                },
+                show_early_payment_discount_mention: {
+                    description: 'Display the early payment discount mention',
                     type: 'boolean'
                 }
             }
@@ -57107,6 +57288,11 @@ export const ProgressInvoiceCreateWritableSchema = {
                             description: 'Show legal text on late payment interests',
                             example: true
                         },
+                        show_early_payment_discount_mention: {
+                            type: 'boolean',
+                            description: 'Show the early payment discount mention',
+                            example: true
+                        },
                         show_sale_type: {
                             type: 'boolean',
                             description: 'Show sale type column on documents',
@@ -57675,6 +57861,12 @@ export const CreditNoteWritableSchema = {
             description: 'If the credit note is sent to accounting',
             example: true
         },
+        company_reference: {
+            type: 'string',
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
+        },
         analytic_code: {
             type: 'string',
             nullable: true,
@@ -57700,6 +57892,14 @@ export const CreditNoteWritableSchema = {
             type: 'integer',
             description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
             nullable: true
+        },
+        payment_method_ids: {
+            type: 'array',
+            description: 'payments methods allowed on the credit note',
+            nullable: true,
+            items: {
+                type: 'integer'
+            }
         },
         einvoicing_electronic_address: {
             type: 'string',
@@ -57798,6 +57998,9 @@ export const CreditNoteWritableSchema = {
                         },
                         issuer_address: {
                             $ref: '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/invoicing_address'
+                        },
+                        payment_method_ids: {
+                            $ref: '#/components/schemas/SaleEmbed/properties/_embed/allOf/1/properties/payment_method_ids'
                         }
                     }
                 }
@@ -58058,6 +58261,12 @@ export const CreditNoteOneWritableSchema = {
                     description: 'If the credit note is sent to accounting',
                     example: true
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
+                },
                 analytic_code: {
                     type: 'string',
                     nullable: true,
@@ -58083,6 +58292,14 @@ export const CreditNoteOneWritableSchema = {
                     type: 'integer',
                     description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
                     nullable: true
+                },
+                payment_method_ids: {
+                    type: 'array',
+                    description: 'payments methods allowed on the credit note',
+                    nullable: true,
+                    items: {
+                        type: 'integer'
+                    }
                 },
                 einvoicing_electronic_address: {
                     type: 'string',
@@ -58276,6 +58493,12 @@ export const CreditNoteCreateWritableSchema = {
                     maxLength: 65535,
                     example: 'This credit note is very important<br />'
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
+                },
                 analytic_code: {
                     type: 'string',
                     nullable: true,
@@ -58301,6 +58524,14 @@ export const CreditNoteCreateWritableSchema = {
                     type: 'integer',
                     description: 'Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.',
                     nullable: true
+                },
+                payment_method_ids: {
+                    type: 'array',
+                    description: 'payments methods allowed on the credit note',
+                    nullable: true,
+                    items: {
+                        type: 'integer'
+                    }
                 },
                 invoicing_address_id: {
                     description: 'Invoicing address, by default take invoicing address of company/individual.',
@@ -58678,6 +58909,12 @@ export const OrderCreateWritableSchema = {
                     nullable: true,
                     description: 'Date of the shipping'
                 },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.'
+                },
                 analytic_code: {
                     type: 'string',
                     nullable: true,
@@ -59031,6 +59268,12 @@ export const OrderWritableSchema = {
             nullable: true,
             example: '2024-01-31'
         },
+        company_reference: {
+            type: 'string',
+            nullable: true,
+            maxLength: 100,
+            description: 'Company or individual reference displayed on the document.'
+        },
         bank_account_id: {
             type: 'integer',
             description: 'Bank account ID',
@@ -59248,6 +59491,12 @@ export const OrderOneWritableSchema = {
                     description: 'Date of the shipping',
                     nullable: true,
                     example: '2024-01-31'
+                },
+                company_reference: {
+                    type: 'string',
+                    nullable: true,
+                    maxLength: 100,
+                    description: 'Company or individual reference displayed on the document.'
                 },
                 bank_account_id: {
                     type: 'integer',
@@ -61847,6 +62096,15 @@ export const ProgressInvoiceMetadataWritableSchema = {
                 has_penalty_retard_warning_text: {
                     description: 'Display the legal Terms & Conditions at the end of your document',
                     type: 'boolean'
+                },
+                early_payment_discount_mention_text: {
+                    description: 'Early payment discount mention',
+                    nullable: true,
+                    type: 'string'
+                },
+                show_early_payment_discount_mention: {
+                    description: 'Display the early payment discount mention',
+                    type: 'boolean'
                 }
             }
         },
@@ -63151,7 +63409,7 @@ export const EInvoicingMandateInputWritableSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\'',
+            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Ignored when types only includes \'issue\': the address is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\', so any value provided is overwritten.',
             maxLength: 109
         },
         person_type: {

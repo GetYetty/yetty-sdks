@@ -1112,6 +1112,10 @@ export type Estimate = {
      */
     shipping_date?: string | null;
     /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
+    /**
      * Bank account ID
      */
     bank_account_id?: number | null;
@@ -1244,10 +1248,6 @@ export type Estimate = {
      * Date of the shipping
      */
     shipping_date?: string | null;
-    /**
-     * Company or individual reference.
-     */
-    readonly company_reference?: string;
     /**
      * Company name displayed on the document
      */
@@ -1564,6 +1564,10 @@ export type EstimateCreate = _heyapi_466_ & {
              * Show legal text on late payment interests
              */
             show_late_penalty_warning_text?: boolean;
+            /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
             /**
              * Show sale type column on documents
              */
@@ -1974,10 +1978,6 @@ export type EstimateOne = _heyapi_466_ & {
      * Date of the shipping
      */
     shipping_date?: string | null;
-    /**
-     * Company or individual reference.
-     */
-    readonly company_reference?: string;
     /**
      * Company name displayed on the document
      */
@@ -3049,6 +3049,10 @@ export type SaleEmbed = {
                  * Show legal text on late payment interests
                  */
                 show_late_penalty_warning_text?: boolean;
+                /**
+                 * Show the early payment discount mention
+                 */
+                show_early_payment_discount_mention?: boolean;
                 /**
                  * Show sale type column on documents
                  */
@@ -9717,6 +9721,10 @@ export type EmailSendBody = {
      * Date and time when the email should be sent
      */
     scheduled_at?: string | null;
+    /**
+     * Exceptionally skip injecting the payment footer for this specific email, even if the corporation preference has it enabled
+     */
+    exclude_payment_footer?: boolean | null;
 };
 
 export type EmailSendBatchBody = {
@@ -9745,6 +9753,10 @@ export type EmailSendBatchBody = {
      * Optional scheduled date for sending (must be at least 1 minute in the future)
      */
     scheduled_at?: string | null;
+    /**
+     * Exceptionally skip injecting the payment footer for these emails, even if the corporation preference has it enabled
+     */
+    exclude_payment_footer?: boolean | null;
     /**
      * List of related objects for the email. All items must have the same type.
      */
@@ -10581,6 +10593,15 @@ export type PaymentMethod = {
      * Label of payment method
      */
     readonly label?: string;
+    /**
+     * specific parameters related to the payment method
+     */
+    parameters?: {
+        /**
+         * UN/EDIFACT 4461 payment means code used in e-invoicing documents
+         */
+        code?: string;
+    } | null;
     _embed?: {
         /**
          * Payment method translations
@@ -13064,9 +13085,9 @@ export type Invoice = {
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -13394,9 +13415,9 @@ export type InvoiceOne = {
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -14139,6 +14160,10 @@ export type InvoiceOrProgressInvoiceOne = InvoiceOne | (_heyapi_572_ & {
                  */
                 show_late_penalty_warning_text?: boolean;
                 /**
+                 * Show the early payment discount mention
+                 */
+                show_early_payment_discount_mention?: boolean;
+                /**
                  * Show sale type column on documents
                  */
                 show_sale_type?: boolean;
@@ -14473,6 +14498,10 @@ export type InvoiceCreate = {
      */
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
+    /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
     /**
      * Bank account ID
      */
@@ -14915,6 +14944,10 @@ export type DepositInvoiceCreate = {
              */
             show_late_penalty_warning_text?: boolean;
             /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
+            /**
              * Show sale type column on documents
              */
             show_sale_type?: boolean;
@@ -15300,6 +15333,14 @@ export type DepositInvoiceMetadata = {
          * Display the legal Terms & Conditions at the end of your document
          */
         has_penalty_retard_warning_text?: boolean;
+        /**
+         * Early payment discount mention
+         */
+        early_payment_discount_mention_text?: string | null;
+        /**
+         * Display the early payment discount mention
+         */
+        show_early_payment_discount_mention?: boolean;
     };
     /**
      * default layout for invoices
@@ -15991,6 +16032,10 @@ export type ProgressInvoiceCreate = {
              */
             show_late_penalty_warning_text?: boolean;
             /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
+            /**
              * Show sale type column on documents
              */
             show_sale_type?: boolean;
@@ -16390,7 +16435,7 @@ export type ValidateInvoice = {
      */
     date?: string;
     /**
-     * E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.
+     * E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.
      *
      */
     einvoicing_electronic_address?: string;
@@ -16629,9 +16674,9 @@ export type CreditNote = {
         value?: string;
     };
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -16652,6 +16697,10 @@ export type CreditNote = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * E-invoicing routing address identifier for this document
      */
@@ -16704,6 +16753,7 @@ export type CreditNote = {
         invoicing_address?: _heyapi_452_;
         delivery_address?: _heyapi_452_;
         issuer_address?: _heyapi_452_;
+        payment_method_ids?: _heyapi_432_;
     };
 };
 
@@ -16929,9 +16979,9 @@ export type CreditNoteOne = {
         value?: string;
     };
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -16952,6 +17002,10 @@ export type CreditNoteOne = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * E-invoicing routing address identifier for this document
      */
@@ -17064,6 +17118,10 @@ export type CreditNoteCreate = {
      */
     note?: string;
     /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
+    /**
      * Analytic code of document
      */
     analytic_code?: string | null;
@@ -17079,6 +17137,10 @@ export type CreditNoteCreate = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * Invoicing address, by default take invoicing address of company/individual.
      */
@@ -17115,7 +17177,7 @@ export type CreditNoteValidate = {
      */
     date?: string;
     /**
-     * E-invoicing routing address the validated document is sent to. Optional — applied only when the resolved flow is e-invoicing, ignored otherwise.
+     * E-invoicing routing address the validated document is sent to. Optional — applied when the resolved flow is e-invoicing, or when the company issues through an external accredited platform (PA). Ignored otherwise.
      *
      */
     einvoicing_electronic_address?: string;
@@ -17367,6 +17429,10 @@ export type OrderCreate = {
      * Date of the shipping
      */
     shipping_date?: string | null;
+    /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
     /**
      * Analytic code of document
      */
@@ -17670,9 +17736,9 @@ export type Order = {
      */
     shipping_date?: string | null;
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -17927,9 +17993,9 @@ export type OrderOne = {
      */
     shipping_date?: string | null;
     /**
-     * Company or individual reference.
+     * Company or individual reference displayed on the document.
      */
-    readonly company_reference?: string;
+    company_reference?: string | null;
     /**
      * Company name displayed on the document
      */
@@ -22359,6 +22425,14 @@ export type ProgressInvoiceMetadata = {
          * Display the legal Terms & Conditions at the end of your document
          */
         has_penalty_retard_warning_text?: boolean;
+        /**
+         * Early payment discount mention
+         */
+        early_payment_discount_mention_text?: string | null;
+        /**
+         * Display the early payment discount mention
+         */
+        show_early_payment_discount_mention?: boolean;
     };
     /**
      * default layout for invoices
@@ -23619,7 +23693,7 @@ export type EInvoicingMandateInput = {
      */
     legal_representative_mobile_number: string;
     /**
-     * Electronic address associated with the mandate. Required if types includes 'receipt'
+     * Electronic address associated with the mandate. Required if types includes 'receipt', and it must then start with the company SIREN. Ignored when types only includes 'issue': the address is always generated server-side as '{SIREN}_CDARTeamSystemSellsy', so any value provided is overwritten.
      */
     electronic_address?: string;
     /**
@@ -23711,7 +23785,7 @@ export type EInvoicingMandate = {
      */
     pdf_link?: string | null;
     /**
-     * Electronic address associated with the mandate. Required if types includes 'receipt'
+     * Electronic address associated with the mandate. Required if types includes 'receipt', and it must then start with the company SIREN. For mandates whose types only includes 'issue', it is always generated server-side as '{SIREN}_CDARTeamSystemSellsy'.
      */
     electronic_address?: string;
     /**
@@ -24474,6 +24548,10 @@ export type EstimateWritable = {
      */
     shipping_date?: string | null;
     /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
+    /**
      * Bank account ID
      */
     bank_account_id?: number | null;
@@ -24906,6 +24984,10 @@ export type EstimateCreateWritable = _heyapi_466_ & {
              * Show legal text on late payment interests
              */
             show_late_penalty_warning_text?: boolean;
+            /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
             /**
              * Show sale type column on documents
              */
@@ -26113,6 +26195,10 @@ export type SaleEmbedWritable = {
                  * Show legal text on late payment interests
                  */
                 show_late_penalty_warning_text?: boolean;
+                /**
+                 * Show the early payment discount mention
+                 */
+                show_early_payment_discount_mention?: boolean;
                 /**
                  * Show sale type column on documents
                  */
@@ -29342,6 +29428,15 @@ export type EmailProviderMessageWritable = {
 };
 
 export type PaymentMethodWritable = {
+    /**
+     * specific parameters related to the payment method
+     */
+    parameters?: {
+        /**
+         * UN/EDIFACT 4461 payment means code used in e-invoicing documents
+         */
+        code?: string;
+    } | null;
     _embed?: {
         /**
          * Payment method translations
@@ -29859,6 +29954,10 @@ export type InvoiceWritable = {
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
     /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
+    /**
      * layout ID
      */
     layout_id?: number;
@@ -30064,6 +30163,10 @@ export type InvoiceOneWritable = {
      */
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
+    /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
     /**
      * layout ID
      */
@@ -30666,6 +30769,10 @@ export type InvoiceOrProgressInvoiceOneWritable = InvoiceOneWritable | (_heyapi_
                  */
                 show_late_penalty_warning_text?: boolean;
                 /**
+                 * Show the early payment discount mention
+                 */
+                show_early_payment_discount_mention?: boolean;
+                /**
                  * Show sale type column on documents
                  */
                 show_sale_type?: boolean;
@@ -30846,6 +30953,10 @@ export type InvoiceCreateWritable = {
      */
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
+    /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
     /**
      * Bank account ID
      */
@@ -31284,6 +31395,10 @@ export type DepositInvoiceCreateWritable = {
              */
             show_late_penalty_warning_text?: boolean;
             /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
+            /**
              * Show sale type column on documents
              */
             show_sale_type?: boolean;
@@ -31488,6 +31603,14 @@ export type DepositInvoiceMetadataWritable = {
          * Display the legal Terms & Conditions at the end of your document
          */
         has_penalty_retard_warning_text?: boolean;
+        /**
+         * Early payment discount mention
+         */
+        early_payment_discount_mention_text?: string | null;
+        /**
+         * Display the early payment discount mention
+         */
+        show_early_payment_discount_mention?: boolean;
     };
     /**
      * default layout for invoices
@@ -32175,6 +32298,10 @@ export type ProgressInvoiceCreateWritable = {
              */
             show_late_penalty_warning_text?: boolean;
             /**
+             * Show the early payment discount mention
+             */
+            show_early_payment_discount_mention?: boolean;
+            /**
              * Show sale type column on documents
              */
             show_sale_type?: boolean;
@@ -32506,6 +32633,10 @@ export type CreditNoteWritable = {
      */
     is_sent_to_accounting?: boolean;
     /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
+    /**
      * Analytic code of document
      */
     analytic_code?: string | null;
@@ -32521,6 +32652,10 @@ export type CreditNoteWritable = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * E-invoicing routing address identifier for this document
      */
@@ -32573,6 +32708,7 @@ export type CreditNoteWritable = {
         invoicing_address?: _heyapi_452_;
         delivery_address?: _heyapi_452_;
         issuer_address?: _heyapi_452_;
+        payment_method_ids?: _heyapi_432_;
     };
 };
 
@@ -32759,6 +32895,10 @@ export type CreditNoteOneWritable = {
      */
     is_sent_to_accounting?: boolean;
     /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
+    /**
      * Analytic code of document
      */
     analytic_code?: string | null;
@@ -32774,6 +32914,10 @@ export type CreditNoteOneWritable = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * E-invoicing routing address identifier for this document
      */
@@ -32886,6 +33030,10 @@ export type CreditNoteCreateWritable = {
      */
     note?: string;
     /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
+    /**
      * Analytic code of document
      */
     analytic_code?: string | null;
@@ -32901,6 +33049,10 @@ export type CreditNoteCreateWritable = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
+    /**
+     * payments methods allowed on the credit note
+     */
+    payment_method_ids?: Array<number> | null;
     /**
      * Invoicing address, by default take invoicing address of company/individual.
      */
@@ -33135,6 +33287,10 @@ export type OrderCreateWritable = {
      */
     shipping_date?: string | null;
     /**
+     * Company or individual reference displayed on the document. If not provided, the reference of the linked company or individual is used.
+     */
+    company_reference?: string | null;
+    /**
      * Analytic code of document
      */
     analytic_code?: string | null;
@@ -33337,6 +33493,10 @@ export type OrderWritable = {
      */
     shipping_date?: string | null;
     /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
+    /**
      * Bank account ID
      */
     bank_account_id?: number | null;
@@ -33485,6 +33645,10 @@ export type OrderOneWritable = {
      * Date of the shipping
      */
     shipping_date?: string | null;
+    /**
+     * Company or individual reference displayed on the document.
+     */
+    company_reference?: string | null;
     /**
      * Bank account ID
      */
@@ -34986,6 +35150,14 @@ export type ProgressInvoiceMetadataWritable = {
          * Display the legal Terms & Conditions at the end of your document
          */
         has_penalty_retard_warning_text?: boolean;
+        /**
+         * Early payment discount mention
+         */
+        early_payment_discount_mention_text?: string | null;
+        /**
+         * Display the early payment discount mention
+         */
+        show_early_payment_discount_mention?: boolean;
     };
     /**
      * default layout for invoices
@@ -35973,7 +36145,7 @@ export type EInvoicingMandateInputWritable = {
      */
     legal_representative_mobile_number: string;
     /**
-     * Electronic address associated with the mandate. Required if types includes 'receipt'
+     * Electronic address associated with the mandate. Required if types includes 'receipt', and it must then start with the company SIREN. Ignored when types only includes 'issue': the address is always generated server-side as '{SIREN}_CDARTeamSystemSellsy', so any value provided is overwritten.
      */
     electronic_address?: string;
     /**
@@ -36617,12 +36789,12 @@ export type InvoiceOrder = typeof InvoiceOrder[keyof typeof InvoiceOrder];
 /**
  * Additional object included in the result
  */
-export type CreditNoteEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | _heyapi_1044_>;
+export type CreditNoteEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
 
 /**
  * Additional object included in the result
  */
-export type CreditNoteOneEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'file' | _heyapi_1044_>;
+export type CreditNoteOneEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
 
 /**
  * Order field
@@ -42912,6 +43084,10 @@ export type GetEsignEstimateResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
@@ -43018,6 +43194,10 @@ export type CreateEsignEstimateResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
@@ -44515,6 +44695,10 @@ export type GetEsignOrderResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
@@ -44621,6 +44805,10 @@ export type CreateEsignOrderResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
@@ -59818,7 +60006,7 @@ export type GetCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
     };
     url: '/credit-notes/{id}';
 };
@@ -59844,7 +60032,7 @@ export type UpdateCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
     };
     url: '/credit-notes/{id}';
 };
@@ -59882,7 +60070,7 @@ export type GetCreditNotesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
         /**
          * Order field
          */
@@ -59910,7 +60098,7 @@ export type CreateCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -59953,7 +60141,7 @@ export type SearchCreditNotesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
         /**
          * Order field
          */
@@ -66246,6 +66434,10 @@ export type GetEsignProposalDocumentResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
@@ -66352,6 +66544,10 @@ export type CreateEsignProposalDocumentResponses = {
              * Cosigner signature url
              */
             signature_url?: string;
+            /**
+             * Signature link, equivalent to the one available in the webapp.
+             */
+            public_link?: string | null;
         }>;
     };
 };
