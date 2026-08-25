@@ -1,7 +1,7 @@
 'openapi': '3.0.2'
 'info':
   'title': 'Sellsy API'
-  'version': '2.287.0'
+  'version': '2.288.0'
   'description': "Find out the [Postman collections](dist/postman/CollectionsApiV2.json) with the required [environment variables](dist/postman/Environment.json)
 
 
@@ -38321,6 +38321,8 @@
                       - 'paid'
                       - 'late'
                       - 'cancelled'
+                'lifecycle_status':
+                  '$ref': '#/components/schemas/CreditNoteFilters/properties/filters/properties/lifecycle_status'
                 'number':
                   'title': 'number'
                   'type': 'string'
@@ -42075,6 +42077,77 @@
                   - 'partialspend'
                   - 'spent'
                   - 'cancelled'
+            'lifecycle_status':
+              'title': 'E-invoicing lifecycle status'
+              'description': 'Filter the list by AFNOR e-invoicing lifecycle status code, as returned by the
+
+                `lifecycle_status.status` field. Applies on top of `status`, which targets the classic
+
+                status: a request setting both returns documents matching each of them.
+
+
+                The `Status` column is the label returned alongside the code in `lifecycle_status.label`.
+
+                Credit notes return the same labels with a masculine agreement (`Déposé`, `Encaissé`).
+
+
+                | Code | Status | Meaning |
+
+                | ---- | ------ | ------- |
+
+                | 200 | Déposée | Submitted to the platform |
+
+                | 201 | Émise | Sent by the issuer platform |
+
+                | 202 | Reçue | Received by the recipient platform |
+
+                | 203 | Mise à disposition | Made available to the recipient |
+
+                | 204 | Prise en charge | Taken in hand by the recipient |
+
+                | 205 | Approuvée | Approved |
+
+                | 206 | Approuvée partiellement | Partially approved |
+
+                | 207 | En litige | Disputed |
+
+                | 208 | Suspendue | Suspended, pending information |
+
+                | 209 | Complétée | Completed by the issuer |
+
+                | 210 | Refusée | Refused by the recipient |
+
+                | 211 | Paiement transmis | Payment sent |
+
+                | 212 | Encaissée | Payment received |
+
+                | 213 | Rejetée | Rejected by the platform |
+
+                | 501 | Irrecevable | Inadmissible, never entered the circuit |
+
+                '
+              'example':
+                - 205
+                - 212
+              'type': 'array'
+              'items':
+                'type': 'integer'
+                'enum':
+                  - 200
+                  - 201
+                  - 202
+                  - 203
+                  - 204
+                  - 205
+                  - 206
+                  - 207
+                  - 208
+                  - 209
+                  - 210
+                  - 211
+                  - 212
+                  - 213
+                  - 501
             'related_objects':
               'title': 'Related Objects'
               'type': 'array'

@@ -26123,6 +26123,9 @@ export const InvoiceFiltersSchema = {
                                 ]
                             }
                         },
+                        lifecycle_status: {
+                            $ref: '#/components/schemas/CreditNoteFilters/properties/filters/properties/lifecycle_status'
+                        },
                         number: {
                             title: 'number',
                             type: 'string',
@@ -31097,6 +31100,35 @@ export const CreditNoteFiltersSchema = {
                             'partialspend',
                             'spent',
                             'cancelled'
+                        ]
+                    }
+                },
+                lifecycle_status: {
+                    title: 'E-invoicing lifecycle status',
+                    description: 'Filter the list by AFNOR e-invoicing lifecycle status code, as returned by the\n`lifecycle_status.status` field. Applies on top of `status`, which targets the classic\nstatus: a request setting both returns documents matching each of them.\n\nThe `Status` column is the label returned alongside the code in `lifecycle_status.label`.\nCredit notes return the same labels with a masculine agreement (`Déposé`, `Encaissé`).\n\n| Code | Status | Meaning |\n| ---- | ------ | ------- |\n| 200 | Déposée | Submitted to the platform |\n| 201 | Émise | Sent by the issuer platform |\n| 202 | Reçue | Received by the recipient platform |\n| 203 | Mise à disposition | Made available to the recipient |\n| 204 | Prise en charge | Taken in hand by the recipient |\n| 205 | Approuvée | Approved |\n| 206 | Approuvée partiellement | Partially approved |\n| 207 | En litige | Disputed |\n| 208 | Suspendue | Suspended, pending information |\n| 209 | Complétée | Completed by the issuer |\n| 210 | Refusée | Refused by the recipient |\n| 211 | Paiement transmis | Payment sent |\n| 212 | Encaissée | Payment received |\n| 213 | Rejetée | Rejected by the platform |\n| 501 | Irrecevable | Inadmissible, never entered the circuit |\n',
+                    example: [
+                        205,
+                        212
+                    ],
+                    type: 'array',
+                    items: {
+                        type: 'integer',
+                        enum: [
+                            200,
+                            201,
+                            202,
+                            203,
+                            204,
+                            205,
+                            206,
+                            207,
+                            208,
+                            209,
+                            210,
+                            211,
+                            212,
+                            213,
+                            501
                         ]
                     }
                 },

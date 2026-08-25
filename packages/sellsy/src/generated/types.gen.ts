@@ -14338,6 +14338,7 @@ export type InvoiceFilters = {
          * Filter the invoice list by status
          */
         status?: Array<'draft' | 'due' | 'payinprogress' | 'paid' | 'late' | 'cancelled'>;
+        lifecycle_status?: _heyapi_730_;
         /**
          * number
          *
@@ -14582,7 +14583,7 @@ export type InvoiceCreate = {
          * Parent object id
          */
         id?: number;
-    } | _heyapi_731_ | null;
+    } | _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
@@ -15032,7 +15033,7 @@ export type DepositInvoiceUpdate = {
      * Currency code of the invoice
      */
     currency?: string;
-    related?: _heyapi_734_;
+    related?: _heyapi_735_;
     /**
      * Company or individual name displayed on the invoice. If not provided, use company_name of the parent document.
      */
@@ -15065,7 +15066,7 @@ export type DepositInvoiceUpdate = {
      * Analytic code of document
      */
     analytic_code?: string | null;
-    payment_terms?: _heyapi_735_;
+    payment_terms?: _heyapi_736_;
     /**
      * Bank account id
      */
@@ -15086,7 +15087,7 @@ export type DepositInvoiceUpdate = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
-    settings?: _heyapi_736_;
+    settings?: _heyapi_737_;
     /**
      * Sale type of the document: product (goods), service, or mixed. If not provided, it is automatically detected from the document rows.
      */
@@ -15101,7 +15102,7 @@ export type DepositInvoiceUpdate = {
  * Prepare Deposit Invoice
  */
 export type DepositInvoicePrepareInput = {
-    parent: _heyapi_738_;
+    parent: _heyapi_739_;
     /**
      * Percentage  is based on the remaining amount of parent document. <br/> <ul>
      * <li>If the parent document has 100€ at 20% VAT and there is already a deposit invoice of 60€, the remaining amount is 40€. </li>
@@ -15160,12 +15161,12 @@ export type DepositInvoicePrepareOutput = {
  * Deposit Invoice Compute
  */
 export type DepositInvoiceComputeInput = {
-    parent: _heyapi_738_;
+    parent: _heyapi_739_;
     /**
      * Rows of the deposit invoice. There must be as many deposit lines as there are VAT rates in the parent document. For example, if the parent document has products with VAT rates of 20% and 5.5%, there must be two 'deposit' rows."
      *
      */
-    rows: Array<_heyapi_741_ | _heyapi_742_ | _heyapi_425_ | _heyapi_424_>;
+    rows: Array<_heyapi_742_ | _heyapi_743_ | _heyapi_425_ | _heyapi_424_>;
     /**
      * Deposit invoice id, if already created
      */
@@ -15283,8 +15284,8 @@ export type DepositInvoiceComputeOutput = {
 };
 
 export type DepositInvoiceOne = _heyapi_572_ & {
-    rows?: Array<_heyapi_745_ | _heyapi_424_ | _heyapi_425_>;
-    _embed?: _heyapi_746_;
+    rows?: Array<_heyapi_746_ | _heyapi_424_ | _heyapi_425_>;
+    _embed?: _heyapi_747_;
 };
 
 /**
@@ -15293,7 +15294,7 @@ export type DepositInvoiceOne = _heyapi_572_ & {
  * Deposit Invoices filters
  */
 export type DepositInvoiceFilter = {
-    filters: _heyapi_748_;
+    filters: _heyapi_749_;
 };
 
 /**
@@ -15302,19 +15303,19 @@ export type DepositInvoiceFilter = {
 export type DepositInvoiceMetadata = {
     parent?: (_heyapi_477_ & {
         rows: Array<_heyapi_484_>;
-    }) | (_heyapi_750_ & {
+    }) | (_heyapi_751_ & {
         rows?: Array<_heyapi_484_>;
-        _embed?: _heyapi_751_;
-    }) | (_heyapi_752_ & {
+        _embed?: _heyapi_752_;
+    }) | (_heyapi_753_ & {
         rows?: Array<_heyapi_484_>;
-        _embed?: _heyapi_753_;
+        _embed?: _heyapi_754_;
     });
     /**
      * Current invoice, exist only if invoice type is used
      */
     document?: (_heyapi_572_ & {
-        rows?: Array<_heyapi_745_ | _heyapi_424_ | _heyapi_425_>;
-        _embed?: _heyapi_746_;
+        rows?: Array<_heyapi_746_ | _heyapi_424_ | _heyapi_425_>;
+        _embed?: _heyapi_747_;
     }) | null;
     law_texts?: {
         /**
@@ -15470,11 +15471,11 @@ export type DepositInvoiceMetadata = {
     /**
      * List of document layouts
      */
-    document_layouts?: Array<_heyapi_754_>;
+    document_layouts?: Array<_heyapi_755_>;
     /**
      * List of languages
      */
-    languages?: Array<_heyapi_755_>;
+    languages?: Array<_heyapi_756_>;
     /**
      * List of payment terms
      */
@@ -15511,7 +15512,7 @@ export type DepositInvoiceMetadata = {
             /**
              * Payment term translations
              */
-            translations?: Array<_heyapi_756_>;
+            translations?: Array<_heyapi_757_>;
         };
     }>;
     /**
@@ -15538,7 +15539,7 @@ export type DepositInvoiceMetadata = {
             /**
              * Assigned staff translations
              */
-            translations?: Array<_heyapi_757_>;
+            translations?: Array<_heyapi_758_>;
         };
     }>;
     permissions?: {
@@ -15780,13 +15781,13 @@ export type ProgressInvoiceCreate = {
          * Bar code ID for progress-catalog row
          */
         sku_id?: number | null;
-    }) | (_heyapi_759_ & {
+    }) | (_heyapi_760_ & {
         type?: 'progress-single';
         /**
          * Purchase amount
          */
         purchase_amount?: string;
-    }) | (_heyapi_759_ & {
+    }) | (_heyapi_760_ & {
         type?: 'progress-shipping' | 'progress-packaging';
     }) | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
     /**
@@ -16129,7 +16130,7 @@ export type ProgressInvoiceCompute = {
      * Rows of the progress invoice. There must be at least one progress row.
      *
      */
-    rows: Array<_heyapi_426_ | _heyapi_761_ | _heyapi_762_ | _heyapi_763_ | _heyapi_424_ | ({
+    rows: Array<_heyapi_426_ | _heyapi_762_ | _heyapi_763_ | _heyapi_764_ | _heyapi_424_ | ({
         /**
          * ID of the progress invoice row
          */
@@ -16163,12 +16164,12 @@ export type ProgressInvoiceCompute = {
          * Bar code ID for progress-catalog row
          */
         sku_id?: number | null;
-    }) | (_heyapi_764_ & {
+    }) | (_heyapi_765_ & {
         /**
          * Purchase amount
          */
         purchase_amount?: string;
-    }) | _heyapi_764_ | {
+    }) | _heyapi_765_ | {
         /**
          * Row Identifier
          */
@@ -16419,12 +16420,12 @@ export type ComputedProgresssInvoice = {
         /**
          * Credit notes linked to the invoice
          */
-        credit_notes?: Array<_heyapi_766_>;
+        credit_notes?: Array<_heyapi_767_>;
     }>;
 };
 
-export type InvoiceUpdate = _heyapi_768_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type InvoiceUpdate = _heyapi_769_ & {
+    rows?: Array<_heyapi_770_> | null;
     settings?: _heyapi_474_;
 };
 
@@ -16725,9 +16726,9 @@ export type CreditNote = {
     /**
      * Credit Note Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         owner?: _heyapi_438_;
         /**
          * Credit Note ACL
@@ -17027,10 +17028,10 @@ export type CreditNoteOne = {
          */
         label?: string;
     } | null;
-    _embed?: _heyapi_775_;
+    _embed?: _heyapi_776_;
 } & {
     rows?: Array<_heyapi_484_>;
-    _embed?: _heyapi_775_ & _heyapi_721_ & {
+    _embed?: _heyapi_776_ & _heyapi_721_ & {
         file?: _heyapi_640_;
     };
 };
@@ -17159,15 +17160,15 @@ export type CreditNoteCreate = {
     einvoicing_electronic_address?: string | null;
 } & {
     rows?: Array<_heyapi_484_> | null;
-    parent?: _heyapi_731_ | null;
+    parent?: _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
     rate_category_id?: number;
 };
 
-export type CreditNoteUpdate = _heyapi_778_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type CreditNoteUpdate = _heyapi_779_ & {
+    rows?: Array<_heyapi_770_> | null;
 };
 
 export type CreditNoteValidate = {
@@ -17314,6 +17315,36 @@ export type CreditNoteFilters = {
          * Filter credit notes list by status
          */
         status?: Array<'draft' | 'stored' | 'partialspend' | 'spent' | 'cancelled'>;
+        /**
+         * E-invoicing lifecycle status
+         *
+         * Filter the list by AFNOR e-invoicing lifecycle status code, as returned by the
+         * `lifecycle_status.status` field. Applies on top of `status`, which targets the classic
+         * status: a request setting both returns documents matching each of them.
+         *
+         * The `Status` column is the label returned alongside the code in `lifecycle_status.label`.
+         * Credit notes return the same labels with a masculine agreement (`Déposé`, `Encaissé`).
+         *
+         * | Code | Status | Meaning |
+         * | ---- | ------ | ------- |
+         * | 200 | Déposée | Submitted to the platform |
+         * | 201 | Émise | Sent by the issuer platform |
+         * | 202 | Reçue | Received by the recipient platform |
+         * | 203 | Mise à disposition | Made available to the recipient |
+         * | 204 | Prise en charge | Taken in hand by the recipient |
+         * | 205 | Approuvée | Approved |
+         * | 206 | Approuvée partiellement | Partially approved |
+         * | 207 | En litige | Disputed |
+         * | 208 | Suspendue | Suspended, pending information |
+         * | 209 | Complétée | Completed by the issuer |
+         * | 210 | Refusée | Refused by the recipient |
+         * | 211 | Paiement transmis | Payment sent |
+         * | 212 | Encaissée | Payment received |
+         * | 213 | Rejetée | Rejected by the platform |
+         * | 501 | Irrecevable | Inadmissible, never entered the circuit |
+         *
+         */
+        lifecycle_status?: Array<200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 209 | 210 | 211 | 212 | 213 | 501>;
         /**
          * Related Objects
          */
@@ -17485,7 +17516,7 @@ export type OrderCreate = {
     shipping_volume?: string;
 } & {
     rows?: Array<_heyapi_484_> | null;
-    parent?: _heyapi_731_ | null;
+    parent?: _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
@@ -17493,8 +17524,8 @@ export type OrderCreate = {
     settings?: _heyapi_474_;
 };
 
-export type OrderUpdate = _heyapi_784_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type OrderUpdate = _heyapi_785_ & {
+    rows?: Array<_heyapi_770_> | null;
     settings?: _heyapi_474_;
 };
 
@@ -17704,7 +17735,7 @@ export type Order = {
     /**
      * Order Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Order ACL
          */
@@ -17720,7 +17751,7 @@ export type Order = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -17987,7 +18018,7 @@ export type OrderOne = {
      * Notes of the order
      */
     note?: string;
-    _embed?: _heyapi_787_;
+    _embed?: _heyapi_788_;
     /**
      * Date of the shipping
      */
@@ -18047,7 +18078,7 @@ export type OrderOne = {
     /**
      * Order Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Document Payment Terms
          *
@@ -18088,7 +18119,7 @@ export type OrderOne = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -18482,7 +18513,7 @@ export type Delivery = {
     /**
      * Delivery Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Delivery ACL
          */
@@ -18498,7 +18529,7 @@ export type Delivery = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -18749,10 +18780,10 @@ export type DeliveryOne = {
      * Total volume of product to ship in m3
      */
     shipping_volume?: string;
-    _embed?: _heyapi_792_;
+    _embed?: _heyapi_793_;
 } & {
     rows?: Array<_heyapi_484_>;
-    _embed?: _heyapi_792_ & {
+    _embed?: _heyapi_793_ & {
         file?: _heyapi_640_;
     };
 };
@@ -19237,7 +19268,7 @@ export type ImportPrepareInput = {
             service: [
                 'id' | 'reference'
             ];
-        } | _heyapi_808_ | {
+        } | _heyapi_809_ | {
             /**
              * List of identifiers
              */
@@ -19834,7 +19865,7 @@ export type ImportPrepareInput = {
         /**
          * Rate category ids and corresponding prices
          */
-        prices?: Array<_heyapi_809_>;
+        prices?: Array<_heyapi_810_>;
     } | {
         /**
          * Row id
@@ -19916,11 +19947,11 @@ export type ImportValidateInput = {
      * Batch id
      */
     batch_id: string;
-    metadata: _heyapi_811_;
+    metadata: _heyapi_812_;
     /**
      * Rows to validate
      */
-    data: Array<_heyapi_812_ | _heyapi_813_ | _heyapi_814_ | _heyapi_815_ | _heyapi_816_ | _heyapi_817_ | _heyapi_818_>;
+    data: Array<_heyapi_813_ | _heyapi_814_ | _heyapi_815_ | _heyapi_816_ | _heyapi_817_ | _heyapi_818_ | _heyapi_819_>;
 };
 
 /**
@@ -20179,8 +20210,8 @@ export type UpdateCompanyPreferences = {
             value: 'id';
             id: number;
         };
-        invoice?: _heyapi_822_ | _heyapi_823_ | _heyapi_824_;
-        proforma?: _heyapi_822_ | _heyapi_823_ | _heyapi_824_;
+        invoice?: _heyapi_823_ | _heyapi_824_ | _heyapi_825_;
+        proforma?: _heyapi_823_ | _heyapi_824_ | _heyapi_825_;
     };
     /**
      * Id of the rate category selected.
@@ -20210,7 +20241,7 @@ export type IndividualPreferences = {
          */
         label?: string;
     } | null;
-    tax?: _heyapi_826_;
+    tax?: _heyapi_827_;
     /**
      * Individual preferred pay date.
      */
@@ -20398,8 +20429,8 @@ export type UpdateIndividualPreferences = {
             value: 'id';
             id: number;
         };
-        invoice?: _heyapi_828_ | _heyapi_829_ | _heyapi_830_;
-        proforma?: _heyapi_828_ | _heyapi_829_ | _heyapi_830_;
+        invoice?: _heyapi_829_ | _heyapi_830_ | _heyapi_831_;
+        proforma?: _heyapi_829_ | _heyapi_830_ | _heyapi_831_;
     };
     /**
      * Id of the rate category selected.
@@ -20919,7 +20950,7 @@ export type ProformaInvoiceOne = {
     /**
      * Proforma Invoice Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Proforma Invoice ACL
          */
@@ -20935,7 +20966,7 @@ export type ProformaInvoiceOne = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -20996,7 +21027,7 @@ export type ProformaInvoiceOne = {
     /**
      * Proforma Invoice Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & _heyapi_721_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & _heyapi_721_ & {
         /**
          * Proforma Invoice ACL
          */
@@ -21012,7 +21043,7 @@ export type ProformaInvoiceOne = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -21326,8 +21357,8 @@ export type SubscriptionCreate = {
      * - An optional contact can be added, it must be linked to the provided company.
      *
      */
-    related: Array<_heyapi_841_>;
-    sending: _heyapi_842_;
+    related: Array<_heyapi_842_>;
+    sending: _heyapi_843_;
     /**
      * Source of payment preferences
      */
@@ -21345,7 +21376,7 @@ export type SubscriptionCreate = {
         /**
          * Interval for subscription deadlines
          */
-        interval: _heyapi_843_ | _heyapi_844_ | _heyapi_845_;
+        interval: _heyapi_844_ | _heyapi_845_ | _heyapi_846_;
     };
     /**
      * Subscription payment installments to be generated
@@ -21439,7 +21470,7 @@ export type SubscriptionCreate = {
  * Put subscription
  */
 export type SubscriptionPut = {
-    sending?: _heyapi_842_;
+    sending?: _heyapi_843_;
     /**
      * Source of payment preferences
      */
@@ -21590,9 +21621,9 @@ export type ObjectiveCollectionOutput = {
          * Objective name
          */
         name: string;
-        category: _heyapi_850_;
-        turnover: _heyapi_851_;
-        period: _heyapi_852_;
+        category: _heyapi_851_;
+        turnover: _heyapi_852_;
+        period: _heyapi_853_;
         item: {
             /**
              * linked Item id
@@ -21603,16 +21634,16 @@ export type ObjectiveCollectionOutput = {
              */
             name: string;
         } | null;
-        item_category: _heyapi_853_;
+        item_category: _heyapi_854_;
         /**
          * Refinements of the objective
          */
         refinements: Array<{
-            period?: _heyapi_852_;
-            turnover?: _heyapi_851_;
+            period?: _heyapi_853_;
+            turnover?: _heyapi_852_;
         }>;
-        assignee: _heyapi_854_;
-        links: _heyapi_855_;
+        assignee: _heyapi_855_;
+        links: _heyapi_856_;
     } & {
         _embed?: {
             created_by?: _heyapi_438_;
@@ -21634,8 +21665,8 @@ export type ObjectiveTurnoverInput = {
      * Code of an existing objective category
      */
     category: 'turnover' | 'forecast_turnover';
-    period: _heyapi_852_;
-    assignee: _heyapi_857_;
+    period: _heyapi_853_;
+    assignee: _heyapi_858_;
 } & unknown & {
     /**
      * Linked item id
@@ -21681,7 +21712,7 @@ export type ObjectiveTurnoverInput = {
              */
             date_end: string;
         };
-        turnover?: _heyapi_858_;
+        turnover?: _heyapi_859_;
     }>;
 };
 
@@ -21753,8 +21784,8 @@ export type ObjectiveOutput = {
      * Turnover
      */
     turnover: {
-        expected: _heyapi_858_;
-        actual: _heyapi_858_;
+        expected: _heyapi_859_;
+        actual: _heyapi_859_;
         /**
          * Progression of the objective
          */
@@ -21768,7 +21799,7 @@ export type ObjectiveOutput = {
          */
         days_left: number;
     };
-    period: _heyapi_852_;
+    period: _heyapi_853_;
     item: {
         /**
          * linked Item id
@@ -21793,8 +21824,8 @@ export type ObjectiveOutput = {
      * Refinements of the objective
      */
     refinements: Array<{
-        period?: _heyapi_852_;
-        turnover?: _heyapi_851_;
+        period?: _heyapi_853_;
+        turnover?: _heyapi_852_;
     }>;
     /**
      * Assignee
@@ -21815,7 +21846,7 @@ export type ObjectiveOutput = {
          */
         name?: string;
     };
-    links: _heyapi_855_;
+    links: _heyapi_856_;
 };
 
 /**
@@ -21827,7 +21858,7 @@ export type ObjectiveMetadata = {
      */
     turnover?: {
         data?: {
-            category: _heyapi_850_;
+            category: _heyapi_851_;
             currency: string;
             assignees_types: Array<{
                 value: string;
@@ -21835,14 +21866,14 @@ export type ObjectiveMetadata = {
                 order: number;
             }>;
             assignees: Array<{
-                groups?: Array<_heyapi_862_>;
-                staffs?: Array<_heyapi_862_>;
+                groups?: Array<_heyapi_863_>;
+                staffs?: Array<_heyapi_863_>;
             }>;
-            item_categories: Array<_heyapi_862_ & {
+            item_categories: Array<_heyapi_863_ & {
                 parent?: number | null;
                 logo?: string | null;
             }>;
-            durations: Array<_heyapi_862_ & {
+            durations: Array<_heyapi_863_ & {
                 period?: {
                     /**
                      * The start date
@@ -21871,20 +21902,20 @@ export type ObjectiveMetadata = {
             /**
              * List of Assignees
              */
-            assignee?: Array<_heyapi_863_>;
+            assignee?: Array<_heyapi_864_>;
             /**
              * List of Categories
              */
-            category?: Array<_heyapi_864_>;
+            category?: Array<_heyapi_865_>;
         };
         metadata?: {
             choose_product?: boolean;
             create_new_staff?: boolean;
             create_new_group?: boolean;
         };
-        _links?: _heyapi_855_;
+        _links?: _heyapi_856_;
     };
-    forecast_turnover?: _heyapi_865_;
+    forecast_turnover?: _heyapi_866_;
 };
 
 /**
@@ -21896,7 +21927,7 @@ export type ObjectiveMetadataUpsell = {
      */
     turnover?: {
         data?: {
-            assignees_types: Array<_heyapi_862_ & {
+            assignees_types: Array<_heyapi_863_ & {
                 /**
                  * upsell
                  */
@@ -21908,11 +21939,11 @@ export type ObjectiveMetadataUpsell = {
         };
         metadata?: {
             choose_product: {
-                upsell: _heyapi_867_;
+                upsell: _heyapi_868_;
             };
         };
     };
-    forecast_turnover?: _heyapi_868_;
+    forecast_turnover?: _heyapi_869_;
 };
 
 export type ObjectiveComputeTurnoverInput = {
@@ -21923,7 +21954,7 @@ export type ObjectiveComputeTurnoverInput = {
     /**
      * Period used to compute the turnover
      */
-    period: _heyapi_852_;
+    period: _heyapi_853_;
     /**
      * linked item id used to compute the turnover
      */
@@ -21953,11 +21984,11 @@ export type ObjectiveComputeTurnoverOutput = Array<{
     /**
      * Period used to compute the turnover
      */
-    period: _heyapi_852_;
+    period: _heyapi_853_;
     /**
      * The computed turnover
      */
-    turnover: _heyapi_858_;
+    turnover: _heyapi_859_;
 }>;
 
 /**
@@ -21968,13 +21999,13 @@ export type ObjectiveTurnoverUpdateInput = {
      * Objective name
      */
     name: string;
-    turnover: _heyapi_858_;
+    turnover: _heyapi_859_;
     /**
      * Refinements of the objective
      */
     refinements: Array<{
-        period?: _heyapi_852_;
-        turnover?: _heyapi_858_;
+        period?: _heyapi_853_;
+        turnover?: _heyapi_859_;
     }>;
 };
 
@@ -22215,16 +22246,16 @@ export type MarketingAttributeDiffOutput = {
     /**
      * List of new Marketing Attributes to create
      */
-    create: Array<_heyapi_879_>;
+    create: Array<_heyapi_880_>;
     /**
      * List of previous Marketing Attributes to delete
      */
-    delete: Array<_heyapi_879_>;
+    delete: Array<_heyapi_880_>;
     /**
      * List of Marketing Attributes unchanged
      */
-    void: Array<_heyapi_879_>;
-    links: _heyapi_880_;
+    void: Array<_heyapi_880_>;
+    links: _heyapi_881_;
 };
 
 /**
@@ -22349,7 +22380,7 @@ export type ConsentSettingsOuput = {
     }>;
 };
 
-export type ConsentSettingsInput = _heyapi_885_;
+export type ConsentSettingsInput = _heyapi_886_;
 
 /**
  * The marketing consent settings
@@ -22368,7 +22399,7 @@ export type ConsentMarketingSettingsInput = {
  * Progress Invoice Metadata
  */
 export type ProgressInvoiceMetadata = {
-    parent?: (_heyapi_888_ & {
+    parent?: (_heyapi_889_ & {
         /**
          * Rate category with taxes included
          */
@@ -22377,7 +22408,7 @@ export type ProgressInvoiceMetadata = {
          * Progress invoice mode
          */
         progress_invoice_mode?: 'global' | 'per-line';
-    }) | (_heyapi_889_ & {
+    }) | (_heyapi_890_ & {
         /**
          * Rate category with taxes included
          */
@@ -22396,12 +22427,12 @@ export type ProgressInvoiceMetadata = {
      * Invoice related to the progress invoice, exist only if invoice type is used
      */
     document?: (_heyapi_572_ & {
-        rows?: Array<_heyapi_890_ | _heyapi_891_ | _heyapi_892_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
+        rows?: Array<_heyapi_891_ | _heyapi_892_ | _heyapi_893_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
         /**
          * The next available progress invoice number
          */
         next_progress_invoice_number?: number | null;
-        _embed?: _heyapi_893_;
+        _embed?: _heyapi_894_;
     } & {
         /**
          * Rate category with taxes included
@@ -22541,7 +22572,7 @@ export type ProgressInvoiceMetadata = {
     /**
      * List of bank accounts
      */
-    'bank-accounts'?: Array<_heyapi_894_>;
+    'bank-accounts'?: Array<_heyapi_895_>;
     /**
      * List of VAT modes
      */
@@ -22592,11 +22623,11 @@ export type ProgressInvoiceMetadata = {
     /**
      * List of document layouts
      */
-    document_layouts?: Array<_heyapi_754_>;
+    document_layouts?: Array<_heyapi_755_>;
     /**
      * List of languages
      */
-    languages?: Array<_heyapi_755_>;
+    languages?: Array<_heyapi_756_>;
     /**
      * Tax with embed
      *
@@ -22776,11 +22807,11 @@ export type ProgressInvoiceMetadata = {
     /**
      * List of payment terms
      */
-    payment_terms?: Array<_heyapi_895_>;
+    payment_terms?: Array<_heyapi_896_>;
     /**
      * List assigned staff labels
      */
-    assigned_staff_labels?: Array<_heyapi_896_>;
+    assigned_staff_labels?: Array<_heyapi_897_>;
     /**
      * Computed progress invoice
      */
@@ -22979,11 +23010,11 @@ export type ProgressInvoiceMetadata = {
         /**
          * Summary of all document history (includes current document)
          */
-        summary?: Array<_heyapi_766_ & {
+        summary?: Array<_heyapi_767_ & {
             /**
              * Credit notes linked to the invoice
              */
-            credit_notes?: Array<_heyapi_766_>;
+            credit_notes?: Array<_heyapi_767_>;
         }>;
     };
     /**
@@ -23130,7 +23161,7 @@ export type ProgressInvoiceMetadata = {
     /**
      * List of packagings
      */
-    packagings?: Array<_heyapi_897_>;
+    packagings?: Array<_heyapi_898_>;
     /**
      * List of civilities
      */
@@ -23152,7 +23183,7 @@ export type ProgressInvoiceMetadata = {
      * Compliance state of the parent document on creation, or of the edited document on update
      */
     is_document_compliant?: boolean;
-    company_einvoicing?: _heyapi_898_;
+    company_einvoicing?: _heyapi_899_;
     /**
      * E-invoicing routing address identifier (document value if set, otherwise third default)
      */
@@ -23163,7 +23194,7 @@ export type ProgressInvoiceMetadata = {
  * Update Progress Invoice
  */
 export type ProgressInvoiceUpdate = {
-    rows?: Array<_heyapi_761_ | _heyapi_762_ | _heyapi_763_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_ | _heyapi_900_ | _heyapi_901_ | _heyapi_764_ | _heyapi_469_ | _heyapi_470_ | _heyapi_471_ | {
+    rows?: Array<_heyapi_762_ | _heyapi_763_ | _heyapi_764_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_ | _heyapi_901_ | _heyapi_902_ | _heyapi_765_ | _heyapi_469_ | _heyapi_470_ | _heyapi_471_ | {
         /**
          * Row Identifier
          */
@@ -23178,7 +23209,7 @@ export type ProgressInvoiceUpdate = {
      * Date of the invoice
      */
     date?: string;
-    validate?: _heyapi_902_;
+    validate?: _heyapi_903_;
     /**
      * Subject of the invoice
      */
@@ -23282,7 +23313,7 @@ export type ProgressInvoiceUpdate = {
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
     payment_terms?: _heyapi_468_;
-    settings?: _heyapi_903_;
+    settings?: _heyapi_904_;
     /**
      * Analytic code of document
      */
@@ -23507,7 +23538,7 @@ export type ProposalModel = {
 /**
  * Proposal document
  */
-export type ProposalDocument = _heyapi_911_ & {
+export type ProposalDocument = _heyapi_912_ & {
     /**
      * Proposal document link
      */
@@ -31037,7 +31068,7 @@ export type InvoiceCreateWritable = {
          * Parent object id
          */
         id?: number;
-    } | _heyapi_731_ | null;
+    } | _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
@@ -31483,7 +31514,7 @@ export type DepositInvoiceUpdateWritable = {
      * Currency code of the invoice
      */
     currency?: string;
-    related?: _heyapi_734_;
+    related?: _heyapi_735_;
     /**
      * Company or individual name displayed on the invoice. If not provided, use company_name of the parent document.
      */
@@ -31516,7 +31547,7 @@ export type DepositInvoiceUpdateWritable = {
      * Analytic code of document
      */
     analytic_code?: string | null;
-    payment_terms?: _heyapi_735_;
+    payment_terms?: _heyapi_736_;
     /**
      * Bank account id
      */
@@ -31537,7 +31568,7 @@ export type DepositInvoiceUpdateWritable = {
      * Language in which the dynamic elements of the document will be displayed (Descriptions and product names, payment methods, payment terms, etc.). Send null to use the default language.
      */
     lang_id?: number | null;
-    settings?: _heyapi_736_;
+    settings?: _heyapi_737_;
     /**
      * Sale type of the document: product (goods), service, or mixed. If not provided, it is automatically detected from the document rows.
      */
@@ -31552,12 +31583,12 @@ export type DepositInvoiceUpdateWritable = {
  * Deposit Invoice Compute
  */
 export type DepositInvoiceComputeInputWritable = {
-    parent: _heyapi_738_;
+    parent: _heyapi_739_;
     /**
      * Rows of the deposit invoice. There must be as many deposit lines as there are VAT rates in the parent document. For example, if the parent document has products with VAT rates of 20% and 5.5%, there must be two 'deposit' rows."
      *
      */
-    rows: Array<_heyapi_741_ | _heyapi_742_ | _heyapi_425_ | _heyapi_424_>;
+    rows: Array<_heyapi_742_ | _heyapi_743_ | _heyapi_425_ | _heyapi_424_>;
     /**
      * Deposit invoice id, if already created
      */
@@ -31565,8 +31596,8 @@ export type DepositInvoiceComputeInputWritable = {
 };
 
 export type DepositInvoiceOneWritable = _heyapi_572_ & {
-    rows?: Array<_heyapi_745_ | _heyapi_424_ | _heyapi_425_>;
-    _embed?: _heyapi_746_;
+    rows?: Array<_heyapi_746_ | _heyapi_424_ | _heyapi_425_>;
+    _embed?: _heyapi_747_;
 };
 
 /**
@@ -31575,16 +31606,16 @@ export type DepositInvoiceOneWritable = _heyapi_572_ & {
 export type DepositInvoiceMetadataWritable = {
     parent?: (_heyapi_477_ & {
         rows: Array<_heyapi_484_>;
-    }) | (_heyapi_750_ & {
+    }) | (_heyapi_751_ & {
         rows?: Array<_heyapi_484_>;
-    }) | (_heyapi_752_ & {
+    }) | (_heyapi_753_ & {
         rows?: Array<_heyapi_484_>;
     });
     /**
      * Current invoice, exist only if invoice type is used
      */
     document?: (_heyapi_572_ & {
-        rows?: Array<_heyapi_745_ | _heyapi_424_ | _heyapi_425_>;
+        rows?: Array<_heyapi_746_ | _heyapi_424_ | _heyapi_425_>;
     }) | null;
     law_texts?: {
         /**
@@ -31736,11 +31767,11 @@ export type DepositInvoiceMetadataWritable = {
     /**
      * List of document layouts
      */
-    document_layouts?: Array<_heyapi_754_>;
+    document_layouts?: Array<_heyapi_755_>;
     /**
      * List of languages
      */
-    languages?: Array<_heyapi_755_>;
+    languages?: Array<_heyapi_756_>;
     /**
      * List of payment terms
      */
@@ -31777,7 +31808,7 @@ export type DepositInvoiceMetadataWritable = {
             /**
              * Payment term translations
              */
-            translations?: Array<_heyapi_756_>;
+            translations?: Array<_heyapi_757_>;
         };
     }>;
     /**
@@ -31804,7 +31835,7 @@ export type DepositInvoiceMetadataWritable = {
             /**
              * Assigned staff translations
              */
-            translations?: Array<_heyapi_757_>;
+            translations?: Array<_heyapi_758_>;
         };
     }>;
     permissions?: {
@@ -32046,13 +32077,13 @@ export type ProgressInvoiceCreateWritable = {
          * Bar code ID for progress-catalog row
          */
         sku_id?: number | null;
-    }) | (_heyapi_759_ & {
+    }) | (_heyapi_760_ & {
         type?: 'progress-single';
         /**
          * Purchase amount
          */
         purchase_amount?: string;
-    }) | (_heyapi_759_ & {
+    }) | (_heyapi_760_ & {
         type?: 'progress-shipping' | 'progress-packaging';
     }) | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
     /**
@@ -32395,7 +32426,7 @@ export type ProgressInvoiceComputeWritable = {
      * Rows of the progress invoice. There must be at least one progress row.
      *
      */
-    rows: Array<_heyapi_426_ | _heyapi_761_ | _heyapi_762_ | _heyapi_763_ | _heyapi_424_ | ({
+    rows: Array<_heyapi_426_ | _heyapi_762_ | _heyapi_763_ | _heyapi_764_ | _heyapi_424_ | ({
         /**
          * ID of the progress invoice row
          */
@@ -32429,12 +32460,12 @@ export type ProgressInvoiceComputeWritable = {
          * Bar code ID for progress-catalog row
          */
         sku_id?: number | null;
-    }) | (_heyapi_764_ & {
+    }) | (_heyapi_765_ & {
         /**
          * Purchase amount
          */
         purchase_amount?: string;
-    }) | _heyapi_764_ | {
+    }) | _heyapi_765_ | {
         /**
          * Row Identifier
          */
@@ -32442,8 +32473,8 @@ export type ProgressInvoiceComputeWritable = {
     }>;
 };
 
-export type InvoiceUpdateWritable = _heyapi_768_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type InvoiceUpdateWritable = _heyapi_769_ & {
+    rows?: Array<_heyapi_770_> | null;
     settings?: _heyapi_474_;
 };
 
@@ -32680,9 +32711,9 @@ export type CreditNoteWritable = {
     /**
      * Credit Note Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         owner?: _heyapi_438_;
         /**
          * Credit Note ACL
@@ -32939,10 +32970,10 @@ export type CreditNoteOneWritable = {
          */
         label?: string;
     } | null;
-    _embed?: _heyapi_775_;
+    _embed?: _heyapi_776_;
 } & {
     rows?: Array<_heyapi_484_>;
-    _embed?: _heyapi_775_ & _heyapi_721_ & {
+    _embed?: _heyapi_776_ & _heyapi_721_ & {
         file?: _heyapi_640_;
     };
 };
@@ -33071,15 +33102,15 @@ export type CreditNoteCreateWritable = {
     einvoicing_electronic_address?: string | null;
 } & {
     rows?: Array<_heyapi_484_> | null;
-    parent?: _heyapi_731_ | null;
+    parent?: _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
     rate_category_id?: number;
 };
 
-export type CreditNoteUpdateWritable = _heyapi_778_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type CreditNoteUpdateWritable = _heyapi_779_ & {
+    rows?: Array<_heyapi_770_> | null;
 };
 
 /**
@@ -33342,7 +33373,7 @@ export type OrderCreateWritable = {
     shipping_volume?: string;
 } & {
     rows?: Array<_heyapi_484_> | null;
-    parent?: _heyapi_731_ | null;
+    parent?: _heyapi_732_ | null;
     /**
      * Rate Category to apply on document (By default, the rate_category_id will be that of company)
      */
@@ -33350,8 +33381,8 @@ export type OrderCreateWritable = {
     settings?: _heyapi_474_;
 };
 
-export type OrderUpdateWritable = _heyapi_784_ & {
-    rows?: Array<_heyapi_769_> | null;
+export type OrderUpdateWritable = _heyapi_785_ & {
+    rows?: Array<_heyapi_770_> | null;
     settings?: _heyapi_474_;
 };
 
@@ -33461,7 +33492,7 @@ export type OrderWritable = {
     /**
      * Order Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Order ACL
          */
@@ -33477,7 +33508,7 @@ export type OrderWritable = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -33640,7 +33671,7 @@ export type OrderOneWritable = {
      * Notes of the order
      */
     note?: string;
-    _embed?: _heyapi_787_;
+    _embed?: _heyapi_788_;
     /**
      * Date of the shipping
      */
@@ -33696,7 +33727,7 @@ export type OrderOneWritable = {
     /**
      * Order Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Document Payment Terms
          *
@@ -33737,7 +33768,7 @@ export type OrderOneWritable = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -33949,7 +33980,7 @@ export type DeliveryWritable = {
     /**
      * Delivery Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Delivery ACL
          */
@@ -33965,7 +33996,7 @@ export type DeliveryWritable = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -34113,7 +34144,7 @@ export type DeliveryOneWritable = {
      * Total volume of product to ship in m3
      */
     shipping_volume?: string;
-    _embed?: _heyapi_792_;
+    _embed?: _heyapi_793_;
 } & {
     rows?: Array<_heyapi_484_>;
 };
@@ -34392,7 +34423,7 @@ export type IndividualPreferencesWritable = {
          */
         label?: string;
     } | null;
-    tax?: _heyapi_826_;
+    tax?: _heyapi_827_;
     /**
      * Individual preferred pay date.
      */
@@ -34912,7 +34943,7 @@ export type ProformaInvoiceOneWritable = {
     /**
      * Proforma Invoice Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & {
         /**
          * Proforma Invoice ACL
          */
@@ -34928,7 +34959,7 @@ export type ProformaInvoiceOneWritable = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -34981,7 +35012,7 @@ export type ProformaInvoiceOneWritable = {
     /**
      * Proforma Invoice Embed
      */
-    _embed?: _heyapi_772_ & _heyapi_454_ & _heyapi_721_ & {
+    _embed?: _heyapi_773_ & _heyapi_454_ & _heyapi_721_ & {
         /**
          * Proforma Invoice ACL
          */
@@ -34997,7 +35028,7 @@ export type ProformaInvoiceOneWritable = {
         };
         owner?: _heyapi_438_;
         fiscal_year?: _heyapi_480_;
-        currency?: _heyapi_773_;
+        currency?: _heyapi_774_;
         /**
          * Smart-tags linked
          */
@@ -35024,9 +35055,9 @@ export type ObjectiveCollectionOutputWritable = {
          * Objective name
          */
         name: string;
-        category: _heyapi_850_;
-        turnover: _heyapi_851_;
-        period: _heyapi_852_;
+        category: _heyapi_851_;
+        turnover: _heyapi_852_;
+        period: _heyapi_853_;
         item: {
             /**
              * linked Item id
@@ -35037,16 +35068,16 @@ export type ObjectiveCollectionOutputWritable = {
              */
             name: string;
         } | null;
-        item_category: _heyapi_853_;
+        item_category: _heyapi_854_;
         /**
          * Refinements of the objective
          */
         refinements: Array<{
-            period?: _heyapi_852_;
-            turnover?: _heyapi_851_;
+            period?: _heyapi_853_;
+            turnover?: _heyapi_852_;
         }>;
-        assignee: _heyapi_854_;
-        links: _heyapi_855_;
+        assignee: _heyapi_855_;
+        links: _heyapi_856_;
     } & {
         _embed?: {
             created_by?: _heyapi_438_;
@@ -35094,7 +35125,7 @@ export type DiscountInclTaxesOutputWritable = {
  * Progress Invoice Metadata
  */
 export type ProgressInvoiceMetadataWritable = {
-    parent?: (_heyapi_888_ & {
+    parent?: (_heyapi_889_ & {
         /**
          * Rate category with taxes included
          */
@@ -35103,7 +35134,7 @@ export type ProgressInvoiceMetadataWritable = {
          * Progress invoice mode
          */
         progress_invoice_mode?: 'global' | 'per-line';
-    }) | (_heyapi_889_ & {
+    }) | (_heyapi_890_ & {
         /**
          * Rate category with taxes included
          */
@@ -35122,7 +35153,7 @@ export type ProgressInvoiceMetadataWritable = {
      * Invoice related to the progress invoice, exist only if invoice type is used
      */
     document?: (_heyapi_572_ & {
-        rows?: Array<_heyapi_890_ | _heyapi_891_ | _heyapi_892_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
+        rows?: Array<_heyapi_891_ | _heyapi_892_ | _heyapi_893_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_>;
         /**
          * The next available progress invoice number
          */
@@ -35266,7 +35297,7 @@ export type ProgressInvoiceMetadataWritable = {
     /**
      * List of bank accounts
      */
-    'bank-accounts'?: Array<_heyapi_894_>;
+    'bank-accounts'?: Array<_heyapi_895_>;
     /**
      * List of VAT modes
      */
@@ -35317,11 +35348,11 @@ export type ProgressInvoiceMetadataWritable = {
     /**
      * List of document layouts
      */
-    document_layouts?: Array<_heyapi_754_>;
+    document_layouts?: Array<_heyapi_755_>;
     /**
      * List of languages
      */
-    languages?: Array<_heyapi_755_>;
+    languages?: Array<_heyapi_756_>;
     /**
      * Tax with embed
      *
@@ -35501,11 +35532,11 @@ export type ProgressInvoiceMetadataWritable = {
     /**
      * List of payment terms
      */
-    payment_terms?: Array<_heyapi_895_>;
+    payment_terms?: Array<_heyapi_896_>;
     /**
      * List assigned staff labels
      */
-    assigned_staff_labels?: Array<_heyapi_896_>;
+    assigned_staff_labels?: Array<_heyapi_897_>;
     /**
      * Computed progress invoice
      */
@@ -35704,11 +35735,11 @@ export type ProgressInvoiceMetadataWritable = {
         /**
          * Summary of all document history (includes current document)
          */
-        summary?: Array<_heyapi_766_ & {
+        summary?: Array<_heyapi_767_ & {
             /**
              * Credit notes linked to the invoice
              */
-            credit_notes?: Array<_heyapi_766_>;
+            credit_notes?: Array<_heyapi_767_>;
         }>;
     };
     /**
@@ -35855,7 +35886,7 @@ export type ProgressInvoiceMetadataWritable = {
     /**
      * List of packagings
      */
-    packagings?: Array<_heyapi_897_>;
+    packagings?: Array<_heyapi_898_>;
     /**
      * List of civilities
      */
@@ -35877,7 +35908,7 @@ export type ProgressInvoiceMetadataWritable = {
      * Compliance state of the parent document on creation, or of the edited document on update
      */
     is_document_compliant?: boolean;
-    company_einvoicing?: _heyapi_898_;
+    company_einvoicing?: _heyapi_899_;
     /**
      * E-invoicing routing address identifier (document value if set, otherwise third default)
      */
@@ -35888,7 +35919,7 @@ export type ProgressInvoiceMetadataWritable = {
  * Update Progress Invoice
  */
 export type ProgressInvoiceUpdateWritable = {
-    rows?: Array<_heyapi_761_ | _heyapi_762_ | _heyapi_763_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_ | _heyapi_900_ | _heyapi_901_ | _heyapi_764_ | _heyapi_469_ | _heyapi_470_ | _heyapi_471_ | {
+    rows?: Array<_heyapi_762_ | _heyapi_763_ | _heyapi_764_ | _heyapi_424_ | _heyapi_425_ | _heyapi_426_ | _heyapi_427_ | _heyapi_428_ | _heyapi_901_ | _heyapi_902_ | _heyapi_765_ | _heyapi_469_ | _heyapi_470_ | _heyapi_471_ | {
         /**
          * Row Identifier
          */
@@ -35903,7 +35934,7 @@ export type ProgressInvoiceUpdateWritable = {
      * Date of the invoice
      */
     date?: string;
-    validate?: _heyapi_902_;
+    validate?: _heyapi_903_;
     /**
      * Subject of the invoice
      */
@@ -36007,7 +36038,7 @@ export type ProgressInvoiceUpdateWritable = {
     shipping_volume?: string;
     shipping_weight?: _heyapi_464_;
     payment_terms?: _heyapi_468_;
-    settings?: _heyapi_903_;
+    settings?: _heyapi_904_;
     /**
      * Analytic code of document
      */
@@ -36059,7 +36090,7 @@ export type ProposalModelWritable = {
 /**
  * Proposal document
  */
-export type ProposalDocumentWritable = _heyapi_911_ & {
+export type ProposalDocumentWritable = _heyapi_912_ & {
     /**
      * Proposal document link
      */
@@ -36356,13 +36387,13 @@ export type CrmActivityEmbed = Array<'aggregations' | 'aggregations.by_event' | 
  * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
  *
  */
-export type OpportunityEmbed = Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+export type OpportunityEmbed = Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
 
 /**
  * Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
  *
  */
-export type OpportunityEmbedWithAggregations = Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1044_>;
+export type OpportunityEmbedWithAggregations = Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1045_>;
 
 /**
  * The order field
@@ -36451,13 +36482,13 @@ export type FavouriteFiltersOrder = typeof FavouriteFiltersOrder[keyof typeof Fa
  * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
  *
  */
-export type SaleEmbed2 = Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+export type SaleEmbed2 = Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
 
 /**
  * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> - discount_incl_taxes: `discount-incl-taxes.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
  *
  */
-export type EstimateOneEmbed2 = Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'discount_incl_taxes' | 'settings' | 'file' | _heyapi_1044_>;
+export type EstimateOneEmbed2 = Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'discount_incl_taxes' | 'settings' | 'file' | _heyapi_1045_>;
 
 /**
  * The order field
@@ -36757,12 +36788,12 @@ export type CorporationStaffEmbed = Array<'predicted_licenses' | 'aggregations.c
 /**
  * Additional object included in the result
  */
-export type InvoiceEmbed = Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+export type InvoiceEmbed = Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
 
 /**
  * Additional object included in the result
  */
-export type InvoiceOneEmbed = Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+export type InvoiceOneEmbed = Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
 
 /**
  * Additional objects included in the result
@@ -36789,12 +36820,12 @@ export type InvoiceOrder = typeof InvoiceOrder[keyof typeof InvoiceOrder];
 /**
  * Additional object included in the result
  */
-export type CreditNoteEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+export type CreditNoteEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
 
 /**
  * Additional object included in the result
  */
-export type CreditNoteOneEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
+export type CreditNoteOneEmbed = Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1045_>;
 
 /**
  * Order field
@@ -36844,12 +36875,12 @@ export type ImportType = typeof ImportType[keyof typeof ImportType];
 /**
  * Additional object included in the result
  */
-export type OrderEmbed = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1044_>;
+export type OrderEmbed = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1045_>;
 
 /**
  * Additional object included in the result
  */
-export type OrderEmbedOne = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+export type OrderEmbedOne = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
 
 /**
  * Order field
@@ -36872,12 +36903,12 @@ export type OrderOrder = typeof OrderOrder[keyof typeof OrderOrder];
 /**
  * Additional object included in the result
  */
-export type DeliveryEmbed = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1044_>;
+export type DeliveryEmbed = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1045_>;
 
 /**
  * Additional object included in the result
  */
-export type DeliveryEmbedOne = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+export type DeliveryEmbedOne = Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
 
 /**
  * Order field
@@ -37269,7 +37300,7 @@ export type GetCompaniesResponses = {
                     /**
                      * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                      */
-                    einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                    einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
                 } | null;
                 /**
                  * Main contact
@@ -37306,7 +37337,7 @@ export type GetCompaniesResponses = {
                 /**
                  * Company acl
                  */
-                acl?: _heyapi_1137_ | null;
+                acl?: _heyapi_1138_ | null;
                 /**
                  * Smart-tags linked
                  */
@@ -37495,7 +37526,7 @@ export type CreateCompanyResponses = {
                 /**
                  * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                  */
-                einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
             } | null;
             /**
              * Main contact
@@ -37532,7 +37563,7 @@ export type CreateCompanyResponses = {
             /**
              * Company acl
              */
-            acl?: _heyapi_1137_ | null;
+            acl?: _heyapi_1138_ | null;
             /**
              * Smart-tags linked
              */
@@ -37719,7 +37750,7 @@ export type SearchCompaniesResponses = {
                     /**
                      * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                      */
-                    einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                    einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
                 } | null;
                 /**
                  * Main contact
@@ -37756,7 +37787,7 @@ export type SearchCompaniesResponses = {
                 /**
                  * Company acl
                  */
-                acl?: _heyapi_1137_ | null;
+                acl?: _heyapi_1138_ | null;
                 /**
                  * Smart-tags linked
                  */
@@ -38039,7 +38070,7 @@ export type GetCompanyResponses = {
                 /**
                  * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                  */
-                einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
             } | null;
             /**
              * Main contact
@@ -38076,7 +38107,7 @@ export type GetCompanyResponses = {
             /**
              * Company acl
              */
-            acl?: _heyapi_1137_ | null;
+            acl?: _heyapi_1138_ | null;
             /**
              * Smart-tags linked
              */
@@ -38264,7 +38295,7 @@ export type UpdateCompanyResponses = {
                 /**
                  * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                  */
-                einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
             } | null;
             /**
              * Main contact
@@ -38301,7 +38332,7 @@ export type UpdateCompanyResponses = {
             /**
              * Company acl
              */
-            acl?: _heyapi_1137_ | null;
+            acl?: _heyapi_1138_ | null;
             /**
              * Smart-tags linked
              */
@@ -39667,7 +39698,7 @@ export type GetContactCompaniesResponses = {
                     /**
                      * E-invoicing routing addresses listed for the company in the French e-invoicing directory. Null when no routing address is available.
                      */
-                    einvoicing_electronic_addresses?: Array<_heyapi_1136_> | null;
+                    einvoicing_electronic_addresses?: Array<_heyapi_1137_> | null;
                 } | null;
                 /**
                  * Main contact
@@ -39704,7 +39735,7 @@ export type GetContactCompaniesResponses = {
                 /**
                  * Company acl
                  */
-                acl?: _heyapi_1137_ | null;
+                acl?: _heyapi_1138_ | null;
                 /**
                  * Smart-tags linked
                  */
@@ -41507,7 +41538,7 @@ export type GetEstimatesData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
         /**
          * The order field
          * > Value `numero` is deprecated and will be deleted on the July 1st 2022. Use `number` instead.
@@ -41534,7 +41565,7 @@ export type CreateEstimateData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -41578,7 +41609,7 @@ export type SearchEstimatesData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
         /**
          * The order field
          * > Value `numero` is deprecated and will be deleted on the July 1st 2022. Use `number` instead.
@@ -41639,7 +41670,7 @@ export type ExportEstimatesData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
         /**
          * The order field
          * > Value `numero` is deprecated and will be deleted on the July 1st 2022. Use `number` instead.
@@ -42552,7 +42583,7 @@ export type GetEstimateData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> - discount_incl_taxes: `discount-incl-taxes.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'discount_incl_taxes' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'discount_incl_taxes' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/estimates/{id}';
 };
@@ -42591,7 +42622,7 @@ export type UpdateEstimateData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
     };
     url: '/estimates/{id}';
 };
@@ -42623,7 +42654,7 @@ export type UpdateEstimateStatusData = {
          * Example : `embed[]=payment_method_ids&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - payment_method_ids: `payments.read`<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - contact: `contacts.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br /> - related: by object type. Check the entire documentation to verify the usual scopes requested for the types returned <br/><br /> <strong>Aggregations on amounts only works in addition with the currency filter</strong>
          *
          */
-        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1044_>;
+        embed?: Array<'company' | 'individual' | 'contact' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'currency' | 'acl' | 'payment_method_ids' | 'aggregations' | 'aggregations.amount_sum_by_status' | 'aggregations.count_by_status' | 'fiscal_year' | 'smart_tags' | 'payment_terms' | 'settings' | _heyapi_1045_>;
     };
     url: '/estimates/{id}/status';
 };
@@ -43228,7 +43259,7 @@ export type GetOrdersData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -43261,7 +43292,7 @@ export type CreateOrderData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
     };
     url: '/orders';
 };
@@ -43303,7 +43334,7 @@ export type GetOrderData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
     };
     url: '/orders/{id}';
 };
@@ -43329,7 +43360,7 @@ export type UpdateOrderData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
     };
     url: '/orders/{id}';
 };
@@ -43367,7 +43398,7 @@ export type SearchOrdersData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'payment_terms' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -44839,7 +44870,7 @@ export type GetDeliveriesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -44884,7 +44915,7 @@ export type SearchDeliveriesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -44917,7 +44948,7 @@ export type GetDeliveryData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'owner' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'settings' | 'assigned_staff' | 'file' | _heyapi_1045_>;
     };
     url: '/deliveries/{id}';
 };
@@ -44943,7 +44974,7 @@ export type GetIndividualsData = {
          * Example : `embed[]=invoicing_address&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - opportunities: `opportunities.read`<br /> - main_contact, dunning_contact, invoicing_contact: `contacts.read`<br /> - estimates,invoices,orders,deliveries: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1044_>;
+        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1045_>;
         /**
          * The order direction
          */
@@ -45022,7 +45053,7 @@ export type GetIndividualsResponses = {
                 /**
                  * Individual acl
                  */
-                acl?: _heyapi_1387_ | null;
+                acl?: _heyapi_1388_ | null;
                 /**
                  * Smart-tags linked
                  */
@@ -45137,7 +45168,7 @@ export type CreateIndividualData = {
          * Example : `embed[]=invoicing_address&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - opportunities: `opportunities.read`<br /> - main_contact, dunning_contact, invoicing_contact: `contacts.read`<br /> - estimates,invoices,orders,deliveries: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1044_>;
+        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -45205,7 +45236,7 @@ export type CreateIndividualResponses = {
             /**
              * Individual acl
              */
-            acl?: _heyapi_1387_ | null;
+            acl?: _heyapi_1388_ | null;
             /**
              * Smart-tags linked
              */
@@ -45311,7 +45342,7 @@ export type SearchIndividualsData = {
          * Example : `embed[]=invoicing_address&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - opportunities: `opportunities.read`<br /> - main_contact, dunning_contact, invoicing_contact: `contacts.read`<br /> - estimates,invoices,orders,deliveries: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1044_>;
+        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1045_>;
         /**
          * The order direction
          */
@@ -45387,7 +45418,7 @@ export type SearchIndividualsResponses = {
                 /**
                  * Individual acl
                  */
-                acl?: _heyapi_1387_ | null;
+                acl?: _heyapi_1388_ | null;
                 /**
                  * Smart-tags linked
                  */
@@ -45607,7 +45638,7 @@ export type GetIndividualData = {
          * Example : `embed[]=invoicing_address&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - opportunities: `opportunities.read`<br /> - main_contact, dunning_contact, invoicing_contact: `contacts.read`<br /> - estimates,invoices,orders,deliveries: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1044_>;
+        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -45671,7 +45702,7 @@ export type GetIndividualResponses = {
             /**
              * Individual acl
              */
-            acl?: _heyapi_1387_ | null;
+            acl?: _heyapi_1388_ | null;
             /**
              * Smart-tags linked
              */
@@ -45785,7 +45816,7 @@ export type UpdateIndividualData = {
          * Example : `embed[]=invoicing_address&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - opportunities: `opportunities.read`<br /> - main_contact, dunning_contact, invoicing_contact: `contacts.read`<br /> - estimates,invoices,orders,deliveries: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1044_>;
+        embed?: Array<'invoicing_address' | 'delivery_address' | 'main_contact' | 'dunning_contact' | 'invoicing_contact' | 'opportunities' | 'estimates' | 'invoices' | 'orders' | 'deliveries' | 'acl' | 'smart_tags' | 'owner' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -45853,7 +45884,7 @@ export type UpdateIndividualResponses = {
             /**
              * Individual acl
              */
-            acl?: _heyapi_1387_ | null;
+            acl?: _heyapi_1388_ | null;
             /**
              * Smart-tags linked
              */
@@ -48092,7 +48123,7 @@ export type GetTaxesResponses = {
         /**
          * Tax with embed
          */
-        data: Array<_heyapi_826_ & {
+        data: Array<_heyapi_827_ & {
             /**
              * Optional objects added through the embed parameter
              */
@@ -48334,7 +48365,7 @@ export type CreateTaxResponses = {
      *
      * Tax created
      */
-    201: _heyapi_826_ & {
+    201: _heyapi_827_ & {
         /**
          * Optional objects added through the embed parameter
          */
@@ -48444,7 +48475,7 @@ export type SearchTaxesResponses = {
      */
     200: {
         pagination: Pagination;
-        data: Array<_heyapi_826_ & {
+        data: Array<_heyapi_827_ & {
             /**
              * Optional objects added through the embed parameter
              */
@@ -48571,7 +48602,7 @@ export type GetTaxResponses = {
      *
      * Tax fetched
      */
-    200: _heyapi_826_ & {
+    200: _heyapi_827_ & {
         /**
          * Optional objects added through the embed parameter
          */
@@ -48823,7 +48854,7 @@ export type UpdateTaxResponses = {
      *
      * Tax updated
      */
-    200: _heyapi_826_ & {
+    200: _heyapi_827_ & {
         /**
          * Optional objects added through the embed parameter
          */
@@ -52122,7 +52153,7 @@ export type GetOpportunityData = {
          * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52161,7 +52192,7 @@ export type PatchOpportunityData = {
          * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52201,7 +52232,7 @@ export type UpdateOpportunityData = {
          * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52269,7 +52300,7 @@ export type GetOpportunitiesData = {
          * Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52304,7 +52335,7 @@ export type CreateOpportunityData = {
          * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52400,7 +52431,7 @@ export type SearchOpportunitiesData = {
          * Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'aggregations' | 'aggregations.amount_sum' | 'aggregations.amount_sum_by_status' | 'aggregations.amount_sum_by_status_due_at_seven' | 'aggregations.number_by_pipeline_and_step' | 'smart_tags' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -52460,7 +52491,7 @@ export type ExportOpportunitiesData = {
          * Example : `embed[]=assigned_staffs&embed[]=cf.1542&embed[]=acl` <br /> Additional object included in the result.<br /><br /> Each embed object may require different oauth2 scopes than the main endpoint:<br /> - company: `companies.read`<br /> - individual: `individuals.read`<br /> - assigned_staffs: `staffs.read`<br /> - contacts: `contacts.read`<br /> - estimates, invoices, orders, deliveries, proformas, creditnotes: `invoicing.read`<br /> - cf.{custom_field_id} : `custom-fields.read` <br /> - smart_tags: `smart-tags.read`<br /> Additionally, the smart_tags embed is limited to the 20 first results sorted in alphabetical order. <br />
          *
          */
-        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1044_>;
+        embed?: Array<'estimates' | 'individual' | 'invoices' | 'orders' | 'deliveries' | 'proformas' | 'creditnotes' | 'assigned_staffs' | 'company' | 'contacts' | 'acl' | 'currency' | 'smart_tags' | _heyapi_1045_>;
     };
     url: '/opportunities/export';
 };
@@ -58425,7 +58456,7 @@ export type GetInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/invoices/{id}';
 };
@@ -58451,7 +58482,7 @@ export type UpdateInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/invoices/{id}';
 };
@@ -58489,7 +58520,7 @@ export type GetInvoicesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -58517,7 +58548,7 @@ export type CreateInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -58560,7 +58591,7 @@ export type SearchInvoicesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -58613,7 +58644,7 @@ export type ExportInvoicesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -60006,7 +60037,7 @@ export type GetCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1045_>;
     };
     url: '/credit-notes/{id}';
 };
@@ -60032,7 +60063,7 @@ export type UpdateCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1045_>;
     };
     url: '/credit-notes/{id}';
 };
@@ -60070,7 +60101,7 @@ export type GetCreditNotesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -60098,7 +60129,7 @@ export type CreateCreditNoteData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'discount_incl_taxes' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'file' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -60141,7 +60172,7 @@ export type SearchCreditNotesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'fiscal_year' | 'related' | 'contact' | 'company' | 'individual' | 'currency' | 'owner' | 'acl' | 'smart_tags' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -63367,7 +63398,7 @@ export type UpdateModelData = {
          * Invoice's owner (staff id)
          */
         owner_id?: number;
-        rows?: Array<_heyapi_2266_> | null;
+        rows?: Array<_heyapi_2267_> | null;
         /**
          * Document layout ID
          */
@@ -63826,7 +63857,7 @@ export type GetDepositInvoicesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -63855,7 +63886,7 @@ export type CreateDepositInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/deposit-invoices';
 };
@@ -63893,7 +63924,7 @@ export type SearchDepositInvoicesData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'smart_tags' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | _heyapi_1045_>;
         /**
          * Order field
          */
@@ -63974,7 +64005,7 @@ export type GetDepositInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/deposit-invoices/{id}';
 };
@@ -64000,7 +64031,7 @@ export type UpdateDepositInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
     };
     url: '/deposit-invoices/{id}';
 };
@@ -65895,7 +65926,7 @@ export type CreateProgressInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
@@ -65942,7 +65973,7 @@ export type UpdateProgressInvoiceData = {
         /**
          * Additional object included in the result
          */
-        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1044_>;
+        embed?: Array<'acl' | 'payment_terms' | 'owner' | 'related' | 'contact' | 'individual' | 'company' | 'fiscal_year' | 'currency' | 'automatic_dunning' | 'smart_tags' | 'discount_incl_taxes' | 'deposits' | 'invoicing_address' | 'delivery_address' | 'issuer_address' | 'payment_method_ids' | 'settings' | 'file' | _heyapi_1045_>;
         /**
          * Filters the fields returned in the response <br /><br /> Example:<br /> - `field[]=id`: Return the `id` field<br /> - `field[]=address.id`: Return the `id` field of the `address` object<br /> - `field[]=addresses[].id`: Return the `id` field of the `address` objects<br /> <br> On endpoints that implement the `embed` query parameter, if you specified embeds in your call, you will need to request the `_embed` field as well.<br> Example:<br> - `field[]=_embed`: Return all fields from all requested embeds<br> - `field[]=_embed.address`: Return all fields from the `address` embed<br> - `field[]=_embed.company.name`: Return the `name` field from the `company` embed<br>
          *
