@@ -12477,7 +12477,7 @@ export const creditnote_responseSchema = {
             $ref: '#/components/schemas/line_items'
         },
         invoices: {
-            description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+            description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
             type: 'array',
             items: {
                 type: 'object',
@@ -13493,7 +13493,7 @@ export const update_a_credit_note_responseSchema = {
                     }
                 },
                 invoices: {
-                    description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+                    description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
                     type: 'array',
                     items: {
                         type: 'object',
@@ -13800,7 +13800,7 @@ export const get_a_credit_note_responseSchema = {
                     }
                 },
                 invoices: {
-                    description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+                    description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
                     type: 'array',
                     items: {
                         type: 'object',
@@ -14389,7 +14389,7 @@ export const credit_to_an_invoice_requestSchema = {
     type: 'object',
     properties: {
         invoices: {
-            description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+            description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
             type: 'array',
             items: {
                 type: 'object',
@@ -30910,6 +30910,9 @@ export const opening_balanceSchema = {
         date: {
             $ref: '#/components/schemas/date'
         },
+        location_id: {
+            $ref: '#/components/schemas/location_id'
+        },
         price_precision: {
             $ref: '#/components/schemas/price_precision'
         },
@@ -30930,6 +30933,9 @@ export const create_opening_balance_requestSchema = {
     properties: {
         date: {
             $ref: '#/components/schemas/date'
+        },
+        location_id: {
+            $ref: '#/components/schemas/location_id'
         },
         accounts: {
             type: 'array',
@@ -30954,9 +30960,6 @@ export const create_opening_balance_requestSchema = {
                     },
                     amount: {
                         $ref: '#/components/schemas/amount'
-                    },
-                    location_id: {
-                        $ref: '#/components/schemas/location_id'
                     }
                 }
             }
@@ -30991,6 +30994,9 @@ export const update_opening_balance_requestSchema = {
     properties: {
         date: {
             $ref: '#/components/schemas/date'
+        },
+        location_id: {
+            $ref: '#/components/schemas/location_id'
         },
         accounts: {
             $ref: '#/components/schemas/accounts'
@@ -54080,7 +54086,7 @@ export const update_a_credit_note_responseWritableSchema = {
                     }
                 },
                 invoices: {
-                    description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+                    description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
                     type: 'array',
                     items: {
                         type: 'object',
@@ -54377,7 +54383,7 @@ export const get_a_credit_note_responseWritableSchema = {
                     }
                 },
                 invoices: {
-                    description: 'List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.',
+                    description: 'List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.',
                     type: 'array',
                     items: {
                         type: 'object',

@@ -5593,7 +5593,7 @@ export type CreditnoteResponse = {
     location_name?: LocationName;
     line_items?: LineItems;
     /**
-     * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+     * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
      */
     invoices?: Array<{
         invoice_id?: InvoiceId;
@@ -6027,7 +6027,7 @@ export type UpdateACreditNoteResponse = {
             line_item_category?: LineItemCategory;
         }>;
         /**
-         * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+         * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
          */
         invoices?: Array<{
             invoice_id?: InvoiceId;
@@ -6138,7 +6138,7 @@ export type GetACreditNoteResponse = {
             line_item_category?: LineItemCategory;
         }>;
         /**
-         * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+         * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
          */
         invoices?: Array<{
             invoice_id?: InvoiceId;
@@ -6361,7 +6361,7 @@ export type ListInvoicesCreditedResponse = {
 
 export type CreditToAnInvoiceRequest = {
     /**
-     * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+     * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
      */
     invoices?: Array<{
         invoice_id?: InvoiceId;
@@ -13190,6 +13190,7 @@ export type AccountSplitId = string;
 export type OpeningBalance = {
     opening_balance_id?: OpeningBalanceId;
     date?: Date;
+    location_id?: LocationId;
     price_precision?: PricePrecision;
     accounts?: Accounts;
     total?: Total;
@@ -13197,6 +13198,7 @@ export type OpeningBalance = {
 
 export type CreateOpeningBalanceRequest = {
     date: Date;
+    location_id?: LocationId;
     /**
      * List of accounts with their opening balance details.
      */
@@ -13206,7 +13208,6 @@ export type CreateOpeningBalanceRequest = {
         exchange_rate?: ExchangeRate;
         currency_id?: CurrencyId;
         amount?: Amount;
-        location_id?: LocationId;
     }>;
 };
 
@@ -13218,6 +13219,7 @@ export type CreateOpeningBalanceResponse = {
 
 export type UpdateOpeningBalanceRequest = {
     date?: Date;
+    location_id?: LocationId;
     accounts?: Accounts;
     opening_balance_id: OpeningBalanceId;
 };
@@ -22485,7 +22487,7 @@ export type UpdateACreditNoteResponseWritable = {
             line_item_category?: LineItemCategory;
         }>;
         /**
-         * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+         * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
          */
         invoices?: Array<{
             invoice_id?: InvoiceId;
@@ -22594,7 +22596,7 @@ export type GetACreditNoteResponseWritable = {
             line_item_category?: LineItemCategory;
         }>;
         /**
-         * List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+         * List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
          */
         invoices?: Array<{
             invoice_id?: InvoiceId;

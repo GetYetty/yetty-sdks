@@ -37828,7 +37828,7 @@ components:
         line_items:
           $ref: '#/components/schemas/line_items'
         invoices:
-          description: List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+          description: List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
           type: array
           items:
             type: object
@@ -38508,7 +38508,7 @@ components:
                   line_item_category:
                     $ref: '#/components/schemas/line_item_category'
             invoices:
-              description: List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+              description: List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
               type: array
               items:
                 type: object
@@ -38712,7 +38712,7 @@ components:
                   line_item_category:
                     $ref: '#/components/schemas/line_item_category'
             invoices:
-              description: List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+              description: List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
               type: array
               items:
                 type: object
@@ -39116,7 +39116,7 @@ components:
       type: object
       properties:
         invoices:
-          description: List of invoices for which the credit note has been raised. This contains <code>invoice_id</code> and <code>amount</code>.
+          description: List of invoices for which the credit note has been raised. Each entry contains <code>invoice_id</code> and <code>amount</code>.
           type: array
           items:
             type: object
@@ -50337,6 +50337,8 @@ components:
           $ref: '#/components/schemas/opening_balance_id'
         date:
           $ref: '#/components/schemas/date'
+        location_id:
+          $ref: '#/components/schemas/location_id'
         price_precision:
           $ref: '#/components/schemas/price_precision'
         accounts:
@@ -50350,6 +50352,8 @@ components:
       properties:
         date:
           $ref: '#/components/schemas/date'
+        location_id:
+          $ref: '#/components/schemas/location_id'
         accounts:
           type: array
           description: List of accounts with their opening balance details.
@@ -50368,8 +50372,6 @@ components:
                 $ref: '#/components/schemas/currency_id'
               amount:
                 $ref: '#/components/schemas/amount'
-              location_id:
-                $ref: '#/components/schemas/location_id'
     create-opening-balance-response:
       type: object
       properties:
@@ -50390,6 +50392,8 @@ components:
       properties:
         date:
           $ref: '#/components/schemas/date'
+        location_id:
+          $ref: '#/components/schemas/location_id'
         accounts:
           $ref: '#/components/schemas/accounts'
         opening_balance_id:
