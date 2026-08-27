@@ -1,7 +1,7 @@
 'openapi': '3.0.2'
 'info':
   'title': 'Sellsy API'
-  'version': '2.288.0'
+  'version': '2.290.0'
   'description': "Find out the [Postman collections](dist/postman/CollectionsApiV2.json) with the required [environment variables](dist/postman/Environment.json)
 
 
@@ -16290,7 +16290,7 @@
       'tags':
         - 'Subscriptions'
       'summary': 'Update a subscription'
-      'description': 'Update a subscription. The fields `model`, `related` and `conditions` cannot be modified. <div style="padding:17px; border-radius: 2px; margin-bottom: 4px; line-height: 1.5em; color: #9A7D36; background-color: #fff2cf; cursor: default;"><b>This route is available in open beta.</b><br />Please note that its specifications are potentially subject to significant and breaking changes in the coming weeks.</div>
+      'description': 'Update a subscription. The fields `model` and `conditions` cannot be modified. Only the contact of `related` can be updated: the client of the subscription cannot be changed. <div style="padding:17px; border-radius: 2px; margin-bottom: 4px; line-height: 1.5em; color: #9A7D36; background-color: #fff2cf; cursor: default;"><b>This route is available in open beta.</b><br />Please note that its specifications are potentially subject to significant and breaking changes in the coming weeks.</div>
 
         '
       'operationId': 'update-subscription'
@@ -16306,6 +16306,8 @@
             'application/json':
               'schema':
                 '$ref': '#/components/schemas/SubscriptionOne'
+        '400':
+          'description': 'The contact is not linked to the client of the subscription'
       'security':
         - 'oauth2':
             - 'subscriptions.write'
@@ -47892,6 +47894,31 @@
           'enum':
             - 'model'
             - 'related'
+        'related':
+          'type': 'array'
+          'maxItems': 1
+          'description': 'Contact the generated invoices are addressed to <br/><br/> - Only the contact can be updated: the client of the subscription cannot be changed <br/> - The contact must be linked to the client of the subscription <br/> - Send an empty array to remove the contact
+
+            '
+          'items':
+            'title': 'Put related'
+            'description': 'Contact linked to the subscription'
+            'type': 'object'
+            'additionalProperties': false
+            'properties':
+              'id':
+                'type': 'integer'
+                'description': 'ID of the contact'
+                'example': 234
+              'type':
+                'type': 'string'
+                'description': 'Type of related'
+                'example': 'contact'
+                'enum':
+                  - 'contact'
+            'required':
+              - 'id'
+              - 'type'
         'billing_address':
           'type': 'integer'
           'nullable': true
@@ -51278,6 +51305,7 @@
           - 'created'
           - 'step_rank'
           - 'due_date'
+          - 'amount'
     'staffEmbed':
       'in': 'query'
       'name': 'embed'

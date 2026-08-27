@@ -21476,6 +21476,20 @@ export type SubscriptionPut = {
      */
     preferences_source?: 'model' | 'related';
     /**
+     * Contact the generated invoices are addressed to <br/><br/> - Only the contact can be updated: the client of the subscription cannot be changed <br/> - The contact must be linked to the client of the subscription <br/> - Send an empty array to remove the contact
+     *
+     */
+    related?: Array<{
+        /**
+         * ID of the contact
+         */
+        id: number;
+        /**
+         * Type of related
+         */
+        type: 'contact';
+    }>;
+    /**
      * Id of billing address
      */
     billing_address?: number | null;
@@ -36402,7 +36416,8 @@ export const OpportunityOrder = {
     ID: 'id',
     CREATED: 'created',
     STEP_RANK: 'step_rank',
-    DUE_DATE: 'due_date'
+    DUE_DATE: 'due_date',
+    AMOUNT: 'amount'
 } as const;
 
 /**
@@ -52309,7 +52324,7 @@ export type GetOpportunitiesData = {
         /**
          * The order field
          */
-        order?: 'id' | 'created' | 'step_rank' | 'due_date';
+        order?: 'id' | 'created' | 'step_rank' | 'due_date' | 'amount';
     };
     url: '/opportunities';
 };
@@ -52414,7 +52429,7 @@ export type SearchOpportunitiesData = {
         /**
          * The order field
          */
-        order?: 'id' | 'created' | 'step_rank' | 'due_date';
+        order?: 'id' | 'created' | 'step_rank' | 'due_date' | 'amount';
         /**
          * The order direction
          */
@@ -52482,7 +52497,7 @@ export type ExportOpportunitiesData = {
         /**
          * The order field
          */
-        order?: 'id' | 'created' | 'step_rank' | 'due_date';
+        order?: 'id' | 'created' | 'step_rank' | 'due_date' | 'amount';
         /**
          * The order direction
          */
@@ -62555,6 +62570,13 @@ export type UpdateSubscriptionData = {
     url: '/subscriptions/{id}';
 };
 
+export type UpdateSubscriptionErrors = {
+    /**
+     * The contact is not linked to the client of the subscription
+     */
+    400: unknown;
+};
+
 export type UpdateSubscriptionResponses = {
     /**
      * Subscription updated
@@ -63398,7 +63420,7 @@ export type UpdateModelData = {
          * Invoice's owner (staff id)
          */
         owner_id?: number;
-        rows?: Array<_heyapi_2267_> | null;
+        rows?: Array<_heyapi_2268_> | null;
         /**
          * Document layout ID
          */
