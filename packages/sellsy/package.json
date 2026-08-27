@@ -1,6 +1,6 @@
 {
   "name": "@getyetty-sdk/sellsy",
-  "version": "2026.8.25",
+  "version": "2026.8.27",
   "description": "TypeScript client for the Sellsy API, auto-generated from OpenAPI spec",
   "keywords": [
     "api",

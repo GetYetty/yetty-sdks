@@ -38595,6 +38595,36 @@ export const SubscriptionPutSchema = {
                 'related'
             ]
         },
+        related: {
+            type: 'array',
+            maxItems: 1,
+            description: 'Contact the generated invoices are addressed to <br/><br/> - Only the contact can be updated: the client of the subscription cannot be changed <br/> - The contact must be linked to the client of the subscription <br/> - Send an empty array to remove the contact\n',
+            items: {
+                title: 'Put related',
+                description: 'Contact linked to the subscription',
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                    id: {
+                        type: 'integer',
+                        description: 'ID of the contact',
+                        example: 234
+                    },
+                    type: {
+                        type: 'string',
+                        description: 'Type of related',
+                        example: 'contact',
+                        enum: [
+                            'contact'
+                        ]
+                    }
+                },
+                required: [
+                    'id',
+                    'type'
+                ]
+            }
+        },
         billing_address: {
             type: 'integer',
             nullable: true,
