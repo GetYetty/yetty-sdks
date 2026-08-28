@@ -1,7 +1,7 @@
 'openapi': '3.0.2'
 'info':
   'title': 'Sellsy API'
-  'version': '2.290.0'
+  'version': '2.292.1'
   'description': "Find out the [Postman collections](dist/postman/CollectionsApiV2.json) with the required [environment variables](dist/postman/Environment.json)
 
 
@@ -27483,7 +27483,7 @@
               'properties':
                 'status':
                   'type': 'integer'
-                  'description': 'AFNOR lifecycle status code
+                  'description': 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR range
 
                     - `200` : Déposée
 
@@ -27514,6 +27514,8 @@
                     - `213` : Rejetée
 
                     - `501` : Irrecevable
+
+                    - `900` : Non déposée (Sellsy-internal, outside the AFNOR range)
 
                     '
                   'example': 205
@@ -36721,7 +36723,13 @@
           'properties':
             'status':
               'type': 'integer'
-              'description': 'AFNOR lifecycle status code'
+              'description': 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR
+
+                range. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit
+
+                failed on our side and the retries are exhausted, so the platform never received the document.
+
+                '
               'example': 212
             'label':
               'type': 'string'
@@ -37120,7 +37128,13 @@
               'properties':
                 'status':
                   'type': 'integer'
-                  'description': 'AFNOR lifecycle status code'
+                  'description': 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR
+
+                    range. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit
+
+                    failed on our side and the retries are exhausted, so the platform never received the document.
+
+                    '
                   'example': 212
                 'label':
                   'type': 'string'
@@ -41344,7 +41358,13 @@
           'properties':
             'status':
               'type': 'integer'
-              'description': 'AFNOR lifecycle status code'
+              'description': 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR
+
+                range. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit
+
+                failed on our side and the retries are exhausted, so the platform never received the document.
+
+                '
               'example': 212
             'label':
               'type': 'string'
@@ -41697,7 +41717,13 @@
               'properties':
                 'status':
                   'type': 'integer'
-                  'description': 'AFNOR lifecycle status code'
+                  'description': 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR
+
+                    range. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit
+
+                    failed on our side and the retries are exhausted, so the platform never received the document.
+
+                    '
                   'example': 212
                 'label':
                   'type': 'string'
@@ -42081,7 +42107,7 @@
                   - 'cancelled'
             'lifecycle_status':
               'title': 'E-invoicing lifecycle status'
-              'description': 'Filter the list by AFNOR e-invoicing lifecycle status code, as returned by the
+              'description': 'Filter the list by e-invoicing lifecycle status code, as returned by the
 
                 `lifecycle_status.status` field. Applies on top of `status`, which targets the classic
 
@@ -42127,6 +42153,8 @@
 
                 | 501 | Irrecevable | Inadmissible, never entered the circuit |
 
+                | 900 | Non déposée | Sellsy-internal, outside the AFNOR range: our own deposit failed and its retries are spent |
+
                 '
               'example':
                 - 205
@@ -42150,6 +42178,7 @@
                   - 212
                   - 213
                   - 501
+                  - 900
             'related_objects':
               'title': 'Related Objects'
               'type': 'array'
@@ -50632,7 +50661,7 @@
           'example': '+33612345678'
         'electronic_address':
           'type': 'string'
-          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. Ignored when types only includes ''issue'': the address is always generated server-side as ''{SIREN}_CDARTeamSystemSellsy'', so any value provided is overwritten.'
+          'description': 'Reception routing address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. Rejected for mandates whose types only includes ''issue'', which carry no reception address.'
           'maxLength': 109
         'person_type':
           'type': 'string'
@@ -50769,7 +50798,8 @@
           'example': 'https://example.com/mandate.pdf'
         'electronic_address':
           'type': 'string'
-          'description': 'Electronic address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. For mandates whose types only includes ''issue'', it is always generated server-side as ''{SIREN}_CDARTeamSystemSellsy''.'
+          'nullable': true
+          'description': 'Reception routing address associated with the mandate. Required if types includes ''receipt'', and it must then start with the company SIREN. Null for mandates whose types only includes ''issue'', which carry no reception address.'
           'maxLength': 109
         'person_type':
           'type': 'string'

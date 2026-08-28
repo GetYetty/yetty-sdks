@@ -11608,7 +11608,7 @@ export const OcrSchema = {
                     properties: {
                         status: {
                             type: 'integer',
-                            description: 'AFNOR lifecycle status code\n- `200` : Déposée\n- `201` : Émise\n- `202` : Reçue\n- `203` : Mise à disposition\n- `204` : Prise en charge\n- `205` : Approuvée\n- `206` : Approuvée partiellement\n- `207` : En litige\n- `208` : Suspendue\n- `209` : Complétée\n- `210` : Refusée\n- `211` : Paiement transmis\n- `212` : Encaissée\n- `213` : Rejetée\n- `501` : Irrecevable\n',
+                            description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR range\n- `200` : Déposée\n- `201` : Émise\n- `202` : Reçue\n- `203` : Mise à disposition\n- `204` : Prise en charge\n- `205` : Approuvée\n- `206` : Approuvée partiellement\n- `207` : En litige\n- `208` : Suspendue\n- `209` : Complétée\n- `210` : Refusée\n- `211` : Paiement transmis\n- `212` : Encaissée\n- `213` : Rejetée\n- `501` : Irrecevable\n- `900` : Non déposée (Sellsy-internal, outside the AFNOR range)\n',
                             example: 205
                         },
                         label: {
@@ -23992,7 +23992,7 @@ export const InvoiceSchema = {
             properties: {
                 status: {
                     type: 'integer',
-                    description: 'AFNOR lifecycle status code',
+                    description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                     example: 212
                 },
                 label: {
@@ -24486,7 +24486,7 @@ export const InvoiceOneSchema = {
                     properties: {
                         status: {
                             type: 'integer',
-                            description: 'AFNOR lifecycle status code',
+                            description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                             example: 212
                         },
                         label: {
@@ -30145,7 +30145,7 @@ export const CreditNoteSchema = {
             properties: {
                 status: {
                     type: 'integer',
-                    description: 'AFNOR lifecycle status code',
+                    description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                     example: 212
                 },
                 label: {
@@ -30605,7 +30605,7 @@ export const CreditNoteOneSchema = {
                     properties: {
                         status: {
                             type: 'integer',
-                            description: 'AFNOR lifecycle status code',
+                            description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                             example: 212
                         },
                         label: {
@@ -31105,7 +31105,7 @@ export const CreditNoteFiltersSchema = {
                 },
                 lifecycle_status: {
                     title: 'E-invoicing lifecycle status',
-                    description: 'Filter the list by AFNOR e-invoicing lifecycle status code, as returned by the\n`lifecycle_status.status` field. Applies on top of `status`, which targets the classic\nstatus: a request setting both returns documents matching each of them.\n\nThe `Status` column is the label returned alongside the code in `lifecycle_status.label`.\nCredit notes return the same labels with a masculine agreement (`Déposé`, `Encaissé`).\n\n| Code | Status | Meaning |\n| ---- | ------ | ------- |\n| 200 | Déposée | Submitted to the platform |\n| 201 | Émise | Sent by the issuer platform |\n| 202 | Reçue | Received by the recipient platform |\n| 203 | Mise à disposition | Made available to the recipient |\n| 204 | Prise en charge | Taken in hand by the recipient |\n| 205 | Approuvée | Approved |\n| 206 | Approuvée partiellement | Partially approved |\n| 207 | En litige | Disputed |\n| 208 | Suspendue | Suspended, pending information |\n| 209 | Complétée | Completed by the issuer |\n| 210 | Refusée | Refused by the recipient |\n| 211 | Paiement transmis | Payment sent |\n| 212 | Encaissée | Payment received |\n| 213 | Rejetée | Rejected by the platform |\n| 501 | Irrecevable | Inadmissible, never entered the circuit |\n',
+                    description: 'Filter the list by e-invoicing lifecycle status code, as returned by the\n`lifecycle_status.status` field. Applies on top of `status`, which targets the classic\nstatus: a request setting both returns documents matching each of them.\n\nThe `Status` column is the label returned alongside the code in `lifecycle_status.label`.\nCredit notes return the same labels with a masculine agreement (`Déposé`, `Encaissé`).\n\n| Code | Status | Meaning |\n| ---- | ------ | ------- |\n| 200 | Déposée | Submitted to the platform |\n| 201 | Émise | Sent by the issuer platform |\n| 202 | Reçue | Received by the recipient platform |\n| 203 | Mise à disposition | Made available to the recipient |\n| 204 | Prise en charge | Taken in hand by the recipient |\n| 205 | Approuvée | Approved |\n| 206 | Approuvée partiellement | Partially approved |\n| 207 | En litige | Disputed |\n| 208 | Suspendue | Suspended, pending information |\n| 209 | Complétée | Completed by the issuer |\n| 210 | Refusée | Refused by the recipient |\n| 211 | Paiement transmis | Payment sent |\n| 212 | Encaissée | Payment received |\n| 213 | Rejetée | Rejected by the platform |\n| 501 | Irrecevable | Inadmissible, never entered the circuit |\n| 900 | Non déposée | Sellsy-internal, outside the AFNOR range: our own deposit failed and its retries are spent |\n',
                     example: [
                         205,
                         212
@@ -31128,7 +31128,8 @@ export const CreditNoteFiltersSchema = {
                             211,
                             212,
                             213,
-                            501
+                            501,
+                            900
                         ]
                     }
                 },
@@ -42375,7 +42376,7 @@ export const EInvoicingMandateInputSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Ignored when types only includes \'issue\': the address is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\', so any value provided is overwritten.',
+            description: 'Reception routing address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Rejected for mandates whose types only includes \'issue\', which carry no reception address.',
             maxLength: 109
         },
         person_type: {
@@ -42543,7 +42544,8 @@ export const EInvoicingMandateSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. For mandates whose types only includes \'issue\', it is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\'.',
+            nullable: true,
+            description: 'Reception routing address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Null for mandates whose types only includes \'issue\', which carry no reception address.',
             maxLength: 109
         },
         person_type: {
@@ -53244,7 +53246,7 @@ export const InvoiceWritableSchema = {
             properties: {
                 status: {
                     type: 'integer',
-                    description: 'AFNOR lifecycle status code',
+                    description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                     example: 212
                 },
                 label: {
@@ -53546,7 +53548,7 @@ export const InvoiceOneWritableSchema = {
                     properties: {
                         status: {
                             type: 'integer',
-                            description: 'AFNOR lifecycle status code',
+                            description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposée`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                             example: 212
                         },
                         label: {
@@ -57986,7 +57988,7 @@ export const CreditNoteWritableSchema = {
             properties: {
                 status: {
                     type: 'integer',
-                    description: 'AFNOR lifecycle status code',
+                    description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                     example: 212
                 },
                 label: {
@@ -58386,7 +58388,7 @@ export const CreditNoteOneWritableSchema = {
                     properties: {
                         status: {
                             type: 'integer',
-                            description: 'AFNOR lifecycle status code',
+                            description: 'Lifecycle status code: an AFNOR XP Z12-012 code, or a Sellsy-internal value outside the AFNOR\nrange. The only internal value today is `900`, whose `label` reads `Non déposé`: the deposit\nfailed on our side and the retries are exhausted, so the platform never received the document.\n',
                             example: 212
                         },
                         label: {
@@ -63471,7 +63473,7 @@ export const EInvoicingMandateInputWritableSchema = {
         },
         electronic_address: {
             type: 'string',
-            description: 'Electronic address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Ignored when types only includes \'issue\': the address is always generated server-side as \'{SIREN}_CDARTeamSystemSellsy\', so any value provided is overwritten.',
+            description: 'Reception routing address associated with the mandate. Required if types includes \'receipt\', and it must then start with the company SIREN. Rejected for mandates whose types only includes \'issue\', which carry no reception address.',
             maxLength: 109
         },
         person_type: {
