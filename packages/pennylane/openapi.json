@@ -11544,13 +11544,20 @@
                             "description": "The banking provider for the transaction",
                             "type": "string",
                             "example": "bank",
-                            "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                            "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                           },
                           "provider_field_name": {
                             "description": "Name of the field that you want to match",
                             "type": "string",
                             "example": "label",
-                            "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                            "enum": [
+                              "payment_id",
+                              "charge_id",
+                              "report_id",
+                              "webid",
+                              "label",
+                              "order_id"
+                            ]
                           },
                           "provider_field_value": {
                             "description": "Value that you want to match",
@@ -14647,13 +14654,20 @@
                         "description": "The banking provider for the transaction",
                         "type": "string",
                         "example": "bank",
-                        "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                        "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                       },
                       "provider_field_name": {
                         "description": "Name of the field that you want to match",
                         "type": "string",
                         "example": "label",
-                        "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                        "enum": [
+                          "payment_id",
+                          "charge_id",
+                          "report_id",
+                          "webid",
+                          "label",
+                          "order_id"
+                        ]
                       },
                       "provider_field_value": {
                         "description": "Value that you want to match",
@@ -43103,13 +43117,20 @@
                             "description": "The banking provider for the transaction",
                             "type": "string",
                             "example": "bank",
-                            "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                            "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                           },
                           "provider_field_name": {
                             "description": "Name of the field that you want to match",
                             "type": "string",
                             "example": "label",
-                            "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                            "enum": [
+                              "payment_id",
+                              "charge_id",
+                              "report_id",
+                              "webid",
+                              "label",
+                              "order_id"
+                            ]
                           },
                           "provider_field_value": {
                             "description": "Value that you want to match",
@@ -45865,13 +45886,20 @@
                         "description": "The banking provider for the transaction",
                         "type": "string",
                         "example": "bank",
-                        "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                        "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                       },
                       "provider_field_name": {
                         "description": "Name of the field that you want to match",
                         "type": "string",
                         "example": "label",
-                        "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                        "enum": [
+                          "payment_id",
+                          "charge_id",
+                          "report_id",
+                          "webid",
+                          "label",
+                          "order_id"
+                        ]
                       },
                       "provider_field_value": {
                         "description": "Value that you want to match",
@@ -51763,13 +51791,20 @@
                         "description": "The banking provider for the transaction",
                         "type": "string",
                         "example": "bank",
-                        "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                        "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                       },
                       "provider_field_name": {
                         "description": "Name of the field that you want to match",
                         "type": "string",
                         "example": "label",
-                        "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                        "enum": [
+                          "payment_id",
+                          "charge_id",
+                          "report_id",
+                          "webid",
+                          "label",
+                          "order_id"
+                        ]
                       },
                       "provider_field_value": {
                         "allOf": [
@@ -56539,13 +56574,20 @@
                         "description": "The banking provider for the transaction",
                         "type": "string",
                         "example": "bank",
-                        "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                        "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
                       },
                       "provider_field_name": {
                         "description": "Name of the field that you want to match",
                         "type": "string",
                         "example": "label",
-                        "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                        "enum": [
+                          "payment_id",
+                          "charge_id",
+                          "report_id",
+                          "webid",
+                          "label",
+                          "order_id"
+                        ]
                       },
                       "provider_field_value": {
                         "allOf": [
@@ -95054,13 +95096,13 @@
         "description": "The banking provider for the transaction",
         "type": "string",
         "example": "bank",
-        "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+        "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
       },
       "InvoiceTransactionReferencesProviderFieldNames": {
         "description": "Name of the field that you want to match",
         "type": "string",
         "example": "label",
-        "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+        "enum": ["payment_id", "charge_id", "report_id", "webid", "label", "order_id"]
       },
       "CustomerInvoices__FinalizedInvoiceLineWithProduct_Request": {
         "title": "Product-based Invoice Line",
@@ -95910,13 +95952,13 @@
                 "description": "The banking provider for the transaction",
                 "type": "string",
                 "example": "bank",
-                "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
               },
               "provider_field_name": {
                 "description": "Name of the field that you want to match",
                 "type": "string",
                 "example": "label",
-                "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                "enum": ["payment_id", "charge_id", "report_id", "webid", "label", "order_id"]
               },
               "provider_field_value": {
                 "description": "Value that you want to match",
@@ -100114,13 +100156,13 @@
                 "description": "The banking provider for the transaction",
                 "type": "string",
                 "example": "bank",
-                "enum": ["stripe", "gocardless", "bank", "budgetinsight"]
+                "enum": ["stripe", "gocardless", "bank", "budgetinsight", "helloasso"]
               },
               "provider_field_name": {
                 "description": "Name of the field that you want to match",
                 "type": "string",
                 "example": "label",
-                "enum": ["payment_id", "charge_id", "report_id", "webid", "label"]
+                "enum": ["payment_id", "charge_id", "report_id", "webid", "label", "order_id"]
               },
               "provider_field_value": {
                 "description": "Value that you want to match",

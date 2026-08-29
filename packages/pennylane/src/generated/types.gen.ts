@@ -2318,7 +2318,8 @@ export const InvoiceTransactionReferencesBankingProviders = {
     STRIPE: 'stripe',
     GOCARDLESS: 'gocardless',
     BANK: 'bank',
-    BUDGETINSIGHT: 'budgetinsight'
+    BUDGETINSIGHT: 'budgetinsight',
+    HELLOASSO: 'helloasso'
 } as const;
 
 /**
@@ -2334,7 +2335,8 @@ export const InvoiceTransactionReferencesProviderFieldNames = {
     CHARGE_ID: 'charge_id',
     REPORT_ID: 'report_id',
     WEBID: 'webid',
-    LABEL: 'label'
+    LABEL: 'label',
+    ORDER_ID: 'order_id'
 } as const;
 
 /**
@@ -2560,11 +2562,11 @@ export type CustomerInvoicesPostFinalizedRequest = {
         /**
          * The banking provider for the transaction
          */
-        banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+        banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
         /**
          * Name of the field that you want to match
          */
-        provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+        provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
         /**
          * Value that you want to match
          */
@@ -3906,11 +3908,11 @@ export type CustomerInvoicesPutFinalizedRequest = {
         /**
          * The banking provider for the transaction
          */
-        banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+        banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
         /**
          * Name of the field that you want to match
          */
-        provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+        provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
         /**
          * Value that you want to match
          */
@@ -10373,11 +10375,11 @@ export type PostCustomerInvoicesData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             /**
              * Value that you want to match
              */
@@ -10838,11 +10840,11 @@ export type ImportCustomerInvoicesData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             /**
              * Value that you want to match
              */
@@ -19185,11 +19187,11 @@ export type UpdateCustomerInvoiceData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             /**
              * Value that you want to match
              */
@@ -19925,11 +19927,11 @@ export type UpdateImportedCustomerInvoiceData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             /**
              * Value that you want to match
              */
@@ -21745,11 +21747,11 @@ export type PutSupplierInvoiceData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             provider_field_value: string & unknown;
         } | null;
         /**
@@ -22948,11 +22950,11 @@ export type ImportSupplierInvoiceData = {
             /**
              * The banking provider for the transaction
              */
-            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight';
+            banking_provider: 'stripe' | 'gocardless' | 'bank' | 'budgetinsight' | 'helloasso';
             /**
              * Name of the field that you want to match
              */
-            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label';
+            provider_field_name: 'payment_id' | 'charge_id' | 'report_id' | 'webid' | 'label' | 'order_id';
             provider_field_value: string & unknown;
         };
         invoice_lines: Array<{

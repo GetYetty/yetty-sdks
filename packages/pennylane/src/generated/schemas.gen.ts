@@ -5569,7 +5569,8 @@ export const InvoiceTransactionReferencesBankingProvidersSchema = {
         'stripe',
         'gocardless',
         'bank',
-        'budgetinsight'
+        'budgetinsight',
+        'helloasso'
     ]
 } as const;
 
@@ -5582,7 +5583,8 @@ export const InvoiceTransactionReferencesProviderFieldNamesSchema = {
         'charge_id',
         'report_id',
         'webid',
-        'label'
+        'label',
+        'order_id'
     ]
 } as const;
 
@@ -6510,7 +6512,8 @@ export const CustomerInvoices__PostFinalized_RequestSchema = {
                         'stripe',
                         'gocardless',
                         'bank',
-                        'budgetinsight'
+                        'budgetinsight',
+                        'helloasso'
                     ]
                 },
                 provider_field_name: {
@@ -6522,7 +6525,8 @@ export const CustomerInvoices__PostFinalized_RequestSchema = {
                         'charge_id',
                         'report_id',
                         'webid',
-                        'label'
+                        'label',
+                        'order_id'
                     ]
                 },
                 provider_field_value: {
@@ -11609,7 +11613,8 @@ export const CustomerInvoices__PutFinalized_RequestSchema = {
                         'stripe',
                         'gocardless',
                         'bank',
-                        'budgetinsight'
+                        'budgetinsight',
+                        'helloasso'
                     ]
                 },
                 provider_field_name: {
@@ -11621,7 +11626,8 @@ export const CustomerInvoices__PutFinalized_RequestSchema = {
                         'charge_id',
                         'report_id',
                         'webid',
-                        'label'
+                        'label',
+                        'order_id'
                     ]
                 },
                 provider_field_value: {
