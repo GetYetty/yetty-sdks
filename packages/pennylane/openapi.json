@@ -11238,6 +11238,47 @@
                           ]
                         },
                         "minItems": 1
+                      },
+                      "installments": {
+                        "description": "Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n",
+                        "type": "array",
+                        "items": {
+                          "title": "Customer Invoice Installment",
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "deadline": {
+                              "description": "Installment payment deadline (ISO 8601)",
+                              "type": "string",
+                              "format": "date",
+                              "example": "2023-08-30"
+                            },
+                            "amount": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^-?\\d+(\\.\\d+)?$",
+                                  "example": "100.00"
+                                },
+                                {
+                                  "description": "Installment amount (in invoice currency)",
+                                  "example": "20.00"
+                                }
+                              ]
+                            },
+                            "payment_methods": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "items": {
+                                "description": "Allowed payment methods to be used in installments from the API.",
+                                "type": "string",
+                                "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+                              }
+                            }
+                          },
+                          "required": ["deadline", "amount"]
+                        },
+                        "minItems": 2
                       }
                     },
                     "required": ["date", "deadline", "customer_id", "draft", "invoice_lines"]
@@ -12146,6 +12187,47 @@
                           ]
                         },
                         "minItems": 1
+                      },
+                      "installments": {
+                        "description": "Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n",
+                        "type": "array",
+                        "items": {
+                          "title": "Customer Invoice Installment",
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "deadline": {
+                              "description": "Installment payment deadline (ISO 8601)",
+                              "type": "string",
+                              "format": "date",
+                              "example": "2023-08-30"
+                            },
+                            "amount": {
+                              "allOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^-?\\d+(\\.\\d+)?$",
+                                  "example": "100.00"
+                                },
+                                {
+                                  "description": "Installment amount (in invoice currency)",
+                                  "example": "20.00"
+                                }
+                              ]
+                            },
+                            "payment_methods": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "items": {
+                                "description": "Allowed payment methods to be used in installments from the API.",
+                                "type": "string",
+                                "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+                              }
+                            }
+                          },
+                          "required": ["deadline", "amount"]
+                        },
+                        "minItems": 2
                       }
                     },
                     "required": ["date", "deadline", "customer_id", "invoice_lines"]
@@ -17858,75 +17940,87 @@
                   },
                   "label": { "type": "string", "nullable": true },
                   "recurring_rule": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "anyOf": [
+                    "allOf": [
                       {
-                        "title": "Yearly recurrence",
                         "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["yearly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in years."
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
-                          }
-                        },
-                        "required": ["type"]
+                        "additionalProperties": true,
+                        "properties": { "interval": { "type": "integer", "minimum": 1 } }
                       },
                       {
-                        "title": "Monthly recurrence",
                         "type": "object",
                         "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["monthly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in months."
+                        "anyOf": [
+                          {
+                            "title": "Yearly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["yearly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in years."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              }
+                            },
+                            "required": ["type"]
                           },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
+                          {
+                            "title": "Monthly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["monthly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in months."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              },
+                              "day_of_month": { "type": "number", "minimum": 1, "maximum": 31 }
+                            },
+                            "required": ["type"]
                           },
-                          "day_of_month": { "type": "number", "minimum": 1, "maximum": 31 }
-                        },
-                        "required": ["type"]
-                      },
-                      {
-                        "title": "Weekly recurrence",
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["weekly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in weeks."
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
-                          },
-                          "day_of_week": {
-                            "type": "string",
-                            "enum": [
-                              "monday",
-                              "tuesday",
-                              "wednesday",
-                              "thursday",
-                              "friday",
-                              "saturday",
-                              "sunday"
-                            ]
+                          {
+                            "title": "Weekly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["weekly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in weeks."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              },
+                              "day_of_week": {
+                                "type": "string",
+                                "enum": [
+                                  "monday",
+                                  "tuesday",
+                                  "wednesday",
+                                  "thursday",
+                                  "friday",
+                                  "saturday",
+                                  "sunday"
+                                ]
+                              }
+                            },
+                            "required": ["type"]
                           }
-                        },
-                        "required": ["type"]
+                        ]
                       }
                     ]
                   },
@@ -20907,75 +21001,87 @@
                   },
                   "label": { "type": "string", "nullable": true },
                   "recurring_rule": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "anyOf": [
+                    "allOf": [
                       {
-                        "title": "Yearly recurrence",
                         "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["yearly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in years."
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
-                          }
-                        },
-                        "required": ["type"]
+                        "additionalProperties": true,
+                        "properties": { "interval": { "type": "integer", "minimum": 1 } }
                       },
                       {
-                        "title": "Monthly recurrence",
                         "type": "object",
                         "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["monthly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in months."
+                        "anyOf": [
+                          {
+                            "title": "Yearly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["yearly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in years."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              }
+                            },
+                            "required": ["type"]
                           },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
+                          {
+                            "title": "Monthly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["monthly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in months."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              },
+                              "day_of_month": { "type": "number", "minimum": 1, "maximum": 31 }
+                            },
+                            "required": ["type"]
                           },
-                          "day_of_month": { "type": "number", "minimum": 1, "maximum": 31 }
-                        },
-                        "required": ["type"]
-                      },
-                      {
-                        "title": "Weekly recurrence",
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "type": { "type": "string", "enum": ["weekly"] },
-                          "interval": {
-                            "type": "integer",
-                            "description": "Interval between each occurrence in weeks."
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "Number of occurrences",
-                            "example": 12
-                          },
-                          "day_of_week": {
-                            "type": "string",
-                            "enum": [
-                              "monday",
-                              "tuesday",
-                              "wednesday",
-                              "thursday",
-                              "friday",
-                              "saturday",
-                              "sunday"
-                            ]
+                          {
+                            "title": "Weekly recurrence",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": { "type": "string", "enum": ["weekly"] },
+                              "interval": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Interval between each occurrence in weeks."
+                              },
+                              "count": {
+                                "type": "integer",
+                                "description": "Number of occurrences",
+                                "example": 12
+                              },
+                              "day_of_week": {
+                                "type": "string",
+                                "enum": [
+                                  "monday",
+                                  "tuesday",
+                                  "wednesday",
+                                  "thursday",
+                                  "friday",
+                                  "saturday",
+                                  "sunday"
+                                ]
+                              }
+                            },
+                            "required": ["type"]
                           }
-                        },
-                        "required": ["type"]
+                        ]
                       }
                     ]
                   },
@@ -94267,6 +94373,16 @@
         },
         "required": ["label", "raw_currency_unit_price", "unit", "vat_rate", "quantity"]
       },
+      "NonBlankDecimalString": {
+        "type": "string",
+        "pattern": "^-?\\d+(\\.\\d+)?$",
+        "example": "100.00"
+      },
+      "InstallmentsAPIEnabledPaymentMethods": {
+        "description": "Allowed payment methods to be used in installments from the API.",
+        "type": "string",
+        "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+      },
       "CustomerInvoices__PostDraft_Request": {
         "title": "Draft Customer Invoice",
         "type": "object",
@@ -95088,6 +95204,43 @@
               ]
             },
             "minItems": 1
+          },
+          "installments": {
+            "description": "Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n",
+            "type": "array",
+            "items": {
+              "title": "Customer Invoice Installment",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "deadline": {
+                  "description": "Installment payment deadline (ISO 8601)",
+                  "type": "string",
+                  "format": "date",
+                  "example": "2023-08-30"
+                },
+                "amount": {
+                  "allOf": [
+                    { "type": "string", "pattern": "^-?\\d+(\\.\\d+)?$", "example": "100.00" },
+                    {
+                      "description": "Installment amount (in invoice currency)",
+                      "example": "20.00"
+                    }
+                  ]
+                },
+                "payment_methods": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "description": "Allowed payment methods to be used in installments from the API.",
+                    "type": "string",
+                    "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+                  }
+                }
+              },
+              "required": ["deadline", "amount"]
+            },
+            "minItems": 2
           }
         },
         "required": ["date", "deadline", "customer_id", "draft", "invoice_lines"]
@@ -96537,6 +96690,43 @@
               ]
             },
             "minItems": 1
+          },
+          "installments": {
+            "description": "Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n",
+            "type": "array",
+            "items": {
+              "title": "Customer Invoice Installment",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "deadline": {
+                  "description": "Installment payment deadline (ISO 8601)",
+                  "type": "string",
+                  "format": "date",
+                  "example": "2023-08-30"
+                },
+                "amount": {
+                  "allOf": [
+                    { "type": "string", "pattern": "^-?\\d+(\\.\\d+)?$", "example": "100.00" },
+                    {
+                      "description": "Installment amount (in invoice currency)",
+                      "example": "20.00"
+                    }
+                  ]
+                },
+                "payment_methods": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "description": "Allowed payment methods to be used in installments from the API.",
+                    "type": "string",
+                    "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+                  }
+                }
+              },
+              "required": ["deadline", "amount"]
+            },
+            "minItems": 2
           }
         },
         "required": ["date", "deadline", "customer_id", "invoice_lines"]
@@ -97849,11 +98039,6 @@
           "created_at",
           "updated_at"
         ]
-      },
-      "NonBlankDecimalString": {
-        "type": "string",
-        "pattern": "^-?\\d+(\\.\\d+)?$",
-        "example": "100.00"
       },
       "FileAttachments__Response": {
         "type": "object",

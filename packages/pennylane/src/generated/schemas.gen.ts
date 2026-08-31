@@ -4681,6 +4681,25 @@ export const CustomerInvoices__DraftInvoiceLineWithoutProduct_RequestSchema = {
     ]
 } as const;
 
+export const NonBlankDecimalStringSchema = {
+    type: 'string',
+    pattern: '^-?\\d+(\\.\\d+)?$',
+    example: '100.00'
+} as const;
+
+export const InstallmentsAPIEnabledPaymentMethodsSchema = {
+    description: 'Allowed payment methods to be used in installments from the API.',
+    type: 'string',
+    enum: [
+        'transfer',
+        'e_transfer',
+        'sepa',
+        'cheque',
+        'cash',
+        'lcr'
+    ]
+} as const;
+
 export const CustomerInvoices__PostDraft_RequestSchema = {
     title: 'Draft Customer Invoice',
     type: 'object',
@@ -5550,6 +5569,57 @@ export const CustomerInvoices__PostDraft_RequestSchema = {
                 ]
             },
             minItems: 1
+        },
+        installments: {
+            description: 'Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments\' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n',
+            type: 'array',
+            items: {
+                title: 'Customer Invoice Installment',
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                    deadline: {
+                        description: 'Installment payment deadline (ISO 8601)',
+                        type: 'string',
+                        format: 'date',
+                        example: '2023-08-30'
+                    },
+                    amount: {
+                        allOf: [
+                            {
+                                type: 'string',
+                                pattern: '^-?\\d+(\\.\\d+)?$',
+                                example: '100.00'
+                            },
+                            {
+                                description: 'Installment amount (in invoice currency)',
+                                example: '20.00'
+                            }
+                        ]
+                    },
+                    payment_methods: {
+                        type: 'array',
+                        uniqueItems: true,
+                        items: {
+                            description: 'Allowed payment methods to be used in installments from the API.',
+                            type: 'string',
+                            enum: [
+                                'transfer',
+                                'e_transfer',
+                                'sepa',
+                                'cheque',
+                                'cash',
+                                'lcr'
+                            ]
+                        }
+                    }
+                },
+                required: [
+                    'deadline',
+                    'amount'
+                ]
+            },
+            minItems: 2
         }
     },
     required: [
@@ -7149,6 +7219,57 @@ export const CustomerInvoices__PostFinalized_RequestSchema = {
                 ]
             },
             minItems: 1
+        },
+        installments: {
+            description: 'Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments\' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n',
+            type: 'array',
+            items: {
+                title: 'Customer Invoice Installment',
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                    deadline: {
+                        description: 'Installment payment deadline (ISO 8601)',
+                        type: 'string',
+                        format: 'date',
+                        example: '2023-08-30'
+                    },
+                    amount: {
+                        allOf: [
+                            {
+                                type: 'string',
+                                pattern: '^-?\\d+(\\.\\d+)?$',
+                                example: '100.00'
+                            },
+                            {
+                                description: 'Installment amount (in invoice currency)',
+                                example: '20.00'
+                            }
+                        ]
+                    },
+                    payment_methods: {
+                        type: 'array',
+                        uniqueItems: true,
+                        items: {
+                            description: 'Allowed payment methods to be used in installments from the API.',
+                            type: 'string',
+                            enum: [
+                                'transfer',
+                                'e_transfer',
+                                'sepa',
+                                'cheque',
+                                'cash',
+                                'lcr'
+                            ]
+                        }
+                    }
+                },
+                required: [
+                    'deadline',
+                    'amount'
+                ]
+            },
+            minItems: 2
         }
     },
     required: [
@@ -8667,12 +8788,6 @@ export const Products__ResponseSchema = {
         'created_at',
         'updated_at'
     ]
-} as const;
-
-export const NonBlankDecimalStringSchema = {
-    type: 'string',
-    pattern: '^-?\\d+(\\.\\d+)?$',
-    example: '100.00'
 } as const;
 
 export const FileAttachments__ResponseSchema = {

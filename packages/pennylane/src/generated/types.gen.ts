@@ -2136,6 +2136,25 @@ export type CustomerInvoicesDraftInvoiceLineWithoutProductRequest = {
     description?: string | null;
 };
 
+export type NonBlankDecimalString = string;
+
+/**
+ * Allowed payment methods to be used in installments from the API.
+ */
+export const InstallmentsApiEnabledPaymentMethods = {
+    TRANSFER: 'transfer',
+    E_TRANSFER: 'e_transfer',
+    SEPA: 'sepa',
+    CHEQUE: 'cheque',
+    CASH: 'cash',
+    LCR: 'lcr'
+} as const;
+
+/**
+ * Allowed payment methods to be used in installments from the API.
+ */
+export type InstallmentsApiEnabledPaymentMethods = typeof InstallmentsApiEnabledPaymentMethods[keyof typeof InstallmentsApiEnabledPaymentMethods];
+
 /**
  * Draft Customer Invoice
  */
@@ -2308,6 +2327,27 @@ export type CustomerInvoicesPostDraftRequest = {
          * The description of the invoice line
          */
         description?: string | null;
+    }>;
+    /**
+     * Optional list of installments for this invoice.
+     * If not provided, a single installment matching the invoice total is created automatically.
+     * The sum of all installments' `amount` values must equal the invoice total amount with tax.
+     *
+     * > ℹ️
+     * > This endpoint requires a company plan that has access to Installments, otherwise responds with 403.
+     *
+     * > ⚠️ **Warning**: This feature is in alpha
+     * > The installments param will be ignored until further rollout and the request will proceed as if it was made without it
+     * > If you plan to rely on it, please get in touch with us first
+     *
+     */
+    installments?: Array<{
+        /**
+         * Installment payment deadline (ISO 8601)
+         */
+        deadline: string;
+        amount: string & unknown;
+        payment_methods?: Array<'transfer' | 'e_transfer' | 'sepa' | 'cheque' | 'cash' | 'lcr'>;
     }>;
 };
 
@@ -2684,6 +2724,27 @@ export type CustomerInvoicesPostFinalizedRequest = {
              */
             end_date: string;
         } | null;
+    }>;
+    /**
+     * Optional list of installments for this invoice.
+     * If not provided, a single installment matching the invoice total is created automatically.
+     * The sum of all installments' `amount` values must equal the invoice total amount with tax.
+     *
+     * > ℹ️
+     * > This endpoint requires a company plan that has access to Installments, otherwise responds with 403.
+     *
+     * > ⚠️ **Warning**: This feature is in alpha
+     * > The installments param will be ignored until further rollout and the request will proceed as if it was made without it
+     * > If you plan to rely on it, please get in touch with us first
+     *
+     */
+    installments?: Array<{
+        /**
+         * Installment payment deadline (ISO 8601)
+         */
+        deadline: string;
+        amount: string & unknown;
+        payment_methods?: Array<'transfer' | 'e_transfer' | 'sepa' | 'cheque' | 'cash' | 'lcr'>;
     }>;
 };
 
@@ -3094,8 +3155,6 @@ export type ProductsResponse = {
     created_at: string;
     updated_at: string;
 };
-
-export type NonBlankDecimalString = string;
 
 export type FileAttachmentsResponse = {
     id: number;
@@ -10291,6 +10350,27 @@ export type PostCustomerInvoicesData = {
              */
             description?: string | null;
         }>;
+        /**
+         * Optional list of installments for this invoice.
+         * If not provided, a single installment matching the invoice total is created automatically.
+         * The sum of all installments' `amount` values must equal the invoice total amount with tax.
+         *
+         * > ℹ️
+         * > This endpoint requires a company plan that has access to Installments, otherwise responds with 403.
+         *
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > The installments param will be ignored until further rollout and the request will proceed as if it was made without it
+         * > If you plan to rely on it, please get in touch with us first
+         *
+         */
+        installments?: Array<{
+            /**
+             * Installment payment deadline (ISO 8601)
+             */
+            deadline: string;
+            amount: string & unknown;
+            payment_methods?: Array<'transfer' | 'e_transfer' | 'sepa' | 'cheque' | 'cash' | 'lcr'>;
+        }>;
     } | {
         /**
          * Invoice date (ISO 8601)
@@ -10497,6 +10577,27 @@ export type PostCustomerInvoicesData = {
                  */
                 end_date: string;
             } | null;
+        }>;
+        /**
+         * Optional list of installments for this invoice.
+         * If not provided, a single installment matching the invoice total is created automatically.
+         * The sum of all installments' `amount` values must equal the invoice total amount with tax.
+         *
+         * > ℹ️
+         * > This endpoint requires a company plan that has access to Installments, otherwise responds with 403.
+         *
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > The installments param will be ignored until further rollout and the request will proceed as if it was made without it
+         * > If you plan to rely on it, please get in touch with us first
+         *
+         */
+        installments?: Array<{
+            /**
+             * Installment payment deadline (ISO 8601)
+             */
+            deadline: string;
+            amount: string & unknown;
+            payment_methods?: Array<'transfer' | 'e_transfer' | 'sepa' | 'cheque' | 'cash' | 'lcr'>;
         }>;
     };
     path?: never;
@@ -12117,6 +12218,9 @@ export type PostBillingSubscriptionsData = {
         payment_method: 'offline' | 'gocardless_direct_debit' | 'pro_account_sepa_core';
         label?: string | null;
         recurring_rule: {
+            interval?: number;
+            [key: string]: unknown;
+        } & ({
             type: 'yearly';
             /**
              * Interval between each occurrence in years.
@@ -12148,7 +12252,7 @@ export type PostBillingSubscriptionsData = {
              */
             count?: number;
             day_of_week?: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
-        };
+        });
         /**
          * Customer identifier
          */
@@ -12746,6 +12850,9 @@ export type PutBillingSubscriptionsData = {
         payment_method?: 'offline' | 'gocardless_direct_debit' | 'pro_account_sepa_core';
         label?: string | null;
         recurring_rule?: {
+            interval?: number;
+            [key: string]: unknown;
+        } & ({
             type: 'yearly';
             /**
              * Interval between each occurrence in years.
@@ -12777,7 +12884,7 @@ export type PutBillingSubscriptionsData = {
              */
             count?: number;
             day_of_week?: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
-        };
+        });
         /**
          * Customer identifier
          */
