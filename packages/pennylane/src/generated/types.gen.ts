@@ -3609,6 +3609,21 @@ export const AccountingLogic = {
  */
 export type AccountingLogic = typeof AccountingLogic[keyof typeof AccountingLogic];
 
+export const PaymentMethod = {
+    TRANSFER: 'transfer',
+    E_TRANSFER: 'e_transfer',
+    CREDIT_CARD: 'credit_card',
+    SEPA: 'sepa',
+    CHEQUE: 'cheque',
+    CASH: 'cash',
+    LCR: 'lcr',
+    PRO_ACCOUNT_SEPA_CORE: 'pro_account_sepa_core',
+    PRO_ACCOUNT_POS: 'pro_account_pos',
+    PRO_ACCOUNT_PAYMENT_LINK: 'pro_account_payment_link'
+} as const;
+
+export type PaymentMethod = typeof PaymentMethod[keyof typeof PaymentMethod];
+
 export const PaymentStatus = {
     INITIATED: 'initiated',
     PENDING: 'pending',
@@ -11062,6 +11077,27 @@ export type ImportCustomerInvoicesData = {
          * A unique external reference you can provide to track this customer invoice. If not provided, Pennylane will generate an identifier for you.
          */
         external_reference?: string;
+        /**
+         * Optional list of installments for this invoice.
+         * If not provided, a single installment matching the invoice total is created automatically.
+         * The sum of all installments' `amount` values must equal the invoice total amount with tax.
+         *
+         * > ℹ️
+         * > This endpoint requires a company plan that has access to Installments, otherwise responds with 403.
+         *
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > The installments param will be ignored until further rollout and the request will proceed as if it was made without it
+         * > If you plan to rely on it, please get in touch with us first
+         *
+         */
+        installments?: Array<{
+            /**
+             * Installment payment deadline (ISO 8601)
+             */
+            deadline: string;
+            amount: string & unknown;
+            payment_methods?: Array<'transfer' | 'e_transfer' | 'sepa' | 'cheque' | 'cash' | 'lcr'>;
+        }>;
     };
     path?: never;
     query?: never;
@@ -18022,6 +18058,138 @@ export type GetCustomerInvoiceInvoiceLinesResponses = {
 };
 
 export type GetCustomerInvoiceInvoiceLinesResponse = GetCustomerInvoiceInvoiceLinesResponses[keyof GetCustomerInvoiceInvoiceLinesResponses];
+
+export type GetCustomerInvoiceInstallmentsData = {
+    body?: never;
+    path: {
+        customer_invoice_id: number;
+    };
+    query?: {
+        /**
+         * Cursor for pagination. Use this to fetch the next set of results.
+         * The cursor is an opaque string returned in the previous response's metadata.
+         * Leave empty for the first request.
+         *
+         */
+        cursor?: string;
+        /**
+         * Number of items to return per request.
+         * Defaults to 20 if not specified.
+         * Must be between 1 and 100.
+         *
+         */
+        limit?: number;
+        /**
+         * You can choose to sort items on specific attributes
+         * Sort field may be prefixed with `-` for descending order. By default uses deadline in ascending order.
+         * Example : `deadline` will sort by ascending order, `-deadline` will sort by descending order.
+         * Available fields :
+         * - `deadline`
+         *
+         */
+        sort?: string;
+    };
+    url: '/api/external/v2/customer_invoices/{customer_invoice_id}/installments';
+};
+
+export type GetCustomerInvoiceInstallmentsErrors = {
+    /**
+     * Bad request
+     */
+    400: {
+        error: string;
+        status: number;
+    } | {
+        message: string;
+    } | {
+        message: string;
+        code: 'InvalidDateFormat' | 'InvalidDateTimeFormat' | 'InvalidEmailFormat' | 'InvalidPattern' | 'InvalidUUIDFormat' | 'LessThanExclusiveMinimum' | 'LessThanMinimum' | 'LessThanMinItems' | 'LessThanMinLength' | 'MoreThanExclusiveMaximum' | 'MoreThanMaximum' | 'MoreThanMaxItems' | 'MoreThanMaxLength' | 'NotAMultipartFile' | 'NotAnyOf' | 'NotEnumInclude' | 'NotExistContentTypeDefinition' | 'NotExistDiscriminatorMappedSchema' | 'NotExistDiscriminatorPropertyName' | 'NotExistPropertyDefinition' | 'NotExistRequiredKey' | 'NotExistStatusCodeDefinition' | 'NotNullError' | 'NotOneOf' | 'ValidateError';
+    } | {
+        message: string;
+        field: string;
+        code: 'InvalidDateFormat' | 'InvalidDateTimeFormat' | 'InvalidEmailFormat' | 'InvalidPattern' | 'InvalidUUIDFormat' | 'LessThanExclusiveMinimum' | 'LessThanMinimum' | 'LessThanMinItems' | 'LessThanMinLength' | 'MoreThanExclusiveMaximum' | 'MoreThanMaximum' | 'MoreThanMaxItems' | 'MoreThanMaxLength' | 'NotAMultipartFile' | 'NotAnyOf' | 'NotEnumInclude' | 'NotExistContentTypeDefinition' | 'NotExistDiscriminatorMappedSchema' | 'NotExistDiscriminatorPropertyName' | 'NotExistPropertyDefinition' | 'NotExistRequiredKey' | 'NotExistStatusCodeDefinition' | 'NotNullError' | 'NotOneOf' | 'ValidateError';
+    } | {
+        message: string;
+        payload: string;
+        code: 'InvalidDateFormat' | 'InvalidDateTimeFormat' | 'InvalidEmailFormat' | 'InvalidPattern' | 'InvalidUUIDFormat' | 'LessThanExclusiveMinimum' | 'LessThanMinimum' | 'LessThanMinItems' | 'LessThanMinLength' | 'MoreThanExclusiveMaximum' | 'MoreThanMaximum' | 'MoreThanMaxItems' | 'MoreThanMaxLength' | 'NotAMultipartFile' | 'NotAnyOf' | 'NotEnumInclude' | 'NotExistContentTypeDefinition' | 'NotExistDiscriminatorMappedSchema' | 'NotExistDiscriminatorPropertyName' | 'NotExistPropertyDefinition' | 'NotExistRequiredKey' | 'NotExistStatusCodeDefinition' | 'NotNullError' | 'NotOneOf' | 'ValidateError';
+    } | {
+        message: string;
+        field: string;
+        payload: string;
+        code: 'InvalidDateFormat' | 'InvalidDateTimeFormat' | 'InvalidEmailFormat' | 'InvalidPattern' | 'InvalidUUIDFormat' | 'LessThanExclusiveMinimum' | 'LessThanMinimum' | 'LessThanMinItems' | 'LessThanMinLength' | 'MoreThanExclusiveMaximum' | 'MoreThanMaximum' | 'MoreThanMaxItems' | 'MoreThanMaxLength' | 'NotAMultipartFile' | 'NotAnyOf' | 'NotEnumInclude' | 'NotExistContentTypeDefinition' | 'NotExistDiscriminatorMappedSchema' | 'NotExistDiscriminatorPropertyName' | 'NotExistPropertyDefinition' | 'NotExistRequiredKey' | 'NotExistStatusCodeDefinition' | 'NotNullError' | 'NotOneOf' | 'ValidateError';
+    };
+    /**
+     * Access token is missing or invalid
+     */
+    401: {
+        error: string;
+        status: number;
+    };
+    /**
+     * Access to this resource forbidden
+     */
+    403: {
+        error: string;
+        status: number;
+    };
+    /**
+     * The resource was not found
+     */
+    404: {
+        error: string;
+        status: number;
+    };
+};
+
+export type GetCustomerInvoiceInstallmentsError = GetCustomerInvoiceInstallmentsErrors[keyof GetCustomerInvoiceInstallmentsErrors];
+
+export type GetCustomerInvoiceInstallmentsResponses = {
+    /**
+     * Returns the list of installments for a customer invoice
+     */
+    200: {
+        /**
+         * Indicates whether additional results are available beyond this set.
+         * Use this flag to determine if another request is needed.
+         *
+         */
+        has_more: boolean;
+        /**
+         * Cursor to retrieve the next set of results.
+         * Include this value in the cursor parameter of your next request to fetch subsequent items.
+         * A `null` `next_cursor` in the response indicates no further results.
+         *
+         */
+        next_cursor: string | null;
+        items: Array<{
+            /**
+             * Installment id
+             */
+            id: number;
+            /**
+             * Installment payment deadline (ISO 8601)
+             */
+            deadline: string | null;
+            /**
+             * Installment amount (total value of the installment in euros. If the currency is `EUR`, `currency_amount` and `amount` are identical)
+             */
+            amount: string | null;
+            /**
+             * Installment currency amount (total value of the installment in the currency of the invoice)
+             */
+            currency_amount: string | null;
+            currency: 'EUR' | 'USD' | 'GBP' | 'AED' | 'AFN' | 'ALL' | 'AMD' | 'ANG' | 'AOA' | 'ARS' | 'AUD' | 'AWG' | 'AZN' | 'BAM' | 'BBD' | 'BDT' | 'BGN' | 'BHD' | 'BIF' | 'BMD' | 'BND' | 'BOB' | 'BRL' | 'BSD' | 'BTN' | 'BWP' | 'BYN' | 'BYR' | 'BZD' | 'CAD' | 'CDF' | 'CHE' | 'CHF' | 'CLF' | 'CLP' | 'CNY' | 'COP' | 'CRC' | 'CUC' | 'CUP' | 'CVE' | 'CZK' | 'DJF' | 'DKK' | 'DOP' | 'DZD' | 'EGP' | 'ERN' | 'ETB' | 'FJD' | 'FKP' | 'GEL' | 'GGP' | 'GHS' | 'GIP' | 'GMD' | 'GNF' | 'GTQ' | 'GYD' | 'HKD' | 'HNL' | 'HRK' | 'HTG' | 'HUF' | 'IDR' | 'ILS' | 'IMP' | 'INR' | 'IQD' | 'IRR' | 'ISK' | 'JEP' | 'JMD' | 'JOD' | 'JPY' | 'KES' | 'KGS' | 'KHR' | 'KMF' | 'KPW' | 'KRW' | 'KWD' | 'KYD' | 'KZT' | 'LAK' | 'LBP' | 'LKR' | 'LRD' | 'LSL' | 'LTL' | 'LVL' | 'LYD' | 'MAD' | 'MDL' | 'MGA' | 'MKD' | 'MMK' | 'MNT' | 'MOP' | 'MRO' | 'MRU' | 'MUR' | 'MVR' | 'MWK' | 'MXN' | 'MYR' | 'MZN' | 'NAD' | 'NGN' | 'NIO' | 'NOK' | 'NPR' | 'NZD' | 'OMR' | 'PAB' | 'PEN' | 'PGK' | 'PHP' | 'PKR' | 'PLN' | 'PYG' | 'QAR' | 'RON' | 'RSD' | 'RUB' | 'RWF' | 'SAR' | 'SBD' | 'SCR' | 'SDG' | 'SEK' | 'SGD' | 'SHP' | 'SLL' | 'SLE' | 'SOS' | 'SRD' | 'STD' | 'SVC' | 'SYP' | 'SZL' | 'THB' | 'TJS' | 'TMT' | 'TND' | 'TOP' | 'TRY' | 'TTD' | 'TWD' | 'TZS' | 'UAH' | 'UGX' | 'UYU' | 'UZS' | 'VEF' | 'VES' | 'VND' | 'VUV' | 'WST' | 'XAF' | 'XCD' | 'XDR' | 'XOF' | 'XPF' | 'YER' | 'ZAR' | 'ZMK' | 'ZMW' | 'ZWL';
+            /**
+             * The remaining amount with VAT to pay for the installment to be considered paid
+             */
+            remaining_amount_with_tax: string | null;
+            status: 'upcoming' | 'late' | 'paid' | 'waiting_funds' | 'cancelled';
+            payment_methods: Array<'transfer' | 'e_transfer' | 'credit_card' | 'sepa' | 'cheque' | 'cash' | 'lcr' | 'pro_account_sepa_core' | 'pro_account_pos' | 'pro_account_payment_link'> | null;
+        }>;
+    };
+};
+
+export type GetCustomerInvoiceInstallmentsResponse = GetCustomerInvoiceInstallmentsResponses[keyof GetCustomerInvoiceInstallmentsResponses];
 
 export type GetCustomerInvoicePaymentsData = {
     body?: never;

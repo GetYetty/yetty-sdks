@@ -372,7 +372,7 @@
       "post": {
         "operationId": "postWebhookSubscriptions",
         "summary": "Create a webhook subscription",
-        "description": "Creates a webhook subscription to receive real-time notifications for events occurring within your company or companies.\n\n**Authentication & Scope**\n- **Developer Token**: The subscription is scoped to the single company linked to the token.\n- **OAuth Application Access Token**: The subscription covers **all companies** accessible by the OAuth application.\n\n**Limits**\nUp to 10 webhook subscriptions are allowed per subscriber.\n\n**Secret**\n. The secret will be auto-generated.\n\n> 🔒 The secret is **only returned in the creation response** and cannot be retrieved afterwards. Make sure to store it securely.",
+        "description": "Creates a webhook subscription to receive real-time notifications for events occurring within your company or companies.\n\n**Authentication & Scope**\n\nSubscription scope:\n- **Company-scoped token** (developer token or OAuth token bound to a specific company): the subscription is scoped to that single company.\n- **App-bound token** (OAuth token without a company context): the subscription covers all companies accessible by the OAuth application.\n\n**Limits**\nUp to 10 webhook subscriptions are allowed per company (for company-scoped tokens) or per subscriber (for app-bound tokens).\n\n**Secret**\nThe secret will be auto-generated.\n\n> 🔒 The secret is **only returned in the creation response** and cannot be retrieved afterwards. Make sure to store it securely.",
         "tags": ["Hidden"],
         "security": [{ "oauth2": [] }],
         "requestBody": {
@@ -15145,6 +15145,47 @@
                     "description": "A unique external reference you can provide to track this customer invoice. If not provided, Pennylane will generate an identifier for you.",
                     "type": "string",
                     "example": "FR123"
+                  },
+                  "installments": {
+                    "description": "Optional list of installments for this invoice.\nIf not provided, a single installment matching the invoice total is created automatically.\nThe sum of all installments' `amount` values must equal the invoice total amount with tax.\n\n> ℹ️\n> This endpoint requires a company plan that has access to Installments, otherwise responds with 403.\n\n> ⚠️ **Warning**: This feature is in alpha\n> The installments param will be ignored until further rollout and the request will proceed as if it was made without it\n> If you plan to rely on it, please get in touch with us first\n",
+                    "type": "array",
+                    "items": {
+                      "title": "Customer Invoice Installment",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "deadline": {
+                          "description": "Installment payment deadline (ISO 8601)",
+                          "type": "string",
+                          "format": "date",
+                          "example": "2023-08-30"
+                        },
+                        "amount": {
+                          "allOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^-?\\d+(\\.\\d+)?$",
+                              "example": "100.00"
+                            },
+                            {
+                              "description": "Installment amount (in invoice currency)",
+                              "example": "20.00"
+                            }
+                          ]
+                        },
+                        "payment_methods": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "items": {
+                            "description": "Allowed payment methods to be used in installments from the API.",
+                            "type": "string",
+                            "enum": ["transfer", "e_transfer", "sepa", "cheque", "cash", "lcr"]
+                          }
+                        }
+                      },
+                      "required": ["deadline", "amount"]
+                    },
+                    "minItems": 2
                   }
                 },
                 "required": [
@@ -38734,6 +38775,554 @@
                           "created_at",
                           "updated_at",
                           "substance"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["has_more", "next_cursor", "items"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": { "type": "string" },
+                        "status": { "type": "integer" }
+                      },
+                      "required": ["error", "status"]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": { "message": { "type": "string" } },
+                      "required": ["message"]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "message": { "type": "string" },
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "InvalidDateFormat",
+                            "InvalidDateTimeFormat",
+                            "InvalidEmailFormat",
+                            "InvalidPattern",
+                            "InvalidUUIDFormat",
+                            "LessThanExclusiveMinimum",
+                            "LessThanMinimum",
+                            "LessThanMinItems",
+                            "LessThanMinLength",
+                            "MoreThanExclusiveMaximum",
+                            "MoreThanMaximum",
+                            "MoreThanMaxItems",
+                            "MoreThanMaxLength",
+                            "NotAMultipartFile",
+                            "NotAnyOf",
+                            "NotEnumInclude",
+                            "NotExistContentTypeDefinition",
+                            "NotExistDiscriminatorMappedSchema",
+                            "NotExistDiscriminatorPropertyName",
+                            "NotExistPropertyDefinition",
+                            "NotExistRequiredKey",
+                            "NotExistStatusCodeDefinition",
+                            "NotNullError",
+                            "NotOneOf",
+                            "ValidateError"
+                          ]
+                        }
+                      },
+                      "required": ["message", "code"]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "message": { "type": "string" },
+                        "field": { "type": "string" },
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "InvalidDateFormat",
+                            "InvalidDateTimeFormat",
+                            "InvalidEmailFormat",
+                            "InvalidPattern",
+                            "InvalidUUIDFormat",
+                            "LessThanExclusiveMinimum",
+                            "LessThanMinimum",
+                            "LessThanMinItems",
+                            "LessThanMinLength",
+                            "MoreThanExclusiveMaximum",
+                            "MoreThanMaximum",
+                            "MoreThanMaxItems",
+                            "MoreThanMaxLength",
+                            "NotAMultipartFile",
+                            "NotAnyOf",
+                            "NotEnumInclude",
+                            "NotExistContentTypeDefinition",
+                            "NotExistDiscriminatorMappedSchema",
+                            "NotExistDiscriminatorPropertyName",
+                            "NotExistPropertyDefinition",
+                            "NotExistRequiredKey",
+                            "NotExistStatusCodeDefinition",
+                            "NotNullError",
+                            "NotOneOf",
+                            "ValidateError"
+                          ]
+                        }
+                      },
+                      "required": ["message", "field", "code"]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "message": { "type": "string" },
+                        "payload": { "type": "string" },
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "InvalidDateFormat",
+                            "InvalidDateTimeFormat",
+                            "InvalidEmailFormat",
+                            "InvalidPattern",
+                            "InvalidUUIDFormat",
+                            "LessThanExclusiveMinimum",
+                            "LessThanMinimum",
+                            "LessThanMinItems",
+                            "LessThanMinLength",
+                            "MoreThanExclusiveMaximum",
+                            "MoreThanMaximum",
+                            "MoreThanMaxItems",
+                            "MoreThanMaxLength",
+                            "NotAMultipartFile",
+                            "NotAnyOf",
+                            "NotEnumInclude",
+                            "NotExistContentTypeDefinition",
+                            "NotExistDiscriminatorMappedSchema",
+                            "NotExistDiscriminatorPropertyName",
+                            "NotExistPropertyDefinition",
+                            "NotExistRequiredKey",
+                            "NotExistStatusCodeDefinition",
+                            "NotNullError",
+                            "NotOneOf",
+                            "ValidateError"
+                          ]
+                        }
+                      },
+                      "required": ["message", "payload", "code"]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "message": { "type": "string" },
+                        "field": { "type": "string" },
+                        "payload": { "type": "string" },
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "InvalidDateFormat",
+                            "InvalidDateTimeFormat",
+                            "InvalidEmailFormat",
+                            "InvalidPattern",
+                            "InvalidUUIDFormat",
+                            "LessThanExclusiveMinimum",
+                            "LessThanMinimum",
+                            "LessThanMinItems",
+                            "LessThanMinLength",
+                            "MoreThanExclusiveMaximum",
+                            "MoreThanMaximum",
+                            "MoreThanMaxItems",
+                            "MoreThanMaxLength",
+                            "NotAMultipartFile",
+                            "NotAnyOf",
+                            "NotEnumInclude",
+                            "NotExistContentTypeDefinition",
+                            "NotExistDiscriminatorMappedSchema",
+                            "NotExistDiscriminatorPropertyName",
+                            "NotExistPropertyDefinition",
+                            "NotExistRequiredKey",
+                            "NotExistStatusCodeDefinition",
+                            "NotNullError",
+                            "NotOneOf",
+                            "ValidateError"
+                          ]
+                        }
+                      },
+                      "required": ["message", "field", "payload", "code"]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token is missing or invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": { "type": "string", "example": "The access token is invalid" },
+                    "status": { "type": "integer", "example": 401 }
+                  },
+                  "required": ["error", "status"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access to this resource forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Access to this resource requires scope \"ledger\"."
+                    },
+                    "status": { "type": "integer", "example": 403 }
+                  },
+                  "required": ["error", "status"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": { "type": "string", "example": "Not Found" },
+                    "status": { "type": "integer", "example": 404 }
+                  },
+                  "required": ["error", "status"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/external/v2/customer_invoices/{customer_invoice_id}/installments": {
+      "get": {
+        "operationId": "getCustomerInvoiceInstallments",
+        "summary": "List installments for a customer invoice",
+        "description": "List installments for a customer invoice\n\n> ⚠️ **Warning**: This feature is in alpha\n> We may still introduce breaking changes.\n> If you plan to rely on it, please get in touch with us first.\n\n\n> ℹ️\n> This endpoint requires one of the following scopes: `customer_invoices:all`, `customer_invoices:readonly`",
+        "tags": ["Customer Invoices", "Hidden"],
+        "security": [{ "oauth2": ["customer_invoices:all", "customer_invoices:readonly"] }],
+        "parameters": [
+          {
+            "name": "customer_invoice_id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true,
+            "example": 1234
+          },
+          {
+            "name": "cursor",
+            "description": "Cursor for pagination. Use this to fetch the next set of results.\nThe cursor is an opaque string returned in the previous response's metadata.\nLeave empty for the first request.\n",
+            "in": "query",
+            "schema": { "type": "string", "example": "dXBkYXRlZF9hdDoxNjc0MTIzNDU2" },
+            "required": false
+          },
+          {
+            "name": "limit",
+            "description": "Number of items to return per request.\nDefaults to 20 if not specified.\nMust be between 1 and 100.\n",
+            "in": "query",
+            "schema": { "type": "integer", "example": 20, "minimum": 1, "maximum": 100 },
+            "required": false
+          },
+          {
+            "name": "sort",
+            "description": "You can choose to sort items on specific attributes\nSort field may be prefixed with `-` for descending order. By default uses deadline in ascending order.\nExample : `deadline` will sort by ascending order, `-deadline` will sort by descending order.\nAvailable fields :\n- `deadline`\n",
+            "in": "query",
+            "schema": { "type": "string", "example": "deadline" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of installments for a customer invoice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "has_more": {
+                      "description": "Indicates whether additional results are available beyond this set.\nUse this flag to determine if another request is needed.\n",
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "next_cursor": {
+                      "description": "Cursor to retrieve the next set of results.\nInclude this value in the cursor parameter of your next request to fetch subsequent items.\nA `null` `next_cursor` in the response indicates no further results.\n",
+                      "type": "string",
+                      "nullable": true,
+                      "example": "dXBkYXRlZF9hdDoxNjc0MTIzNDU2"
+                    },
+                    "items": {
+                      "type": "array",
+                      "additionalProperties": false,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "description": "Installment id",
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 444
+                          },
+                          "deadline": {
+                            "description": "Installment payment deadline (ISO 8601)",
+                            "type": "string",
+                            "format": "date",
+                            "nullable": true,
+                            "example": "2023-08-30"
+                          },
+                          "amount": {
+                            "description": "Installment amount (total value of the installment in euros. If the currency is `EUR`, `currency_amount` and `amount` are identical)",
+                            "type": "string",
+                            "nullable": true,
+                            "example": "230.32"
+                          },
+                          "currency_amount": {
+                            "description": "Installment currency amount (total value of the installment in the currency of the invoice)",
+                            "type": "string",
+                            "nullable": true,
+                            "example": "230.32"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "default": "EUR",
+                            "enum": [
+                              "EUR",
+                              "USD",
+                              "GBP",
+                              "AED",
+                              "AFN",
+                              "ALL",
+                              "AMD",
+                              "ANG",
+                              "AOA",
+                              "ARS",
+                              "AUD",
+                              "AWG",
+                              "AZN",
+                              "BAM",
+                              "BBD",
+                              "BDT",
+                              "BGN",
+                              "BHD",
+                              "BIF",
+                              "BMD",
+                              "BND",
+                              "BOB",
+                              "BRL",
+                              "BSD",
+                              "BTN",
+                              "BWP",
+                              "BYN",
+                              "BYR",
+                              "BZD",
+                              "CAD",
+                              "CDF",
+                              "CHE",
+                              "CHF",
+                              "CLF",
+                              "CLP",
+                              "CNY",
+                              "COP",
+                              "CRC",
+                              "CUC",
+                              "CUP",
+                              "CVE",
+                              "CZK",
+                              "DJF",
+                              "DKK",
+                              "DOP",
+                              "DZD",
+                              "EGP",
+                              "ERN",
+                              "ETB",
+                              "FJD",
+                              "FKP",
+                              "GEL",
+                              "GGP",
+                              "GHS",
+                              "GIP",
+                              "GMD",
+                              "GNF",
+                              "GTQ",
+                              "GYD",
+                              "HKD",
+                              "HNL",
+                              "HRK",
+                              "HTG",
+                              "HUF",
+                              "IDR",
+                              "ILS",
+                              "IMP",
+                              "INR",
+                              "IQD",
+                              "IRR",
+                              "ISK",
+                              "JEP",
+                              "JMD",
+                              "JOD",
+                              "JPY",
+                              "KES",
+                              "KGS",
+                              "KHR",
+                              "KMF",
+                              "KPW",
+                              "KRW",
+                              "KWD",
+                              "KYD",
+                              "KZT",
+                              "LAK",
+                              "LBP",
+                              "LKR",
+                              "LRD",
+                              "LSL",
+                              "LTL",
+                              "LVL",
+                              "LYD",
+                              "MAD",
+                              "MDL",
+                              "MGA",
+                              "MKD",
+                              "MMK",
+                              "MNT",
+                              "MOP",
+                              "MRO",
+                              "MRU",
+                              "MUR",
+                              "MVR",
+                              "MWK",
+                              "MXN",
+                              "MYR",
+                              "MZN",
+                              "NAD",
+                              "NGN",
+                              "NIO",
+                              "NOK",
+                              "NPR",
+                              "NZD",
+                              "OMR",
+                              "PAB",
+                              "PEN",
+                              "PGK",
+                              "PHP",
+                              "PKR",
+                              "PLN",
+                              "PYG",
+                              "QAR",
+                              "RON",
+                              "RSD",
+                              "RUB",
+                              "RWF",
+                              "SAR",
+                              "SBD",
+                              "SCR",
+                              "SDG",
+                              "SEK",
+                              "SGD",
+                              "SHP",
+                              "SLL",
+                              "SLE",
+                              "SOS",
+                              "SRD",
+                              "STD",
+                              "SVC",
+                              "SYP",
+                              "SZL",
+                              "THB",
+                              "TJS",
+                              "TMT",
+                              "TND",
+                              "TOP",
+                              "TRY",
+                              "TTD",
+                              "TWD",
+                              "TZS",
+                              "UAH",
+                              "UGX",
+                              "UYU",
+                              "UZS",
+                              "VEF",
+                              "VES",
+                              "VND",
+                              "VUV",
+                              "WST",
+                              "XAF",
+                              "XCD",
+                              "XDR",
+                              "XOF",
+                              "XPF",
+                              "YER",
+                              "ZAR",
+                              "ZMK",
+                              "ZMW",
+                              "ZWL"
+                            ]
+                          },
+                          "remaining_amount_with_tax": {
+                            "description": "The remaining amount with VAT to pay for the installment to be considered paid",
+                            "type": "string",
+                            "nullable": true,
+                            "example": "20.0"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["upcoming", "late", "paid", "waiting_funds", "cancelled"]
+                          },
+                          "payment_methods": {
+                            "type": "array",
+                            "nullable": true,
+                            "uniqueItems": true,
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "transfer",
+                                "e_transfer",
+                                "credit_card",
+                                "sepa",
+                                "cheque",
+                                "cash",
+                                "lcr",
+                                "pro_account_sepa_core",
+                                "pro_account_pos",
+                                "pro_account_payment_link"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "deadline",
+                          "amount",
+                          "currency_amount",
+                          "currency",
+                          "remaining_amount_with_tax",
+                          "status",
+                          "payment_methods"
                         ]
                       }
                     }
@@ -99024,6 +99613,21 @@
           "DE_SKR03",
           "DE_SKR04",
           "ES_PGC"
+        ]
+      },
+      "PaymentMethod": {
+        "type": "string",
+        "enum": [
+          "transfer",
+          "e_transfer",
+          "credit_card",
+          "sepa",
+          "cheque",
+          "cash",
+          "lcr",
+          "pro_account_sepa_core",
+          "pro_account_pos",
+          "pro_account_payment_link"
         ]
       },
       "PaymentStatus": {

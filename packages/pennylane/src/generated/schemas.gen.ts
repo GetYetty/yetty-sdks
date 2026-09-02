@@ -10176,6 +10176,22 @@ export const AccountingLogicSchema = {
     ]
 } as const;
 
+export const PaymentMethodSchema = {
+    type: 'string',
+    enum: [
+        'transfer',
+        'e_transfer',
+        'credit_card',
+        'sepa',
+        'cheque',
+        'cash',
+        'lcr',
+        'pro_account_sepa_core',
+        'pro_account_pos',
+        'pro_account_payment_link'
+    ]
+} as const;
+
 export const PaymentStatusSchema = {
     type: 'string',
     enum: [
