@@ -11074,6 +11074,15 @@ export type ImportCustomerInvoicesData = {
             value: string | null;
         };
         /**
+         * ID of an existing customer invoice in Pennylane that this credit note credits.
+         * The imported document must have negative amounts (a credit note).
+         * The referenced invoice must exist in the same company, belong to the same
+         * customer, be finalized (not a draft), not itself be a credit note, and have
+         * enough remaining amount to absorb the credit note.
+         *
+         */
+        credited_invoice_id?: number;
+        /**
          * A unique external reference you can provide to track this customer invoice. If not provided, Pennylane will generate an identifier for you.
          */
         external_reference?: string;
