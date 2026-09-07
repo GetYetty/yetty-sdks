@@ -3353,6 +3353,219 @@ export type DeleteACommentResponse = {
     readonly message?: string;
 };
 
+export type CategoryResponse = {
+    category_id?: CategoryId;
+    name?: Name;
+    description?: Description;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    parent_category_name?: ParentCategoryName;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    seo_title?: SeoTitle;
+    seo_keyword?: SeoKeyword;
+    seo_description?: SeoDescription;
+    category_tax_preferences?: CategoryTaxPreferences;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+    ondc_category_type?: OndcCategoryType;
+    is_deprecated_ondc_category?: IsDeprecatedOndcCategory;
+    custom_fields?: CustomFields;
+    ancestors?: Ancestors;
+    children?: Children;
+};
+
+export type CategoryListItem = {
+    category_id?: CategoryId;
+    name?: Name;
+    description?: Description;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    sibling_order?: SiblingOrder;
+    depth?: Depth;
+    has_active_items?: HasActiveItems;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+    ondc_category_type?: OndcCategoryType;
+    ondc_category_type_formatted?: OndcCategoryTypeFormatted;
+    is_deprecated_ondc_category?: IsDeprecatedOndcCategory;
+};
+
+export type CategoryRef = {
+    category_id?: CategoryId;
+    name?: Name;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+};
+
+export type CategoryChild = {
+    category_id?: CategoryId;
+    name?: Name;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+};
+
+/**
+ * Unique identifier of the category.
+ */
+export type CategoryId = string;
+
+/**
+ * URL slug for the category. Max-length [100].
+ */
+export type Url = string;
+
+/**
+ * ID of the parent category. Use <code>-1</code> for a root-level category.
+ */
+export type ParentCategoryId = string;
+
+/**
+ * Name of the parent category.
+ */
+export type ParentCategoryName = string;
+
+/**
+ * Whether the category is visible.
+ */
+export type Visibility = boolean;
+
+/**
+ * Whether the category is shown in the menu.
+ */
+export type ShowInMenu = boolean;
+
+/**
+ * Display order of the category among its siblings.
+ */
+export type SiblingOrder = number;
+
+/**
+ * Depth of the category in the hierarchy.
+ */
+export type Depth = number;
+
+/**
+ * Indicates whether the category contains active items.
+ */
+export type HasActiveItems = boolean;
+
+/**
+ * SEO title for the category. Max-length [100].
+ */
+export type SeoTitle = string;
+
+/**
+ * SEO keywords for the category. Max-length [700].
+ */
+export type SeoKeyword = string;
+
+/**
+ * SEO description for the category. Max-length [700].
+ */
+export type SeoDescription = string;
+
+/**
+ * ONDC category type.
+ */
+export type OndcCategoryType = string;
+
+/**
+ * Formatted ONDC category type.
+ */
+export type OndcCategoryTypeFormatted = string;
+
+/**
+ * Indicates whether the ONDC category type is deprecated.
+ */
+export type IsDeprecatedOndcCategory = boolean;
+
+/**
+ * Tax specification for the category tax preference.
+ */
+export type TaxSpecification = string;
+
+export type CategoryTaxPreference = {
+    tax_specification?: TaxSpecification;
+    tax_id?: TaxId;
+};
+
+/**
+ * Tax preferences associated with the category.
+ */
+export type CategoryTaxPreferences = Array<CategoryTaxPreference>;
+
+/**
+ * Ancestor categories of this category.
+ */
+export type Ancestors = Array<CategoryRef>;
+
+/**
+ * Child categories of this category.
+ */
+export type Children = Array<CategoryChild>;
+
+export type ListCategoriesResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    /**
+     * List of categories.
+     */
+    categories?: Array<CategoryListItem>;
+    page_context?: PageContext;
+};
+
+export type GetACategoryResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    category?: CategoryResponse;
+};
+
+export type CreateACategoryResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    category?: CategoryResponse;
+};
+
+export type UpdateACategoryResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    category?: CategoryResponse;
+};
+
+export type DeleteACategoryResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type CreateACategoryRequest = {
+    name: Name;
+    url: Url;
+    description?: Description;
+    sibling_order?: SiblingOrder;
+    parent_category_id?: ParentCategoryId;
+    /**
+     * Name of the parent category.
+     */
+    parent_category_name?: string;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    category_tax_preferences?: CategoryTaxPreferences;
+    custom_fields?: CustomFields;
+};
+
+export type UpdateACategoryRequest = CreateACategoryRequest;
+
 /**
  * Whether the account can be shown in Zoho Expense.
  */
@@ -3412,8 +3625,6 @@ export type IsInvolvedInTransaction = boolean;
  * Name of the Parent Account
  */
 export type ParentAccountName = string;
-
-export type Depth = string;
 
 /**
  * Check if a child account is present for the Account
@@ -5213,61 +5424,6 @@ export type GetContactCardCountResponse = {
     readonly message?: string;
 };
 
-export type ContactPersonRequest = {
-    /**
-     * Salutation for the contact person.
-     */
-    salutation?: string;
-    /**
-     * First name of the contact person.
-     */
-    first_name?: string;
-    /**
-     * Last name of the contact person.
-     */
-    last_name?: string;
-    /**
-     * Email address of the contact person.
-     */
-    email?: string;
-    /**
-     * Phone number of the contact person.
-     */
-    phone?: string;
-    /**
-     * Mobile number of the contact person.
-     */
-    mobile?: string;
-    /**
-     * Country code of the mobile number.
-     */
-    mobile_country_code?: string;
-    /**
-     * Department of the contact person.
-     */
-    department?: string;
-    /**
-     * Designation of the contact person.
-     */
-    designation?: string;
-    /**
-     * Skype identity of the contact person.
-     */
-    skype?: string;
-    /**
-     * Fax number of the contact person.
-     */
-    fax?: string;
-    /**
-     * Whether this contact person is the primary contact.
-     */
-    is_primary_contact?: boolean;
-    /**
-     * Whether to enable client portal access for the contact person.
-     */
-    enable_portal?: boolean;
-};
-
 /**
  * Reporting tags to associate with the contact.
  */
@@ -5287,32 +5443,7 @@ export type ListAllContactPersonsResponse = {
     readonly message?: string;
 };
 
-export type CreateContactPersonResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type GetContactPersonResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type UpdateContactPersonResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type DeleteContactPersonResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
 export type GetContactContactPersonResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type MarkContactPersonPrimaryResponse = {
     readonly code?: number;
     readonly message?: string;
 };
@@ -12549,11 +12680,6 @@ export type InitialStock = string;
 export type InitialStockRate = string;
 
 /**
- * Set whether the tax type is intra/interstate
- */
-export type TaxSpecification = string;
-
-/**
  * Tax preferences for the item.
  */
 export type ItemTaxPreferences = Array<{
@@ -12820,6 +12946,439 @@ export type RemoveItemFromPortalResponse = {
     readonly code?: number;
     readonly message?: string;
 };
+
+/**
+ * Unique ID generated by the server for the item. This is used as an identifier.
+ */
+export type ItemMasterId = string;
+
+/**
+ * Name of the item.
+ */
+export type ItemMasterName = string;
+
+/**
+ * Unique ID generated by the server for the item variant. This is used as an identifier.
+ */
+export type VariantId = string;
+
+/**
+ * Name of the item variant.
+ */
+export type VariantName = string;
+
+/**
+ * Brand of the item or variant.
+ */
+export type Brand = string;
+
+/**
+ * Manufacturer of the item or variant.
+ */
+export type Manufacturer = string;
+
+/**
+ * Variant nested under an item.
+ */
+export type ItemMasterVariantResponse = {
+    variant_id?: VariantId;
+    variant_name?: VariantName;
+    status?: Status;
+    rate?: Rate;
+    purchase_rate?: PurchaseRate;
+    reorder_level?: ReorderLevel;
+    sku?: Sku;
+    upc?: Upc;
+    ean?: Ean;
+    isbn?: Isbn;
+    part_number?: PartNumber;
+    attribute_option_id1?: AttributeOptionId1;
+    attribute_option_name1?: AttributeOptionName1;
+    image_name?: ImageName;
+    image_type?: ImageType;
+    stock_on_hand?: StockOnHand;
+};
+
+/**
+ * Item resource returned by item APIs.
+ */
+export type ItemMasterResponse = {
+    item_master_id?: ItemMasterId;
+    group_id?: GroupId;
+    item_master_name?: ItemMasterName;
+    group_name?: GroupName;
+    /**
+     * Category ID associated with the item.
+     */
+    category_id?: string;
+    /**
+     * Category name associated with the item.
+     */
+    category_name?: string;
+    product_type?: ProductType;
+    brand?: Brand;
+    manufacturer?: Manufacturer;
+    unit?: Unit;
+    description?: Description;
+    is_taxable?: IsTaxable;
+    tax_id?: TaxId;
+    tax_name?: TaxName;
+    tax_percentage?: TaxPercentage;
+    tax_type?: TaxType;
+    purchase_account_id?: PurchaseAccountId;
+    purchase_account_name?: PurchaseAccountName;
+    account_name?: AccountName;
+    inventory_account_id?: InventoryAccountId;
+    attribute_id1?: AttributeId1;
+    attribute_name1?: AttributeName1;
+    status?: Status;
+    source?: Source;
+    image_name?: ImageName;
+    image_type?: ImageType;
+    documents?: Documents;
+    custom_fields?: CustomFields;
+    /**
+     * Variants belonging to this item.
+     */
+    item_variants?: Array<ItemMasterVariantResponse>;
+};
+
+/**
+ * Item variant resource returned by item variant APIs.
+ */
+export type ItemVariantResponse = {
+    variant_id?: VariantId;
+    variant_name?: VariantName;
+    item_master_id?: ItemMasterId;
+    item_master_name?: ItemMasterName;
+    group_id?: GroupId;
+    group_name?: GroupName;
+    unit?: Unit;
+    unit_id?: UnitId;
+    item_type?: ItemType;
+    product_type?: ProductType;
+    can_be_sold?: CanBeSold;
+    can_be_purchased?: CanBePurchased;
+    track_inventory?: TrackInventory;
+    is_taxable?: IsTaxable;
+    tax_id?: TaxId;
+    documents?: Documents;
+    description?: Description;
+    tax_name?: TaxName;
+    tax_percentage?: TaxPercentage;
+    tax_type?: TaxType;
+    purchase_account_id?: PurchaseAccountId;
+    purchase_account_name?: PurchaseAccountName;
+    account_name?: AccountName;
+    inventory_account_id?: InventoryAccountId;
+    attribute_id1?: AttributeId1;
+    attribute_name1?: AttributeName1;
+    status?: Status;
+    source?: Source;
+    rate?: Rate;
+    pricebook_rate?: PricebookRate;
+    purchase_rate?: PurchaseRate;
+    reorder_level?: ReorderLevel;
+    vendor_id?: VendorId;
+    vendor_name?: VendorName;
+    locations?: Locations;
+    sku?: Sku;
+    upc?: Upc;
+    ean?: Ean;
+    isbn?: Isbn;
+    part_number?: PartNumber;
+    attribute_option_id1?: AttributeOptionId1;
+    attribute_option_name1?: AttributeOptionName1;
+    image_id?: ImageId;
+    image_name?: ImageName;
+    purchase_description?: PurchaseDescription;
+    image_type?: ImageType;
+    item_tax_preferences?: ItemTaxPreferences;
+    hsn_or_sac?: HsnOrSac;
+    sat_item_key_code?: SatItemKeyCode;
+    unitkey_code?: UnitkeyCode;
+    brand?: Brand;
+    manufacturer?: Manufacturer;
+    is_combo_product?: IsComboProduct;
+    stock_on_hand?: StockOnHand;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+    custom_fields?: CustomFields;
+};
+
+export type CreateAnItemMasterRequest = {
+    item_master_name: ItemMasterName;
+    /**
+     * Alternate name field accepted by some create payloads. Prefer <code>item_master_name</code> for item APIs.
+     */
+    name?: string;
+    brand?: Brand;
+    manufacturer?: Manufacturer;
+    unit: Unit;
+    description?: Description;
+    product_type?: ProductType;
+    tax_id?: TaxId;
+    is_taxable?: IsTaxable;
+    /**
+     * Sales account ID.
+     */
+    account_id?: string;
+    purchase_account_id?: PurchaseAccountId;
+    inventory_account_id?: InventoryAccountId;
+    /**
+     * Category ID associated with the item.
+     */
+    category_id?: string;
+    attribute_name1?: AttributeName1;
+    /**
+     * Name of the second attribute.
+     */
+    attribute_name2?: string;
+    /**
+     * Name of the third attribute.
+     */
+    attribute_name3?: string;
+    /**
+     * Variants to create under this item.
+     */
+    item_variants: Array<{
+        variant_id?: VariantId;
+        variant_name: VariantName;
+        rate: Rate;
+        purchase_rate?: PurchaseRate;
+        sku?: Sku;
+        upc?: Upc;
+        ean?: Ean;
+        isbn?: Isbn;
+        part_number?: PartNumber;
+        reorder_level?: ReorderLevel;
+        attribute_option_name1?: AttributeOptionName1;
+        /**
+         * Option name for the second attribute.
+         */
+        attribute_option_name2?: string;
+        /**
+         * Option name for the third attribute.
+         */
+        attribute_option_name3?: string;
+        vendor_id?: VendorId;
+        custom_fields?: CustomFields;
+    }>;
+    custom_fields?: CustomFields;
+};
+
+export type UpdateAnItemMasterRequest = CreateAnItemMasterRequest;
+
+export type CreateAnItemMasterResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_master?: ItemMasterResponse;
+};
+
+export type GetAnItemMasterResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_master?: ItemMasterResponse;
+};
+
+export type UpdateAnItemMasterResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_master?: ItemMasterResponse;
+};
+
+export type DeleteAnItemMasterResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type ListItemMastersResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_masters?: Array<ItemMasterResponse>;
+    page_context?: PageContext;
+};
+
+export type CreateAnItemVariantRequest = {
+    variant_id?: VariantId;
+    variant_name: VariantName;
+    rate: Rate;
+    group_id?: GroupId;
+    item_master_id?: ItemMasterId;
+    unit?: Unit;
+    unit_id?: UnitId;
+    item_type?: ItemType;
+    product_type?: ProductType;
+    can_be_sold?: CanBeSold;
+    can_be_purchased?: CanBePurchased;
+    track_inventory?: TrackInventory;
+    is_taxable?: IsTaxable;
+    tax_id?: TaxId;
+    description?: Description;
+    purchase_description?: PurchaseDescription;
+    purchase_rate?: PurchaseRate;
+    purchase_account_id?: PurchaseAccountId;
+    inventory_account_id?: InventoryAccountId;
+    reorder_level?: ReorderLevel;
+    sku?: Sku;
+    upc?: Upc;
+    ean?: Ean;
+    isbn?: Isbn;
+    part_number?: PartNumber;
+    attribute_option_name1?: AttributeOptionName1;
+    vendor_id?: VendorId;
+    brand?: Brand;
+    manufacturer?: Manufacturer;
+    hsn_or_sac?: HsnOrSac;
+    /**
+     * List of locations.
+     */
+    locations?: Array<{
+        location_id?: LocationId;
+        initial_stock?: InitialStock;
+        initial_stock_rate?: InitialStockRate;
+    }>;
+    custom_fields?: CustomFields;
+};
+
+export type UpdateAnItemVariantRequest = CreateAnItemVariantRequest;
+
+/**
+ * Request body to move a variant into another item. Uses the item variant create or update structure. Include the target <code>item_master_id</code> or <code>group_id</code>.
+ */
+export type MoveAnItemVariantRequest = CreateAnItemVariantRequest;
+
+export type CreateAnItemVariantResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_variant?: ItemVariantResponse;
+};
+
+export type GetAnItemVariantResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_variant?: ItemVariantResponse;
+};
+
+export type UpdateAnItemVariantResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_variant?: ItemVariantResponse;
+};
+
+export type ListItemVariantsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    item_variants?: Array<ItemVariantResponse>;
+    page_context?: PageContext;
+};
+
+export type UngroupItemVariantsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+/**
+ * Unique ID generated by the server for the group to which the item belongs, if any. This is used as an identifier.
+ */
+export type GroupId = string;
+
+/**
+ * Name of product group
+ */
+export type GroupName = string;
+
+/**
+ * The 12 digit Unique Product Code (UPC) of the item.
+ */
+export type Upc = number;
+
+/**
+ * Unique EAN value for the Item.
+ */
+export type Ean = number;
+
+/**
+ * Unique ISBN value for the Item.
+ */
+export type Isbn = string;
+
+/**
+ * Part Number of the Item.
+ */
+export type PartNumber = string;
+
+/**
+ * Unique ID generated by the server for the attribute's options. This is used as an identifier.
+ */
+export type AttributeOptionId1 = string;
+
+/**
+ * Name of the attribute's option.
+ */
+export type AttributeOptionName1 = string;
+
+/**
+ * Image name of the Item.
+ */
+export type ImageName = string;
+
+/**
+ * Type of the image i.e., its file format.
+ */
+export type ImageType = string;
+
+/**
+ * Stock available for a particular item.
+ */
+export type StockOnHand = number;
+
+/**
+ * Unique ID used by the server. This is used as an identifier.
+ */
+export type AttributeId1 = string;
+
+/**
+ * Name of the attribute present in the Item Group.
+ */
+export type AttributeName1 = string;
+
+/**
+ * Name of the Purchase Account
+ */
+export type PurchaseAccountName = string;
+
+/**
+ * Boolean to indicate whether the item can be sold.
+ */
+export type CanBeSold = boolean;
+
+/**
+ * Boolean to indicate whether the item can be purchased.
+ */
+export type CanBePurchased = boolean;
+
+/**
+ * Boolean to indicate whether inventory tracking is enabled for the item.
+ */
+export type TrackInventory = boolean;
+
+/**
+ * Pricelist rate applied on the item.
+ */
+export type PricebookRate = number;
+
+/**
+ * Unique ID generated by the server for the item image. This is used as an identifier.
+ */
+export type ImageId = string;
+
+export type IsComboProduct = boolean;
+
+/**
+ * Unique ID of the unit associated with the item.
+ */
+export type UnitId = string;
 
 /**
  * Date on which the journal to be recorded.
@@ -13844,11 +14403,6 @@ export type RoundingType = string;
  * Whether its sales or purchase type.Allowed values: <code>sales</code>,<code>purchases</code>
  */
 export type SalesOrPurchaseType = string;
-
-/**
- * Rate of the price book for the Items
- */
-export type PricebookRate = number;
 
 /**
  * Unique ID generated by the server for each pricebook line item
@@ -15343,6 +15897,774 @@ export type ListPurchaseOrderCommentsAndHistoryResponse = {
 };
 
 export type RejectPurchaseOrder = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type PurchaseReturnResponse = {
+    purchasereturn_id?: PurchasereturnId;
+    purchasereturn_number?: PurchasereturnNumber;
+    reference_number?: ReferenceNumber;
+    date?: Date;
+    reason?: Reason;
+    total_quantity?: TotalQuantity;
+    sub_total?: SubTotal;
+    bcy_sub_total?: BcySubTotal;
+    total?: Total;
+    purchasereturn_status?: PurchasereturnStatus;
+    shipped_status?: ShippedStatus;
+    dn_status?: DnStatus;
+    vendor_id?: VendorId;
+    contact?: Contact;
+    currency_id?: CurrencyId;
+    currency_code?: CurrencyCode;
+    currency_symbol?: CurrencySymbol;
+    exchange_rate?: ExchangeRate;
+    line_items?: LineItems;
+    purchaseorders?: Purchaseorders;
+    vendorcredits?: Vendorcredits;
+    billing_address?: AddressObject;
+    shipping_address?: AddressObject;
+    terms?: Terms;
+    template_name?: TemplateName;
+    template_id?: TemplateId;
+    location_id?: LocationId;
+    location_name?: LocationName;
+    documents?: Documents;
+    custom_fields?: CustomFields;
+    gst_treatment?: GstTreatment;
+    tax_treatment?: TaxTreatment;
+    vat_treatment?: VatTreatment;
+    gst_no?: GstNo;
+    tax_reg_no?: TaxRegNo;
+    source_of_supply?: SourceOfSupply;
+    destination_of_supply?: DestinationOfSupply;
+    place_of_supply?: PlaceOfSupply;
+    is_inclusive_tax?: IsInclusiveTax;
+    discount?: Discount;
+    is_discount_before_tax?: IsDiscountBeforeTax;
+    discount_type?: DiscountType;
+    can_create_vendorcredit?: CanCreateVendorcredit;
+    is_adv_tracking_in_package?: IsAdvTrackingInPackage;
+};
+
+/**
+ * Unique ID generated by the server for the purchase return.
+ */
+export type PurchasereturnId = string;
+
+/**
+ * Unique number assigned to the purchase return.
+ */
+export type PurchasereturnNumber = string;
+
+/**
+ * Total quantity of all items in the purchase return.
+ */
+export type TotalQuantity = number;
+
+/**
+ * Sub-total of the purchase return in base currency.
+ */
+export type BcySubTotal = number;
+
+/**
+ * Status of the purchase return. Possible values: <code>draft</code>, <code>confirmed</code>, <code>void</code>, <code>closed</code>.
+ */
+export type PurchasereturnStatus = string;
+
+/**
+ * Shipment status of the purchase return. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.
+ */
+export type ShippedStatus = string;
+
+/**
+ * Vendor credit (debit note) status of the purchase return. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.
+ */
+export type DnStatus = string;
+
+/**
+ * Whether a vendor credit can be created from this purchase return.
+ */
+export type CanCreateVendorcredit = boolean;
+
+/**
+ * Whether advanced tracking (serial/batch) is enabled for packaging in this purchase return.
+ */
+export type IsAdvTrackingInPackage = boolean;
+
+export type PurchaseReturnLineItemResponse = {
+    /**
+     * Unique ID of the line item.
+     */
+    line_item_id?: string;
+    /**
+     * Unique ID of the item.
+     */
+    item_id?: string;
+    /**
+     * Unique ID of the corresponding purchase order line item.
+     */
+    po_item_id?: string;
+    /**
+     * Display order of the line item.
+     */
+    item_order?: number;
+    /**
+     * Name of the item.
+     */
+    name?: string;
+    /**
+     * Description of the line item.
+     */
+    description?: string;
+    /**
+     * Quantity being returned.
+     */
+    quantity?: number;
+    /**
+     * Remaining quantity to be processed.
+     */
+    quantity_remaining?: number;
+    /**
+     * Quantity that has been packed.
+     */
+    quantity_packed?: number;
+    /**
+     * Quantity that has been shipped.
+     */
+    quantity_shipped?: number;
+    /**
+     * Total quantity returned.
+     */
+    quantity_returned?: number;
+    /**
+     * Quantity that has been cancelled.
+     */
+    quantity_cancelled?: number;
+    /**
+     * Unit of measurement for the item.
+     */
+    unit?: string;
+    /**
+     * Rate (price) per unit of the item.
+     */
+    rate?: number;
+    /**
+     * Total amount for this line item.
+     */
+    item_total?: number;
+    /**
+     * Unique ID of the account associated with this line item.
+     */
+    account_id?: string;
+    /**
+     * Type of item. Possible values: <code>inventory</code>, <code>sales</code>, <code>purchases</code>, <code>sales_and_purchases</code>, <code>service</code>.
+     */
+    item_type?: string;
+    /**
+     * Unique ID of the tax applied to this line item.
+     */
+    tax_id?: string;
+    /**
+     * Name of the tax applied.
+     */
+    tax_name?: string;
+    /**
+     * Type of tax applied.
+     */
+    tax_type?: string;
+    /**
+     * Tax percentage applied to this line item.
+     */
+    tax_percentage?: number;
+    /**
+     * Unique ID of the location for this line item.
+     */
+    location_id?: string;
+    /**
+     * Name of the location.
+     */
+    location_name?: string;
+    /**
+     * Discount applied on the line item.
+     */
+    discount?: string;
+    /**
+     * Taxes applied on the line item.
+     */
+    line_item_taxes?: Array<{
+        /**
+         * Unique ID of the tax.
+         */
+        tax_id?: string;
+        /**
+         * Name of the tax.
+         */
+        tax_name?: string;
+        /**
+         * Amount of tax applied.
+         */
+        tax_amount?: number;
+    }>;
+};
+
+/**
+ * Vendor credits associated with this purchase return.
+ */
+export type Vendorcredits = Array<{
+    /**
+     * Unique ID of the vendor credit.
+     */
+    vendor_credit_id?: string;
+    /**
+     * Vendor credit number.
+     */
+    vendor_credit_number?: string;
+    /**
+     * Date of the vendor credit.
+     */
+    date?: string;
+    /**
+     * Total amount of the vendor credit.
+     */
+    total?: number;
+    /**
+     * Status of the vendor credit.
+     */
+    status?: string;
+}>;
+
+/**
+ * Address details.
+ */
+export type AddressObject = {
+    /**
+     * Street address.
+     */
+    address?: string;
+    /**
+     * Additional street address.
+     */
+    street2?: string;
+    /**
+     * City.
+     */
+    city?: string;
+    /**
+     * State or province.
+     */
+    state?: string;
+    /**
+     * ZIP or postal code.
+     */
+    zip?: string;
+    /**
+     * Country.
+     */
+    country?: string;
+    /**
+     * Fax number.
+     */
+    fax?: string;
+    /**
+     * Phone number.
+     */
+    phone?: string;
+    /**
+     * Name of the attention person.
+     */
+    attention?: string;
+};
+
+export type ListPurchaseReturnsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    purchasereturns?: Array<{
+        purchasereturn_id?: PurchasereturnId;
+        purchasereturn_number?: PurchasereturnNumber;
+        /**
+         * Purchase order number associated with the purchase return.
+         */
+        purchaseorder_number?: string;
+        date?: Date;
+        reason?: Reason;
+        vendor_id?: VendorId;
+        vendor_name?: VendorName;
+        /**
+         * Total return quantity.
+         */
+        quantity?: number;
+        /**
+         * Total return amount.
+         */
+        amount?: number;
+        purchasereturn_status?: PurchasereturnStatus;
+        /**
+         * Shipment status. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.
+         */
+        shipment_status?: string;
+        /**
+         * Package status. Possible values: <code>packed</code>, <code>not_packed</code>, <code>partially_packed</code>.
+         */
+        package_status?: string;
+        /**
+         * Pick list status. Possible values: <code>picked</code>, <code>not_picked</code>, <code>partially_picked</code>.
+         */
+        picked_status?: string;
+        /**
+         * Refund status. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.
+         */
+        refund_status?: string;
+        /**
+         * Time at which the purchase return was created.
+         */
+        created_time?: string;
+        /**
+         * Time at which the purchase return was last modified.
+         */
+        last_modified_time?: string;
+    }>;
+    page_context?: PageContext;
+};
+
+export type GetPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    purchasereturn?: PurchaseReturnResponse;
+};
+
+export type CreatePurchaseReturnRequest = {
+    /**
+     * Unique number for the purchase return. Required when <code>ignore_auto_number_generation</code> is <code>true</code>. Max-length [50].
+     */
+    purchasereturn_number?: string;
+    /**
+     * Reference number for the purchase return. Max-length [100].
+     */
+    reference_number?: string;
+    /**
+     * Date of the purchase return. Format [yyyy-mm-dd].
+     */
+    date: string;
+    /**
+     * Reason for creating the purchase return. Max-length [1000].
+     */
+    reason?: string;
+    /**
+     * Unique ID of the vendor.
+     */
+    vendor_id: string;
+    /**
+     * Whether the line item rates are inclusive of tax.
+     */
+    is_inclusive_tax?: boolean;
+    /**
+     * Line items in the purchase return.
+     */
+    line_items: Array<PurchaseReturnLineItemRequest>;
+    /**
+     * Terms and conditions. Max-length [10000].
+     */
+    terms?: string;
+    /**
+     * GST treatment for the vendor.
+     */
+    gst_treatment?: string;
+    /**
+     * Tax treatment for the vendor.
+     */
+    tax_treatment?: string;
+    /**
+     * VAT treatment for the vendor.
+     */
+    vat_treatment?: string;
+    /**
+     * Source state code for GST. Max-length [5].
+     */
+    source_of_supply?: string;
+    /**
+     * Destination state code for GST. Max-length [5].
+     */
+    destination_of_supply?: string;
+    /**
+     * Place of supply state code. Max-length [5].
+     */
+    place_of_supply?: string;
+    /**
+     * Discount applied on the purchase return.
+     */
+    discount?: string;
+    /**
+     * Whether the discount is applied before tax calculation.
+     */
+    is_discount_before_tax?: boolean;
+    /**
+     * Type of discount. Possible values: <code>entity_level</code>, <code>item_level</code>.
+     */
+    discount_type?: string;
+    /**
+     * Shipping charges for the purchase return.
+     */
+    shipping_charge?: number;
+    /**
+     * Adjustment amount (positive or negative).
+     */
+    adjustment?: number;
+    /**
+     * Description for the adjustment. Max-length [100].
+     */
+    adjustment_description?: string;
+    /**
+     * Exchange rate for the currency used.
+     */
+    exchange_rate?: number;
+    /**
+     * Unique ID of the currency.
+     */
+    currency_id?: string;
+    /**
+     * Unique ID of the billing address.
+     */
+    billing_address_id?: string;
+    /**
+     * Unique ID of the shipping address.
+     */
+    shipping_address_id?: string;
+    /**
+     * Unique ID of the location.
+     */
+    location_id?: string;
+    custom_fields?: CustomFields;
+};
+
+export type PurchaseReturnLineItemRequest = {
+    /**
+     * Unique ID of the item.
+     */
+    item_id?: string;
+    /**
+     * Unique ID of the corresponding purchase order line item.
+     */
+    po_item_id?: string;
+    /**
+     * Name of the item. Max-length [200].
+     */
+    name?: string;
+    /**
+     * Description of the line item. Max-length [1000].
+     */
+    description?: string;
+    /**
+     * Quantity being returned.
+     */
+    quantity: number;
+    /**
+     * Unit of measurement. Max-length [120].
+     */
+    unit?: string;
+    /**
+     * Rate (price) per unit of the item.
+     */
+    rate?: number;
+    /**
+     * Display order of the line item.
+     */
+    item_order?: number;
+    /**
+     * Unique ID of the tax to apply to this line item.
+     */
+    tax_id?: string;
+    /**
+     * Unique ID of the tax exemption.
+     */
+    tax_exemption_id?: string;
+    /**
+     * HSN or SAC code for the item.
+     */
+    hsn_or_sac?: string;
+    /**
+     * Unique ID of the location.
+     */
+    location_id?: string;
+    /**
+     * Discount applied on the line item.
+     */
+    discount?: string;
+};
+
+export type UpdatePurchaseReturnRequest = {
+    /**
+     * Unique number for the purchase return. Max-length [50].
+     */
+    purchasereturn_number?: string;
+    /**
+     * Reference number for the purchase return. Max-length [100].
+     */
+    reference_number?: string;
+    /**
+     * Date of the purchase return. Format [yyyy-mm-dd].
+     */
+    date?: string;
+    /**
+     * Reason for the purchase return. Max-length [1000].
+     */
+    reason?: string;
+    /**
+     * Unique ID of the vendor.
+     */
+    vendor_id?: string;
+    /**
+     * Whether the line item rates are inclusive of tax.
+     */
+    is_inclusive_tax?: boolean;
+    /**
+     * Line items in the purchase return.
+     */
+    line_items?: Array<PurchaseReturnLineItemRequest>;
+    /**
+     * Terms and conditions. Max-length [10000].
+     */
+    terms?: string;
+    /**
+     * GST treatment for the vendor.
+     */
+    gst_treatment?: string;
+    /**
+     * Tax treatment for the vendor.
+     */
+    tax_treatment?: string;
+    /**
+     * VAT treatment for the vendor.
+     */
+    vat_treatment?: string;
+    /**
+     * Source state code for GST. Max-length [5].
+     */
+    source_of_supply?: string;
+    /**
+     * Destination state code for GST. Max-length [5].
+     */
+    destination_of_supply?: string;
+    /**
+     * Place of supply state code. Max-length [5].
+     */
+    place_of_supply?: string;
+    /**
+     * Discount applied on the purchase return.
+     */
+    discount?: string;
+    /**
+     * Whether the discount is applied before tax calculation.
+     */
+    is_discount_before_tax?: boolean;
+    /**
+     * Type of discount. Possible values: <code>entity_level</code>, <code>item_level</code>.
+     */
+    discount_type?: string;
+    /**
+     * Shipping charges for the purchase return.
+     */
+    shipping_charge?: number;
+    /**
+     * Adjustment amount (positive or negative).
+     */
+    adjustment?: number;
+    /**
+     * Description for the adjustment. Max-length [100].
+     */
+    adjustment_description?: string;
+    /**
+     * Exchange rate for the currency used.
+     */
+    exchange_rate?: number;
+    /**
+     * Unique ID of the currency.
+     */
+    currency_id?: string;
+    /**
+     * Unique ID of the billing address.
+     */
+    billing_address_id?: string;
+    /**
+     * Unique ID of the shipping address.
+     */
+    shipping_address_id?: string;
+    /**
+     * Unique ID of the location.
+     */
+    location_id?: string;
+    custom_fields?: CustomFields;
+};
+
+export type CreatePurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    purchasereturn?: PurchaseReturnResponse;
+};
+
+export type UpdatePurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    purchasereturn?: PurchaseReturnResponse;
+};
+
+export type DeletePurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type ConfirmPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type VoidPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type FulfillPurchaseReturnRequest = {
+    /**
+     * Line items to fulfill.
+     */
+    line_items?: Array<{
+        /**
+         * Unique ID of the purchase return line item.
+         */
+        purchasereturn_item_id?: string;
+        /**
+         * Quantity to fulfill.
+         */
+        quantity?: number;
+    }>;
+};
+
+export type FulfillPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type UnfulfillPurchaseReturnRequest = {
+    /**
+     * Line items to unfulfill.
+     */
+    line_items?: Array<{
+        /**
+         * Unique ID of the purchase return line item.
+         */
+        purchasereturn_item_id?: string;
+        /**
+         * Quantity to unfulfill.
+         */
+        quantity?: number;
+    }>;
+};
+
+export type UnfulfillPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type EmailPurchaseReturnRequest = {
+    /**
+     * Array of recipient email addresses.
+     */
+    to_mail_ids?: Array<string>;
+    /**
+     * Array of CC email addresses.
+     */
+    cc_mail_ids?: Array<string>;
+    /**
+     * Array of BCC email addresses.
+     */
+    bcc_mail_ids?: Array<string>;
+    /**
+     * Subject of the email. Max-length [1000].
+     */
+    subject?: string;
+    /**
+     * Body of the email. Max-length [100000].
+     */
+    body?: string;
+};
+
+export type EmailPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type ClosePurchaseReturnRequest = {
+    /**
+     * Line items with quantities to cancel.
+     */
+    line_items?: Array<{
+        /**
+         * Unique ID of the line item.
+         */
+        line_item_id?: string;
+        /**
+         * Quantity to cancel.
+         */
+        qty_cancelled?: number;
+    }>;
+};
+
+export type ClosePurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type ReopenPurchaseReturnResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type UpdateAddressRequest = {
+    /**
+     * Street address.
+     */
+    address?: string;
+    /**
+     * Additional street address.
+     */
+    street2?: string;
+    /**
+     * City.
+     */
+    city?: string;
+    /**
+     * State or province.
+     */
+    state?: string;
+    /**
+     * ZIP or postal code.
+     */
+    zip?: string;
+    /**
+     * Country.
+     */
+    country?: string;
+    /**
+     * Fax number.
+     */
+    fax?: string;
+    /**
+     * Phone number.
+     */
+    phone?: string;
+    /**
+     * Attention person.
+     */
+    attention?: string;
+};
+
+export type AddAttachmentResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type DeleteAttachmentResponse = {
     readonly code?: number;
     readonly message?: string;
 };
@@ -17932,11 +19254,6 @@ export type DeliveryMethod = string;
 export type IsInvoiced = boolean;
 
 /**
- * Stock on hand for the Item.
- */
-export type StockOnHand = string;
-
-/**
  * Unique identifier for the delivery method. Note: This value is a set of numeric characters.
  */
 export type DeliveryMethodId = string;
@@ -18008,21 +19325,6 @@ export type AvataxTaxCodeId = string;
  * Description of the Ava Tax Code Used
  */
 export type AvataxTaxCodeDesc = string;
-
-/**
- * ID of the Image of the Item. Note: This value is a set of numeric characters.
- */
-export type ImageId = string;
-
-/**
- * Name of the Image of the Item.
- */
-export type ImageName = string;
-
-/**
- * Type of the image of the item
- */
-export type ImageType = string;
 
 /**
  * Check if Sales Order is to be printed
@@ -21909,6 +23211,61 @@ export type AddCommentResponseWritable = {
     comment?: Comment;
 };
 
+export type CategoryResponseWritable = {
+    category_id?: CategoryId;
+    name?: Name;
+    description?: Description;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    seo_title?: SeoTitle;
+    seo_keyword?: SeoKeyword;
+    seo_description?: SeoDescription;
+    category_tax_preferences?: CategoryTaxPreferences;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+    ondc_category_type?: OndcCategoryType;
+    custom_fields?: CustomFields;
+    ancestors?: Ancestors;
+    children?: Children;
+};
+
+export type CategoryListItemWritable = {
+    category_id?: CategoryId;
+    name?: Name;
+    description?: Description;
+    url?: Url;
+    parent_category_id?: ParentCategoryId;
+    visibility?: Visibility;
+    show_in_menu?: ShowInMenu;
+    sibling_order?: SiblingOrder;
+    depth?: Depth;
+    created_time?: CreatedTime;
+    last_modified_time?: LastModifiedTime;
+    ondc_category_type?: OndcCategoryType;
+};
+
+export type ListCategoriesResponseWritable = {
+    /**
+     * List of categories.
+     */
+    categories?: Array<CategoryListItemWritable>;
+    page_context?: PageContext;
+};
+
+export type GetACategoryResponseWritable = {
+    category?: CategoryResponseWritable;
+};
+
+export type CreateACategoryResponseWritable = {
+    category?: CategoryResponseWritable;
+};
+
+export type UpdateACategoryResponseWritable = {
+    category?: CategoryResponseWritable;
+};
+
 export type CreateAnAccountResponseWritable = {
     chart_of_account?: ChartOfAccount;
 };
@@ -24632,6 +25989,40 @@ export type GetAnItemResponseWritable = {
     };
 };
 
+export type CreateAnItemMasterResponseWritable = {
+    item_master?: ItemMasterResponse;
+};
+
+export type GetAnItemMasterResponseWritable = {
+    item_master?: ItemMasterResponse;
+};
+
+export type UpdateAnItemMasterResponseWritable = {
+    item_master?: ItemMasterResponse;
+};
+
+export type ListItemMastersResponseWritable = {
+    item_masters?: Array<ItemMasterResponse>;
+    page_context?: PageContext;
+};
+
+export type CreateAnItemVariantResponseWritable = {
+    item_variant?: ItemVariantResponse;
+};
+
+export type GetAnItemVariantResponseWritable = {
+    item_variant?: ItemVariantResponse;
+};
+
+export type UpdateAnItemVariantResponseWritable = {
+    item_variant?: ItemVariantResponse;
+};
+
+export type ListItemVariantsResponseWritable = {
+    item_variants?: Array<ItemVariantResponse>;
+    page_context?: PageContext;
+};
+
 export type CreateAJournalResponseWritable = {
     journal?: Journal;
 };
@@ -25341,6 +26732,67 @@ export type ListPurchaseOrderCommentsAndHistoryResponseWritable = {
         transaction_id?: TransactionId;
         transaction_type?: TransactionType;
     }>;
+};
+
+export type ListPurchaseReturnsResponseWritable = {
+    purchasereturns?: Array<{
+        purchasereturn_id?: PurchasereturnId;
+        purchasereturn_number?: PurchasereturnNumber;
+        /**
+         * Purchase order number associated with the purchase return.
+         */
+        purchaseorder_number?: string;
+        date?: Date;
+        reason?: Reason;
+        vendor_id?: VendorId;
+        vendor_name?: VendorName;
+        /**
+         * Total return quantity.
+         */
+        quantity?: number;
+        /**
+         * Total return amount.
+         */
+        amount?: number;
+        purchasereturn_status?: PurchasereturnStatus;
+        /**
+         * Shipment status. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.
+         */
+        shipment_status?: string;
+        /**
+         * Package status. Possible values: <code>packed</code>, <code>not_packed</code>, <code>partially_packed</code>.
+         */
+        package_status?: string;
+        /**
+         * Pick list status. Possible values: <code>picked</code>, <code>not_picked</code>, <code>partially_picked</code>.
+         */
+        picked_status?: string;
+        /**
+         * Refund status. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.
+         */
+        refund_status?: string;
+        /**
+         * Time at which the purchase return was created.
+         */
+        created_time?: string;
+        /**
+         * Time at which the purchase return was last modified.
+         */
+        last_modified_time?: string;
+    }>;
+    page_context?: PageContext;
+};
+
+export type GetPurchaseReturnResponseWritable = {
+    purchasereturn?: PurchaseReturnResponse;
+};
+
+export type CreatePurchaseReturnResponseWritable = {
+    purchasereturn?: PurchaseReturnResponse;
+};
+
+export type UpdatePurchaseReturnResponseWritable = {
+    purchasereturn?: PurchaseReturnResponse;
 };
 
 export type CreateARecurringBillResponseWritable = {
@@ -30213,6 +31665,202 @@ export type ConvertPurchaseOrderToBillResponses = {
 
 export type ConvertPurchaseOrderToBillResponse = ConvertPurchaseOrderToBillResponses[keyof ConvertPurchaseOrderToBillResponses];
 
+export type ListCategoriesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Filter categories by parent category ID. Use <code>-1</code> for root-level categories.
+         */
+        parent_category_id?: string;
+        /**
+         * If true, the parent category is included in the results when filtering by <code>parent_category_id</code>. Default value is true.
+         */
+        include_parent_category?: boolean;
+        /**
+         * If true, the root category is included in hierarchical list results. Default value is true.
+         */
+        include_root_category?: boolean;
+        /**
+         * Return categories modified on or after this timestamp (UTC). Format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.
+         */
+        last_modified_time?: string;
+        /**
+         * Search categories by text.
+         */
+        search_text?: string;
+        /**
+         * Comma-separated list of category IDs. Maximum 50 IDs.
+         */
+        category_ids?: string;
+        /**
+         * Filter by category name. Variants: <code>name_startswith</code>, <code>name_contains</code>, <code>name_in</code>, and <code>name_not_in</code>.
+         */
+        name?: string;
+        /**
+         * Filter categories whose name starts with the specified text.
+         */
+        name_startswith?: string;
+        /**
+         * Filter categories whose name contains the specified text.
+         */
+        name_contains?: string;
+        /**
+         * Filter categories whose name is in the specified comma-separated list.
+         */
+        name_in?: string;
+        /**
+         * Filter categories whose name is not in the specified comma-separated list.
+         */
+        name_not_in?: string;
+        /**
+         * Filter by creation time. Variants: <code>created_time_less_than</code>, <code>created_time_less_equals</code>, <code>created_time_greater_than</code>, and <code>created_time_greater_equals</code>. Format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.
+         */
+        created_time?: string;
+        /**
+         * Filter categories. Allowed Values: <code>All</code>, <code>ShowInMenu</code>, and <code>ActiveItems</code>.
+         */
+        filter_by?: string;
+        /**
+         * Page number to be fetched. Default value is 1.
+         */
+        page?: number;
+        /**
+         * Number of records to be fetched per page. Default value is 5000.
+         */
+        per_page?: number;
+        /**
+         * Column to sort by. Default value is <code>sibling_order</code>.
+         */
+        sort_column?: string;
+        /**
+         * Sort order. Allowed Values: <code>A</code> and <code>D</code>. Default value is <code>A</code>.
+         */
+        sort_order?: string;
+    };
+    url: '/categories';
+};
+
+export type ListCategoriesResponses = {
+    /**
+     * OK
+     */
+    200: ListCategoriesResponse;
+};
+
+export type ListCategoriesResponse2 = ListCategoriesResponses[keyof ListCategoriesResponses];
+
+export type CreateCategoryData = {
+    body: CreateACategoryRequest;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/categories';
+};
+
+export type CreateCategoryResponses = {
+    /**
+     * Created
+     */
+    201: CreateACategoryResponse;
+};
+
+export type CreateCategoryResponse = CreateCategoryResponses[keyof CreateCategoryResponses];
+
+export type DeleteCategoryData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the category.
+         */
+        category_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * If true, deletes subcategories of the category. Allowed Values: <code>true</code> and <code>false</code>.
+         */
+        delete_sub_categories?: string;
+    };
+    url: '/categories/{category_id}';
+};
+
+export type DeleteCategoryResponses = {
+    /**
+     * OK
+     */
+    200: DeleteACategoryResponse;
+};
+
+export type DeleteCategoryResponse = DeleteCategoryResponses[keyof DeleteCategoryResponses];
+
+export type GetCategoryData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the category.
+         */
+        category_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/categories/{category_id}';
+};
+
+export type GetCategoryResponses = {
+    /**
+     * OK
+     */
+    200: GetACategoryResponse;
+};
+
+export type GetCategoryResponse = GetCategoryResponses[keyof GetCategoryResponses];
+
+export type UpdateCategoryData = {
+    body: UpdateACategoryRequest;
+    path: {
+        /**
+         * Unique identifier of the category.
+         */
+        category_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * If true, updates POS preferences of all items associated with this category.
+         */
+        update_all_items?: boolean;
+    };
+    url: '/categories/{category_id}';
+};
+
+export type UpdateCategoryResponses = {
+    /**
+     * OK
+     */
+    200: UpdateACategoryResponse;
+};
+
+export type UpdateCategoryResponse = UpdateCategoryResponses[keyof UpdateCategoryResponses];
+
 export type ListChartOfAccountsData = {
     body?: never;
     path?: never;
@@ -30637,7 +32285,7 @@ export type ListAllContactPersonsResponses = {
 export type ListAllContactPersonsResponse2 = ListAllContactPersonsResponses[keyof ListAllContactPersonsResponses];
 
 export type CreateContactPersonData = {
-    body?: ContactPersonRequest;
+    body?: CreateAContactPersonRequest;
     path?: never;
     query: {
         /**
@@ -30650,12 +32298,12 @@ export type CreateContactPersonData = {
 
 export type CreateContactPersonResponses = {
     /**
-     * OK
+     * Created
      */
-    200: CreateContactPersonResponse;
+    201: CreateAContactPersonResponse;
 };
 
-export type CreateContactPersonResponse2 = CreateContactPersonResponses[keyof CreateContactPersonResponses];
+export type CreateContactPersonResponse = CreateContactPersonResponses[keyof CreateContactPersonResponses];
 
 export type DeleteContactPersonData = {
     body?: never;
@@ -30681,7 +32329,7 @@ export type DeleteContactPersonResponses = {
     200: DeleteAContactPersonResponse;
 };
 
-export type DeleteContactPersonResponse2 = DeleteContactPersonResponses[keyof DeleteContactPersonResponses];
+export type DeleteContactPersonResponse = DeleteContactPersonResponses[keyof DeleteContactPersonResponses];
 
 export type UpdateContactPersonData = {
     body?: UpdateAContactPersonRequest;
@@ -30707,13 +32355,13 @@ export type UpdateContactPersonResponses = {
     200: UpdateAContactPersonResponse;
 };
 
-export type UpdateContactPersonResponse2 = UpdateContactPersonResponses[keyof UpdateContactPersonResponses];
+export type UpdateContactPersonResponse = UpdateContactPersonResponses[keyof UpdateContactPersonResponses];
 
 export type ListContactPersonsData = {
     body?: never;
     path: {
         /**
-         * Unique identifier of the contact. Note: This value is a set of numeric characters.
+         * Unique identifier of the contact.
          */
         contact_id: string;
     };
@@ -30722,6 +32370,14 @@ export type ListContactPersonsData = {
          * ID of the organization
          */
         organization_id: string;
+        /**
+         * Page number to be fetched. Default value is 1.
+         */
+        page?: number;
+        /**
+         * Number of records to be fetched per page.
+         */
+        per_page?: number;
     };
     url: '/contacts/{contact_id}/contactpersons';
 };
@@ -30763,7 +32419,7 @@ export type GetContactPersonResponses = {
     200: GetAContactPersonResponse;
 };
 
-export type GetContactPersonResponse2 = GetContactPersonResponses[keyof GetContactPersonResponses];
+export type GetContactPersonResponse = GetContactPersonResponses[keyof GetContactPersonResponses];
 
 export type MarkContactPersonPrimaryData = {
     body?: never;
@@ -30789,7 +32445,7 @@ export type MarkContactPersonPrimaryResponses = {
     200: MarkAsPrimaryContactPersonResponse;
 };
 
-export type MarkContactPersonPrimaryResponse2 = MarkContactPersonPrimaryResponses[keyof MarkContactPersonPrimaryResponses];
+export type MarkContactPersonPrimaryResponse = MarkContactPersonPrimaryResponses[keyof MarkContactPersonPrimaryResponses];
 
 export type DeleteContactsData = {
     body?: never;
@@ -32160,84 +33816,6 @@ export type GetContactCardCountResponses = {
 
 export type GetContactCardCountResponse2 = GetContactCardCountResponses[keyof GetContactCardCountResponses];
 
-export type DeleteContactPerson2Data = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the contact person. Note: This value is a set of numeric characters.
-         */
-        contactperson_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/contacts/contactpersons/{contactperson_id}';
-};
-
-export type DeleteContactPerson2Responses = {
-    /**
-     * OK
-     */
-    200: DeleteContactPersonResponse;
-};
-
-export type DeleteContactPerson2Response = DeleteContactPerson2Responses[keyof DeleteContactPerson2Responses];
-
-export type GetContactPerson2Data = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the contact person. Note: This value is a set of numeric characters.
-         */
-        contactperson_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/contacts/contactpersons/{contactperson_id}';
-};
-
-export type GetContactPerson2Responses = {
-    /**
-     * OK
-     */
-    200: GetContactPersonResponse;
-};
-
-export type GetContactPerson2Response = GetContactPerson2Responses[keyof GetContactPerson2Responses];
-
-export type UpdateContactPerson2Data = {
-    body?: ContactPersonRequest;
-    path: {
-        /**
-         * Unique identifier of the contact person. Note: This value is a set of numeric characters.
-         */
-        contactperson_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/contacts/contactpersons/{contactperson_id}';
-};
-
-export type UpdateContactPerson2Responses = {
-    /**
-     * OK
-     */
-    200: UpdateContactPersonResponse;
-};
-
-export type UpdateContactPerson2Response = UpdateContactPerson2Responses[keyof UpdateContactPerson2Responses];
-
 export type GetContactContactPersonData = {
     body?: never;
     path: {
@@ -32267,32 +33845,6 @@ export type GetContactContactPersonResponses = {
 };
 
 export type GetContactContactPersonResponse2 = GetContactContactPersonResponses[keyof GetContactContactPersonResponses];
-
-export type MarkContactPersonPrimary2Data = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the contact person. Note: This value is a set of numeric characters.
-         */
-        contactperson_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/contacts/contactpersons/{contactperson_id}/primary';
-};
-
-export type MarkContactPersonPrimary2Responses = {
-    /**
-     * OK
-     */
-    200: MarkContactPersonPrimaryResponse;
-};
-
-export type MarkContactPersonPrimary2Response = MarkContactPersonPrimary2Responses[keyof MarkContactPersonPrimary2Responses];
 
 export type InviteContactPersonToPortalData = {
     body?: never;
@@ -42343,6 +43895,810 @@ export type RemoveItemFromPortalResponses = {
 
 export type RemoveItemFromPortalResponse2 = RemoveItemFromPortalResponses[keyof RemoveItemFromPortalResponses];
 
+export type ListItemMastersData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Page number to be fetched. Default value is 1.
+         */
+        page?: number;
+        /**
+         * Number of records to be fetched per page. Default value is 25.
+         */
+        per_page?: number;
+        /**
+         * Search items by name or other searchable fields.
+         */
+        search_text?: string;
+        /**
+         * Filter items by status. Allowed values: <code>Status.All</code>, <code>Status.Active</code>, <code>Status.Inactive</code>, <code>Status.Ungrouped</code>, <code>Status.Grouped</code>.
+         */
+        filter_by?: string;
+        /**
+         * Sort by column. Allowed values: <code>group_name</code>, <code>created_time</code>, <code>last_modified_time</code>, <code>item_master_name</code>.
+         */
+        sort_column?: string;
+        /**
+         * Sort order. Allowed values: <code>A</code> for ascending and <code>D</code> for descending.
+         */
+        sort_order?: string;
+        /**
+         * Filter by exact item name.
+         */
+        item_master_name?: string;
+        /**
+         * Filter by item name that starts with the given value.
+         */
+        item_master_name_startswith?: string;
+        /**
+         * Filter by item name that contains the given value.
+         */
+        item_master_name_contains?: string;
+        /**
+         * Filter by exact description.
+         */
+        description?: string;
+        /**
+         * Filter by exact selling rate.
+         */
+        rate?: number;
+        /**
+         * Filter by exact purchase rate.
+         */
+        purchase_rate?: number;
+        /**
+         * Filter by brand.
+         */
+        brand?: string;
+        /**
+         * Filter by manufacturer.
+         */
+        manufacturer?: string;
+        /**
+         * Filter by category ID.
+         */
+        category_id?: string;
+        /**
+         * Filter by sales account ID.
+         */
+        account_id?: string;
+        /**
+         * Filter by purchase account ID.
+         */
+        purchase_account_id?: string;
+        /**
+         * Filter by inventory account ID.
+         */
+        inventory_account_id?: string;
+        /**
+         * Filter by tax ID.
+         */
+        tax_id?: string;
+        /**
+         * When <code>true</code>, omit nested variant details from the list response.
+         */
+        skip_variant?: boolean;
+        /**
+         * Return items modified on or after this UTC datetime.
+         */
+        last_modified_time?: string;
+    };
+    url: '/itemmasters';
+};
+
+export type ListItemMastersResponses = {
+    /**
+     * OK
+     */
+    200: ListItemMastersResponse;
+};
+
+export type ListItemMastersResponse2 = ListItemMastersResponses[keyof ListItemMastersResponses];
+
+export type CreateItemMasterData = {
+    body?: CreateAnItemMasterRequest;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Price book ID associated with the create request.
+         */
+        pricebook_id?: string;
+        /**
+         * Date in <code>yyyy-mm-dd</code> format used for price computation.
+         */
+        date?: string;
+        /**
+         * Comma-separated document IDs to associate with the item.
+         */
+        document_ids?: string;
+        /**
+         * When <code>true</code>, sync applicable item fields to its variants.
+         */
+        can_sync_to_variant?: boolean;
+    };
+    url: '/itemmasters';
+};
+
+export type CreateItemMasterResponses = {
+    /**
+     * OK
+     */
+    200: CreateAnItemMasterResponse;
+};
+
+export type CreateItemMasterResponse = CreateItemMasterResponses[keyof CreateItemMasterResponses];
+
+export type DeleteItemMasterData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item.
+         */
+        item_master_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemmasters/{item_master_id}';
+};
+
+export type DeleteItemMasterResponses = {
+    /**
+     * OK
+     */
+    200: DeleteAnItemMasterResponse;
+};
+
+export type DeleteItemMasterResponse = DeleteItemMasterResponses[keyof DeleteItemMasterResponses];
+
+export type GetItemMasterData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item.
+         */
+        item_master_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Additional response content. Allowed value: <code>html</code>.
+         */
+        include?: string;
+        /**
+         * Print-related flag. Allowed values follow the boolean-all convention.
+         */
+        print?: string;
+    };
+    url: '/itemmasters/{item_master_id}';
+};
+
+export type GetItemMasterResponses = {
+    /**
+     * OK
+     */
+    200: GetAnItemMasterResponse;
+};
+
+export type GetItemMasterResponse = GetItemMasterResponses[keyof GetItemMasterResponses];
+
+export type UpdateItemMasterData = {
+    body?: UpdateAnItemMasterRequest;
+    path: {
+        /**
+         * Unique identifier of the item.
+         */
+        item_master_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * When <code>true</code>, apply rate changes to associated recurring invoices.
+         */
+        update_recurring_invoice?: boolean;
+        /**
+         * Price book ID associated with the update request.
+         */
+        pricebook_id?: string;
+        /**
+         * Date in <code>yyyy-mm-dd</code> format used for price computation.
+         */
+        date?: string;
+        /**
+         * When <code>true</code>, deletes the existing item image.
+         */
+        delete_image?: boolean;
+        /**
+         * When <code>true</code>, sync applicable item fields to its variants.
+         */
+        can_sync_to_variant?: boolean;
+    };
+    url: '/itemmasters/{item_master_id}';
+};
+
+export type UpdateItemMasterResponses = {
+    /**
+     * OK
+     */
+    200: UpdateAnItemMasterResponse;
+};
+
+export type UpdateItemMasterResponse = UpdateItemMasterResponses[keyof UpdateItemMasterResponses];
+
+export type BulkMarkItemMastersActiveData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of item IDs.
+         */
+        item_master_ids: string;
+    };
+    url: '/itemmasters/active';
+};
+
+export type BulkMarkItemMastersActiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsActiveResponse;
+};
+
+export type BulkMarkItemMastersActiveResponse = BulkMarkItemMastersActiveResponses[keyof BulkMarkItemMastersActiveResponses];
+
+export type BulkMarkItemMastersInactiveData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of item IDs.
+         */
+        item_master_ids: string;
+    };
+    url: '/itemmasters/inactive';
+};
+
+export type BulkMarkItemMastersInactiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsInactiveResponse;
+};
+
+export type BulkMarkItemMastersInactiveResponse = BulkMarkItemMastersInactiveResponses[keyof BulkMarkItemMastersInactiveResponses];
+
+export type MarkItemMasterAsActiveData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item.
+         */
+        item_master_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemmasters/{item_master_id}/active';
+};
+
+export type MarkItemMasterAsActiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsActiveResponse;
+};
+
+export type MarkItemMasterAsActiveResponse = MarkItemMasterAsActiveResponses[keyof MarkItemMasterAsActiveResponses];
+
+export type MarkItemMasterAsInactiveData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item.
+         */
+        item_master_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemmasters/{item_master_id}/inactive';
+};
+
+export type MarkItemMasterAsInactiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsInactiveResponse;
+};
+
+export type MarkItemMasterAsInactiveResponse = MarkItemMasterAsInactiveResponses[keyof MarkItemMasterAsInactiveResponses];
+
+export type BulkDeleteItemVariantsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of variant IDs to delete.
+         */
+        variant_ids?: string;
+    };
+    url: '/itemvariants';
+};
+
+export type BulkDeleteItemVariantsResponses = {
+    /**
+     * OK
+     */
+    200: DeleteAnItemResponse;
+};
+
+export type BulkDeleteItemVariantsResponse = BulkDeleteItemVariantsResponses[keyof BulkDeleteItemVariantsResponses];
+
+export type ListItemVariantsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Page number to be fetched. Default value is 1.
+         */
+        page?: number;
+        /**
+         * Number of records to be fetched per page. Default value is 200.
+         */
+        per_page?: number;
+        /**
+         * Search variants by name, SKU, or other searchable fields.
+         */
+        search_text?: string;
+        /**
+         * Filter variants by status or item type. Allowed values include <code>Status.All</code>, <code>Status.Active</code>, <code>Status.Inactive</code>, <code>Status.Lowstock</code>, <code>Status.Unmapped</code>, <code>Status.Uncategorized</code>, <code>Status.Grouped</code>, and item-type filters from the Items list API.
+         */
+        filter_by?: string;
+        /**
+         * Sort by column. Allowed values include <code>name</code>, <code>sku</code>, <code>rate</code>, <code>purchase_rate</code>, <code>created_time</code>, <code>last_modified_time</code>, <code>reorder_level</code>, and <code>stock_on_hand</code>.
+         */
+        sort_column?: string;
+        /**
+         * Sort order. Allowed values: <code>A</code> for ascending and <code>D</code> for descending.
+         */
+        sort_order?: string;
+        /**
+         * Filter by variant status. Allowed values: <code>active</code>, <code>inactive</code>, <code>confirmation_pending</code>.
+         */
+        status?: string;
+        /**
+         * Filter by exact variant name.
+         */
+        name?: string;
+        /**
+         * Filter by variant name that starts with the given value.
+         */
+        name_startswith?: string;
+        /**
+         * Filter by variant name that contains the given value.
+         */
+        name_contains?: string;
+        /**
+         * Filter by exact SKU.
+         */
+        sku?: string;
+        /**
+         * Filter by SKU that starts with the given value.
+         */
+        sku_startswith?: string;
+        /**
+         * Filter by SKU that contains the given value.
+         */
+        sku_contains?: string;
+        /**
+         * Filter by exact selling rate.
+         */
+        rate?: number;
+        /**
+         * Filter by exact purchase rate.
+         */
+        purchase_rate?: number;
+        /**
+         * Filter variants belonging to the given item.
+         */
+        item_master_id?: string;
+        /**
+         * Comma-separated list of variant IDs to fetch.
+         */
+        variant_ids?: string;
+        /**
+         * Filter by brand.
+         */
+        brand?: string;
+        /**
+         * Filter by manufacturer.
+         */
+        manufacturer?: string;
+        /**
+         * Filter by category ID.
+         */
+        category_id?: string;
+        /**
+         * Filter by warehouse ID.
+         */
+        warehouse_id?: string;
+        /**
+         * Filter by location ID.
+         */
+        location_id?: string;
+        /**
+         * Filter by product type.
+         */
+        product_type?: string;
+        /**
+         * Filter by whether the variant is a combo product.
+         */
+        is_combo_product?: boolean;
+        /**
+         * Return variants modified on or after this UTC datetime.
+         */
+        last_modified_time?: string;
+    };
+    url: '/itemvariants';
+};
+
+export type ListItemVariantsResponses = {
+    /**
+     * OK
+     */
+    200: ListItemVariantsResponse;
+};
+
+export type ListItemVariantsResponse2 = ListItemVariantsResponses[keyof ListItemVariantsResponses];
+
+export type CreateItemVariantData = {
+    body?: CreateAnItemVariantRequest;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Price book ID associated with the create request.
+         */
+        pricebook_id?: string;
+        /**
+         * Date in <code>yyyy-mm-dd</code> format used for price computation.
+         */
+        date?: string;
+    };
+    url: '/itemvariants';
+};
+
+export type CreateItemVariantResponses = {
+    /**
+     * OK
+     */
+    200: CreateAnItemVariantResponse;
+};
+
+export type CreateItemVariantResponse = CreateItemVariantResponses[keyof CreateItemVariantResponses];
+
+export type DeleteItemVariantData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item variant.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemvariants/{variant_id}';
+};
+
+export type DeleteItemVariantResponses = {
+    /**
+     * OK
+     */
+    200: DeleteAnItemResponse;
+};
+
+export type DeleteItemVariantResponse = DeleteItemVariantResponses[keyof DeleteItemVariantResponses];
+
+export type GetItemVariantData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item variant.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Price book ID used to compute the price book rate.
+         */
+        pricebook_id?: string;
+        /**
+         * Contact ID used for tax or price computation.
+         */
+        contact_id?: string;
+        /**
+         * Location ID for stock and pricing context.
+         */
+        location_id?: string;
+        /**
+         * Branch ID for stock and pricing context.
+         */
+        branch_id?: string;
+        /**
+         * Transaction date in <code>yyyy-mm-dd</code> format used for price and tax computation.
+         */
+        date?: string;
+        /**
+         * Additional response content. Allowed value: <code>html</code>.
+         */
+        include?: string;
+    };
+    url: '/itemvariants/{variant_id}';
+};
+
+export type GetItemVariantResponses = {
+    /**
+     * OK
+     */
+    200: GetAnItemVariantResponse;
+};
+
+export type GetItemVariantResponse = GetItemVariantResponses[keyof GetItemVariantResponses];
+
+export type UpdateItemVariantData = {
+    body?: UpdateAnItemVariantRequest;
+    path: {
+        /**
+         * Unique identifier of the item variant.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * When <code>true</code>, apply rate changes to associated recurring invoices.
+         */
+        update_recurring_invoice?: boolean;
+        /**
+         * Price book ID associated with the update request.
+         */
+        pricebook_id?: string;
+        /**
+         * Date in <code>yyyy-mm-dd</code> format used for price computation.
+         */
+        date?: string;
+        /**
+         * When <code>true</code>, deletes the existing variant image.
+         */
+        delete_image?: boolean;
+        /**
+         * When <code>true</code>, sync applicable variant fields to the parent item.
+         */
+        can_sync_to_master?: boolean;
+    };
+    url: '/itemvariants/{variant_id}';
+};
+
+export type UpdateItemVariantResponses = {
+    /**
+     * OK
+     */
+    200: UpdateAnItemVariantResponse;
+};
+
+export type UpdateItemVariantResponse = UpdateItemVariantResponses[keyof UpdateItemVariantResponses];
+
+export type BulkMarkItemVariantsActiveData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of variant IDs.
+         */
+        variant_ids: string;
+    };
+    url: '/itemvariants/active';
+};
+
+export type BulkMarkItemVariantsActiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsActiveResponse;
+};
+
+export type BulkMarkItemVariantsActiveResponse = BulkMarkItemVariantsActiveResponses[keyof BulkMarkItemVariantsActiveResponses];
+
+export type BulkMarkItemVariantsInactiveData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of variant IDs.
+         */
+        variant_ids: string;
+    };
+    url: '/itemvariants/inactive';
+};
+
+export type BulkMarkItemVariantsInactiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsInactiveResponse;
+};
+
+export type BulkMarkItemVariantsInactiveResponse = BulkMarkItemVariantsInactiveResponses[keyof BulkMarkItemVariantsInactiveResponses];
+
+export type MarkItemVariantAsActiveData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item variant.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemvariants/{variant_id}/active';
+};
+
+export type MarkItemVariantAsActiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsActiveResponse;
+};
+
+export type MarkItemVariantAsActiveResponse = MarkItemVariantAsActiveResponses[keyof MarkItemVariantAsActiveResponses];
+
+export type MarkItemVariantAsInactiveData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the item variant.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemvariants/{variant_id}/inactive';
+};
+
+export type MarkItemVariantAsInactiveResponses = {
+    /**
+     * OK
+     */
+    200: MarkAsInactiveResponse;
+};
+
+export type MarkItemVariantAsInactiveResponse = MarkItemVariantAsInactiveResponses[keyof MarkItemVariantAsInactiveResponses];
+
+export type MoveItemVariantData = {
+    body?: MoveAnItemVariantRequest;
+    path: {
+        /**
+         * Unique identifier of the item variant to move.
+         */
+        variant_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/itemvariants/move/{variant_id}';
+};
+
+export type MoveItemVariantResponses = {
+    /**
+     * OK
+     */
+    200: GetAnItemVariantResponse;
+};
+
+export type MoveItemVariantResponse = MoveItemVariantResponses[keyof MoveItemVariantResponses];
+
+export type UngroupItemVariantsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of variant IDs to ungroup.
+         */
+        variant_ids?: string;
+        /**
+         * Comma-separated list of composite item IDs to ungroup.
+         */
+        composite_item_ids?: string;
+    };
+    url: '/itemvariants/ungroup';
+};
+
+export type UngroupItemVariantsResponses = {
+    /**
+     * OK
+     */
+    200: UngroupItemVariantsResponse;
+};
+
+export type UngroupItemVariantsResponse2 = UngroupItemVariantsResponses[keyof UngroupItemVariantsResponses];
+
 export type ListJournalsData = {
     body?: never;
     path?: never;
@@ -45754,6 +48110,499 @@ export type RejectPurchaseOrdersResponses = {
 };
 
 export type RejectPurchaseOrdersResponse = RejectPurchaseOrdersResponses[keyof RejectPurchaseOrdersResponses];
+
+export type ListPurchaseReturnsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Filter purchase returns by status. Allowed values: <code>Status.All</code>, <code>Status.Draft</code>, <code>Status.Confirmed</code>, <code>Status.Void</code>, <code>Status.Closed</code>.
+         */
+        filter_by?: string;
+        /**
+         * Filter by purchase return status. Allowed values: <code>draft</code>, <code>confirmed</code>, <code>void</code>, <code>closed</code>, <code>shipped</code>, <code>refunded</code>, <code>not_shipped</code>, <code>not_refunded</code>, <code>partially_shipped</code>, <code>partially_refunded</code>, <code>packed</code>, <code>not_packed</code>, <code>partially_packed</code>, <code>picked</code>, <code>not_picked</code>, <code>partially_picked</code>.
+         */
+        status?: string;
+        /**
+         * Search purchase returns by purchase return number, vendor name, or other searchable fields.
+         */
+        search_text?: string;
+        /**
+         * Column by which the list should be sorted. Allowed values: <code>purchasereturn_number</code>, <code>vendor_name</code>, <code>purchaseorder_number</code>, <code>date</code>, <code>created_time</code>, <code>last_modified_time</code>.
+         */
+        sort_column?: string;
+        /**
+         * Search purchase returns by date. Use YYYY-MM-DD format. Variants: <code>purchasereturn_date_start</code>, <code>purchasereturn_date_end</code>, <code>purchasereturn_date_before</code>, <code>purchasereturn_date_after</code>.
+         */
+        purchasereturn_date?: string;
+        /**
+         * Search purchase returns by vendor name. Variants: <code>vendor_name_startswith</code>, <code>vendor_name_contains</code>.
+         */
+        vendor_name?: string;
+        /**
+         * Search purchase returns by purchase return number. Variants: <code>purchasereturn_number_startswith</code>, <code>purchasereturn_number_contains</code>.
+         */
+        purchasereturn_number?: string;
+        /**
+         * Search purchase returns by purchase order number. Variants: <code>purchaseorder_number_startswith</code>, <code>purchaseorder_number_contains</code>.
+         */
+        purchaseorder_number?: string;
+        /**
+         * Search purchase returns by item name. Variants: <code>item_name_startswith</code>, <code>item_name_contains</code>.
+         */
+        item_name?: string;
+        /**
+         * Search purchase returns by item description. Variants: <code>item_description_startswith</code>, <code>item_description_contains</code>.
+         */
+        item_description?: string;
+        /**
+         * Filter purchase returns by custom view.
+         */
+        customview_id?: string;
+        /**
+         * Page number to be fetched. Default value is 1.
+         */
+        page?: number;
+        /**
+         * Number of records to be fetched per page.
+         */
+        per_page?: number;
+    };
+    url: '/purchasereturns';
+};
+
+export type ListPurchaseReturnsResponses = {
+    /**
+     * OK
+     */
+    200: ListPurchaseReturnsResponse;
+};
+
+export type ListPurchaseReturnsResponse2 = ListPurchaseReturnsResponses[keyof ListPurchaseReturnsResponses];
+
+export type CreatePurchaseReturnData = {
+    body?: CreatePurchaseReturnRequest;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Ignore auto purchase return number generation for this purchase return. This mandates the purchase return number. Allowed values are <code>true</code> and <code>false</code>.
+         */
+        ignore_auto_number_generation?: boolean;
+    };
+    url: '/purchasereturns';
+};
+
+export type CreatePurchaseReturnResponses = {
+    /**
+     * Created
+     */
+    201: CreatePurchaseReturnResponse;
+};
+
+export type CreatePurchaseReturnResponse2 = CreatePurchaseReturnResponses[keyof CreatePurchaseReturnResponses];
+
+export type DeletePurchaseReturnData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}';
+};
+
+export type DeletePurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: DeletePurchaseReturnResponse;
+};
+
+export type DeletePurchaseReturnResponse2 = DeletePurchaseReturnResponses[keyof DeletePurchaseReturnResponses];
+
+export type GetPurchaseReturnData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Set to <code>true</code> to get the print-friendly version of the purchase return.
+         */
+        print?: boolean;
+    };
+    url: '/purchasereturns/{purchase_return_id}';
+};
+
+export type GetPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: GetPurchaseReturnResponse;
+};
+
+export type GetPurchaseReturnResponse2 = GetPurchaseReturnResponses[keyof GetPurchaseReturnResponses];
+
+export type UpdatePurchaseReturnData = {
+    body?: UpdatePurchaseReturnRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}';
+};
+
+export type UpdatePurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: UpdatePurchaseReturnResponse;
+};
+
+export type UpdatePurchaseReturnResponse2 = UpdatePurchaseReturnResponses[keyof UpdatePurchaseReturnResponses];
+
+export type ConfirmPurchaseReturnData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/status/open';
+};
+
+export type ConfirmPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: ConfirmPurchaseReturnResponse;
+};
+
+export type ConfirmPurchaseReturnResponse2 = ConfirmPurchaseReturnResponses[keyof ConfirmPurchaseReturnResponses];
+
+export type VoidPurchaseReturnData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Reason for voiding the purchase return. Max-length [500].
+         */
+        reason?: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/status/void';
+};
+
+export type VoidPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: VoidPurchaseReturnResponse;
+};
+
+export type VoidPurchaseReturnResponse2 = VoidPurchaseReturnResponses[keyof VoidPurchaseReturnResponses];
+
+export type FulfillPurchaseReturnData = {
+    body?: FulfillPurchaseReturnRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/status/fulfilled';
+};
+
+export type FulfillPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: FulfillPurchaseReturnResponse;
+};
+
+export type FulfillPurchaseReturnResponse2 = FulfillPurchaseReturnResponses[keyof FulfillPurchaseReturnResponses];
+
+export type UnfulfillPurchaseReturnData = {
+    body?: UnfulfillPurchaseReturnRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/status/unfulfilled';
+};
+
+export type UnfulfillPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: UnfulfillPurchaseReturnResponse;
+};
+
+export type UnfulfillPurchaseReturnResponse2 = UnfulfillPurchaseReturnResponses[keyof UnfulfillPurchaseReturnResponses];
+
+export type EmailPurchaseReturnData = {
+    body?: EmailPurchaseReturnRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Send the purchase return attachment with the email.
+         */
+        send_attachment?: boolean;
+        /**
+         * Whether to attach the PDF of the purchase return.
+         */
+        attach_pdf?: boolean;
+        /**
+         * Custom file name for the PDF attachment. Max-length [100].
+         */
+        file_name?: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/email';
+};
+
+export type EmailPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: EmailPurchaseReturnResponse;
+};
+
+export type EmailPurchaseReturnResponse2 = EmailPurchaseReturnResponses[keyof EmailPurchaseReturnResponses];
+
+export type AddAttachmentToPurchaseReturnData = {
+    body?: {
+        /**
+         * File to attach to the purchase return.
+         */
+        attachment?: Blob | File;
+        /**
+         * Set to <code>true</code> to allow the attachment to be sent via email.
+         */
+        can_send_in_mail?: boolean;
+    };
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/attachment';
+};
+
+export type AddAttachmentToPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: AddAttachmentResponse;
+};
+
+export type AddAttachmentToPurchaseReturnResponse = AddAttachmentToPurchaseReturnResponses[keyof AddAttachmentToPurchaseReturnResponses];
+
+export type ClosePurchaseReturnData = {
+    body?: ClosePurchaseReturnRequest;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of purchase return IDs to close. Maximum 200 IDs.
+         */
+        purchasereturn_ids: string;
+    };
+    url: '/purchasereturns/status/closed';
+};
+
+export type ClosePurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: ClosePurchaseReturnResponse;
+};
+
+export type ClosePurchaseReturnResponse2 = ClosePurchaseReturnResponses[keyof ClosePurchaseReturnResponses];
+
+export type ReopenPurchaseReturnData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Comma-separated list of purchase return IDs to reopen. Maximum 200 IDs.
+         */
+        purchasereturn_ids: string;
+    };
+    url: '/purchasereturns/status/reopen';
+};
+
+export type ReopenPurchaseReturnResponses = {
+    /**
+     * OK
+     */
+    200: ReopenPurchaseReturnResponse;
+};
+
+export type ReopenPurchaseReturnResponse2 = ReopenPurchaseReturnResponses[keyof ReopenPurchaseReturnResponses];
+
+export type UpdatePurchaseReturnShippingAddressData = {
+    body?: UpdateAddressRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/address/shipping';
+};
+
+export type UpdatePurchaseReturnShippingAddressResponses = {
+    /**
+     * OK
+     */
+    200: UpdateShippingAddressResponse;
+};
+
+export type UpdatePurchaseReturnShippingAddressResponse = UpdatePurchaseReturnShippingAddressResponses[keyof UpdatePurchaseReturnShippingAddressResponses];
+
+export type UpdatePurchaseReturnBillingAddressData = {
+    body?: UpdateAddressRequest;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/address/billing';
+};
+
+export type UpdatePurchaseReturnBillingAddressResponses = {
+    /**
+     * OK
+     */
+    200: UpdateBillingAddressResponse;
+};
+
+export type UpdatePurchaseReturnBillingAddressResponse = UpdatePurchaseReturnBillingAddressResponses[keyof UpdatePurchaseReturnBillingAddressResponses];
+
+export type DeletePurchaseReturnAttachmentData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the purchase return.
+         */
+        purchase_return_id: string;
+        /**
+         * Unique identifier of the document (attachment) to delete.
+         */
+        document_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/purchasereturns/{purchase_return_id}/documents/{document_id}';
+};
+
+export type DeletePurchaseReturnAttachmentResponses = {
+    /**
+     * OK
+     */
+    200: DeleteAttachmentResponse;
+};
+
+export type DeletePurchaseReturnAttachmentResponse = DeletePurchaseReturnAttachmentResponses[keyof DeletePurchaseReturnAttachmentResponses];
 
 export type ListRecurringBillsData = {
     body?: never;

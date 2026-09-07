@@ -7205,6 +7205,466 @@ export const delete_a_comment_responseSchema = {
     }
 } as const;
 
+export const category_responseSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        parent_category_name: {
+            $ref: '#/components/schemas/parent_category_name'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        seo_title: {
+            $ref: '#/components/schemas/seo_title'
+        },
+        seo_keyword: {
+            $ref: '#/components/schemas/seo_keyword'
+        },
+        seo_description: {
+            $ref: '#/components/schemas/seo_description'
+        },
+        category_tax_preferences: {
+            $ref: '#/components/schemas/category_tax_preferences'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        ondc_category_type: {
+            $ref: '#/components/schemas/ondc_category_type'
+        },
+        is_deprecated_ondc_category: {
+            $ref: '#/components/schemas/is_deprecated_ondc_category'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        },
+        ancestors: {
+            $ref: '#/components/schemas/ancestors'
+        },
+        children: {
+            $ref: '#/components/schemas/children'
+        }
+    }
+} as const;
+
+export const category_list_itemSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        sibling_order: {
+            $ref: '#/components/schemas/sibling_order'
+        },
+        depth: {
+            $ref: '#/components/schemas/depth'
+        },
+        has_active_items: {
+            $ref: '#/components/schemas/has_active_items'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        ondc_category_type: {
+            $ref: '#/components/schemas/ondc_category_type'
+        },
+        ondc_category_type_formatted: {
+            $ref: '#/components/schemas/ondc_category_type_formatted'
+        },
+        is_deprecated_ondc_category: {
+            $ref: '#/components/schemas/is_deprecated_ondc_category'
+        }
+    }
+} as const;
+
+export const category_refSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        }
+    }
+} as const;
+
+export const category_childSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        }
+    }
+} as const;
+
+export const category_idSchema = {
+    description: 'Unique identifier of the category.',
+    type: 'string',
+    example: '4815000000044001'
+} as const;
+
+export const urlSchema = {
+    description: 'URL slug for the category. Max-length [100].',
+    type: 'string',
+    example: 'electronics'
+} as const;
+
+export const parent_category_idSchema = {
+    description: 'ID of the parent category. Use <code>-1</code> for a root-level category.',
+    type: 'string',
+    example: '-1'
+} as const;
+
+export const parent_category_nameSchema = {
+    description: 'Name of the parent category.',
+    type: 'string',
+    example: 'Root',
+    readOnly: true
+} as const;
+
+export const visibilitySchema = {
+    description: 'Whether the category is visible.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const show_in_menuSchema = {
+    description: 'Whether the category is shown in the menu.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const sibling_orderSchema = {
+    description: 'Display order of the category among its siblings.',
+    type: 'integer',
+    example: 1
+} as const;
+
+export const depthSchema = {
+    description: 'Depth of the category in the hierarchy.',
+    type: 'integer',
+    example: 0
+} as const;
+
+export const has_active_itemsSchema = {
+    description: 'Indicates whether the category contains active items.',
+    type: 'boolean',
+    example: true,
+    readOnly: true
+} as const;
+
+export const seo_titleSchema = {
+    description: 'SEO title for the category. Max-length [100].',
+    type: 'string',
+    example: 'Electronics'
+} as const;
+
+export const seo_keywordSchema = {
+    description: 'SEO keywords for the category. Max-length [700].',
+    type: 'string',
+    example: 'electronics'
+} as const;
+
+export const seo_descriptionSchema = {
+    description: 'SEO description for the category. Max-length [700].',
+    type: 'string',
+    example: 'Shop electronics and accessories'
+} as const;
+
+export const ondc_category_typeSchema = {
+    description: 'ONDC category type.',
+    type: 'string',
+    example: ''
+} as const;
+
+export const ondc_category_type_formattedSchema = {
+    description: 'Formatted ONDC category type.',
+    type: 'string',
+    example: '',
+    readOnly: true
+} as const;
+
+export const is_deprecated_ondc_categorySchema = {
+    description: 'Indicates whether the ONDC category type is deprecated.',
+    type: 'boolean',
+    example: false,
+    readOnly: true
+} as const;
+
+export const tax_specificationSchema = {
+    description: 'Tax specification for the category tax preference.',
+    type: 'string',
+    example: 'inter'
+} as const;
+
+export const category_tax_preferenceSchema = {
+    type: 'object',
+    properties: {
+        tax_specification: {
+            $ref: '#/components/schemas/tax_specification'
+        },
+        tax_id: {
+            $ref: '#/components/schemas/tax_id'
+        }
+    }
+} as const;
+
+export const category_tax_preferencesSchema = {
+    description: 'Tax preferences associated with the category.',
+    type: 'array',
+    items: {
+        $ref: '#/components/schemas/category_tax_preference'
+    }
+} as const;
+
+export const ancestorsSchema = {
+    description: 'Ancestor categories of this category.',
+    type: 'array',
+    items: {
+        $ref: '#/components/schemas/category-ref'
+    }
+} as const;
+
+export const childrenSchema = {
+    description: 'Child categories of this category.',
+    type: 'array',
+    items: {
+        $ref: '#/components/schemas/category-child'
+    }
+} as const;
+
+export const list_categories_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        categories: {
+            description: 'List of categories.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/category-list-item'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const get_a_category_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        category: {
+            $ref: '#/components/schemas/category-response'
+        }
+    }
+} as const;
+
+export const create_a_category_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Category created successfully.',
+            readOnly: true
+        },
+        category: {
+            $ref: '#/components/schemas/category-response'
+        }
+    }
+} as const;
+
+export const update_a_category_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Category updated successfully.',
+            readOnly: true
+        },
+        category: {
+            $ref: '#/components/schemas/category-response'
+        }
+    }
+} as const;
+
+export const delete_a_category_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Category deleted successfully.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const create_a_category_requestSchema = {
+    type: 'object',
+    required: [
+        'name',
+        'url'
+    ],
+    properties: {
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        sibling_order: {
+            $ref: '#/components/schemas/sibling_order'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        parent_category_name: {
+            description: 'Name of the parent category.',
+            type: 'string',
+            example: 'Root'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        category_tax_preferences: {
+            $ref: '#/components/schemas/category_tax_preferences'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const update_a_category_requestSchema = {
+    type: 'object',
+    allOf: [
+        {
+            $ref: '#/components/schemas/create-a-category-request'
+        }
+    ]
+} as const;
+
 export const can_show_in_zeSchema = {
     description: 'Whether the account can be shown in Zoho Expense.',
     type: 'boolean',
@@ -7276,10 +7736,6 @@ export const parent_account_nameSchema = {
     description: 'Name of the Parent Account',
     type: 'string',
     example: ' '
-} as const;
-
-export const depthSchema = {
-    type: 'string'
 } as const;
 
 export const is_child_presentSchema = {
@@ -11428,77 +11884,6 @@ export const get_contact_card_count_responseSchema = {
     }
 } as const;
 
-export const contact_person_requestSchema = {
-    type: 'object',
-    properties: {
-        salutation: {
-            type: 'string',
-            description: 'Salutation for the contact person.',
-            example: 'Mr.'
-        },
-        first_name: {
-            type: 'string',
-            description: 'First name of the contact person.',
-            example: 'Will'
-        },
-        last_name: {
-            type: 'string',
-            description: 'Last name of the contact person.',
-            example: 'Smith'
-        },
-        email: {
-            type: 'string',
-            description: 'Email address of the contact person.',
-            example: 'willsmith@zylker.com'
-        },
-        phone: {
-            type: 'string',
-            description: 'Phone number of the contact person.',
-            example: '+1-925-921-9201'
-        },
-        mobile: {
-            type: 'string',
-            description: 'Mobile number of the contact person.',
-            example: '+1-925-921-9201'
-        },
-        mobile_country_code: {
-            type: 'string',
-            description: 'Country code of the mobile number.',
-            example: 'US'
-        },
-        department: {
-            type: 'string',
-            description: 'Department of the contact person.',
-            example: 'Purchase'
-        },
-        designation: {
-            type: 'string',
-            description: 'Designation of the contact person.',
-            example: 'Manager'
-        },
-        skype: {
-            type: 'string',
-            description: 'Skype identity of the contact person.',
-            example: 'will.smith'
-        },
-        fax: {
-            type: 'string',
-            description: 'Fax number of the contact person.',
-            example: '+1-925-921-9202'
-        },
-        is_primary_contact: {
-            type: 'boolean',
-            description: 'Whether this contact person is the primary contact.',
-            example: true
-        },
-        enable_portal: {
-            type: 'boolean',
-            description: 'Whether to enable client portal access for the contact person.',
-            example: false
-        }
-    }
-} as const;
-
 export const contact_tags_requestSchema = {
     type: 'object',
     description: 'Reporting tags to associate with the contact.'
@@ -11525,87 +11910,7 @@ export const list_all_contact_persons_responseSchema = {
     }
 } as const;
 
-export const create_contact_person_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const get_contact_person_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const update_contact_person_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const delete_contact_person_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
 export const get_contact_contact_person_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const mark_contact_person_primary_responseSchema = {
     type: 'object',
     properties: {
         code: {
@@ -29189,16 +29494,6 @@ export const initial_stock_rateSchema = {
     example: ' '
 } as const;
 
-export const tax_specificationSchema = {
-    description: 'Set whether the tax type is intra/interstate',
-    type: 'string',
-    example: 'intra',
-    'x-node_available_in': [
-        'in'
-    ],
-    'x-node_unavailable_in': []
-} as const;
-
 export const item_tax_preferencesSchema = {
     type: 'array',
     description: 'Tax preferences for the item.',
@@ -29933,6 +30228,979 @@ export const remove_item_from_portal_responseSchema = {
             readOnly: true
         }
     }
+} as const;
+
+export const item_master_idSchema = {
+    description: 'Unique ID generated by the server for the item. This is used as an identifier.',
+    type: 'string',
+    example: 4815000000044220
+} as const;
+
+export const item_master_nameSchema = {
+    description: 'Name of the item.',
+    type: 'string',
+    example: 'Bags'
+} as const;
+
+export const variant_idSchema = {
+    description: 'Unique ID generated by the server for the item variant. This is used as an identifier.',
+    type: 'string',
+    example: 4815000000044208
+} as const;
+
+export const variant_nameSchema = {
+    description: 'Name of the item variant.',
+    type: 'string',
+    example: 'Bags-small'
+} as const;
+
+export const brandSchema = {
+    description: 'Brand of the item or variant.',
+    type: 'string',
+    example: 'Brand'
+} as const;
+
+export const manufacturerSchema = {
+    description: 'Manufacturer of the item or variant.',
+    type: 'string',
+    example: 'Bagstore'
+} as const;
+
+export const item_master_variant_responseSchema = {
+    type: 'object',
+    description: 'Variant nested under an item.',
+    properties: {
+        variant_id: {
+            $ref: '#/components/schemas/variant_id'
+        },
+        variant_name: {
+            $ref: '#/components/schemas/variant_name'
+        },
+        status: {
+            $ref: '#/components/schemas/status'
+        },
+        rate: {
+            $ref: '#/components/schemas/rate'
+        },
+        purchase_rate: {
+            $ref: '#/components/schemas/purchase_rate'
+        },
+        reorder_level: {
+            $ref: '#/components/schemas/reorder_level'
+        },
+        sku: {
+            $ref: '#/components/schemas/sku'
+        },
+        upc: {
+            $ref: '#/components/schemas/upc'
+        },
+        ean: {
+            $ref: '#/components/schemas/ean'
+        },
+        isbn: {
+            $ref: '#/components/schemas/isbn'
+        },
+        part_number: {
+            $ref: '#/components/schemas/part_number'
+        },
+        attribute_option_id1: {
+            $ref: '#/components/schemas/attribute_option_id1'
+        },
+        attribute_option_name1: {
+            $ref: '#/components/schemas/attribute_option_name1'
+        },
+        image_name: {
+            $ref: '#/components/schemas/image_name'
+        },
+        image_type: {
+            $ref: '#/components/schemas/image_type'
+        },
+        stock_on_hand: {
+            $ref: '#/components/schemas/stock_on_hand'
+        }
+    }
+} as const;
+
+export const item_master_responseSchema = {
+    type: 'object',
+    description: 'Item resource returned by item APIs.',
+    properties: {
+        item_master_id: {
+            $ref: '#/components/schemas/item_master_id'
+        },
+        group_id: {
+            $ref: '#/components/schemas/group_id'
+        },
+        item_master_name: {
+            $ref: '#/components/schemas/item_master_name'
+        },
+        group_name: {
+            $ref: '#/components/schemas/group_name'
+        },
+        category_id: {
+            type: 'string',
+            description: 'Category ID associated with the item.',
+            example: '4815000000044001'
+        },
+        category_name: {
+            type: 'string',
+            description: 'Category name associated with the item.'
+        },
+        product_type: {
+            $ref: '#/components/schemas/product_type'
+        },
+        brand: {
+            $ref: '#/components/schemas/brand'
+        },
+        manufacturer: {
+            $ref: '#/components/schemas/manufacturer'
+        },
+        unit: {
+            $ref: '#/components/schemas/unit'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        is_taxable: {
+            $ref: '#/components/schemas/is_taxable'
+        },
+        tax_id: {
+            $ref: '#/components/schemas/tax_id'
+        },
+        tax_name: {
+            $ref: '#/components/schemas/tax_name'
+        },
+        tax_percentage: {
+            $ref: '#/components/schemas/tax_percentage'
+        },
+        tax_type: {
+            $ref: '#/components/schemas/tax_type'
+        },
+        purchase_account_id: {
+            $ref: '#/components/schemas/purchase_account_id'
+        },
+        purchase_account_name: {
+            $ref: '#/components/schemas/purchase_account_name'
+        },
+        account_name: {
+            $ref: '#/components/schemas/account_name'
+        },
+        inventory_account_id: {
+            $ref: '#/components/schemas/inventory_account_id'
+        },
+        attribute_id1: {
+            $ref: '#/components/schemas/attribute_id1'
+        },
+        attribute_name1: {
+            $ref: '#/components/schemas/attribute_name1'
+        },
+        status: {
+            $ref: '#/components/schemas/status'
+        },
+        source: {
+            $ref: '#/components/schemas/source'
+        },
+        image_name: {
+            $ref: '#/components/schemas/image_name'
+        },
+        image_type: {
+            $ref: '#/components/schemas/image_type'
+        },
+        documents: {
+            $ref: '#/components/schemas/documents'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        },
+        item_variants: {
+            type: 'array',
+            description: 'Variants belonging to this item.',
+            items: {
+                $ref: '#/components/schemas/item-master-variant-response'
+            }
+        }
+    }
+} as const;
+
+export const item_variant_responseSchema = {
+    type: 'object',
+    description: 'Item variant resource returned by item variant APIs.',
+    properties: {
+        variant_id: {
+            $ref: '#/components/schemas/variant_id'
+        },
+        variant_name: {
+            $ref: '#/components/schemas/variant_name'
+        },
+        item_master_id: {
+            $ref: '#/components/schemas/item_master_id'
+        },
+        item_master_name: {
+            $ref: '#/components/schemas/item_master_name'
+        },
+        group_id: {
+            $ref: '#/components/schemas/group_id'
+        },
+        group_name: {
+            $ref: '#/components/schemas/group_name'
+        },
+        unit: {
+            $ref: '#/components/schemas/unit'
+        },
+        unit_id: {
+            $ref: '#/components/schemas/unit_id'
+        },
+        item_type: {
+            $ref: '#/components/schemas/item_type'
+        },
+        product_type: {
+            $ref: '#/components/schemas/product_type'
+        },
+        can_be_sold: {
+            $ref: '#/components/schemas/can_be_sold'
+        },
+        can_be_purchased: {
+            $ref: '#/components/schemas/can_be_purchased'
+        },
+        track_inventory: {
+            $ref: '#/components/schemas/track_inventory'
+        },
+        is_taxable: {
+            $ref: '#/components/schemas/is_taxable'
+        },
+        tax_id: {
+            $ref: '#/components/schemas/tax_id'
+        },
+        documents: {
+            $ref: '#/components/schemas/documents'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        tax_name: {
+            $ref: '#/components/schemas/tax_name'
+        },
+        tax_percentage: {
+            $ref: '#/components/schemas/tax_percentage'
+        },
+        tax_type: {
+            $ref: '#/components/schemas/tax_type'
+        },
+        purchase_account_id: {
+            $ref: '#/components/schemas/purchase_account_id'
+        },
+        purchase_account_name: {
+            $ref: '#/components/schemas/purchase_account_name'
+        },
+        account_name: {
+            $ref: '#/components/schemas/account_name'
+        },
+        inventory_account_id: {
+            $ref: '#/components/schemas/inventory_account_id'
+        },
+        attribute_id1: {
+            $ref: '#/components/schemas/attribute_id1'
+        },
+        attribute_name1: {
+            $ref: '#/components/schemas/attribute_name1'
+        },
+        status: {
+            $ref: '#/components/schemas/status'
+        },
+        source: {
+            $ref: '#/components/schemas/source'
+        },
+        rate: {
+            $ref: '#/components/schemas/rate'
+        },
+        pricebook_rate: {
+            $ref: '#/components/schemas/pricebook_rate'
+        },
+        purchase_rate: {
+            $ref: '#/components/schemas/purchase_rate'
+        },
+        reorder_level: {
+            $ref: '#/components/schemas/reorder_level'
+        },
+        vendor_id: {
+            $ref: '#/components/schemas/vendor_id'
+        },
+        vendor_name: {
+            $ref: '#/components/schemas/vendor_name'
+        },
+        locations: {
+            $ref: '#/components/schemas/locations'
+        },
+        sku: {
+            $ref: '#/components/schemas/sku'
+        },
+        upc: {
+            $ref: '#/components/schemas/upc'
+        },
+        ean: {
+            $ref: '#/components/schemas/ean'
+        },
+        isbn: {
+            $ref: '#/components/schemas/isbn'
+        },
+        part_number: {
+            $ref: '#/components/schemas/part_number'
+        },
+        attribute_option_id1: {
+            $ref: '#/components/schemas/attribute_option_id1'
+        },
+        attribute_option_name1: {
+            $ref: '#/components/schemas/attribute_option_name1'
+        },
+        image_id: {
+            $ref: '#/components/schemas/image_id'
+        },
+        image_name: {
+            $ref: '#/components/schemas/image_name'
+        },
+        purchase_description: {
+            $ref: '#/components/schemas/purchase_description'
+        },
+        image_type: {
+            $ref: '#/components/schemas/image_type'
+        },
+        item_tax_preferences: {
+            $ref: '#/components/schemas/item_tax_preferences'
+        },
+        hsn_or_sac: {
+            $ref: '#/components/schemas/hsn_or_sac'
+        },
+        sat_item_key_code: {
+            $ref: '#/components/schemas/sat_item_key_code'
+        },
+        unitkey_code: {
+            $ref: '#/components/schemas/unitkey_code'
+        },
+        brand: {
+            $ref: '#/components/schemas/brand'
+        },
+        manufacturer: {
+            $ref: '#/components/schemas/manufacturer'
+        },
+        is_combo_product: {
+            $ref: '#/components/schemas/is_combo_product'
+        },
+        stock_on_hand: {
+            $ref: '#/components/schemas/stock_on_hand'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const create_an_item_master_requestSchema = {
+    required: [
+        'item_master_name',
+        'unit',
+        'item_variants'
+    ],
+    type: 'object',
+    properties: {
+        item_master_name: {
+            $ref: '#/components/schemas/item_master_name'
+        },
+        name: {
+            type: 'string',
+            description: 'Alternate name field accepted by some create payloads. Prefer <code>item_master_name</code> for item APIs.'
+        },
+        brand: {
+            $ref: '#/components/schemas/brand'
+        },
+        manufacturer: {
+            $ref: '#/components/schemas/manufacturer'
+        },
+        unit: {
+            $ref: '#/components/schemas/unit'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        product_type: {
+            $ref: '#/components/schemas/product_type'
+        },
+        tax_id: {
+            $ref: '#/components/schemas/tax_id'
+        },
+        is_taxable: {
+            $ref: '#/components/schemas/is_taxable'
+        },
+        account_id: {
+            type: 'string',
+            description: 'Sales account ID.',
+            example: '4815000000035001'
+        },
+        purchase_account_id: {
+            $ref: '#/components/schemas/purchase_account_id'
+        },
+        inventory_account_id: {
+            $ref: '#/components/schemas/inventory_account_id'
+        },
+        category_id: {
+            type: 'string',
+            description: 'Category ID associated with the item.',
+            example: '4815000000044001'
+        },
+        attribute_name1: {
+            $ref: '#/components/schemas/attribute_name1'
+        },
+        attribute_name2: {
+            type: 'string',
+            description: 'Name of the second attribute.'
+        },
+        attribute_name3: {
+            type: 'string',
+            description: 'Name of the third attribute.'
+        },
+        item_variants: {
+            type: 'array',
+            description: 'Variants to create under this item.',
+            items: {
+                type: 'object',
+                required: [
+                    'variant_name',
+                    'rate'
+                ],
+                properties: {
+                    variant_id: {
+                        $ref: '#/components/schemas/variant_id'
+                    },
+                    variant_name: {
+                        $ref: '#/components/schemas/variant_name'
+                    },
+                    rate: {
+                        $ref: '#/components/schemas/rate'
+                    },
+                    purchase_rate: {
+                        $ref: '#/components/schemas/purchase_rate'
+                    },
+                    sku: {
+                        $ref: '#/components/schemas/sku'
+                    },
+                    upc: {
+                        $ref: '#/components/schemas/upc'
+                    },
+                    ean: {
+                        $ref: '#/components/schemas/ean'
+                    },
+                    isbn: {
+                        $ref: '#/components/schemas/isbn'
+                    },
+                    part_number: {
+                        $ref: '#/components/schemas/part_number'
+                    },
+                    reorder_level: {
+                        $ref: '#/components/schemas/reorder_level'
+                    },
+                    attribute_option_name1: {
+                        $ref: '#/components/schemas/attribute_option_name1'
+                    },
+                    attribute_option_name2: {
+                        type: 'string',
+                        description: 'Option name for the second attribute.'
+                    },
+                    attribute_option_name3: {
+                        type: 'string',
+                        description: 'Option name for the third attribute.'
+                    },
+                    vendor_id: {
+                        $ref: '#/components/schemas/vendor_id'
+                    },
+                    custom_fields: {
+                        $ref: '#/components/schemas/custom_fields'
+                    }
+                }
+            }
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const update_an_item_master_requestSchema = {
+    type: 'object',
+    allOf: [
+        {
+            $ref: '#/components/schemas/create-an-item-master-request'
+        }
+    ]
+} as const;
+
+export const create_an_item_master_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The item has been added.',
+            readOnly: true
+        },
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const get_an_item_master_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const update_an_item_master_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Item details have been updated.',
+            readOnly: true
+        },
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const delete_an_item_master_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The item has been deleted.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const list_item_masters_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        item_masters: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/item-master-response'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const create_an_item_variant_requestSchema = {
+    required: [
+        'variant_name',
+        'rate'
+    ],
+    type: 'object',
+    properties: {
+        variant_id: {
+            $ref: '#/components/schemas/variant_id'
+        },
+        variant_name: {
+            $ref: '#/components/schemas/variant_name'
+        },
+        rate: {
+            $ref: '#/components/schemas/rate'
+        },
+        group_id: {
+            $ref: '#/components/schemas/group_id'
+        },
+        item_master_id: {
+            $ref: '#/components/schemas/item_master_id'
+        },
+        unit: {
+            $ref: '#/components/schemas/unit'
+        },
+        unit_id: {
+            $ref: '#/components/schemas/unit_id'
+        },
+        item_type: {
+            $ref: '#/components/schemas/item_type'
+        },
+        product_type: {
+            $ref: '#/components/schemas/product_type'
+        },
+        can_be_sold: {
+            $ref: '#/components/schemas/can_be_sold'
+        },
+        can_be_purchased: {
+            $ref: '#/components/schemas/can_be_purchased'
+        },
+        track_inventory: {
+            $ref: '#/components/schemas/track_inventory'
+        },
+        is_taxable: {
+            $ref: '#/components/schemas/is_taxable'
+        },
+        tax_id: {
+            $ref: '#/components/schemas/tax_id'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        purchase_description: {
+            $ref: '#/components/schemas/purchase_description'
+        },
+        purchase_rate: {
+            $ref: '#/components/schemas/purchase_rate'
+        },
+        purchase_account_id: {
+            $ref: '#/components/schemas/purchase_account_id'
+        },
+        inventory_account_id: {
+            $ref: '#/components/schemas/inventory_account_id'
+        },
+        reorder_level: {
+            $ref: '#/components/schemas/reorder_level'
+        },
+        sku: {
+            $ref: '#/components/schemas/sku'
+        },
+        upc: {
+            $ref: '#/components/schemas/upc'
+        },
+        ean: {
+            $ref: '#/components/schemas/ean'
+        },
+        isbn: {
+            $ref: '#/components/schemas/isbn'
+        },
+        part_number: {
+            $ref: '#/components/schemas/part_number'
+        },
+        attribute_option_name1: {
+            $ref: '#/components/schemas/attribute_option_name1'
+        },
+        vendor_id: {
+            $ref: '#/components/schemas/vendor_id'
+        },
+        brand: {
+            $ref: '#/components/schemas/brand'
+        },
+        manufacturer: {
+            $ref: '#/components/schemas/manufacturer'
+        },
+        hsn_or_sac: {
+            $ref: '#/components/schemas/hsn_or_sac'
+        },
+        locations: {
+            type: 'array',
+            description: 'List of locations.',
+            items: {
+                type: 'object',
+                properties: {
+                    location_id: {
+                        $ref: '#/components/schemas/location_id'
+                    },
+                    initial_stock: {
+                        $ref: '#/components/schemas/initial_stock'
+                    },
+                    initial_stock_rate: {
+                        $ref: '#/components/schemas/initial_stock_rate'
+                    }
+                }
+            }
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const update_an_item_variant_requestSchema = {
+    type: 'object',
+    allOf: [
+        {
+            $ref: '#/components/schemas/create-an-item-variant-request'
+        }
+    ]
+} as const;
+
+export const move_an_item_variant_requestSchema = {
+    type: 'object',
+    description: 'Request body to move a variant into another item. Uses the item variant create or update structure. Include the target <code>item_master_id</code> or <code>group_id</code>.',
+    allOf: [
+        {
+            $ref: '#/components/schemas/create-an-item-variant-request'
+        }
+    ]
+} as const;
+
+export const create_an_item_variant_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The item has been added.',
+            readOnly: true
+        },
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const get_an_item_variant_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const update_an_item_variant_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Item details have been updated',
+            readOnly: true
+        },
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const list_item_variants_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        item_variants: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/item-variant-response'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const ungroup_item_variants_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The selected variants have been ungrouped.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const group_idSchema = {
+    description: 'Unique ID generated by the server for the group to which the item belongs, if any. This is used as an identifier.',
+    type: 'string',
+    example: 4815000000044220
+} as const;
+
+export const group_nameSchema = {
+    description: 'Name of product group',
+    type: 'string',
+    example: 'Bags'
+} as const;
+
+export const upcSchema = {
+    description: 'The 12 digit Unique Product Code (UPC) of the item.',
+    type: 'integer',
+    format: 'int64',
+    example: 111111111111
+} as const;
+
+export const eanSchema = {
+    description: 'Unique EAN value for the Item.',
+    type: 'integer',
+    format: 'int64',
+    example: 111111111112
+} as const;
+
+export const isbnSchema = {
+    description: 'Unique ISBN value for the Item.',
+    type: 'string',
+    example: 111111111113
+} as const;
+
+export const part_numberSchema = {
+    description: 'Part Number of the Item.',
+    type: 'string',
+    example: 111111111114
+} as const;
+
+export const attribute_option_id1Schema = {
+    description: 'Unique ID generated by the server for the attribute\'s options. This is used as an identifier.',
+    type: 'string',
+    example: 4815000000044214
+} as const;
+
+export const attribute_option_name1Schema = {
+    description: 'Name of the attribute\'s option.',
+    type: 'string',
+    example: 'Small'
+} as const;
+
+export const image_nameSchema = {
+    description: 'Image name of the Item.',
+    type: 'string',
+    example: 'bag_s.jpg'
+} as const;
+
+export const image_typeSchema = {
+    description: 'Type of the image i.e., its file format.',
+    type: 'string',
+    example: 'jpg'
+} as const;
+
+export const stock_on_handSchema = {
+    description: 'Stock available for a particular item.',
+    type: 'number',
+    format: 'double',
+    example: 50
+} as const;
+
+export const attribute_id1Schema = {
+    description: 'Unique ID used by the server. This is used as an identifier.',
+    type: 'string',
+    example: 4815000000044112
+} as const;
+
+export const attribute_name1Schema = {
+    description: 'Name of the attribute present in the Item Group.',
+    type: 'string',
+    example: 'Small'
+} as const;
+
+export const purchase_account_nameSchema = {
+    description: 'Name of the Purchase Account',
+    type: 'string',
+    example: 'Cost of Goods Sold'
+} as const;
+
+export const can_be_soldSchema = {
+    description: 'Boolean to indicate whether the item can be sold.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const can_be_purchasedSchema = {
+    description: 'Boolean to indicate whether the item can be purchased.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const track_inventorySchema = {
+    description: 'Boolean to indicate whether inventory tracking is enabled for the item.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const pricebook_rateSchema = {
+    description: 'Pricelist rate applied on the item.',
+    type: 'number',
+    format: 'double',
+    example: 6
+} as const;
+
+export const image_idSchema = {
+    description: 'Unique ID generated by the server for the item image. This is used as an identifier.',
+    type: 'string',
+    example: 2077500000000002000
+} as const;
+
+export const is_combo_productSchema = {
+    type: 'boolean',
+    example: false
+} as const;
+
+export const unit_idSchema = {
+    description: 'Unique ID of the unit associated with the item.',
+    type: 'string',
+    example: '4815000000044300'
 } as const;
 
 export const journal_dateSchema = {
@@ -32184,13 +33452,6 @@ export const sales_or_purchase_typeSchema = {
     description: 'Whether its sales or purchase type.Allowed values: <code>sales</code>,<code>purchases</code>',
     type: 'string',
     example: 'sales'
-} as const;
-
-export const pricebook_rateSchema = {
-    description: 'Rate of the price book for the Items',
-    type: 'number',
-    format: 'double',
-    example: 22
 } as const;
 
 export const pricebook_item_idSchema = {
@@ -35966,6 +37227,1289 @@ export const reject_purchase_orderSchema = {
         message: {
             type: 'string',
             example: 'You have rejected the Purchase order successfully.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        purchasereturn_id: {
+            $ref: '#/components/schemas/purchasereturn_id'
+        },
+        purchasereturn_number: {
+            $ref: '#/components/schemas/purchasereturn_number'
+        },
+        reference_number: {
+            $ref: '#/components/schemas/reference_number'
+        },
+        date: {
+            $ref: '#/components/schemas/date'
+        },
+        reason: {
+            $ref: '#/components/schemas/reason'
+        },
+        total_quantity: {
+            $ref: '#/components/schemas/total_quantity'
+        },
+        sub_total: {
+            $ref: '#/components/schemas/sub_total'
+        },
+        bcy_sub_total: {
+            $ref: '#/components/schemas/bcy_sub_total'
+        },
+        total: {
+            $ref: '#/components/schemas/total'
+        },
+        purchasereturn_status: {
+            $ref: '#/components/schemas/purchasereturn_status'
+        },
+        shipped_status: {
+            $ref: '#/components/schemas/shipped_status'
+        },
+        dn_status: {
+            $ref: '#/components/schemas/dn_status'
+        },
+        vendor_id: {
+            $ref: '#/components/schemas/vendor_id'
+        },
+        contact: {
+            $ref: '#/components/schemas/contact'
+        },
+        currency_id: {
+            $ref: '#/components/schemas/currency_id'
+        },
+        currency_code: {
+            $ref: '#/components/schemas/currency_code'
+        },
+        currency_symbol: {
+            $ref: '#/components/schemas/currency_symbol'
+        },
+        exchange_rate: {
+            $ref: '#/components/schemas/exchange_rate'
+        },
+        line_items: {
+            $ref: '#/components/schemas/line_items'
+        },
+        purchaseorders: {
+            $ref: '#/components/schemas/purchaseorders'
+        },
+        vendorcredits: {
+            $ref: '#/components/schemas/vendorcredits'
+        },
+        billing_address: {
+            $ref: '#/components/schemas/address-object'
+        },
+        shipping_address: {
+            $ref: '#/components/schemas/address-object'
+        },
+        terms: {
+            $ref: '#/components/schemas/terms'
+        },
+        template_name: {
+            $ref: '#/components/schemas/template_name'
+        },
+        template_id: {
+            $ref: '#/components/schemas/template_id'
+        },
+        location_id: {
+            $ref: '#/components/schemas/location_id'
+        },
+        location_name: {
+            $ref: '#/components/schemas/location_name'
+        },
+        documents: {
+            $ref: '#/components/schemas/documents'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        },
+        gst_treatment: {
+            $ref: '#/components/schemas/gst_treatment'
+        },
+        tax_treatment: {
+            $ref: '#/components/schemas/tax_treatment'
+        },
+        vat_treatment: {
+            $ref: '#/components/schemas/vat_treatment'
+        },
+        gst_no: {
+            $ref: '#/components/schemas/gst_no'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        source_of_supply: {
+            $ref: '#/components/schemas/source_of_supply'
+        },
+        destination_of_supply: {
+            $ref: '#/components/schemas/destination_of_supply'
+        },
+        place_of_supply: {
+            $ref: '#/components/schemas/place_of_supply'
+        },
+        is_inclusive_tax: {
+            $ref: '#/components/schemas/is_inclusive_tax'
+        },
+        discount: {
+            $ref: '#/components/schemas/discount'
+        },
+        is_discount_before_tax: {
+            $ref: '#/components/schemas/is_discount_before_tax'
+        },
+        discount_type: {
+            $ref: '#/components/schemas/discount_type'
+        },
+        can_create_vendorcredit: {
+            $ref: '#/components/schemas/can_create_vendorcredit'
+        },
+        is_adv_tracking_in_package: {
+            $ref: '#/components/schemas/is_adv_tracking_in_package'
+        }
+    }
+} as const;
+
+export const purchasereturn_idSchema = {
+    description: 'Unique ID generated by the server for the purchase return.',
+    type: 'string',
+    example: '460000000044972'
+} as const;
+
+export const purchasereturn_numberSchema = {
+    description: 'Unique number assigned to the purchase return.',
+    type: 'string',
+    example: 'PR-00001'
+} as const;
+
+export const total_quantitySchema = {
+    description: 'Total quantity of all items in the purchase return.',
+    type: 'number',
+    format: 'double',
+    example: 10
+} as const;
+
+export const bcy_sub_totalSchema = {
+    description: 'Sub-total of the purchase return in base currency.',
+    type: 'number',
+    format: 'double',
+    example: 5000
+} as const;
+
+export const purchasereturn_statusSchema = {
+    description: 'Status of the purchase return. Possible values: <code>draft</code>, <code>confirmed</code>, <code>void</code>, <code>closed</code>.',
+    type: 'string',
+    example: 'confirmed'
+} as const;
+
+export const shipped_statusSchema = {
+    description: 'Shipment status of the purchase return. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.',
+    type: 'string',
+    example: 'not_shipped'
+} as const;
+
+export const dn_statusSchema = {
+    description: 'Vendor credit (debit note) status of the purchase return. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.',
+    type: 'string',
+    example: 'not_refunded'
+} as const;
+
+export const can_create_vendorcreditSchema = {
+    description: 'Whether a vendor credit can be created from this purchase return.',
+    type: 'boolean',
+    example: true
+} as const;
+
+export const is_adv_tracking_in_packageSchema = {
+    description: 'Whether advanced tracking (serial/batch) is enabled for packaging in this purchase return.',
+    type: 'boolean',
+    example: false
+} as const;
+
+export const purchase_return_line_item_responseSchema = {
+    type: 'object',
+    properties: {
+        line_item_id: {
+            description: 'Unique ID of the line item.',
+            type: 'string',
+            example: '460000000044897'
+        },
+        item_id: {
+            description: 'Unique ID of the item.',
+            type: 'string',
+            example: '460000000027009'
+        },
+        po_item_id: {
+            description: 'Unique ID of the corresponding purchase order line item.',
+            type: 'string',
+            example: '460000000044892'
+        },
+        item_order: {
+            description: 'Display order of the line item.',
+            type: 'integer',
+            example: 1
+        },
+        name: {
+            description: 'Name of the item.',
+            type: 'string',
+            example: 'Hard Drive'
+        },
+        description: {
+            description: 'Description of the line item.',
+            type: 'string',
+            example: '500GB External Hard Drive'
+        },
+        quantity: {
+            description: 'Quantity being returned.',
+            type: 'number',
+            format: 'double',
+            example: 5
+        },
+        quantity_remaining: {
+            description: 'Remaining quantity to be processed.',
+            type: 'number',
+            format: 'double',
+            example: 3
+        },
+        quantity_packed: {
+            description: 'Quantity that has been packed.',
+            type: 'number',
+            format: 'double',
+            example: 2
+        },
+        quantity_shipped: {
+            description: 'Quantity that has been shipped.',
+            type: 'number',
+            format: 'double',
+            example: 2
+        },
+        quantity_returned: {
+            description: 'Total quantity returned.',
+            type: 'number',
+            format: 'double',
+            example: 5
+        },
+        quantity_cancelled: {
+            description: 'Quantity that has been cancelled.',
+            type: 'number',
+            format: 'double',
+            example: 0
+        },
+        unit: {
+            description: 'Unit of measurement for the item.',
+            type: 'string',
+            example: 'pcs'
+        },
+        rate: {
+            description: 'Rate (price) per unit of the item.',
+            type: 'number',
+            format: 'double',
+            example: 1000
+        },
+        item_total: {
+            description: 'Total amount for this line item.',
+            type: 'number',
+            format: 'double',
+            example: 5000
+        },
+        account_id: {
+            description: 'Unique ID of the account associated with this line item.',
+            type: 'string',
+            example: '460000000000388'
+        },
+        item_type: {
+            description: 'Type of item. Possible values: <code>inventory</code>, <code>sales</code>, <code>purchases</code>, <code>sales_and_purchases</code>, <code>service</code>.',
+            type: 'string',
+            example: 'inventory'
+        },
+        tax_id: {
+            description: 'Unique ID of the tax applied to this line item.',
+            type: 'string',
+            example: '460000000044043'
+        },
+        tax_name: {
+            description: 'Name of the tax applied.',
+            type: 'string',
+            example: 'GST'
+        },
+        tax_type: {
+            description: 'Type of tax applied.',
+            type: 'string',
+            example: 'tax'
+        },
+        tax_percentage: {
+            description: 'Tax percentage applied to this line item.',
+            type: 'number',
+            format: 'double',
+            example: 12
+        },
+        location_id: {
+            description: 'Unique ID of the location for this line item.',
+            type: 'string',
+            example: '460000000044020'
+        },
+        location_name: {
+            description: 'Name of the location.',
+            type: 'string',
+            example: 'Head Office'
+        },
+        discount: {
+            description: 'Discount applied on the line item.',
+            type: 'string',
+            example: '0.0'
+        },
+        line_item_taxes: {
+            description: 'Taxes applied on the line item.',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    tax_id: {
+                        description: 'Unique ID of the tax.',
+                        type: 'string',
+                        example: '460000000044043'
+                    },
+                    tax_name: {
+                        description: 'Name of the tax.',
+                        type: 'string',
+                        example: 'GST'
+                    },
+                    tax_amount: {
+                        description: 'Amount of tax applied.',
+                        type: 'number',
+                        format: 'double',
+                        example: 600
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const vendorcreditsSchema = {
+    description: 'Vendor credits associated with this purchase return.',
+    type: 'array',
+    items: {
+        type: 'object',
+        properties: {
+            vendor_credit_id: {
+                description: 'Unique ID of the vendor credit.',
+                type: 'string',
+                example: '460000000045001'
+            },
+            vendor_credit_number: {
+                description: 'Vendor credit number.',
+                type: 'string',
+                example: 'DN-00001'
+            },
+            date: {
+                description: 'Date of the vendor credit.',
+                type: 'string',
+                example: '2024-01-20'
+            },
+            total: {
+                description: 'Total amount of the vendor credit.',
+                type: 'number',
+                format: 'double',
+                example: 5600
+            },
+            status: {
+                description: 'Status of the vendor credit.',
+                type: 'string',
+                example: 'open'
+            }
+        }
+    }
+} as const;
+
+export const address_objectSchema = {
+    description: 'Address details.',
+    type: 'object',
+    properties: {
+        address: {
+            description: 'Street address.',
+            type: 'string',
+            example: '123 Main St'
+        },
+        street2: {
+            description: 'Additional street address.',
+            type: 'string',
+            example: 'Suite 100'
+        },
+        city: {
+            description: 'City.',
+            type: 'string',
+            example: 'New York'
+        },
+        state: {
+            description: 'State or province.',
+            type: 'string',
+            example: 'New York'
+        },
+        zip: {
+            description: 'ZIP or postal code.',
+            type: 'string',
+            example: '10001'
+        },
+        country: {
+            description: 'Country.',
+            type: 'string',
+            example: 'US'
+        },
+        fax: {
+            description: 'Fax number.',
+            type: 'string',
+            example: ''
+        },
+        phone: {
+            description: 'Phone number.',
+            type: 'string',
+            example: '+1-212-555-0100'
+        },
+        attention: {
+            description: 'Name of the attention person.',
+            type: 'string',
+            example: 'John Smith'
+        }
+    }
+} as const;
+
+export const list_purchase_returns_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        purchasereturns: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    purchasereturn_id: {
+                        $ref: '#/components/schemas/purchasereturn_id'
+                    },
+                    purchasereturn_number: {
+                        $ref: '#/components/schemas/purchasereturn_number'
+                    },
+                    purchaseorder_number: {
+                        description: 'Purchase order number associated with the purchase return.',
+                        type: 'string',
+                        example: 'PO-00032'
+                    },
+                    date: {
+                        $ref: '#/components/schemas/date'
+                    },
+                    reason: {
+                        $ref: '#/components/schemas/reason'
+                    },
+                    vendor_id: {
+                        $ref: '#/components/schemas/vendor_id'
+                    },
+                    vendor_name: {
+                        $ref: '#/components/schemas/vendor_name'
+                    },
+                    quantity: {
+                        description: 'Total return quantity.',
+                        type: 'number',
+                        format: 'double',
+                        example: 10
+                    },
+                    amount: {
+                        description: 'Total return amount.',
+                        type: 'number',
+                        format: 'double',
+                        example: 5600
+                    },
+                    purchasereturn_status: {
+                        $ref: '#/components/schemas/purchasereturn_status'
+                    },
+                    shipment_status: {
+                        description: 'Shipment status. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.',
+                        type: 'string',
+                        example: 'not_shipped'
+                    },
+                    package_status: {
+                        description: 'Package status. Possible values: <code>packed</code>, <code>not_packed</code>, <code>partially_packed</code>.',
+                        type: 'string',
+                        example: 'not_packed'
+                    },
+                    picked_status: {
+                        description: 'Pick list status. Possible values: <code>picked</code>, <code>not_picked</code>, <code>partially_picked</code>.',
+                        type: 'string',
+                        example: 'not_picked'
+                    },
+                    refund_status: {
+                        description: 'Refund status. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.',
+                        type: 'string',
+                        example: 'not_refunded'
+                    },
+                    created_time: {
+                        description: 'Time at which the purchase return was created.',
+                        type: 'string',
+                        example: '2024-01-15T10:30:00+0530'
+                    },
+                    last_modified_time: {
+                        description: 'Time at which the purchase return was last modified.',
+                        type: 'string',
+                        example: '2024-01-15T10:30:00+0530'
+                    }
+                }
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const get_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
+        }
+    }
+} as const;
+
+export const create_purchase_return_requestSchema = {
+    required: [
+        'date',
+        'vendor_id',
+        'line_items'
+    ],
+    type: 'object',
+    properties: {
+        purchasereturn_number: {
+            description: 'Unique number for the purchase return. Required when <code>ignore_auto_number_generation</code> is <code>true</code>. Max-length [50].',
+            type: 'string',
+            example: 'PR-00001'
+        },
+        reference_number: {
+            description: 'Reference number for the purchase return. Max-length [100].',
+            type: 'string',
+            example: 'REF-001'
+        },
+        date: {
+            description: 'Date of the purchase return. Format [yyyy-mm-dd].',
+            type: 'string',
+            example: '2024-01-15'
+        },
+        reason: {
+            description: 'Reason for creating the purchase return. Max-length [1000].',
+            type: 'string',
+            example: 'Defective items received'
+        },
+        vendor_id: {
+            description: 'Unique ID of the vendor.',
+            type: 'string',
+            example: '460000000026049'
+        },
+        is_inclusive_tax: {
+            description: 'Whether the line item rates are inclusive of tax.',
+            type: 'boolean',
+            example: false
+        },
+        line_items: {
+            description: 'Line items in the purchase return.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/purchase-return-line-item-request'
+            }
+        },
+        terms: {
+            description: 'Terms and conditions. Max-length [10000].',
+            type: 'string',
+            example: 'Items must be returned in original packaging.'
+        },
+        gst_treatment: {
+            description: 'GST treatment for the vendor.',
+            type: 'string',
+            example: 'business_gst'
+        },
+        tax_treatment: {
+            description: 'Tax treatment for the vendor.',
+            type: 'string',
+            example: 'vat_registered'
+        },
+        vat_treatment: {
+            description: 'VAT treatment for the vendor.',
+            type: 'string',
+            example: 'uk_vat_registered'
+        },
+        source_of_supply: {
+            description: 'Source state code for GST. Max-length [5].',
+            type: 'string',
+            example: '33'
+        },
+        destination_of_supply: {
+            description: 'Destination state code for GST. Max-length [5].',
+            type: 'string',
+            example: '27'
+        },
+        place_of_supply: {
+            description: 'Place of supply state code. Max-length [5].',
+            type: 'string',
+            example: '33'
+        },
+        discount: {
+            description: 'Discount applied on the purchase return.',
+            type: 'string',
+            example: '0.0'
+        },
+        is_discount_before_tax: {
+            description: 'Whether the discount is applied before tax calculation.',
+            type: 'boolean',
+            example: true
+        },
+        discount_type: {
+            description: 'Type of discount. Possible values: <code>entity_level</code>, <code>item_level</code>.',
+            type: 'string',
+            example: 'entity_level'
+        },
+        shipping_charge: {
+            description: 'Shipping charges for the purchase return.',
+            type: 'number',
+            format: 'double',
+            example: 0
+        },
+        adjustment: {
+            description: 'Adjustment amount (positive or negative).',
+            type: 'number',
+            format: 'double',
+            example: 0
+        },
+        adjustment_description: {
+            description: 'Description for the adjustment. Max-length [100].',
+            type: 'string',
+            example: 'Rounding adjustment'
+        },
+        exchange_rate: {
+            description: 'Exchange rate for the currency used.',
+            type: 'number',
+            format: 'double',
+            example: 1
+        },
+        currency_id: {
+            description: 'Unique ID of the currency.',
+            type: 'string',
+            example: '460000000000097'
+        },
+        billing_address_id: {
+            description: 'Unique ID of the billing address.',
+            type: 'string',
+            example: '460000000044030'
+        },
+        shipping_address_id: {
+            description: 'Unique ID of the shipping address.',
+            type: 'string',
+            example: '460000000044031'
+        },
+        location_id: {
+            description: 'Unique ID of the location.',
+            type: 'string',
+            example: '460000000044020'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const purchase_return_line_item_requestSchema = {
+    type: 'object',
+    required: [
+        'quantity'
+    ],
+    properties: {
+        item_id: {
+            description: 'Unique ID of the item.',
+            type: 'string',
+            example: '460000000027009'
+        },
+        po_item_id: {
+            description: 'Unique ID of the corresponding purchase order line item.',
+            type: 'string',
+            example: '460000000044892'
+        },
+        name: {
+            description: 'Name of the item. Max-length [200].',
+            type: 'string',
+            example: 'Hard Drive'
+        },
+        description: {
+            description: 'Description of the line item. Max-length [1000].',
+            type: 'string',
+            example: '500GB External Hard Drive'
+        },
+        quantity: {
+            description: 'Quantity being returned.',
+            type: 'number',
+            format: 'double',
+            example: 5
+        },
+        unit: {
+            description: 'Unit of measurement. Max-length [120].',
+            type: 'string',
+            example: 'pcs'
+        },
+        rate: {
+            description: 'Rate (price) per unit of the item.',
+            type: 'number',
+            format: 'double',
+            example: 1000
+        },
+        item_order: {
+            description: 'Display order of the line item.',
+            type: 'integer',
+            example: 1
+        },
+        tax_id: {
+            description: 'Unique ID of the tax to apply to this line item.',
+            type: 'string',
+            example: '460000000044043'
+        },
+        tax_exemption_id: {
+            description: 'Unique ID of the tax exemption.',
+            type: 'string',
+            example: '460000000044055'
+        },
+        hsn_or_sac: {
+            description: 'HSN or SAC code for the item.',
+            type: 'string',
+            example: '84713010'
+        },
+        location_id: {
+            description: 'Unique ID of the location.',
+            type: 'string',
+            example: '460000000044020'
+        },
+        discount: {
+            description: 'Discount applied on the line item.',
+            type: 'string',
+            example: '0.0'
+        }
+    }
+} as const;
+
+export const update_purchase_return_requestSchema = {
+    type: 'object',
+    properties: {
+        purchasereturn_number: {
+            description: 'Unique number for the purchase return. Max-length [50].',
+            type: 'string',
+            example: 'PR-00001'
+        },
+        reference_number: {
+            description: 'Reference number for the purchase return. Max-length [100].',
+            type: 'string',
+            example: 'REF-001'
+        },
+        date: {
+            description: 'Date of the purchase return. Format [yyyy-mm-dd].',
+            type: 'string',
+            example: '2024-01-15'
+        },
+        reason: {
+            description: 'Reason for the purchase return. Max-length [1000].',
+            type: 'string',
+            example: 'Defective items received'
+        },
+        vendor_id: {
+            description: 'Unique ID of the vendor.',
+            type: 'string',
+            example: '460000000026049'
+        },
+        is_inclusive_tax: {
+            description: 'Whether the line item rates are inclusive of tax.',
+            type: 'boolean',
+            example: false
+        },
+        line_items: {
+            description: 'Line items in the purchase return.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/purchase-return-line-item-request'
+            }
+        },
+        terms: {
+            description: 'Terms and conditions. Max-length [10000].',
+            type: 'string',
+            example: 'Items must be returned in original packaging.'
+        },
+        gst_treatment: {
+            description: 'GST treatment for the vendor.',
+            type: 'string',
+            example: 'business_gst'
+        },
+        tax_treatment: {
+            description: 'Tax treatment for the vendor.',
+            type: 'string',
+            example: 'vat_registered'
+        },
+        vat_treatment: {
+            description: 'VAT treatment for the vendor.',
+            type: 'string',
+            example: 'uk_vat_registered'
+        },
+        source_of_supply: {
+            description: 'Source state code for GST. Max-length [5].',
+            type: 'string',
+            example: '33'
+        },
+        destination_of_supply: {
+            description: 'Destination state code for GST. Max-length [5].',
+            type: 'string',
+            example: '27'
+        },
+        place_of_supply: {
+            description: 'Place of supply state code. Max-length [5].',
+            type: 'string',
+            example: '33'
+        },
+        discount: {
+            description: 'Discount applied on the purchase return.',
+            type: 'string',
+            example: '0.0'
+        },
+        is_discount_before_tax: {
+            description: 'Whether the discount is applied before tax calculation.',
+            type: 'boolean',
+            example: true
+        },
+        discount_type: {
+            description: 'Type of discount. Possible values: <code>entity_level</code>, <code>item_level</code>.',
+            type: 'string',
+            example: 'entity_level'
+        },
+        shipping_charge: {
+            description: 'Shipping charges for the purchase return.',
+            type: 'number',
+            format: 'double',
+            example: 0
+        },
+        adjustment: {
+            description: 'Adjustment amount (positive or negative).',
+            type: 'number',
+            format: 'double',
+            example: 0
+        },
+        adjustment_description: {
+            description: 'Description for the adjustment. Max-length [100].',
+            type: 'string',
+            example: 'Rounding adjustment'
+        },
+        exchange_rate: {
+            description: 'Exchange rate for the currency used.',
+            type: 'number',
+            format: 'double',
+            example: 1
+        },
+        currency_id: {
+            description: 'Unique ID of the currency.',
+            type: 'string',
+            example: '460000000000097'
+        },
+        billing_address_id: {
+            description: 'Unique ID of the billing address.',
+            type: 'string',
+            example: '460000000044030'
+        },
+        shipping_address_id: {
+            description: 'Unique ID of the shipping address.',
+            type: 'string',
+            example: '460000000044031'
+        },
+        location_id: {
+            description: 'Unique ID of the location.',
+            type: 'string',
+            example: '460000000044020'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
+export const create_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return created successfully.',
+            readOnly: true
+        },
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
+        }
+    }
+} as const;
+
+export const update_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return updated successfully.',
+            readOnly: true
+        },
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
+        }
+    }
+} as const;
+
+export const delete_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return deleted successfully.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const confirm_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been confirmed.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const void_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been voided.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const fulfill_purchase_return_requestSchema = {
+    type: 'object',
+    properties: {
+        line_items: {
+            description: 'Line items to fulfill.',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    purchasereturn_item_id: {
+                        description: 'Unique ID of the purchase return line item.',
+                        type: 'string',
+                        example: '460000000044897'
+                    },
+                    quantity: {
+                        description: 'Quantity to fulfill.',
+                        type: 'integer',
+                        example: 5
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const fulfill_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been fulfilled.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const unfulfill_purchase_return_requestSchema = {
+    type: 'object',
+    properties: {
+        line_items: {
+            description: 'Line items to unfulfill.',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    purchasereturn_item_id: {
+                        description: 'Unique ID of the purchase return line item.',
+                        type: 'string',
+                        example: '460000000044897'
+                    },
+                    quantity: {
+                        description: 'Quantity to unfulfill.',
+                        type: 'integer',
+                        example: 5
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const unfulfill_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been unfulfilled.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const email_purchase_return_requestSchema = {
+    type: 'object',
+    properties: {
+        to_mail_ids: {
+            description: 'Array of recipient email addresses.',
+            type: 'array',
+            items: {
+                type: 'string'
+            },
+            example: [
+                'vendor@example.com'
+            ]
+        },
+        cc_mail_ids: {
+            description: 'Array of CC email addresses.',
+            type: 'array',
+            items: {
+                type: 'string'
+            },
+            example: [
+                'manager@example.com'
+            ]
+        },
+        bcc_mail_ids: {
+            description: 'Array of BCC email addresses.',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        subject: {
+            description: 'Subject of the email. Max-length [1000].',
+            type: 'string',
+            example: 'Purchase Return PR-00001'
+        },
+        body: {
+            description: 'Body of the email. Max-length [100000].',
+            type: 'string',
+            example: 'Please find the attached purchase return.'
+        }
+    }
+} as const;
+
+export const email_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Email has been sent.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const close_purchase_return_requestSchema = {
+    type: 'object',
+    properties: {
+        line_items: {
+            description: 'Line items with quantities to cancel.',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    line_item_id: {
+                        description: 'Unique ID of the line item.',
+                        type: 'string',
+                        example: '460000000044897'
+                    },
+                    qty_cancelled: {
+                        description: 'Quantity to cancel.',
+                        type: 'number',
+                        format: 'double',
+                        example: 2
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const close_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been closed.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const reopen_purchase_return_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Purchase return has been reopened.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const update_address_requestSchema = {
+    type: 'object',
+    properties: {
+        address: {
+            description: 'Street address.',
+            type: 'string',
+            example: '123 Main St'
+        },
+        street2: {
+            description: 'Additional street address.',
+            type: 'string',
+            example: 'Suite 100'
+        },
+        city: {
+            description: 'City.',
+            type: 'string',
+            example: 'New York'
+        },
+        state: {
+            description: 'State or province.',
+            type: 'string',
+            example: 'New York'
+        },
+        zip: {
+            description: 'ZIP or postal code.',
+            type: 'string',
+            example: '10001'
+        },
+        country: {
+            description: 'Country.',
+            type: 'string',
+            example: 'US'
+        },
+        fax: {
+            description: 'Fax number.',
+            type: 'string',
+            example: ''
+        },
+        phone: {
+            description: 'Phone number.',
+            type: 'string',
+            example: '+1-212-555-0100'
+        },
+        attention: {
+            description: 'Attention person.',
+            type: 'string',
+            example: 'John Smith'
+        }
+    }
+} as const;
+
+export const add_attachment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The document has been attached.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const delete_attachment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The attachment has been deleted.',
             readOnly: true
         }
     }
@@ -43077,11 +45621,6 @@ export const is_invoicedSchema = {
     example: false
 } as const;
 
-export const stock_on_handSchema = {
-    description: 'Stock on hand for the Item.',
-    type: 'string'
-} as const;
-
 export const delivery_method_idSchema = {
     type: 'string',
     description: 'Unique identifier for the delivery method. Note: This value is a set of numeric characters.'
@@ -43213,21 +45752,6 @@ export const avatax_tax_code_descSchema = {
         'Avalara Integration'
     ],
     'x-node_unavailable_in': []
-} as const;
-
-export const image_idSchema = {
-    description: 'ID of the Image of the Item. Note: This value is a set of numeric characters.',
-    type: 'string'
-} as const;
-
-export const image_nameSchema = {
-    description: 'Name of the Image of the Item.',
-    type: 'string'
-} as const;
-
-export const image_typeSchema = {
-    description: 'Type of the image of the item',
-    type: 'string'
 } as const;
 
 export const toprintSchema = {
@@ -52616,6 +55140,148 @@ export const add_comment_responseWritableSchema = {
     }
 } as const;
 
+export const category_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        seo_title: {
+            $ref: '#/components/schemas/seo_title'
+        },
+        seo_keyword: {
+            $ref: '#/components/schemas/seo_keyword'
+        },
+        seo_description: {
+            $ref: '#/components/schemas/seo_description'
+        },
+        category_tax_preferences: {
+            $ref: '#/components/schemas/category_tax_preferences'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        ondc_category_type: {
+            $ref: '#/components/schemas/ondc_category_type'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        },
+        ancestors: {
+            $ref: '#/components/schemas/ancestors'
+        },
+        children: {
+            $ref: '#/components/schemas/children'
+        }
+    }
+} as const;
+
+export const category_list_itemWritableSchema = {
+    type: 'object',
+    properties: {
+        category_id: {
+            $ref: '#/components/schemas/category_id'
+        },
+        name: {
+            $ref: '#/components/schemas/name'
+        },
+        description: {
+            $ref: '#/components/schemas/description'
+        },
+        url: {
+            $ref: '#/components/schemas/url'
+        },
+        parent_category_id: {
+            $ref: '#/components/schemas/parent_category_id'
+        },
+        visibility: {
+            $ref: '#/components/schemas/visibility'
+        },
+        show_in_menu: {
+            $ref: '#/components/schemas/show_in_menu'
+        },
+        sibling_order: {
+            $ref: '#/components/schemas/sibling_order'
+        },
+        depth: {
+            $ref: '#/components/schemas/depth'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        ondc_category_type: {
+            $ref: '#/components/schemas/ondc_category_type'
+        }
+    }
+} as const;
+
+export const list_categories_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        categories: {
+            description: 'List of categories.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/category-list-itemWritable'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const get_a_category_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        category: {
+            $ref: '#/components/schemas/category-responseWritable'
+        }
+    }
+} as const;
+
+export const create_a_category_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        category: {
+            $ref: '#/components/schemas/category-responseWritable'
+        }
+    }
+} as const;
+
+export const update_a_category_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        category: {
+            $ref: '#/components/schemas/category-responseWritable'
+        }
+    }
+} as const;
+
 export const create_an_account_responseWritableSchema = {
     type: 'object',
     properties: {
@@ -59619,6 +62285,90 @@ export const get_an_item_responseWritableSchema = {
     }
 } as const;
 
+export const create_an_item_master_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const get_an_item_master_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const update_an_item_master_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_master: {
+            $ref: '#/components/schemas/item-master-response'
+        }
+    }
+} as const;
+
+export const list_item_masters_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_masters: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/item-master-response'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const create_an_item_variant_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const get_an_item_variant_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const update_an_item_variant_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_variant: {
+            $ref: '#/components/schemas/item-variant-response'
+        }
+    }
+} as const;
+
+export const list_item_variants_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        item_variants: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/item-variant-response'
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
 export const create_a_journal_responseWritableSchema = {
     type: 'object',
     properties: {
@@ -61437,6 +64187,118 @@ export const list_purchase_order_comments_and_history_responseWritableSchema = {
                     }
                 }
             }
+        }
+    }
+} as const;
+
+export const list_purchase_returns_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        purchasereturns: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    purchasereturn_id: {
+                        $ref: '#/components/schemas/purchasereturn_id'
+                    },
+                    purchasereturn_number: {
+                        $ref: '#/components/schemas/purchasereturn_number'
+                    },
+                    purchaseorder_number: {
+                        description: 'Purchase order number associated with the purchase return.',
+                        type: 'string',
+                        example: 'PO-00032'
+                    },
+                    date: {
+                        $ref: '#/components/schemas/date'
+                    },
+                    reason: {
+                        $ref: '#/components/schemas/reason'
+                    },
+                    vendor_id: {
+                        $ref: '#/components/schemas/vendor_id'
+                    },
+                    vendor_name: {
+                        $ref: '#/components/schemas/vendor_name'
+                    },
+                    quantity: {
+                        description: 'Total return quantity.',
+                        type: 'number',
+                        format: 'double',
+                        example: 10
+                    },
+                    amount: {
+                        description: 'Total return amount.',
+                        type: 'number',
+                        format: 'double',
+                        example: 5600
+                    },
+                    purchasereturn_status: {
+                        $ref: '#/components/schemas/purchasereturn_status'
+                    },
+                    shipment_status: {
+                        description: 'Shipment status. Possible values: <code>shipped</code>, <code>not_shipped</code>, <code>partially_shipped</code>.',
+                        type: 'string',
+                        example: 'not_shipped'
+                    },
+                    package_status: {
+                        description: 'Package status. Possible values: <code>packed</code>, <code>not_packed</code>, <code>partially_packed</code>.',
+                        type: 'string',
+                        example: 'not_packed'
+                    },
+                    picked_status: {
+                        description: 'Pick list status. Possible values: <code>picked</code>, <code>not_picked</code>, <code>partially_picked</code>.',
+                        type: 'string',
+                        example: 'not_picked'
+                    },
+                    refund_status: {
+                        description: 'Refund status. Possible values: <code>refunded</code>, <code>not_refunded</code>, <code>partially_refunded</code>.',
+                        type: 'string',
+                        example: 'not_refunded'
+                    },
+                    created_time: {
+                        description: 'Time at which the purchase return was created.',
+                        type: 'string',
+                        example: '2024-01-15T10:30:00+0530'
+                    },
+                    last_modified_time: {
+                        description: 'Time at which the purchase return was last modified.',
+                        type: 'string',
+                        example: '2024-01-15T10:30:00+0530'
+                    }
+                }
+            }
+        },
+        page_context: {
+            $ref: '#/components/schemas/page_context'
+        }
+    }
+} as const;
+
+export const get_purchase_return_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
+        }
+    }
+} as const;
+
+export const create_purchase_return_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
+        }
+    }
+} as const;
+
+export const update_purchase_return_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        purchasereturn: {
+            $ref: '#/components/schemas/purchase-return-response'
         }
     }
 } as const;
