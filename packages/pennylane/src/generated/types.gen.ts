@@ -1446,6 +1446,18 @@ export type CustomerInvoicesResponse = {
         url: string;
     };
     /**
+     * > ⚠️ **Warning**: This feature is in alpha
+     * > Until further rollout, this field will be `null` for all invoices.
+     * > If you plan to rely on it, please get in touch with us first.
+     *
+     */
+    installments: {
+        /**
+         * URL to get the installments of the invoice.
+         */
+        url: string;
+    } | null;
+    /**
      * The quote at the origin of the invoice
      */
     quote: {
@@ -10010,6 +10022,18 @@ export type GetCustomerInvoicesResponses = {
                 url: string;
             };
             /**
+             * > ⚠️ **Warning**: This feature is in alpha
+             * > Until further rollout, this field will be `null` for all invoices.
+             * > If you plan to rely on it, please get in touch with us first.
+             *
+             */
+            installments: {
+                /**
+                 * URL to get the installments of the invoice.
+                 */
+                url: string;
+            } | null;
+            /**
              * The quote at the origin of the invoice
              */
             quote: {
@@ -10859,6 +10883,18 @@ export type PostCustomerInvoicesResponses = {
             url: string;
         };
         /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
+        /**
          * The quote at the origin of the invoice
          */
         quote: {
@@ -11356,6 +11392,18 @@ export type ImportCustomerInvoicesResponses = {
              */
             url: string;
         };
+        /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
         /**
          * The quote at the origin of the invoice
          */
@@ -11906,6 +11954,18 @@ export type CreateCustomerInvoiceFromQuoteResponses = {
              */
             url: string;
         };
+        /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
         /**
          * The quote at the origin of the invoice
          */
@@ -19187,6 +19247,18 @@ export type GetCustomerInvoiceResponses = {
             url: string;
         };
         /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
+        /**
          * The quote at the origin of the invoice
          */
         quote: {
@@ -19755,6 +19827,18 @@ export type UpdateCustomerInvoiceResponses = {
              */
             url: string;
         };
+        /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
         /**
          * The quote at the origin of the invoice
          */
@@ -20628,6 +20712,18 @@ export type UpdateImportedCustomerInvoiceResponses = {
             url: string;
         };
         /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
+        /**
          * The quote at the origin of the invoice
          */
         quote: {
@@ -20928,6 +21024,18 @@ export type FinalizeCustomerInvoiceResponses = {
              */
             url: string;
         };
+        /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
         /**
          * The quote at the origin of the invoice
          */
@@ -21234,6 +21342,18 @@ export type LinkCreditNoteResponses = {
              */
             url: string;
         };
+        /**
+         * > ⚠️ **Warning**: This feature is in alpha
+         * > Until further rollout, this field will be `null` for all invoices.
+         * > If you plan to rely on it, please get in touch with us first.
+         *
+         */
+        installments: {
+            /**
+             * URL to get the installments of the invoice.
+             */
+            url: string;
+        } | null;
         /**
          * The quote at the origin of the invoice
          */

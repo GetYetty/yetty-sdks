@@ -2606,6 +2606,22 @@ export const CustomerInvoices__ResponseSchema = {
                 'url'
             ]
         },
+        installments: {
+            description: '> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n',
+            type: 'object',
+            nullable: true,
+            additionalProperties: false,
+            properties: {
+                url: {
+                    description: 'URL to get the installments of the invoice.',
+                    type: 'string',
+                    example: 'https://app.pennylane.com/api/external/v2/customer_invoices/42/installments'
+                }
+            },
+            required: [
+                'url'
+            ]
+        },
         quote: {
             description: 'The quote at the origin of the invoice',
             type: 'object',
@@ -2746,6 +2762,7 @@ export const CustomerInvoices__ResponseSchema = {
         'payments',
         'matched_transactions',
         'appendices',
+        'installments',
         'quote',
         'external_reference',
         'e_invoicing',

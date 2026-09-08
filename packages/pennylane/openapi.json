@@ -9,7 +9,7 @@
         "operationId": "getWebhookSubscriptions",
         "summary": "List webhook subscriptions",
         "description": "Returns all webhook subscriptions for the authenticated token, paginated.\nNote that the secret is not included in the response.\n",
-        "tags": ["Hidden"],
+        "tags": ["Webhooks"],
         "security": [{ "oauth2": [] }],
         "parameters": [
           {
@@ -373,7 +373,7 @@
         "operationId": "postWebhookSubscriptions",
         "summary": "Create a webhook subscription",
         "description": "Creates a webhook subscription to receive real-time notifications for events occurring within your company or companies.\n\n**Authentication & Scope**\n\nSubscription scope:\n- **Company-scoped token** (developer token or OAuth token bound to a specific company): the subscription is scoped to that single company.\n- **App-bound token** (OAuth token without a company context): the subscription covers all companies accessible by the OAuth application.\n\n**Limits**\nUp to 10 webhook subscriptions are allowed per company (for company-scoped tokens) or per subscriber (for app-bound tokens).\n\n**Secret**\nThe secret will be auto-generated.\n\n> 🔒 The secret is **only returned in the creation response** and cannot be retrieved afterwards. Make sure to store it securely.",
-        "tags": ["Hidden"],
+        "tags": ["Webhooks"],
         "security": [{ "oauth2": [] }],
         "requestBody": {
           "required": true,
@@ -733,7 +733,7 @@
         "operationId": "getWebhookSubscription",
         "summary": "Get a webhook subscription",
         "description": "This endpoint allows you to retrieve a webhook subscription by ID.\nNote that the secret is not included in the response.\n",
-        "tags": ["Hidden"],
+        "tags": ["Webhooks"],
         "security": [{ "oauth2": [] }],
         "parameters": [
           {
@@ -1087,7 +1087,7 @@
         "operationId": "putWebhookSubscription",
         "summary": "Update a webhook subscription",
         "description": "This endpoint allows you to update a webhook subscription by ID.\n",
-        "tags": ["Hidden"],
+        "tags": ["Webhooks"],
         "security": [{ "oauth2": [] }],
         "parameters": [
           {
@@ -1499,7 +1499,7 @@
         "operationId": "deleteWebhookSubscription",
         "summary": "Delete a webhook subscription",
         "description": "This endpoint allows you to delete a webhook subscription by ID.\n",
-        "tags": ["Hidden"],
+        "tags": ["Webhooks"],
         "security": [{ "oauth2": [] }],
         "parameters": [
           {
@@ -12747,6 +12747,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -12863,6 +12877,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -13691,6 +13706,20 @@
                                 },
                                 "required": ["url"]
                               },
+                              "installments": {
+                                "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                                "type": "object",
+                                "nullable": true,
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "description": "URL to get the installments of the invoice.",
+                                    "type": "string",
+                                    "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                                  }
+                                },
+                                "required": ["url"]
+                              },
                               "quote": {
                                 "description": "The quote at the origin of the invoice",
                                 "type": "object",
@@ -13807,6 +13836,7 @@
                               "payments",
                               "matched_transactions",
                               "appendices",
+                              "installments",
                               "quote",
                               "external_reference",
                               "e_invoicing",
@@ -15714,6 +15744,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -15830,6 +15874,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -17532,6 +17577,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -17648,6 +17707,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -39031,7 +39091,7 @@
         "operationId": "getCustomerInvoiceInstallments",
         "summary": "List installments for a customer invoice",
         "description": "List installments for a customer invoice\n\n> ⚠️ **Warning**: This feature is in alpha\n> We may still introduce breaking changes.\n> If you plan to rely on it, please get in touch with us first.\n\n\n> ℹ️\n> This endpoint requires one of the following scopes: `customer_invoices:all`, `customer_invoices:readonly`",
-        "tags": ["Customer Invoices", "Hidden"],
+        "tags": ["Hidden"],
         "security": [{ "oauth2": ["customer_invoices:all", "customer_invoices:readonly"] }],
         "parameters": [
           {
@@ -42506,6 +42566,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -42622,6 +42696,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -44429,6 +44504,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -44545,6 +44634,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -47821,6 +47911,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -47937,6 +48041,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -48725,6 +48830,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -48841,6 +48960,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -49649,6 +49769,20 @@
                       },
                       "required": ["url"]
                     },
+                    "installments": {
+                      "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+                      "type": "object",
+                      "nullable": true,
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": {
+                          "description": "URL to get the installments of the invoice.",
+                          "type": "string",
+                          "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+                        }
+                      },
+                      "required": ["url"]
+                    },
                     "quote": {
                       "description": "The quote at the origin of the invoice",
                       "type": "object",
@@ -49765,6 +49899,7 @@
                     "payments",
                     "matched_transactions",
                     "appendices",
+                    "installments",
                     "quote",
                     "external_reference",
                     "e_invoicing",
@@ -93148,6 +93283,20 @@
             },
             "required": ["url"]
           },
+          "installments": {
+            "description": "> ⚠️ **Warning**: This feature is in alpha\n> Until further rollout, this field will be `null` for all invoices.\n> If you plan to rely on it, please get in touch with us first.\n",
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "description": "URL to get the installments of the invoice.",
+                "type": "string",
+                "example": "https://app.pennylane.com/api/external/v2/customer_invoices/42/installments"
+              }
+            },
+            "required": ["url"]
+          },
           "quote": {
             "description": "The quote at the origin of the invoice",
             "type": "object",
@@ -93262,6 +93411,7 @@
           "payments",
           "matched_transactions",
           "appendices",
+          "installments",
           "quote",
           "external_reference",
           "e_invoicing",
