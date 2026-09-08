@@ -10838,7 +10838,7 @@ export type RecordPayment = {
      */
     deadline_ids?: Array<number>;
     /**
-     * VAT breakdown per rate, for e-invoicing compliant documents.
+     * VAT breakdown of the paid amount, for e-invoicing compliant documents: one row per tax id, with positive amounts whatever the payment direction. The e-invoicing lifecycle event aggregates these rows per rate and takes its sign from the payment `type`.
      */
     vat_breakdown?: Array<{
         tax_id?: number;
@@ -10870,6 +10870,9 @@ export type PaymentContext = {
         currency_symbol?: string;
         is_einvoicing?: boolean;
     };
+    /**
+     * One entry per document tax id. Eco-taxes are included and carry their own VAT rate, label and taxable base, like any other VAT entry.
+     */
     vat_rates?: Array<{
         tax_id?: number;
         rate?: string;
@@ -12194,6 +12197,10 @@ export type ScanList = Array<{
      */
     job_code?: string | null;
     /**
+     * Business segment identifier of the company, derived from its NAF code
+     */
+    business_segment?: number | null;
+    /**
      * Employee count range of the company (e.g. "3-5", "10-19")
      */
     company_employee_range?: string | null;
@@ -12241,6 +12248,10 @@ export type ScanFetch = {
      * job code of company
      */
     job_code?: string | null;
+    /**
+     * Business segment identifier of the company, derived from its NAF code
+     */
+    business_segment?: number | null;
     /**
      * Employee count range of the company (e.g. "3-5", "10-19")
      */

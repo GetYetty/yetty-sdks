@@ -19861,7 +19861,7 @@ export const RecordPaymentSchema = {
             }
         },
         vat_breakdown: {
-            description: 'VAT breakdown per rate, for e-invoicing compliant documents.',
+            description: 'VAT breakdown of the paid amount, for e-invoicing compliant documents: one row per tax id, with positive amounts whatever the payment direction. The e-invoicing lifecycle event aggregates these rows per rate and takes its sign from the payment `type`.',
             type: 'array',
             items: {
                 type: 'object',
@@ -19942,6 +19942,7 @@ export const PaymentContextSchema = {
             }
         },
         vat_rates: {
+            description: 'One entry per document tax id. Eco-taxes are included and carry their own VAT rate, label and taxable base, like any other VAT entry.',
             type: 'array',
             items: {
                 type: 'object',
@@ -22414,6 +22415,11 @@ export const ScanListSchema = {
                 example: '58.29C',
                 nullable: true
             },
+            business_segment: {
+                type: 'integer',
+                description: 'Business segment identifier of the company, derived from its NAF code',
+                nullable: true
+            },
             company_employee_range: {
                 type: 'string',
                 description: 'Employee count range of the company (e.g. "3-5", "10-19")',
@@ -22475,6 +22481,11 @@ export const ScanFetchSchema = {
             type: 'string',
             description: 'job code of company',
             example: '58.29C',
+            nullable: true
+        },
+        business_segment: {
+            type: 'integer',
+            description: 'Business segment identifier of the company, derived from its NAF code',
             nullable: true
         },
         company_employee_range: {
