@@ -5593,11 +5593,6 @@ export type GetContactStatementResponse = {
     readonly message?: string;
 };
 
-export type ListContactUnpaidInvoicesResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
 export type GetContactUnusedCreditsResponse = {
     readonly code?: number;
     readonly message?: string;
@@ -12933,16 +12928,6 @@ export type GetAnItemResponse = {
 };
 
 export type DeleteAnItemResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type AddItemToPortalResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type RemoveItemFromPortalResponse = {
     readonly code?: number;
     readonly message?: string;
 };
@@ -34620,32 +34605,6 @@ export type GetContactStatementResponses = {
 
 export type GetContactStatementResponse2 = GetContactStatementResponses[keyof GetContactStatementResponses];
 
-export type ListContactUnpaidInvoicesData = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the contact. Note: This value is a set of numeric characters.
-         */
-        contact_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/contacts/{contact_id}/unpaidinvoices';
-};
-
-export type ListContactUnpaidInvoicesResponses = {
-    /**
-     * OK
-     */
-    200: ListContactUnpaidInvoicesResponse;
-};
-
-export type ListContactUnpaidInvoicesResponse2 = ListContactUnpaidInvoicesResponses[keyof ListContactUnpaidInvoicesResponses];
-
 export type GetContactUnusedCreditsData = {
     body?: never;
     path: {
@@ -43817,83 +43776,6 @@ export type MarkItemInactiveResponses = {
 };
 
 export type MarkItemInactiveResponse = MarkItemInactiveResponses[keyof MarkItemInactiveResponses];
-
-export type AddItemsToPortalData = {
-    body?: never;
-    path?: never;
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-        /**
-         * Comma-separated IDs of the items to add to the customer portal. Note: This value is a set of numeric characters separated by comma.
-         */
-        item_ids: string;
-    };
-    url: '/items/addtoportal';
-};
-
-export type AddItemsToPortalResponses = {
-    /**
-     * OK
-     */
-    200: AddItemToPortalResponse;
-};
-
-export type AddItemsToPortalResponse = AddItemsToPortalResponses[keyof AddItemsToPortalResponses];
-
-export type AddItemToPortalData = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the item. Note: This value is a set of numeric characters.
-         */
-        item_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/items/{item_id}/addtoportal';
-};
-
-export type AddItemToPortalResponses = {
-    /**
-     * OK
-     */
-    200: AddItemToPortalResponse;
-};
-
-export type AddItemToPortalResponse2 = AddItemToPortalResponses[keyof AddItemToPortalResponses];
-
-export type RemoveItemFromPortalData = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the item. Note: This value is a set of numeric characters.
-         */
-        item_id: string;
-    };
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-    };
-    url: '/items/{item_id}/removefromportal';
-};
-
-export type RemoveItemFromPortalResponses = {
-    /**
-     * OK
-     */
-    200: RemoveItemFromPortalResponse;
-};
-
-export type RemoveItemFromPortalResponse2 = RemoveItemFromPortalResponses[keyof RemoveItemFromPortalResponses];
 
 export type ListItemMastersData = {
     body?: never;

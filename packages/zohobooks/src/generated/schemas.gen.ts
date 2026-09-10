@@ -12390,22 +12390,6 @@ export const get_contact_statement_responseSchema = {
     }
 } as const;
 
-export const list_contact_unpaid_invoices_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
 export const get_contact_unused_credits_responseSchema = {
     type: 'object',
     properties: {
@@ -30193,38 +30177,6 @@ export const delete_an_item_responseSchema = {
         message: {
             type: 'string',
             example: 'The item has been deleted.',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const add_item_to_portal_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'The item has been added to the portal.',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const remove_item_from_portal_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'The item has been removed from the portal.',
             readOnly: true
         }
     }

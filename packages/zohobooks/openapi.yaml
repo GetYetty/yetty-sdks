@@ -6699,35 +6699,6 @@ paths:
           type: string
         example: 460000000026049
       - $ref: '#/components/parameters/organization_id'
-  /contacts/{contact_id}/unpaidinvoices:
-    x-mcp-group:
-      - Contacts
-    get:
-      tags:
-        - contacts
-      operationId: list_contact_unpaid_invoices
-      summary: List unpaid invoices of a contact
-      description: List the unpaid invoices of a contact.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/list-contact-unpaid-invoices-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.contacts.READ
-    parameters:
-      - name: contact_id
-        in: path
-        required: true
-        description: 'Unique identifier of the contact. Note: This value is a set of numeric characters.'
-        schema:
-          type: string
-        example: 460000000026049
-      - $ref: '#/components/parameters/organization_id'
   /contacts/{contact_id}/receivables/unusedcredits:
     x-mcp-group:
       - Contacts
@@ -17271,94 +17242,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/mark-as-inactive-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.settings.CREATE
-    parameters:
-      - name: item_id
-        in: path
-        required: true
-        description: 'Unique identifier of the item. Note: This value is a set of numeric characters.'
-        schema:
-          type: string
-        example: 45667789900
-      - $ref: '#/components/parameters/organization_id'
-  /items/addtoportal:
-    x-mcp-group:
-      - Items
-    post:
-      tags:
-        - items
-      operationId: add_items_to_portal
-      summary: Add items to the customer portal
-      description: Make multiple items available in the customer portal in a single request.
-      parameters:
-        - name: item_ids
-          in: query
-          required: true
-          description: 'Comma-separated IDs of the items to add to the customer portal. Note: This value is a set of numeric characters separated by comma.'
-          schema:
-            type: string
-          example: 45667789900,45667789901
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/add-item-to-portal-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.settings.CREATE
-    parameters:
-      - $ref: '#/components/parameters/organization_id'
-  /items/{item_id}/addtoportal:
-    x-mcp-group:
-      - Items
-    post:
-      tags:
-        - items
-      operationId: add_item_to_portal
-      summary: Add an item to the customer portal
-      description: Make an item available in the customer portal.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/add-item-to-portal-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.settings.CREATE
-    parameters:
-      - name: item_id
-        in: path
-        required: true
-        description: 'Unique identifier of the item. Note: This value is a set of numeric characters.'
-        schema:
-          type: string
-        example: 45667789900
-      - $ref: '#/components/parameters/organization_id'
-  /items/{item_id}/removefromportal:
-    x-mcp-group:
-      - Items
-    post:
-      tags:
-        - items
-      operationId: remove_item_from_portal
-      summary: Remove an item from the customer portal
-      description: Remove an item from the customer portal so that it is no longer available there.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/remove-item-from-portal-response'
       deprecated: false
       security:
         - Zoho_Auth:
@@ -39571,17 +39454,6 @@ components:
           type: string
           example: success
           readOnly: true
-    list-contact-unpaid-invoices-response:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 0
-          readOnly: true
-        message:
-          type: string
-          example: success
-          readOnly: true
     get-contact-unused-credits-response:
       type: object
       properties:
@@ -51663,28 +51535,6 @@ components:
         message:
           type: string
           example: The item has been deleted.
-          readOnly: true
-    add-item-to-portal-response:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 0
-          readOnly: true
-        message:
-          type: string
-          example: The item has been added to the portal.
-          readOnly: true
-    remove-item-from-portal-response:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 0
-          readOnly: true
-        message:
-          type: string
-          example: The item has been removed from the portal.
           readOnly: true
     item_master_id:
       description: Unique ID generated by the server for the item. This is used as an identifier.
