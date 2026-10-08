@@ -5089,6 +5089,12 @@ export const bill_numberSchema = {
     example: '00454'
 } as const;
 
+export const entity_typeSchema = {
+    description: 'Type of the bill entity. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.',
+    type: 'string',
+    example: 'bill'
+} as const;
+
 export const source_of_supplySchema = {
     description: 'State code where goods/services originate. Used for GST calculations in India. Defaults to vendor contact location if not specified. Supports 2-letter state codes (e.g., AP for Andhra Pradesh, TN for Tamil Nadu).',
     type: 'string',
@@ -5148,6 +5154,56 @@ export const gst_noSchema = {
     'x-node_unavailable_in': []
 } as const;
 
+export const tax_reg_noSchema = {
+    description: 'Tax Registration Number (TRN) of the vendor.',
+    type: 'string',
+    'x-node_available_in': [
+        'gcc'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const registration_detailsSchema = {
+    description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+    type: 'object',
+    properties: {
+        company_registration_no: {
+            description: 'Company registration number (Commercial Registration number). Max-length [200].',
+            type: 'string',
+            example: '1002004410'
+        },
+        einvoice_identifier_label: {
+            description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
+            type: 'string',
+            example: 'CRN'
+        },
+        einvoice_identifier_value: {
+            description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+            type: 'string',
+            example: '234324'
+        },
+        additionalfield1: {
+            description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
+            type: 'string',
+            example: 'Department of Economy and Tourism'
+        },
+        legal_name: {
+            description: 'Legal registered name of the vendor. Max-length [500].',
+            type: 'string',
+            example: 'Zylker Trading LLC'
+        },
+        electronic_address_value: {
+            description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+            type: 'string',
+            example: '0088:1234567890123'
+        }
+    },
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
 export const hsn_or_sacSchema = {
     description: 'Add HSN/SAC code for your goods/services',
     type: 'string',
@@ -5155,7 +5211,19 @@ export const hsn_or_sacSchema = {
     'x-node_available_in': [
         'in',
         'ke',
-        'za'
+        'za',
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const unitkey_codeSchema = {
+    description: 'Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].',
+    type: 'string',
+    example: 'H87',
+    maxLength: 10,
+    'x-node_available_in': [
+        'uae'
     ],
     'x-node_unavailable_in': []
 } as const;
@@ -5345,6 +5413,15 @@ export const payment_terms_labelSchema = {
     description: 'Label of the Payment Terms',
     type: 'string',
     example: 'Due on Receipt'
+} as const;
+
+export const bank_account_idSchema = {
+    description: 'Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.',
+    type: 'string',
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
 } as const;
 
 export const update_an_bill_customfield_responseSchema = {
@@ -5550,14 +5627,8 @@ export const item_custom_fieldsSchema = {
             custom_field_id: {
                 $ref: '#/components/schemas/custom_field_id'
             },
-            index: {
-                $ref: '#/components/schemas/index'
-            },
             value: {
                 $ref: '#/components/schemas/value'
-            },
-            label: {
-                $ref: '#/components/schemas/label'
             }
         }
     }
@@ -5841,6 +5912,9 @@ export const billSchema = {
         bill_id: {
             $ref: '#/components/schemas/bill_id'
         },
+        entity_type: {
+            $ref: '#/components/schemas/entity_type'
+        },
         purchaseorder_ids: {
             $ref: '#/components/schemas/purchaseorder_ids'
         },
@@ -5876,6 +5950,12 @@ export const billSchema = {
         },
         tax_treatment: {
             $ref: '#/components/schemas/tax_treatment'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
         },
         is_pre_gst: {
             $ref: '#/components/schemas/is_pre_gst'
@@ -5948,6 +6028,12 @@ export const billSchema = {
         },
         adjustment_description: {
             $ref: '#/components/schemas/adjustment_description'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
+        },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
         },
         custom_fields: {
             $ref: '#/components/schemas/custom_fields'
@@ -6056,6 +6142,15 @@ export const billSchema = {
         },
         open_purchaseorders_count: {
             $ref: '#/components/schemas/open_purchaseorders_count'
+        },
+        einvoice_status: {
+            $ref: '#/components/schemas/einvoice_status'
+        },
+        is_peppol_supported: {
+            $ref: '#/components/schemas/is_peppol_supported'
+        },
+        source: {
+            $ref: '#/components/schemas/source'
         }
     }
 } as const;
@@ -6179,6 +6274,15 @@ export const adjustment_descriptionSchema = {
     example: ' '
 } as const;
 
+export const discount_codeSchema = {
+    description: 'Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].',
+    type: 'string',
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
 export const create_a_bill_requestSchema = {
     required: [
         'vendor_id',
@@ -6204,6 +6308,9 @@ export const create_a_bill_requestSchema = {
         bill_number: {
             $ref: '#/components/schemas/bill_number'
         },
+        entity_type: {
+            $ref: '#/components/schemas/entity_type'
+        },
         documents: {
             $ref: '#/components/schemas/documents'
         },
@@ -6225,8 +6332,17 @@ export const create_a_bill_requestSchema = {
         tax_treatment: {
             $ref: '#/components/schemas/tax_treatment'
         },
+        is_reverse_charge_applied: {
+            $ref: '#/components/schemas/is_reverse_charge_applied'
+        },
         gst_no: {
             $ref: '#/components/schemas/gst_no'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
         },
         pricebook_id: {
             $ref: '#/components/schemas/pricebook_id'
@@ -6246,6 +6362,9 @@ export const create_a_bill_requestSchema = {
         payment_terms_label: {
             $ref: '#/components/schemas/payment_terms_label'
         },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
+        },
         recurring_bill_id: {
             $ref: '#/components/schemas/recurring_bill_id'
         },
@@ -6263,6 +6382,9 @@ export const create_a_bill_requestSchema = {
         },
         adjustment_description: {
             $ref: '#/components/schemas/adjustment_description'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
         },
         location_id: {
             $ref: '#/components/schemas/location_id'
@@ -6314,6 +6436,12 @@ export const create_a_bill_requestSchema = {
                     },
                     hsn_or_sac: {
                         $ref: '#/components/schemas/hsn_or_sac'
+                    },
+                    unitkey_code: {
+                        $ref: '#/components/schemas/unitkey_code'
+                    },
+                    discount_code: {
+                        $ref: '#/components/schemas/discount_code'
                     },
                     reverse_charge_tax_id: {
                         $ref: '#/components/schemas/reverse_charge_tax_id'
@@ -6548,6 +6676,9 @@ export const update_a_bill_requestSchema = {
         bill_number: {
             $ref: '#/components/schemas/bill_number'
         },
+        entity_type: {
+            $ref: '#/components/schemas/entity_type'
+        },
         documents: {
             $ref: '#/components/schemas/documents'
         },
@@ -6569,8 +6700,17 @@ export const update_a_bill_requestSchema = {
         tax_treatment: {
             $ref: '#/components/schemas/tax_treatment'
         },
+        is_reverse_charge_applied: {
+            $ref: '#/components/schemas/is_reverse_charge_applied'
+        },
         gst_no: {
             $ref: '#/components/schemas/gst_no'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
         },
         pricebook_id: {
             $ref: '#/components/schemas/pricebook_id'
@@ -6590,6 +6730,9 @@ export const update_a_bill_requestSchema = {
         payment_terms_label: {
             $ref: '#/components/schemas/payment_terms_label'
         },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
+        },
         recurring_bill_id: {
             $ref: '#/components/schemas/recurring_bill_id'
         },
@@ -6608,20 +6751,11 @@ export const update_a_bill_requestSchema = {
         adjustment_description: {
             $ref: '#/components/schemas/adjustment_description'
         },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
+        },
         custom_fields: {
-            type: 'array',
-            description: 'List of custom fields for the bill.',
-            items: {
-                type: 'object',
-                properties: {
-                    index: {
-                        $ref: '#/components/schemas/index'
-                    },
-                    value: {
-                        $ref: '#/components/schemas/value'
-                    }
-                }
-            }
+            $ref: '#/components/schemas/custom_fields'
         },
         tags: {
             $ref: '#/components/schemas/tags'
@@ -6655,6 +6789,12 @@ export const update_a_bill_requestSchema = {
                     },
                     hsn_or_sac: {
                         $ref: '#/components/schemas/hsn_or_sac'
+                    },
+                    unitkey_code: {
+                        $ref: '#/components/schemas/unitkey_code'
+                    },
+                    discount_code: {
+                        $ref: '#/components/schemas/discount_code'
                     },
                     reverse_charge_tax_id: {
                         $ref: '#/components/schemas/reverse_charge_tax_id'
@@ -7203,6 +7343,28 @@ export const delete_a_comment_responseSchema = {
             readOnly: true
         }
     }
+} as const;
+
+export const einvoice_statusSchema = {
+    description: 'E-invoice status of the bill. Peppol-pulled bills use <code>einvoice_received</code>.',
+    type: 'string',
+    example: 'einvoice_received',
+    readOnly: true,
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const is_peppol_supportedSchema = {
+    description: 'Indicates whether the vendor supports receiving bills over the e-invoicing network.',
+    type: 'boolean',
+    example: true,
+    readOnly: true,
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
 } as const;
 
 export const category_responseSchema = {
@@ -9270,7 +9432,7 @@ export const primary_contact_idSchema = {
 } as const;
 
 export const contact_numberSchema = {
-    description: 'Contact number associated with the contact for internal tracking and identification purposes. Max-length [200].',
+    description: 'Contact number associated with the contact for internal tracking and identification purposes. Max-length [50].',
     type: 'string',
     example: 'CNT-001234'
 } as const;
@@ -9394,11 +9556,12 @@ export const tax_regimeSchema = {
 } as const;
 
 export const legal_nameSchema = {
-    description: 'Official legal name of the contact as registered with tax authorities in Mexico.',
+    description: 'Legal name of the contact as registered with the tax authority.',
     type: 'string',
-    example: 'ESCUELA KEMPER URGATE',
+    example: 'Zylker Trading LLC',
     'x-node_available_in': [
-        'mx'
+        'mx',
+        'uae'
     ],
     'x-node_unavailable_in': []
 } as const;
@@ -9421,19 +9584,6 @@ export const country_codeSchema = {
         'uk',
         'gcc',
         'Avalara Integration'
-    ],
-    'x-node_unavailable_in': []
-} as const;
-
-export const tax_reg_noSchema = {
-    description: '<b>For GCC Edition:</b> 15 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>,<code>gcc_vat_registered</code>,<code>dz_vat_registered</code>.<br/><b>For Mexico Edition:</b> 12 digit Tax Registration number of a contact with Tax treatment as </br> <code>home_country_mexico</code>, <code>border_region_mexico</code>, <code>non_mexico</code>.</br> Consumers generic RFC: <code>XAXX010101000</code>, Overseas generic RFC: <code>XEXX010101000</code>.<br/><b>For Kenya Edition:</b> 11 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code><br/><b>For SouthAfrica Edition:</b> 10 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>',
-    type: 'string',
-    example: 12345678912345,
-    'x-node_available_in': [
-        'gcc',
-        'mx',
-        'ke',
-        'za'
     ],
     'x-node_unavailable_in': []
 } as const;
@@ -9913,6 +10063,12 @@ export const create_a_contact_requestSchema = {
         legal_name: {
             $ref: '#/components/schemas/legal_name'
         },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
+        },
+        place_of_supply: {
+            $ref: '#/components/schemas/place_of_supply'
+        },
         is_tds_registered: {
             $ref: '#/components/schemas/is_tds_registered'
         },
@@ -10228,6 +10384,12 @@ export const update_a_contact_requestSchema = {
         },
         legal_name: {
             $ref: '#/components/schemas/legal_name'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
+        },
+        place_of_supply: {
+            $ref: '#/components/schemas/place_of_supply'
         },
         is_tds_registered: {
             $ref: '#/components/schemas/is_tds_registered'
@@ -12274,6 +12436,40 @@ export const verify_contact_einvoice_responseSchema = {
             type: 'string',
             example: 'success',
             readOnly: true
+        },
+        data: {
+            type: 'object',
+            description: 'E-invoice verification result.',
+            'x-node_available_in': [
+                'uae'
+            ],
+            readOnly: true,
+            properties: {
+                code: {
+                    type: 'integer',
+                    description: 'E-invoice verification response code.',
+                    example: 6001,
+                    readOnly: true
+                },
+                message: {
+                    type: 'string',
+                    description: 'Human-readable message describing the e-invoice verification result.',
+                    example: 'This customer is registered on the PEPPOL network.',
+                    readOnly: true
+                },
+                status: {
+                    type: 'string',
+                    description: 'E-invoice registration status of the contact. Allowed values: <code>eligible</code>, <code>not_eligible</code>.',
+                    example: 'eligible',
+                    readOnly: true
+                },
+                status_formatted: {
+                    type: 'string',
+                    description: 'Display-friendly e-invoice registration status.',
+                    example: 'Eligible',
+                    readOnly: true
+                }
+            }
         }
     }
 } as const;
@@ -12940,21 +13136,21 @@ export const sat_item_key_codeSchema = {
     'x-node_unavailable_in': []
 } as const;
 
-export const unitkey_codeSchema = {
-    description: 'Add Unit Key Code for your goods/services. Download the <a href= http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/catCFDI_V_4_07122022.xls  >CFDI Catalogs.</a>',
-    type: 'string',
-    example: 'box',
-    'x-node_available_in': [
-        'mx'
-    ],
-    'x-node_unavailable_in': []
-} as const;
-
 export const discountSchema = {
     description: 'Discount applied to the credit note, which can be either a percentage or a flat amount. For percentage discounts, the value should include the % symbol (e.g., 10%). For example, on Rs.1000, a 10% discount results in Rs.900, while a flat Rs.200 discount results in Rs.800.',
     type: 'number',
     format: 'double',
     example: 10
+} as const;
+
+export const reason_for_credit_debit_noteSchema = {
+    description: 'Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].',
+    type: 'string',
+    example: 'change_of_tax_treatment',
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
 } as const;
 
 export const is_draftSchema = {
@@ -13246,14 +13442,23 @@ export const create_a_credit_note_requestSchema = {
                     tax_treatment_code: {
                         $ref: '#/components/schemas/tax_treatment_code'
                     },
+                    reverse_charge_tax_id: {
+                        $ref: '#/components/schemas/reverse_charge_tax_id'
+                    },
                     product_type: {
                         $ref: '#/components/schemas/product_type'
+                    },
+                    hsn_or_sac: {
+                        $ref: '#/components/schemas/hsn_or_sac'
                     },
                     sat_item_key_code: {
                         $ref: '#/components/schemas/sat_item_key_code'
                     },
                     unitkey_code: {
                         $ref: '#/components/schemas/unitkey_code'
+                    },
+                    discount_code: {
+                        $ref: '#/components/schemas/discount_code'
                     },
                     serial_numbers: {
                         $ref: '#/components/schemas/serial_numbers'
@@ -13284,6 +13489,12 @@ export const create_a_credit_note_requestSchema = {
         },
         tax_treatment: {
             $ref: '#/components/schemas/tax_treatment'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        reason_for_credit_debit_note: {
+            $ref: '#/components/schemas/reason_for_credit_debit_note'
         },
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
@@ -13380,6 +13591,9 @@ export const create_a_credit_note_requestSchema = {
         },
         avatax_tax_code: {
             $ref: '#/components/schemas/avatax_tax_code'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
         }
     }
 } as const;
@@ -13516,6 +13730,12 @@ export const update_a_credit_note_requestSchema = {
         tax_treatment: {
             $ref: '#/components/schemas/tax_treatment'
         },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        reason_for_credit_debit_note: {
+            $ref: '#/components/schemas/reason_for_credit_debit_note'
+        },
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
         },
@@ -13605,6 +13825,9 @@ export const update_a_credit_note_requestSchema = {
         },
         quantity: {
             $ref: '#/components/schemas/quantity'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
         }
     }
 } as const;
@@ -25024,6 +25247,18 @@ export const create_an_invoice_requestSchema = {
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
         },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
         gst_treatment: {
             $ref: '#/components/schemas/gst_treatment'
         },
@@ -25188,6 +25423,12 @@ export const create_an_invoice_requestSchema = {
                     },
                     tax_treatment_code: {
                         $ref: '#/components/schemas/tax_treatment_code'
+                    },
+                    reverse_charge_tax_id: {
+                        $ref: '#/components/schemas/reverse_charge_tax_id'
+                    },
+                    discount_code: {
+                        $ref: '#/components/schemas/discount_code'
                     },
                     salesorder_item_id: {
                         $ref: '#/components/schemas/salesorder_item_id'
@@ -26008,6 +26249,18 @@ export const update_an_invoice_requestSchema = {
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
         },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
         gst_treatment: {
             $ref: '#/components/schemas/gst_treatment'
         },
@@ -26169,6 +26422,12 @@ export const update_an_invoice_requestSchema = {
                     },
                     tax_treatment_code: {
                         $ref: '#/components/schemas/tax_treatment_code'
+                    },
+                    reverse_charge_tax_id: {
+                        $ref: '#/components/schemas/reverse_charge_tax_id'
+                    },
+                    discount_code: {
+                        $ref: '#/components/schemas/discount_code'
                     },
                     line_item_category: {
                         $ref: '#/components/schemas/line_item_category'
@@ -29478,6 +29737,30 @@ export const initial_stock_rateSchema = {
     example: ' '
 } as const;
 
+export const gtinSchema = {
+    description: 'Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].',
+    type: 'string',
+    example: '32423432',
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const item_codeSchema = {
+    description: 'Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.',
+    type: 'object',
+    properties: {
+        gtin: {
+            $ref: '#/components/schemas/gtin'
+        }
+    },
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
 export const item_tax_preferencesSchema = {
     type: 'array',
     description: 'Tax preferences for the item.',
@@ -29619,6 +29902,9 @@ export const create_an_item_requestSchema = {
         },
         unitkey_code: {
             $ref: '#/components/schemas/unitkey_code'
+        },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
         },
         is_taxable: {
             $ref: '#/components/schemas/is_taxable'
@@ -29921,6 +30207,9 @@ export const update_an_item_requestSchema = {
         },
         unitkey_code: {
             $ref: '#/components/schemas/unitkey_code'
+        },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
         },
         sku: {
             $ref: '#/components/schemas/sku'
@@ -30361,6 +30650,15 @@ export const item_master_responseSchema = {
         documents: {
             $ref: '#/components/schemas/documents'
         },
+        hsn_or_sac: {
+            $ref: '#/components/schemas/hsn_or_sac'
+        },
+        unitkey_code: {
+            $ref: '#/components/schemas/unitkey_code'
+        },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
+        },
         custom_fields: {
             $ref: '#/components/schemas/custom_fields'
         },
@@ -30528,6 +30826,9 @@ export const item_variant_responseSchema = {
         unitkey_code: {
             $ref: '#/components/schemas/unitkey_code'
         },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
+        },
         brand: {
             $ref: '#/components/schemas/brand'
         },
@@ -30674,6 +30975,15 @@ export const create_an_item_master_requestSchema = {
                     }
                 }
             }
+        },
+        hsn_or_sac: {
+            $ref: '#/components/schemas/hsn_or_sac'
+        },
+        unitkey_code: {
+            $ref: '#/components/schemas/unitkey_code'
+        },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
         },
         custom_fields: {
             $ref: '#/components/schemas/custom_fields'
@@ -30884,6 +31194,12 @@ export const create_an_item_variant_requestSchema = {
         },
         hsn_or_sac: {
             $ref: '#/components/schemas/hsn_or_sac'
+        },
+        unitkey_code: {
+            $ref: '#/components/schemas/unitkey_code'
+        },
+        item_code: {
+            $ref: '#/components/schemas/item_code'
         },
         locations: {
             type: 'array',
@@ -31205,12 +31521,6 @@ export const is_bas_adjustmentSchema = {
         'au'
     ],
     'x-node_unavailable_in': []
-} as const;
-
-export const entity_typeSchema = {
-    description: 'Name of the Entity',
-    type: 'string',
-    example: 'journal'
 } as const;
 
 export const journalSchema = {
@@ -33835,38 +34145,6 @@ export const delete_the_pricebook_responseSchema = {
         message: {
             type: 'string',
             example: 'Price list has been deleted.',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const bulk_fetch_pricebooks_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
-            readOnly: true
-        }
-    }
-} as const;
-
-export const list_pricebook_items_responseSchema = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'integer',
-            example: 0,
-            readOnly: true
-        },
-        message: {
-            type: 'string',
-            example: 'success',
             readOnly: true
         }
     }
@@ -47448,6 +47726,1216 @@ export const email_a_sales_receipt_responseSchema = {
     }
 } as const;
 
+export const create_a_self_billed_invoice_requestSchema = {
+    type: 'object',
+    required: [
+        'bill_number',
+        'vendor_id',
+        'line_items',
+        'entity_type'
+    ],
+    properties: {
+        bill_number: {
+            type: 'string',
+            description: 'Unique bill number for the self-billed invoice. Max-length [50].',
+            example: 'B-001982',
+            maxLength: 50
+        },
+        vendor_id: {
+            type: 'string',
+            description: 'Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.',
+            example: '86067000000227074'
+        },
+        reference_number: {
+            type: 'string',
+            description: 'Reference number for the self-billed invoice.',
+            example: 'REF-001'
+        },
+        date: {
+            type: 'string',
+            description: 'Date of the self-billed invoice. Format: yyyy-mm-dd.',
+            format: 'date',
+            example: '2026-09-23'
+        },
+        due_date: {
+            type: 'string',
+            description: 'Due date for payment. Format: yyyy-mm-dd.',
+            format: 'date',
+            example: '2026-09-23'
+        },
+        terms: {
+            type: 'string',
+            description: 'Payment terms notes for the self-billed invoice. Max-length [10000].',
+            example: 'Net 30',
+            maxLength: 10000
+        },
+        adjustment: {
+            type: 'number',
+            description: 'Adjustment amount applied to the total.',
+            example: 0
+        },
+        adjustment_description: {
+            type: 'string',
+            description: 'Description for the adjustment amount. Max-length [100].',
+            example: 'Adjustment',
+            maxLength: 100
+        },
+        is_draft: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to save the self-billed invoice as a draft.',
+            example: false
+        },
+        pricebook_id: {
+            type: 'string',
+            description: 'Unique identifier of the price book to apply. Note: This value is a set of numeric characters.',
+            example: ''
+        },
+        is_item_level_tax_calc: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to calculate tax at the line-item level.',
+            example: false
+        },
+        is_inclusive_tax: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> if the line-item rates are inclusive of tax.',
+            example: false
+        },
+        discount: {
+            type: 'number',
+            description: 'Entity-level discount applied to the subtotal.',
+            example: 0
+        },
+        discount_code: {
+            type: 'string',
+            description: 'Discount reason code for the entity-level discount. Max-length [200].',
+            example: 'special_agreement',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        discount_account_id: {
+            type: 'string',
+            description: 'Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.',
+            example: '86067000000072001'
+        },
+        discount_type: {
+            type: 'string',
+            description: 'Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.',
+            example: 'entity_level'
+        },
+        is_discount_before_tax: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to apply the discount before tax calculation.',
+            example: true
+        },
+        payment_terms: {
+            type: 'integer',
+            description: 'Number of days within which payment is due.',
+            example: 0
+        },
+        payment_terms_label: {
+            type: 'string',
+            description: 'Label for the payment terms (e.g., Net 30).',
+            example: 'Due on Receipt'
+        },
+        payment_mode: {
+            type: 'string',
+            description: 'Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.',
+            example: 'cash',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        bank_account_id: {
+            type: 'string',
+            description: 'Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.',
+            example: '86067000000034003',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        account_id: {
+            type: 'string',
+            description: 'Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.',
+            example: '86067000000000373'
+        },
+        template_id: {
+            type: 'string',
+            description: 'Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.',
+            example: '86067000000093112'
+        },
+        entity_type: {
+            type: 'string',
+            example: 'self_billed_invoice',
+            description: 'Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.'
+        },
+        tax_treatment: {
+            type: 'string',
+            example: 'vat_registered',
+            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.',
+            'x-node_available_in': [
+                'uae',
+                'gcc'
+            ]
+        },
+        place_of_supply: {
+            type: 'string',
+            example: 'DU',
+            description: 'Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        tax_reg_no: {
+            type: 'string',
+            example: '100200441040003',
+            description: 'Tax Registration Number (TRN) of the vendor.',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        registration_details: {
+            type: 'object',
+            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+            'x-node_available_in': [
+                'uae'
+            ],
+            properties: {
+                company_registration_no: {
+                    type: 'string',
+                    description: 'Company registration number (Commercial Registration number). Max-length [200].',
+                    example: '1002004410'
+                },
+                einvoice_identifier_label: {
+                    type: 'string',
+                    description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
+                    example: 'CRN'
+                },
+                einvoice_identifier_value: {
+                    type: 'string',
+                    description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+                    example: '234324'
+                },
+                additionalfield1: {
+                    type: 'string',
+                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
+                    example: 'Department of Economy and Tourism'
+                },
+                legal_name: {
+                    type: 'string',
+                    description: 'Legal registered name of the vendor. Max-length [500].',
+                    example: 'Zylker Trading LLC'
+                },
+                electronic_address_value: {
+                    type: 'string',
+                    description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+                    example: '0088:1234567890123'
+                }
+            }
+        },
+        permit_number: {
+            type: 'string',
+            description: 'Customs or import permit number.',
+            example: ''
+        },
+        billing_address_id: {
+            type: 'string',
+            description: 'Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.',
+            example: '86067000000227075'
+        },
+        recurring_bill_id: {
+            type: 'string',
+            description: 'Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.',
+            example: ''
+        },
+        tags: {
+            type: 'array',
+            description: 'List of tags to associate with the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    tag_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.',
+                        example: '86067000000001400'
+                    },
+                    tag_option_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.',
+                        example: '86067000000001401'
+                    }
+                }
+            }
+        },
+        custom_fields: {
+            type: 'array',
+            description: 'List of custom fields for the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    custom_field_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.',
+                        example: '86067000000072002'
+                    },
+                    value: {
+                        type: 'string',
+                        description: 'Value of the custom field.',
+                        example: 'Warehouse A'
+                    }
+                }
+            }
+        },
+        documents: {
+            type: 'array',
+            description: 'List of documents attached to the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    document_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the attached document. Note: This value is a set of numeric characters.',
+                        example: '86067000000080001'
+                    },
+                    file_name: {
+                        type: 'string',
+                        description: 'File name of the attached document.',
+                        example: 'vendor-invoice.pdf'
+                    }
+                }
+            }
+        },
+        line_items: {
+            type: 'array',
+            description: 'List of line items in the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    item_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the item. Note: This value is a set of numeric characters.',
+                        example: '86067000000120060'
+                    },
+                    name: {
+                        type: 'string',
+                        description: 'Name of the line item. Max-length [200].',
+                        example: 'Airpod stand',
+                        maxLength: 200
+                    },
+                    account_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.',
+                        example: '86067000000034003'
+                    },
+                    description: {
+                        type: 'string',
+                        description: 'Description of the line item. Max-length [6000].',
+                        example: 'Airpod stand',
+                        maxLength: 6000
+                    },
+                    rate: {
+                        type: 'number',
+                        description: 'Unit price of the item.',
+                        example: 400
+                    },
+                    quantity: {
+                        type: 'number',
+                        description: 'Quantity of the item.',
+                        example: 1
+                    },
+                    discount: {
+                        type: 'number',
+                        description: 'Discount percentage or amount applied to the line item.',
+                        example: 0
+                    },
+                    tax_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.',
+                        example: '86067000000093150'
+                    },
+                    reverse_charge_tax_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    unit: {
+                        type: 'string',
+                        description: 'Unit of measurement for the item (e.g., kg, pcs).',
+                        example: ''
+                    },
+                    item_order: {
+                        type: 'integer',
+                        description: 'Display order of the line item.',
+                        example: 1
+                    },
+                    is_billable: {
+                        type: 'boolean',
+                        description: 'Set to <code>true</code> if the line item is billable to a customer.',
+                        example: false
+                    },
+                    customer_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    project_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    hsn_or_sac: {
+                        type: 'string',
+                        example: '1034',
+                        description: 'HSN or SAC code for the line item.',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    unitkey_code: {
+                        type: 'string',
+                        example: 'H87',
+                        description: 'UN/CEFACT unit code for the line item. Max-length [10].',
+                        maxLength: 10,
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    product_type: {
+                        type: 'string',
+                        example: 'goods',
+                        description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    tax_treatment_code: {
+                        type: 'string',
+                        description: 'Tax treatment reason code for the line item.',
+                        example: '',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    tags: {
+                        type: 'array',
+                        description: 'List of tags for the line item.',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                tag_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.',
+                                    example: '86067000000001400'
+                                },
+                                tag_option_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.',
+                                    example: '86067000000001401'
+                                }
+                            }
+                        }
+                    },
+                    item_custom_fields: {
+                        type: 'array',
+                        description: 'List of custom fields for the line item.',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                custom_field_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.',
+                                    example: '86067000000072003'
+                                },
+                                value: {
+                                    type: 'string',
+                                    description: 'Value of the custom field.',
+                                    example: '2'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const update_a_self_billed_invoice_requestSchema = {
+    type: 'object',
+    properties: {
+        bill_number: {
+            type: 'string',
+            description: 'Unique bill number for the self-billed invoice. Max-length [50].',
+            example: 'B-001982',
+            maxLength: 50
+        },
+        vendor_id: {
+            type: 'string',
+            description: 'Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.',
+            example: '86067000000227074'
+        },
+        reference_number: {
+            type: 'string',
+            description: 'Reference number for the self-billed invoice.',
+            example: 'REF-001'
+        },
+        date: {
+            type: 'string',
+            description: 'Date of the self-billed invoice. Format: yyyy-mm-dd.',
+            format: 'date',
+            example: '2026-09-23'
+        },
+        due_date: {
+            type: 'string',
+            description: 'Due date for payment. Format: yyyy-mm-dd.',
+            format: 'date',
+            example: '2026-09-23'
+        },
+        terms: {
+            type: 'string',
+            description: 'Payment terms notes for the self-billed invoice. Max-length [10000].',
+            example: 'Net 30',
+            maxLength: 10000
+        },
+        adjustment: {
+            type: 'number',
+            description: 'Adjustment amount applied to the total.',
+            example: 0
+        },
+        adjustment_description: {
+            type: 'string',
+            description: 'Description for the adjustment amount. Max-length [100].',
+            example: 'Adjustment',
+            maxLength: 100
+        },
+        is_draft: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to save the self-billed invoice as a draft.',
+            example: false
+        },
+        pricebook_id: {
+            type: 'string',
+            description: 'Unique identifier of the price book to apply. Note: This value is a set of numeric characters.',
+            example: ''
+        },
+        is_item_level_tax_calc: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to calculate tax at the line-item level.',
+            example: false
+        },
+        is_inclusive_tax: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> if the line-item rates are inclusive of tax.',
+            example: false
+        },
+        discount: {
+            type: 'number',
+            description: 'Entity-level discount applied to the subtotal.',
+            example: 0
+        },
+        discount_code: {
+            type: 'string',
+            description: 'Discount reason code for the entity-level discount. Max-length [200].',
+            example: 'special_agreement',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        discount_account_id: {
+            type: 'string',
+            description: 'Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.',
+            example: '86067000000072001'
+        },
+        discount_type: {
+            type: 'string',
+            description: 'Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.',
+            example: 'entity_level'
+        },
+        is_discount_before_tax: {
+            type: 'boolean',
+            description: 'Set to <code>true</code> to apply the discount before tax calculation.',
+            example: true
+        },
+        payment_terms: {
+            type: 'integer',
+            description: 'Number of days within which payment is due.',
+            example: 0
+        },
+        payment_terms_label: {
+            type: 'string',
+            description: 'Label for the payment terms (e.g., Net 30).',
+            example: 'Due on Receipt'
+        },
+        payment_mode: {
+            type: 'string',
+            description: 'Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.',
+            example: 'cash',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        bank_account_id: {
+            type: 'string',
+            description: 'Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.',
+            example: '86067000000034003',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        account_id: {
+            type: 'string',
+            description: 'Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.',
+            example: '86067000000000373'
+        },
+        template_id: {
+            type: 'string',
+            description: 'Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.',
+            example: '86067000000093112'
+        },
+        entity_type: {
+            type: 'string',
+            example: 'self_billed_invoice',
+            description: 'Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.'
+        },
+        tax_treatment: {
+            type: 'string',
+            example: 'vat_registered',
+            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.',
+            'x-node_available_in': [
+                'uae',
+                'gcc'
+            ]
+        },
+        place_of_supply: {
+            type: 'string',
+            example: 'DU',
+            description: 'Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        tax_reg_no: {
+            type: 'string',
+            example: '100200441040003',
+            description: 'Tax Registration Number (TRN) of the vendor.',
+            'x-node_available_in': [
+                'uae'
+            ]
+        },
+        registration_details: {
+            type: 'object',
+            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+            'x-node_available_in': [
+                'uae'
+            ],
+            properties: {
+                company_registration_no: {
+                    type: 'string',
+                    description: 'Company registration number (Commercial Registration number). Max-length [200].',
+                    example: '1002004410'
+                },
+                einvoice_identifier_label: {
+                    type: 'string',
+                    description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
+                    example: 'CRN'
+                },
+                einvoice_identifier_value: {
+                    type: 'string',
+                    description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+                    example: '234324'
+                },
+                additionalfield1: {
+                    type: 'string',
+                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
+                    example: 'Department of Economy and Tourism'
+                },
+                legal_name: {
+                    type: 'string',
+                    description: 'Legal registered name of the vendor. Max-length [500].',
+                    example: 'Zylker Trading LLC'
+                },
+                electronic_address_value: {
+                    type: 'string',
+                    description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+                    example: '0088:1234567890123'
+                }
+            }
+        },
+        permit_number: {
+            type: 'string',
+            description: 'Customs or import permit number.',
+            example: ''
+        },
+        billing_address_id: {
+            type: 'string',
+            description: 'Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.',
+            example: '86067000000227075'
+        },
+        recurring_bill_id: {
+            type: 'string',
+            description: 'Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.',
+            example: ''
+        },
+        tags: {
+            type: 'array',
+            description: 'List of tags to associate with the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    tag_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.',
+                        example: '86067000000001400'
+                    },
+                    tag_option_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.',
+                        example: '86067000000001401'
+                    }
+                }
+            }
+        },
+        custom_fields: {
+            type: 'array',
+            description: 'List of custom fields for the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    custom_field_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.',
+                        example: '86067000000072002'
+                    },
+                    value: {
+                        type: 'string',
+                        description: 'Value of the custom field.',
+                        example: 'Warehouse A'
+                    }
+                }
+            }
+        },
+        documents: {
+            type: 'array',
+            description: 'List of documents attached to the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    document_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the attached document. Note: This value is a set of numeric characters.',
+                        example: '86067000000080001'
+                    },
+                    file_name: {
+                        type: 'string',
+                        description: 'File name of the attached document.',
+                        example: 'vendor-invoice.pdf'
+                    }
+                }
+            }
+        },
+        line_items: {
+            type: 'array',
+            description: 'List of line items in the self-billed invoice.',
+            items: {
+                type: 'object',
+                properties: {
+                    item_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the item. Note: This value is a set of numeric characters.',
+                        example: '86067000000120060'
+                    },
+                    name: {
+                        type: 'string',
+                        description: 'Name of the line item. Max-length [200].',
+                        example: 'Airpod stand',
+                        maxLength: 200
+                    },
+                    account_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.',
+                        example: '86067000000034003'
+                    },
+                    description: {
+                        type: 'string',
+                        description: 'Description of the line item. Max-length [6000].',
+                        example: 'Airpod stand',
+                        maxLength: 6000
+                    },
+                    rate: {
+                        type: 'number',
+                        description: 'Unit price of the item.',
+                        example: 400
+                    },
+                    quantity: {
+                        type: 'number',
+                        description: 'Quantity of the item.',
+                        example: 1
+                    },
+                    discount: {
+                        type: 'number',
+                        description: 'Discount percentage or amount applied to the line item.',
+                        example: 0
+                    },
+                    tax_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.',
+                        example: '86067000000093150'
+                    },
+                    reverse_charge_tax_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    unit: {
+                        type: 'string',
+                        description: 'Unit of measurement for the item (e.g., kg, pcs).',
+                        example: ''
+                    },
+                    item_order: {
+                        type: 'integer',
+                        description: 'Display order of the line item.',
+                        example: 1
+                    },
+                    is_billable: {
+                        type: 'boolean',
+                        description: 'Set to <code>true</code> if the line item is billable to a customer.',
+                        example: false
+                    },
+                    customer_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    project_id: {
+                        type: 'string',
+                        description: 'Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.',
+                        example: ''
+                    },
+                    hsn_or_sac: {
+                        type: 'string',
+                        example: '1034',
+                        description: 'HSN or SAC code for the line item.',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    unitkey_code: {
+                        type: 'string',
+                        example: 'H87',
+                        description: 'UN/CEFACT unit code for the line item. Max-length [10].',
+                        maxLength: 10,
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    product_type: {
+                        type: 'string',
+                        example: 'goods',
+                        description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    tax_treatment_code: {
+                        type: 'string',
+                        description: 'Tax treatment reason code for the line item.',
+                        example: '',
+                        'x-node_available_in': [
+                            'uae'
+                        ]
+                    },
+                    tags: {
+                        type: 'array',
+                        description: 'List of tags for the line item.',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                tag_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.',
+                                    example: '86067000000001400'
+                                },
+                                tag_option_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.',
+                                    example: '86067000000001401'
+                                }
+                            }
+                        }
+                    },
+                    item_custom_fields: {
+                        type: 'array',
+                        description: 'List of custom fields for the line item.',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                custom_field_id: {
+                                    type: 'string',
+                                    description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.',
+                                    example: '86067000000072003'
+                                },
+                                value: {
+                                    type: 'string',
+                                    description: 'Value of the custom field.',
+                                    example: '2'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} as const;
+
+export const create_a_self_billed_invoice_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The self-billed invoice has been created.',
+            readOnly: true
+        },
+        bill: {
+            type: 'object',
+            properties: {
+                bill_id: {
+                    type: 'string',
+                    example: '982000000567301',
+                    readOnly: true
+                },
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                vendor_name: {
+                    type: 'string',
+                    example: 'Zylker Trading LLC',
+                    readOnly: true
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                status: {
+                    type: 'string',
+                    example: 'draft',
+                    readOnly: true
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                },
+                total: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                },
+                balance: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                }
+            }
+        }
+    }
+} as const;
+
+export const get_a_self_billed_invoice_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        bill: {
+            type: 'object',
+            properties: {
+                bill_id: {
+                    type: 'string',
+                    example: '982000000567301',
+                    readOnly: true
+                },
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                vendor_name: {
+                    type: 'string',
+                    example: 'Zylker Trading LLC',
+                    readOnly: true
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                status: {
+                    type: 'string',
+                    example: 'open',
+                    readOnly: true
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                },
+                total: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                },
+                balance: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                },
+                einvoice_status: {
+                    type: 'string',
+                    example: 'pushed',
+                    readOnly: true,
+                    'x-node_available_in': [
+                        'uae'
+                    ]
+                },
+                is_peppol_supported: {
+                    type: 'boolean',
+                    example: true,
+                    readOnly: true,
+                    'x-node_available_in': [
+                        'uae'
+                    ]
+                },
+                source: {
+                    type: 'string',
+                    description: 'Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.',
+                    example: 'e-invoice',
+                    readOnly: true,
+                    'x-node_available_in': [
+                        'uae'
+                    ]
+                }
+            }
+        }
+    }
+} as const;
+
+export const update_a_self_billed_invoice_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The self-billed invoice has been updated.',
+            readOnly: true
+        },
+        bill: {
+            type: 'object',
+            properties: {
+                bill_id: {
+                    type: 'string',
+                    example: '982000000567301',
+                    readOnly: true
+                },
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                vendor_name: {
+                    type: 'string',
+                    example: 'Zylker Trading LLC',
+                    readOnly: true
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                status: {
+                    type: 'string',
+                    example: 'draft',
+                    readOnly: true
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                },
+                total: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                },
+                balance: {
+                    type: 'number',
+                    example: 420,
+                    readOnly: true
+                }
+            }
+        }
+    }
+} as const;
+
+export const list_self_billed_invoices_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        bills: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    bill_id: {
+                        type: 'string',
+                        example: '982000000567301'
+                    },
+                    bill_number: {
+                        type: 'string',
+                        example: 'B-001982'
+                    },
+                    vendor_name: {
+                        type: 'string',
+                        example: 'Zylker Trading LLC'
+                    },
+                    date: {
+                        type: 'string',
+                        example: '2026-09-23'
+                    },
+                    due_date: {
+                        type: 'string',
+                        example: '2026-09-23'
+                    },
+                    status: {
+                        type: 'string',
+                        example: 'draft'
+                    },
+                    entity_type: {
+                        type: 'string',
+                        example: 'self_billed_invoice'
+                    },
+                    total: {
+                        type: 'number',
+                        example: 420
+                    },
+                    balance: {
+                        type: 'number',
+                        example: 420
+                    }
+                }
+            }
+        },
+        page_context: {
+            type: 'object',
+            properties: {
+                page: {
+                    type: 'integer',
+                    example: 1
+                },
+                per_page: {
+                    type: 'integer',
+                    example: 25
+                },
+                has_more_page: {
+                    type: 'boolean',
+                    example: false
+                },
+                report_name: {
+                    type: 'string',
+                    example: 'Bills'
+                },
+                applied_filter: {
+                    type: 'string',
+                    example: 'Status.All'
+                },
+                sort_column: {
+                    type: 'string',
+                    example: 'date'
+                },
+                sort_order: {
+                    type: 'string',
+                    example: 'D'
+                }
+            }
+        }
+    }
+} as const;
+
+export const delete_a_self_billed_invoice_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The self-billed invoice has been deleted.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const push_self_billed_invoice_einvoice_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The e-invoice has been pushed.',
+            readOnly: true
+        }
+    }
+} as const;
+
 export const recurring_task_idSchema = {
     description: 'ID of the recurring task.',
     type: 'string',
@@ -54844,11 +56332,254 @@ export const list_base_currency_adjustment_contacts_responseWritableSchema = {
     }
 } as const;
 
+export const billWritableSchema = {
+    type: 'object',
+    properties: {
+        bill_id: {
+            $ref: '#/components/schemas/bill_id'
+        },
+        entity_type: {
+            $ref: '#/components/schemas/entity_type'
+        },
+        purchaseorder_ids: {
+            $ref: '#/components/schemas/purchaseorder_ids'
+        },
+        vendor_id: {
+            $ref: '#/components/schemas/vendor_id'
+        },
+        vendor_name: {
+            $ref: '#/components/schemas/vendor_name'
+        },
+        vat_treatment: {
+            $ref: '#/components/schemas/vat_treatment'
+        },
+        vat_reg_no: {
+            $ref: '#/components/schemas/vat_reg_no'
+        },
+        source_of_supply: {
+            $ref: '#/components/schemas/source_of_supply'
+        },
+        destination_of_supply: {
+            $ref: '#/components/schemas/destination_of_supply'
+        },
+        place_of_supply: {
+            $ref: '#/components/schemas/place_of_supply'
+        },
+        permit_number: {
+            $ref: '#/components/schemas/permit_number'
+        },
+        gst_no: {
+            $ref: '#/components/schemas/gst_no'
+        },
+        gst_treatment: {
+            $ref: '#/components/schemas/gst_treatment'
+        },
+        tax_treatment: {
+            $ref: '#/components/schemas/tax_treatment'
+        },
+        tax_reg_no: {
+            $ref: '#/components/schemas/tax_reg_no'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
+        },
+        is_pre_gst: {
+            $ref: '#/components/schemas/is_pre_gst'
+        },
+        pricebook_id: {
+            $ref: '#/components/schemas/pricebook_id'
+        },
+        pricebook_name: {
+            $ref: '#/components/schemas/pricebook_name'
+        },
+        is_reverse_charge_applied: {
+            $ref: '#/components/schemas/is_reverse_charge_applied'
+        },
+        unused_credits_payable_amount: {
+            $ref: '#/components/schemas/unused_credits_payable_amount'
+        },
+        status: {
+            $ref: '#/components/schemas/status'
+        },
+        bill_number: {
+            $ref: '#/components/schemas/bill_number'
+        },
+        date: {
+            $ref: '#/components/schemas/date'
+        },
+        due_date: {
+            $ref: '#/components/schemas/due_date'
+        },
+        payment_terms: {
+            $ref: '#/components/schemas/payment_terms'
+        },
+        payment_terms_label: {
+            $ref: '#/components/schemas/payment_terms_label'
+        },
+        payment_expected_date: {
+            $ref: '#/components/schemas/payment_expected_date'
+        },
+        reference_number: {
+            $ref: '#/components/schemas/reference_number'
+        },
+        recurring_bill_id: {
+            $ref: '#/components/schemas/recurring_bill_id'
+        },
+        due_by_days: {
+            $ref: '#/components/schemas/due_by_days'
+        },
+        due_in_days: {
+            $ref: '#/components/schemas/due_in_days'
+        },
+        currency_id: {
+            $ref: '#/components/schemas/currency_id'
+        },
+        currency_code: {
+            $ref: '#/components/schemas/currency_code'
+        },
+        currency_symbol: {
+            $ref: '#/components/schemas/currency_symbol'
+        },
+        documents: {
+            $ref: '#/components/schemas/documents'
+        },
+        price_precision: {
+            $ref: '#/components/schemas/price_precision'
+        },
+        exchange_rate: {
+            $ref: '#/components/schemas/exchange_rate'
+        },
+        adjustment: {
+            $ref: '#/components/schemas/adjustment'
+        },
+        adjustment_description: {
+            $ref: '#/components/schemas/adjustment_description'
+        },
+        discount_code: {
+            $ref: '#/components/schemas/discount_code'
+        },
+        bank_account_id: {
+            $ref: '#/components/schemas/bank_account_id'
+        },
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        },
+        tags: {
+            $ref: '#/components/schemas/tags_response'
+        },
+        is_tds_applied: {
+            $ref: '#/components/schemas/is_tds_applied'
+        },
+        is_item_level_tax_calc: {
+            $ref: '#/components/schemas/is_item_level_tax_calc'
+        },
+        is_inclusive_tax: {
+            $ref: '#/components/schemas/is_inclusive_tax'
+        },
+        filed_in_vat_return_id: {
+            $ref: '#/components/schemas/filed_in_vat_return_id'
+        },
+        filed_in_vat_return_name: {
+            $ref: '#/components/schemas/filed_in_vat_return_name'
+        },
+        filed_in_vat_return_type: {
+            $ref: '#/components/schemas/filed_in_vat_return_type'
+        },
+        is_abn_quoted: {
+            $ref: '#/components/schemas/is_abn_quoted'
+        },
+        line_items: {
+            $ref: '#/components/schemas/line_items'
+        },
+        location_id: {
+            $ref: '#/components/schemas/location_id'
+        },
+        location_name: {
+            $ref: '#/components/schemas/location_name'
+        },
+        sub_total: {
+            $ref: '#/components/schemas/sub_total'
+        },
+        tax_total: {
+            $ref: '#/components/schemas/tax_total'
+        },
+        total: {
+            $ref: '#/components/schemas/total'
+        },
+        payment_made: {
+            $ref: '#/components/schemas/payment_made'
+        },
+        vendor_credits_applied: {
+            $ref: '#/components/schemas/vendor_credits_applied'
+        },
+        is_line_item_invoiced: {
+            $ref: '#/components/schemas/is_line_item_invoiced'
+        },
+        purchaseorders: {
+            $ref: '#/components/schemas/purchaseorders'
+        },
+        taxes: {
+            $ref: '#/components/schemas/taxes'
+        },
+        acquisition_vat_summary: {
+            $ref: '#/components/schemas/acquisition_vat_summary'
+        },
+        acquisition_vat_total: {
+            $ref: '#/components/schemas/acquisition_vat_total'
+        },
+        reverse_charge_vat_summary: {
+            $ref: '#/components/schemas/reverse_charge_vat_summary'
+        },
+        reverse_charge_vat_total: {
+            $ref: '#/components/schemas/reverse_charge_vat_total'
+        },
+        balance: {
+            $ref: '#/components/schemas/balance'
+        },
+        billing_address: {
+            $ref: '#/components/schemas/billing_address'
+        },
+        payments: {
+            $ref: '#/components/schemas/payments'
+        },
+        vendor_credits: {
+            $ref: '#/components/schemas/vendor_credits'
+        },
+        created_time: {
+            $ref: '#/components/schemas/created_time'
+        },
+        created_by_id: {
+            $ref: '#/components/schemas/created_by_id'
+        },
+        last_modified_time: {
+            $ref: '#/components/schemas/last_modified_time'
+        },
+        reference_id: {
+            $ref: '#/components/schemas/reference_id'
+        },
+        notes: {
+            $ref: '#/components/schemas/notes'
+        },
+        terms: {
+            $ref: '#/components/schemas/terms'
+        },
+        attachment_name: {
+            $ref: '#/components/schemas/attachment_name'
+        },
+        open_purchaseorders_count: {
+            $ref: '#/components/schemas/open_purchaseorders_count'
+        },
+        source: {
+            $ref: '#/components/schemas/source'
+        }
+    }
+} as const;
+
 export const create_a_bill_responseWritableSchema = {
     type: 'object',
     properties: {
         bill: {
-            $ref: '#/components/schemas/bill'
+            $ref: '#/components/schemas/billWritable'
         }
     }
 } as const;
@@ -54943,7 +56674,7 @@ export const update_a_bill_responseWritableSchema = {
     type: 'object',
     properties: {
         bill: {
-            $ref: '#/components/schemas/bill'
+            $ref: '#/components/schemas/billWritable'
         }
     }
 } as const;
@@ -54952,7 +56683,7 @@ export const get_a_bill_responseWritableSchema = {
     type: 'object',
     properties: {
         bill: {
-            $ref: '#/components/schemas/bill'
+            $ref: '#/components/schemas/billWritable'
         }
     }
 } as const;
@@ -55026,7 +56757,7 @@ export const convert_po_to_bill_responseWritableSchema = {
             $ref: '#/components/schemas/purchaseorder_ids'
         },
         bill: {
-            $ref: '#/components/schemas/bill'
+            $ref: '#/components/schemas/billWritable'
         }
     }
 } as const;
@@ -66874,6 +68605,182 @@ export const get_a_sales_receipt_responseWritableSchema = {
     properties: {
         salesreceipt: {
             $ref: '#/components/schemas/salesreceipt-response'
+        }
+    }
+} as const;
+
+export const create_a_self_billed_invoice_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        bill: {
+            type: 'object',
+            properties: {
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                }
+            }
+        }
+    }
+} as const;
+
+export const get_a_self_billed_invoice_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        bill: {
+            type: 'object',
+            properties: {
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                }
+            }
+        }
+    }
+} as const;
+
+export const update_a_self_billed_invoice_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        bill: {
+            type: 'object',
+            properties: {
+                bill_number: {
+                    type: 'string',
+                    example: 'B-001982'
+                },
+                vendor_id: {
+                    type: 'string',
+                    example: '86067000000227074'
+                },
+                date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                due_date: {
+                    type: 'string',
+                    example: '2026-09-23'
+                },
+                entity_type: {
+                    type: 'string',
+                    example: 'self_billed_invoice'
+                }
+            }
+        }
+    }
+} as const;
+
+export const list_self_billed_invoices_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        bills: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    bill_id: {
+                        type: 'string',
+                        example: '982000000567301'
+                    },
+                    bill_number: {
+                        type: 'string',
+                        example: 'B-001982'
+                    },
+                    vendor_name: {
+                        type: 'string',
+                        example: 'Zylker Trading LLC'
+                    },
+                    date: {
+                        type: 'string',
+                        example: '2026-09-23'
+                    },
+                    due_date: {
+                        type: 'string',
+                        example: '2026-09-23'
+                    },
+                    status: {
+                        type: 'string',
+                        example: 'draft'
+                    },
+                    entity_type: {
+                        type: 'string',
+                        example: 'self_billed_invoice'
+                    },
+                    total: {
+                        type: 'number',
+                        example: 420
+                    },
+                    balance: {
+                        type: 'number',
+                        example: 420
+                    }
+                }
+            }
+        },
+        page_context: {
+            type: 'object',
+            properties: {
+                page: {
+                    type: 'integer',
+                    example: 1
+                },
+                per_page: {
+                    type: 'integer',
+                    example: 25
+                },
+                has_more_page: {
+                    type: 'boolean',
+                    example: false
+                },
+                report_name: {
+                    type: 'string',
+                    example: 'Bills'
+                },
+                applied_filter: {
+                    type: 'string',
+                    example: 'Status.All'
+                },
+                sort_column: {
+                    type: 'string',
+                    example: 'date'
+                },
+                sort_order: {
+                    type: 'string',
+                    example: 'D'
+                }
+            }
         }
     }
 } as const;

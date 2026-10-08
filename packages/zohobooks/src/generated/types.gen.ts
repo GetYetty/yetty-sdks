@@ -2418,6 +2418,11 @@ export type Attachment = Blob | File;
 export type BillNumber = string;
 
 /**
+ * Type of the bill entity. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.
+ */
+export type EntityType = string;
+
+/**
  * State code where goods/services originate. Used for GST calculations in India. Defaults to vendor contact location if not specified. Supports 2-letter state codes (e.g., AP for Andhra Pradesh, TN for Tamil Nadu).
  */
 export type SourceOfSupply = string;
@@ -2448,9 +2453,49 @@ export type GstTreatment = string;
 export type GstNo = string;
 
 /**
+ * Tax Registration Number (TRN) of the vendor.
+ */
+export type TaxRegNo = string;
+
+/**
+ * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+ */
+export type RegistrationDetails = {
+    /**
+     * Company registration number (Commercial Registration number). Max-length [200].
+     */
+    company_registration_no?: string;
+    /**
+     * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+     */
+    einvoice_identifier_label?: string;
+    /**
+     * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+     */
+    einvoice_identifier_value?: string;
+    /**
+     * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+     */
+    additionalfield1?: string;
+    /**
+     * Legal registered name of the vendor. Max-length [500].
+     */
+    legal_name?: string;
+    /**
+     * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+     */
+    electronic_address_value?: string;
+};
+
+/**
  * Add HSN/SAC code for your goods/services
  */
 export type HsnOrSac = string;
+
+/**
+ * Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].
+ */
+export type UnitkeyCode = string;
 
 /**
  * Identifier for the price book containing item rates and pricing rules. Used to apply standardized pricing across bills. If not specified, default pricing from items will be used. Helps maintain consistent pricing across multiple transactions.
@@ -2565,6 +2610,11 @@ export type PaymentTerms = number;
  * Label of the Payment Terms
  */
 export type PaymentTermsLabel = string;
+
+/**
+ * Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.
+ */
+export type BankAccountId = string;
 
 export type UpdateAnBillCustomfieldResponse = {
     readonly code?: number;
@@ -2704,9 +2754,7 @@ export type InvoiceNumber = string;
  */
 export type ItemCustomFields = Array<{
     custom_field_id?: CustomFieldId;
-    index?: Index;
     value?: Value;
-    label?: Label;
 }>;
 
 /**
@@ -2859,6 +2907,7 @@ export type SerialNumbers = Array<string>;
 
 export type Bill = {
     bill_id?: BillId;
+    entity_type?: EntityType;
     purchaseorder_ids?: PurchaseorderIds;
     vendor_id?: VendorId;
     vendor_name?: VendorName;
@@ -2871,6 +2920,8 @@ export type Bill = {
     gst_no?: GstNo;
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
+    tax_reg_no?: TaxRegNo;
+    registration_details?: RegistrationDetails;
     is_pre_gst?: IsPreGst;
     pricebook_id?: PricebookId;
     pricebook_name?: PricebookName;
@@ -2895,6 +2946,8 @@ export type Bill = {
     exchange_rate?: ExchangeRate;
     adjustment?: Adjustment;
     adjustment_description?: AdjustmentDescription;
+    discount_code?: DiscountCode;
+    bank_account_id?: BankAccountId;
     custom_fields?: CustomFields;
     tags?: TagsResponse;
     is_tds_applied?: IsTdsApplied;
@@ -2931,6 +2984,9 @@ export type Bill = {
     terms?: Terms;
     attachment_name?: AttachmentName;
     open_purchaseorders_count?: OpenPurchaseordersCount;
+    einvoice_status?: EinvoiceStatus;
+    is_peppol_supported?: IsPeppolSupported;
+    source?: Source;
 };
 
 /**
@@ -3004,6 +3060,11 @@ export type Adjustment = number;
  */
 export type AdjustmentDescription = string;
 
+/**
+ * Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].
+ */
+export type DiscountCode = string;
+
 export type CreateABillRequest = {
     vendor_id: VendorId;
     currency_id?: CurrencyId;
@@ -3011,6 +3072,7 @@ export type CreateABillRequest = {
     is_update_customer?: IsUpdateCustomer;
     purchaseorder_ids?: PurchaseorderIds;
     bill_number: BillNumber;
+    entity_type?: EntityType;
     documents?: Documents;
     source_of_supply?: SourceOfSupply;
     destination_of_supply?: DestinationOfSupply;
@@ -3018,19 +3080,24 @@ export type CreateABillRequest = {
     permit_number?: PermitNumber;
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
+    is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
+    tax_reg_no?: TaxRegNo;
+    registration_details?: RegistrationDetails;
     pricebook_id?: PricebookId;
     reference_number?: ReferenceNumber;
     date?: Date;
     due_date?: DueDate;
     payment_terms?: PaymentTerms;
     payment_terms_label?: PaymentTermsLabel;
+    bank_account_id?: BankAccountId;
     recurring_bill_id?: RecurringBillId;
     exchange_rate?: ExchangeRate;
     is_item_level_tax_calc?: IsItemLevelTaxCalc;
     is_inclusive_tax?: IsInclusiveTax;
     adjustment?: Adjustment;
     adjustment_description?: AdjustmentDescription;
+    discount_code?: DiscountCode;
     location_id?: LocationId;
     /**
      * List of custom fields for the bill.
@@ -3052,6 +3119,8 @@ export type CreateABillRequest = {
         description?: Description;
         rate?: Rate;
         hsn_or_sac?: HsnOrSac;
+        unitkey_code?: UnitkeyCode;
+        discount_code?: DiscountCode;
         reverse_charge_tax_id?: ReverseChargeTaxId;
         location_id?: LocationId;
         quantity?: Quantity;
@@ -3130,6 +3199,7 @@ export type UpdateABillRequest = {
     is_update_customer?: IsUpdateCustomer;
     purchaseorder_ids?: PurchaseorderIds;
     bill_number: BillNumber;
+    entity_type?: EntityType;
     documents?: Documents;
     source_of_supply?: SourceOfSupply;
     destination_of_supply?: DestinationOfSupply;
@@ -3137,26 +3207,25 @@ export type UpdateABillRequest = {
     permit_number?: PermitNumber;
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
+    is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
+    tax_reg_no?: TaxRegNo;
+    registration_details?: RegistrationDetails;
     pricebook_id?: PricebookId;
     reference_number?: ReferenceNumber;
     date?: Date;
     due_date?: DueDate;
     payment_terms?: PaymentTerms;
     payment_terms_label?: PaymentTermsLabel;
+    bank_account_id?: BankAccountId;
     recurring_bill_id?: RecurringBillId;
     exchange_rate?: ExchangeRate;
     is_item_level_tax_calc?: IsItemLevelTaxCalc;
     is_inclusive_tax?: IsInclusiveTax;
     adjustment?: Adjustment;
     adjustment_description?: AdjustmentDescription;
-    /**
-     * List of custom fields for the bill.
-     */
-    custom_fields?: Array<{
-        index?: Index;
-        value?: Value;
-    }>;
+    discount_code?: DiscountCode;
+    custom_fields?: CustomFields;
     tags?: Tags;
     /**
      * Line items of a bill.
@@ -3170,6 +3239,8 @@ export type UpdateABillRequest = {
         description?: Description;
         rate?: Rate;
         hsn_or_sac?: HsnOrSac;
+        unitkey_code?: UnitkeyCode;
+        discount_code?: DiscountCode;
         reverse_charge_tax_id?: ReverseChargeTaxId;
         location_id?: LocationId;
         quantity?: Quantity;
@@ -3352,6 +3423,16 @@ export type DeleteACommentResponse = {
     readonly code?: number;
     readonly message?: string;
 };
+
+/**
+ * E-invoice status of the bill. Peppol-pulled bills use <code>einvoice_received</code>.
+ */
+export type EinvoiceStatus = string;
+
+/**
+ * Indicates whether the vendor supports receiving bills over the e-invoicing network.
+ */
+export type IsPeppolSupported = boolean;
 
 export type CategoryResponse = {
     category_id?: CategoryId;
@@ -4308,7 +4389,7 @@ export type IsLinkedWithZohocrm = boolean;
 export type PrimaryContactId = string;
 
 /**
- * Contact number associated with the contact for internal tracking and identification purposes. Max-length [200].
+ * Contact number associated with the contact for internal tracking and identification purposes. Max-length [50].
  */
 export type ContactNumber = string;
 
@@ -4393,7 +4474,7 @@ export type AvataxExemptNo = string;
 export type TaxRegime = string;
 
 /**
- * Official legal name of the contact as registered with tax authorities in Mexico.
+ * Legal name of the contact as registered with the tax authority.
  */
 export type LegalName = string;
 
@@ -4406,11 +4487,6 @@ export type IsTdsRegistered = boolean;
  * <b>For UK Edition:</b> Two letter country code of a contact<br/> <b>For Avalara:</b> Two letter country code for the customer country, if your customer is not in US. Refer [AvaTax Codes for Countries and States][2].<br/> <b>For GCC Editions :</b> Two Letter country code for the GCC Country or the UAE emirate of the contact which will be considered as <b>place of supply</b>.<br/>Supported codes for UAE emirates are : </br>Abu Dhabi - <code>AB</code>,</br>Ajman - <code>AJ</code>,</br>Dubai - <code>DU</code>,</br>Fujairah - <code>FU</code>,</br>Ras al-Khaimah - <code>RA</code>,</br>Sharjah - <code>SH</code>,</br>Umm al-Quwain - <code>UM</code>.<br/>Supported codes for the GCC countries are : </br>United Arab Emirates - <code>AE</code>,</br>Saudi Arabia - <code>SA</code>,</br>Bahrain - <code>BH</code>,</br>Kuwait - <code>KW</code>,</br>Oman - <code>OM</code>,</br>Qatar - <code>QA</code>.
  */
 export type CountryCode = string;
-
-/**
- * <b>For GCC Edition:</b> 15 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>,<code>gcc_vat_registered</code>,<code>dz_vat_registered</code>.<br/><b>For Mexico Edition:</b> 12 digit Tax Registration number of a contact with Tax treatment as </br> <code>home_country_mexico</code>, <code>border_region_mexico</code>, <code>non_mexico</code>.</br> Consumers generic RFC: <code>XAXX010101000</code>, Overseas generic RFC: <code>XEXX010101000</code>.<br/><b>For Kenya Edition:</b> 11 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code><br/><b>For SouthAfrica Edition:</b> 10 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>
- */
-export type TaxRegNo = string;
 
 /**
  * Tax Exemption Certificate number is issued by the Kenya Revenue Authority (KRA) to organizations or individuals who qualify for tax exemption
@@ -4632,6 +4708,8 @@ export type CreateAContactRequest = {
     tax_treatment?: TaxTreatment;
     tax_regime?: TaxRegime;
     legal_name?: LegalName;
+    registration_details?: RegistrationDetails;
+    place_of_supply?: PlaceOfSupply;
     is_tds_registered?: IsTdsRegistered;
     place_of_contact?: PlaceOfContact;
     gst_no?: GstNo;
@@ -4743,6 +4821,8 @@ export type UpdateAContactRequest = {
     tax_exemption_certificate_number?: TaxExemptionCertificateNumber;
     tax_regime?: TaxRegime;
     legal_name?: LegalName;
+    registration_details?: RegistrationDetails;
+    place_of_supply?: PlaceOfSupply;
     is_tds_registered?: IsTdsRegistered;
     vat_treatment?: VatTreatment;
     place_of_contact?: PlaceOfContact;
@@ -5556,6 +5636,27 @@ export type MergeContactResponse = {
 export type VerifyContactEinvoiceResponse = {
     readonly code?: number;
     readonly message?: string;
+    /**
+     * E-invoice verification result.
+     */
+    readonly data?: {
+        /**
+         * E-invoice verification response code.
+         */
+        readonly code?: number;
+        /**
+         * Human-readable message describing the e-invoice verification result.
+         */
+        readonly message?: string;
+        /**
+         * E-invoice registration status of the contact. Allowed values: <code>eligible</code>, <code>not_eligible</code>.
+         */
+        readonly status?: string;
+        /**
+         * Display-friendly e-invoice registration status.
+         */
+        readonly status_formatted?: string;
+    };
 };
 
 export type DisableContactPortalResponse = {
@@ -5793,14 +5894,14 @@ export type CfdiReferenceType = string;
 export type SatItemKeyCode = string;
 
 /**
- * Add Unit Key Code for your goods/services. Download the <a href= http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/catCFDI_V_4_07122022.xls  >CFDI Catalogs.</a>
- */
-export type UnitkeyCode = string;
-
-/**
  * Discount applied to the credit note, which can be either a percentage or a flat amount. For percentage discounts, the value should include the % symbol (e.g., 10%). For example, on Rs.1000, a 10% discount results in Rs.900, while a flat Rs.200 discount results in Rs.800.
  */
 export type Discount = number;
+
+/**
+ * Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].
+ */
+export type ReasonForCreditDebitNote = string;
 
 /**
  * Set to true to create the credit note in draft status. Draft credit notes are not finalized and can be modified before sending to customers.
@@ -5969,9 +6070,12 @@ export type CreateACreditNoteRequest = {
         tax_id?: TaxId;
         tds_tax_id?: TdsTaxId;
         tax_treatment_code?: TaxTreatmentCode;
+        reverse_charge_tax_id?: ReverseChargeTaxId;
         product_type?: ProductType;
+        hsn_or_sac?: HsnOrSac;
         sat_item_key_code?: SatItemKeyCode;
         unitkey_code?: UnitkeyCode;
+        discount_code?: DiscountCode;
         serial_numbers?: SerialNumbers;
         location_id?: LocationId;
         project_id?: ProjectId;
@@ -5982,6 +6086,8 @@ export type CreateACreditNoteRequest = {
     creditnote_number: CreditnoteNumber;
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
+    tax_reg_no?: TaxRegNo;
+    reason_for_credit_debit_note?: ReasonForCreditDebitNote;
     is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
     shipping_gst_no?: ShippingGstNo;
@@ -6017,6 +6123,7 @@ export type CreateACreditNoteRequest = {
     vat_treatment?: VatTreatment;
     is_inclusive_tax?: IsInclusiveTax;
     avatax_tax_code?: AvataxTaxCode;
+    discount_code?: DiscountCode;
 };
 
 export type CreateACreditNoteResponse = {
@@ -6060,6 +6167,8 @@ export type UpdateACreditNoteRequest = {
     creditnote_number: CreditnoteNumber;
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
+    tax_reg_no?: TaxRegNo;
+    reason_for_credit_debit_note?: ReasonForCreditDebitNote;
     is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
     shipping_gst_no?: ShippingGstNo;
@@ -6090,6 +6199,7 @@ export type UpdateACreditNoteRequest = {
     unit?: Unit;
     rate?: Rate;
     quantity?: Quantity;
+    discount_code?: DiscountCode;
 };
 
 export type UpdateACreditNoteResponse = {
@@ -11022,6 +11132,10 @@ export type CreateAnInvoiceRequest = {
     vat_treatment?: VatTreatment;
     tax_treatment?: TaxTreatment;
     is_reverse_charge_applied?: IsReverseChargeApplied;
+    bank_account_id?: BankAccountId;
+    discount_code?: DiscountCode;
+    registration_details?: RegistrationDetails;
+    tax_reg_no?: TaxRegNo;
     gst_treatment?: GstTreatment;
     gst_no?: GstNo;
     shipping_gst_no?: ShippingGstNo;
@@ -11078,6 +11192,8 @@ export type CreateAnInvoiceRequest = {
         tax_type?: TaxType;
         tax_percentage?: TaxPercentage;
         tax_treatment_code?: TaxTreatmentCode;
+        reverse_charge_tax_id?: ReverseChargeTaxId;
+        discount_code?: DiscountCode;
         salesorder_item_id?: SalesorderItemId;
         line_item_category?: LineItemCategory;
     }>;
@@ -11362,6 +11478,10 @@ export type UpdateAnInvoiceRequest = {
     vat_treatment?: VatTreatment;
     tax_treatment?: TaxTreatment;
     is_reverse_charge_applied?: IsReverseChargeApplied;
+    bank_account_id?: BankAccountId;
+    discount_code?: DiscountCode;
+    registration_details?: RegistrationDetails;
+    tax_reg_no?: TaxRegNo;
     gst_treatment?: GstTreatment;
     cfdi_usage?: CfdiUsage;
     cfdi_reference_type?: CfdiReferenceType;
@@ -11417,6 +11537,8 @@ export type UpdateAnInvoiceRequest = {
         tax_type?: TaxType;
         tax_percentage?: TaxPercentage;
         tax_treatment_code?: TaxTreatmentCode;
+        reverse_charge_tax_id?: ReverseChargeTaxId;
+        discount_code?: DiscountCode;
         line_item_category?: LineItemCategory;
     }>;
     payment_options?: PaymentOptions;
@@ -12675,6 +12797,18 @@ export type InitialStock = string;
 export type InitialStockRate = string;
 
 /**
+ * Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].
+ */
+export type Gtin = string;
+
+/**
+ * Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.
+ */
+export type ItemCode = {
+    gtin?: Gtin;
+};
+
+/**
  * Tax preferences for the item.
  */
 export type ItemTaxPreferences = Array<{
@@ -12739,6 +12873,7 @@ export type CreateAnItemRequest = {
     hsn_or_sac?: HsnOrSac;
     sat_item_key_code?: SatItemKeyCode;
     unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     is_taxable?: IsTaxable;
     tax_exemption_id?: TaxExemptionId;
     purchase_tax_exemption_id?: PurchaseTaxExemptionId;
@@ -12843,6 +12978,7 @@ export type UpdateAnItemRequest = {
     hsn_or_sac?: HsnOrSac;
     sat_item_key_code?: SatItemKeyCode;
     unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     sku?: Sku;
     product_type?: ProductType;
     is_taxable?: IsTaxable;
@@ -13021,6 +13157,9 @@ export type ItemMasterResponse = {
     image_name?: ImageName;
     image_type?: ImageType;
     documents?: Documents;
+    hsn_or_sac?: HsnOrSac;
+    unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     custom_fields?: CustomFields;
     /**
      * Variants belonging to this item.
@@ -13082,6 +13221,7 @@ export type ItemVariantResponse = {
     hsn_or_sac?: HsnOrSac;
     sat_item_key_code?: SatItemKeyCode;
     unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     brand?: Brand;
     manufacturer?: Manufacturer;
     is_combo_product?: IsComboProduct;
@@ -13149,6 +13289,9 @@ export type CreateAnItemMasterRequest = {
         vendor_id?: VendorId;
         custom_fields?: CustomFields;
     }>;
+    hsn_or_sac?: HsnOrSac;
+    unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     custom_fields?: CustomFields;
 };
 
@@ -13215,6 +13358,8 @@ export type CreateAnItemVariantRequest = {
     brand?: Brand;
     manufacturer?: Manufacturer;
     hsn_or_sac?: HsnOrSac;
+    unitkey_code?: UnitkeyCode;
+    item_code?: ItemCode;
     /**
      * List of locations.
      */
@@ -13399,11 +13544,6 @@ export type TaxExemptionType = string;
  * Check if Journal is created for BAS Adjustment
  */
 export type IsBasAdjustment = boolean;
-
-/**
- * Name of the Entity
- */
-export type EntityType = string;
 
 export type Journal = {
     journal_id?: JournalId;
@@ -14558,16 +14698,6 @@ export type UpdatePricebookResponse = {
 };
 
 export type DeleteThePricebookResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type BulkFetchPricebooksResponse = {
-    readonly code?: number;
-    readonly message?: string;
-};
-
-export type ListPricebookItemsResponse = {
     readonly code?: number;
     readonly message?: string;
 };
@@ -20044,6 +20174,686 @@ export type EmailASalesReceiptResponse = {
     readonly message?: string;
 };
 
+export type CreateASelfBilledInvoiceRequest = {
+    /**
+     * Unique bill number for the self-billed invoice. Max-length [50].
+     */
+    bill_number: string;
+    /**
+     * Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.
+     */
+    vendor_id: string;
+    /**
+     * Reference number for the self-billed invoice.
+     */
+    reference_number?: string;
+    /**
+     * Date of the self-billed invoice. Format: yyyy-mm-dd.
+     */
+    date?: string;
+    /**
+     * Due date for payment. Format: yyyy-mm-dd.
+     */
+    due_date?: string;
+    /**
+     * Payment terms notes for the self-billed invoice. Max-length [10000].
+     */
+    terms?: string;
+    /**
+     * Adjustment amount applied to the total.
+     */
+    adjustment?: number;
+    /**
+     * Description for the adjustment amount. Max-length [100].
+     */
+    adjustment_description?: string;
+    /**
+     * Set to <code>true</code> to save the self-billed invoice as a draft.
+     */
+    is_draft?: boolean;
+    /**
+     * Unique identifier of the price book to apply. Note: This value is a set of numeric characters.
+     */
+    pricebook_id?: string;
+    /**
+     * Set to <code>true</code> to calculate tax at the line-item level.
+     */
+    is_item_level_tax_calc?: boolean;
+    /**
+     * Set to <code>true</code> if the line-item rates are inclusive of tax.
+     */
+    is_inclusive_tax?: boolean;
+    /**
+     * Entity-level discount applied to the subtotal.
+     */
+    discount?: number;
+    /**
+     * Discount reason code for the entity-level discount. Max-length [200].
+     */
+    discount_code?: string;
+    /**
+     * Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.
+     */
+    discount_account_id?: string;
+    /**
+     * Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.
+     */
+    discount_type?: string;
+    /**
+     * Set to <code>true</code> to apply the discount before tax calculation.
+     */
+    is_discount_before_tax?: boolean;
+    /**
+     * Number of days within which payment is due.
+     */
+    payment_terms?: number;
+    /**
+     * Label for the payment terms (e.g., Net 30).
+     */
+    payment_terms_label?: string;
+    /**
+     * Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.
+     */
+    payment_mode?: string;
+    /**
+     * Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.
+     */
+    bank_account_id?: string;
+    /**
+     * Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.
+     */
+    account_id?: string;
+    /**
+     * Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.
+     */
+    template_id?: string;
+    /**
+     * Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.
+     */
+    entity_type: string;
+    /**
+     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+     */
+    tax_treatment?: string;
+    /**
+     * Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.
+     */
+    place_of_supply?: string;
+    /**
+     * Tax Registration Number (TRN) of the vendor.
+     */
+    tax_reg_no?: string;
+    /**
+     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+     */
+    registration_details?: {
+        /**
+         * Company registration number (Commercial Registration number). Max-length [200].
+         */
+        company_registration_no?: string;
+        /**
+         * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+         */
+        einvoice_identifier_label?: string;
+        /**
+         * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+         */
+        einvoice_identifier_value?: string;
+        /**
+         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+         */
+        additionalfield1?: string;
+        /**
+         * Legal registered name of the vendor. Max-length [500].
+         */
+        legal_name?: string;
+        /**
+         * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+         */
+        electronic_address_value?: string;
+    };
+    /**
+     * Customs or import permit number.
+     */
+    permit_number?: string;
+    /**
+     * Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.
+     */
+    billing_address_id?: string;
+    /**
+     * Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.
+     */
+    recurring_bill_id?: string;
+    /**
+     * List of tags to associate with the self-billed invoice.
+     */
+    tags?: Array<{
+        /**
+         * Unique identifier of the reporting tag. Note: This value is a set of numeric characters.
+         */
+        tag_id?: string;
+        /**
+         * Unique identifier of the selected tag option. Note: This value is a set of numeric characters.
+         */
+        tag_option_id?: string;
+    }>;
+    /**
+     * List of custom fields for the self-billed invoice.
+     */
+    custom_fields?: Array<{
+        /**
+         * Unique identifier of the custom field. Note: This value is a set of numeric characters.
+         */
+        custom_field_id?: string;
+        /**
+         * Value of the custom field.
+         */
+        value?: string;
+    }>;
+    /**
+     * List of documents attached to the self-billed invoice.
+     */
+    documents?: Array<{
+        /**
+         * Unique identifier of the attached document. Note: This value is a set of numeric characters.
+         */
+        document_id?: string;
+        /**
+         * File name of the attached document.
+         */
+        file_name?: string;
+    }>;
+    /**
+     * List of line items in the self-billed invoice.
+     */
+    line_items: Array<{
+        /**
+         * Unique identifier of the item. Note: This value is a set of numeric characters.
+         */
+        item_id?: string;
+        /**
+         * Name of the line item. Max-length [200].
+         */
+        name?: string;
+        /**
+         * Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.
+         */
+        account_id?: string;
+        /**
+         * Description of the line item. Max-length [6000].
+         */
+        description?: string;
+        /**
+         * Unit price of the item.
+         */
+        rate?: number;
+        /**
+         * Quantity of the item.
+         */
+        quantity?: number;
+        /**
+         * Discount percentage or amount applied to the line item.
+         */
+        discount?: number;
+        /**
+         * Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.
+         */
+        tax_id?: string;
+        /**
+         * Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.
+         */
+        reverse_charge_tax_id?: string;
+        /**
+         * Unit of measurement for the item (e.g., kg, pcs).
+         */
+        unit?: string;
+        /**
+         * Display order of the line item.
+         */
+        item_order?: number;
+        /**
+         * Set to <code>true</code> if the line item is billable to a customer.
+         */
+        is_billable?: boolean;
+        /**
+         * Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.
+         */
+        customer_id?: string;
+        /**
+         * Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.
+         */
+        project_id?: string;
+        /**
+         * HSN or SAC code for the line item.
+         */
+        hsn_or_sac?: string;
+        /**
+         * UN/CEFACT unit code for the line item. Max-length [10].
+         */
+        unitkey_code?: string;
+        /**
+         * Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.
+         */
+        product_type?: string;
+        /**
+         * Tax treatment reason code for the line item.
+         */
+        tax_treatment_code?: string;
+        /**
+         * List of tags for the line item.
+         */
+        tags?: Array<{
+            /**
+             * Unique identifier of the reporting tag. Note: This value is a set of numeric characters.
+             */
+            tag_id?: string;
+            /**
+             * Unique identifier of the selected tag option. Note: This value is a set of numeric characters.
+             */
+            tag_option_id?: string;
+        }>;
+        /**
+         * List of custom fields for the line item.
+         */
+        item_custom_fields?: Array<{
+            /**
+             * Unique identifier of the custom field. Note: This value is a set of numeric characters.
+             */
+            custom_field_id?: string;
+            /**
+             * Value of the custom field.
+             */
+            value?: string;
+        }>;
+    }>;
+};
+
+export type UpdateASelfBilledInvoiceRequest = {
+    /**
+     * Unique bill number for the self-billed invoice. Max-length [50].
+     */
+    bill_number?: string;
+    /**
+     * Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.
+     */
+    vendor_id?: string;
+    /**
+     * Reference number for the self-billed invoice.
+     */
+    reference_number?: string;
+    /**
+     * Date of the self-billed invoice. Format: yyyy-mm-dd.
+     */
+    date?: string;
+    /**
+     * Due date for payment. Format: yyyy-mm-dd.
+     */
+    due_date?: string;
+    /**
+     * Payment terms notes for the self-billed invoice. Max-length [10000].
+     */
+    terms?: string;
+    /**
+     * Adjustment amount applied to the total.
+     */
+    adjustment?: number;
+    /**
+     * Description for the adjustment amount. Max-length [100].
+     */
+    adjustment_description?: string;
+    /**
+     * Set to <code>true</code> to save the self-billed invoice as a draft.
+     */
+    is_draft?: boolean;
+    /**
+     * Unique identifier of the price book to apply. Note: This value is a set of numeric characters.
+     */
+    pricebook_id?: string;
+    /**
+     * Set to <code>true</code> to calculate tax at the line-item level.
+     */
+    is_item_level_tax_calc?: boolean;
+    /**
+     * Set to <code>true</code> if the line-item rates are inclusive of tax.
+     */
+    is_inclusive_tax?: boolean;
+    /**
+     * Entity-level discount applied to the subtotal.
+     */
+    discount?: number;
+    /**
+     * Discount reason code for the entity-level discount. Max-length [200].
+     */
+    discount_code?: string;
+    /**
+     * Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.
+     */
+    discount_account_id?: string;
+    /**
+     * Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.
+     */
+    discount_type?: string;
+    /**
+     * Set to <code>true</code> to apply the discount before tax calculation.
+     */
+    is_discount_before_tax?: boolean;
+    /**
+     * Number of days within which payment is due.
+     */
+    payment_terms?: number;
+    /**
+     * Label for the payment terms (e.g., Net 30).
+     */
+    payment_terms_label?: string;
+    /**
+     * Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.
+     */
+    payment_mode?: string;
+    /**
+     * Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.
+     */
+    bank_account_id?: string;
+    /**
+     * Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.
+     */
+    account_id?: string;
+    /**
+     * Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.
+     */
+    template_id?: string;
+    /**
+     * Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.
+     */
+    entity_type?: string;
+    /**
+     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+     */
+    tax_treatment?: string;
+    /**
+     * Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.
+     */
+    place_of_supply?: string;
+    /**
+     * Tax Registration Number (TRN) of the vendor.
+     */
+    tax_reg_no?: string;
+    /**
+     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+     */
+    registration_details?: {
+        /**
+         * Company registration number (Commercial Registration number). Max-length [200].
+         */
+        company_registration_no?: string;
+        /**
+         * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+         */
+        einvoice_identifier_label?: string;
+        /**
+         * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+         */
+        einvoice_identifier_value?: string;
+        /**
+         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+         */
+        additionalfield1?: string;
+        /**
+         * Legal registered name of the vendor. Max-length [500].
+         */
+        legal_name?: string;
+        /**
+         * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+         */
+        electronic_address_value?: string;
+    };
+    /**
+     * Customs or import permit number.
+     */
+    permit_number?: string;
+    /**
+     * Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.
+     */
+    billing_address_id?: string;
+    /**
+     * Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.
+     */
+    recurring_bill_id?: string;
+    /**
+     * List of tags to associate with the self-billed invoice.
+     */
+    tags?: Array<{
+        /**
+         * Unique identifier of the reporting tag. Note: This value is a set of numeric characters.
+         */
+        tag_id?: string;
+        /**
+         * Unique identifier of the selected tag option. Note: This value is a set of numeric characters.
+         */
+        tag_option_id?: string;
+    }>;
+    /**
+     * List of custom fields for the self-billed invoice.
+     */
+    custom_fields?: Array<{
+        /**
+         * Unique identifier of the custom field. Note: This value is a set of numeric characters.
+         */
+        custom_field_id?: string;
+        /**
+         * Value of the custom field.
+         */
+        value?: string;
+    }>;
+    /**
+     * List of documents attached to the self-billed invoice.
+     */
+    documents?: Array<{
+        /**
+         * Unique identifier of the attached document. Note: This value is a set of numeric characters.
+         */
+        document_id?: string;
+        /**
+         * File name of the attached document.
+         */
+        file_name?: string;
+    }>;
+    /**
+     * List of line items in the self-billed invoice.
+     */
+    line_items?: Array<{
+        /**
+         * Unique identifier of the item. Note: This value is a set of numeric characters.
+         */
+        item_id?: string;
+        /**
+         * Name of the line item. Max-length [200].
+         */
+        name?: string;
+        /**
+         * Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.
+         */
+        account_id?: string;
+        /**
+         * Description of the line item. Max-length [6000].
+         */
+        description?: string;
+        /**
+         * Unit price of the item.
+         */
+        rate?: number;
+        /**
+         * Quantity of the item.
+         */
+        quantity?: number;
+        /**
+         * Discount percentage or amount applied to the line item.
+         */
+        discount?: number;
+        /**
+         * Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.
+         */
+        tax_id?: string;
+        /**
+         * Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.
+         */
+        reverse_charge_tax_id?: string;
+        /**
+         * Unit of measurement for the item (e.g., kg, pcs).
+         */
+        unit?: string;
+        /**
+         * Display order of the line item.
+         */
+        item_order?: number;
+        /**
+         * Set to <code>true</code> if the line item is billable to a customer.
+         */
+        is_billable?: boolean;
+        /**
+         * Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.
+         */
+        customer_id?: string;
+        /**
+         * Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.
+         */
+        project_id?: string;
+        /**
+         * HSN or SAC code for the line item.
+         */
+        hsn_or_sac?: string;
+        /**
+         * UN/CEFACT unit code for the line item. Max-length [10].
+         */
+        unitkey_code?: string;
+        /**
+         * Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.
+         */
+        product_type?: string;
+        /**
+         * Tax treatment reason code for the line item.
+         */
+        tax_treatment_code?: string;
+        /**
+         * List of tags for the line item.
+         */
+        tags?: Array<{
+            /**
+             * Unique identifier of the reporting tag. Note: This value is a set of numeric characters.
+             */
+            tag_id?: string;
+            /**
+             * Unique identifier of the selected tag option. Note: This value is a set of numeric characters.
+             */
+            tag_option_id?: string;
+        }>;
+        /**
+         * List of custom fields for the line item.
+         */
+        item_custom_fields?: Array<{
+            /**
+             * Unique identifier of the custom field. Note: This value is a set of numeric characters.
+             */
+            custom_field_id?: string;
+            /**
+             * Value of the custom field.
+             */
+            value?: string;
+        }>;
+    }>;
+};
+
+export type CreateASelfBilledInvoiceResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    bill?: {
+        readonly bill_id?: string;
+        bill_number?: string;
+        vendor_id?: string;
+        readonly vendor_name?: string;
+        date?: string;
+        due_date?: string;
+        readonly status?: string;
+        entity_type?: string;
+        readonly total?: number;
+        readonly balance?: number;
+    };
+};
+
+export type GetASelfBilledInvoiceResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    bill?: {
+        readonly bill_id?: string;
+        bill_number?: string;
+        vendor_id?: string;
+        readonly vendor_name?: string;
+        date?: string;
+        due_date?: string;
+        readonly status?: string;
+        entity_type?: string;
+        readonly total?: number;
+        readonly balance?: number;
+        readonly einvoice_status?: string;
+        readonly is_peppol_supported?: boolean;
+        /**
+         * Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.
+         */
+        readonly source?: string;
+    };
+};
+
+export type UpdateASelfBilledInvoiceResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    bill?: {
+        readonly bill_id?: string;
+        bill_number?: string;
+        vendor_id?: string;
+        readonly vendor_name?: string;
+        date?: string;
+        due_date?: string;
+        readonly status?: string;
+        entity_type?: string;
+        readonly total?: number;
+        readonly balance?: number;
+    };
+};
+
+export type ListSelfBilledInvoicesResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    bills?: Array<{
+        bill_id?: string;
+        bill_number?: string;
+        vendor_name?: string;
+        date?: string;
+        due_date?: string;
+        status?: string;
+        entity_type?: string;
+        total?: number;
+        balance?: number;
+    }>;
+    page_context?: {
+        page?: number;
+        per_page?: number;
+        has_more_page?: boolean;
+        report_name?: string;
+        applied_filter?: string;
+        sort_column?: string;
+        sort_order?: string;
+    };
+};
+
+export type DeleteASelfBilledInvoiceResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type PushSelfBilledInvoiceEinvoiceResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
 /**
  * ID of the recurring task.
  */
@@ -23104,8 +23914,90 @@ export type ListBaseCurrencyAdjustmentContactsResponseWritable = {
     }>;
 };
 
+export type BillWritable = {
+    bill_id?: BillId;
+    entity_type?: EntityType;
+    purchaseorder_ids?: PurchaseorderIds;
+    vendor_id?: VendorId;
+    vendor_name?: VendorName;
+    vat_treatment?: VatTreatment;
+    vat_reg_no?: VatRegNo;
+    source_of_supply?: SourceOfSupply;
+    destination_of_supply?: DestinationOfSupply;
+    place_of_supply?: PlaceOfSupply;
+    permit_number?: PermitNumber;
+    gst_no?: GstNo;
+    gst_treatment?: GstTreatment;
+    tax_treatment?: TaxTreatment;
+    tax_reg_no?: TaxRegNo;
+    registration_details?: RegistrationDetails;
+    is_pre_gst?: IsPreGst;
+    pricebook_id?: PricebookId;
+    pricebook_name?: PricebookName;
+    is_reverse_charge_applied?: IsReverseChargeApplied;
+    unused_credits_payable_amount?: UnusedCreditsPayableAmount;
+    status?: Status;
+    bill_number?: BillNumber;
+    date?: Date;
+    due_date?: DueDate;
+    payment_terms?: PaymentTerms;
+    payment_terms_label?: PaymentTermsLabel;
+    payment_expected_date?: PaymentExpectedDate;
+    reference_number?: ReferenceNumber;
+    recurring_bill_id?: RecurringBillId;
+    due_by_days?: DueByDays;
+    due_in_days?: DueInDays;
+    currency_id?: CurrencyId;
+    currency_code?: CurrencyCode;
+    currency_symbol?: CurrencySymbol;
+    documents?: Documents;
+    price_precision?: PricePrecision;
+    exchange_rate?: ExchangeRate;
+    adjustment?: Adjustment;
+    adjustment_description?: AdjustmentDescription;
+    discount_code?: DiscountCode;
+    bank_account_id?: BankAccountId;
+    custom_fields?: CustomFields;
+    tags?: TagsResponse;
+    is_tds_applied?: IsTdsApplied;
+    is_item_level_tax_calc?: IsItemLevelTaxCalc;
+    is_inclusive_tax?: IsInclusiveTax;
+    filed_in_vat_return_id?: FiledInVatReturnId;
+    filed_in_vat_return_name?: FiledInVatReturnName;
+    filed_in_vat_return_type?: FiledInVatReturnType;
+    is_abn_quoted?: IsAbnQuoted;
+    line_items?: LineItems;
+    location_id?: LocationId;
+    location_name?: LocationName;
+    sub_total?: SubTotal;
+    tax_total?: TaxTotal;
+    total?: Total;
+    payment_made?: PaymentMade;
+    vendor_credits_applied?: VendorCreditsApplied;
+    is_line_item_invoiced?: IsLineItemInvoiced;
+    purchaseorders?: Purchaseorders;
+    taxes?: Taxes;
+    acquisition_vat_summary?: AcquisitionVatSummary;
+    acquisition_vat_total?: AcquisitionVatTotal;
+    reverse_charge_vat_summary?: ReverseChargeVatSummary;
+    reverse_charge_vat_total?: ReverseChargeVatTotal;
+    balance?: Balance;
+    billing_address?: BillingAddress;
+    payments?: Payments;
+    vendor_credits?: VendorCredits;
+    created_time?: CreatedTime;
+    created_by_id?: CreatedById;
+    last_modified_time?: LastModifiedTime;
+    reference_id?: ReferenceId;
+    notes?: Notes;
+    terms?: Terms;
+    attachment_name?: AttachmentName;
+    open_purchaseorders_count?: OpenPurchaseordersCount;
+    source?: Source;
+};
+
 export type CreateABillResponseWritable = {
-    bill?: Bill;
+    bill?: BillWritable;
 };
 
 export type ListBillsResponseWritable = {
@@ -23138,11 +24030,11 @@ export type ListBillsResponseWritable = {
 };
 
 export type UpdateABillResponseWritable = {
-    bill?: Bill;
+    bill?: BillWritable;
 };
 
 export type GetABillResponseWritable = {
-    bill?: Bill;
+    bill?: BillWritable;
 };
 
 export type UpdateBillingAddressResponseWritable = {
@@ -23169,7 +24061,7 @@ export type ListBillPaymentsResponseWritable = {
 
 export type ConvertPoToBillResponseWritable = {
     purchaseorder_ids?: PurchaseorderIds;
-    bill?: Bill;
+    bill?: BillWritable;
 };
 
 export type ListBillCommentsAndHistoryResponseWritable = {
@@ -27742,6 +28634,59 @@ export type GetASalesReceiptResponseWritable = {
     salesreceipt?: SalesreceiptResponse;
 };
 
+export type CreateASelfBilledInvoiceResponseWritable = {
+    bill?: {
+        bill_number?: string;
+        vendor_id?: string;
+        date?: string;
+        due_date?: string;
+        entity_type?: string;
+    };
+};
+
+export type GetASelfBilledInvoiceResponseWritable = {
+    bill?: {
+        bill_number?: string;
+        vendor_id?: string;
+        date?: string;
+        due_date?: string;
+        entity_type?: string;
+    };
+};
+
+export type UpdateASelfBilledInvoiceResponseWritable = {
+    bill?: {
+        bill_number?: string;
+        vendor_id?: string;
+        date?: string;
+        due_date?: string;
+        entity_type?: string;
+    };
+};
+
+export type ListSelfBilledInvoicesResponseWritable = {
+    bills?: Array<{
+        bill_id?: string;
+        bill_number?: string;
+        vendor_name?: string;
+        date?: string;
+        due_date?: string;
+        status?: string;
+        entity_type?: string;
+        total?: number;
+        balance?: number;
+    }>;
+    page_context?: {
+        page?: number;
+        per_page?: number;
+        has_more_page?: boolean;
+        report_name?: string;
+        applied_filter?: string;
+        sort_column?: string;
+        sort_order?: string;
+    };
+};
+
 export type UpdateTasksResponseWritable = {
     /**
      * List of tasks updated.
@@ -30956,7 +31901,7 @@ export type ListBaseCurrencyAdjustmentContactsResponses = {
 
 export type ListBaseCurrencyAdjustmentContactsResponse2 = ListBaseCurrencyAdjustmentContactsResponses[keyof ListBaseCurrencyAdjustmentContactsResponses];
 
-export type ListBillsData = {
+export type ListSelfBilledInvoicesData = {
     body?: never;
     path?: never;
     query: {
@@ -30965,142 +31910,78 @@ export type ListBillsData = {
          */
         organization_id: string;
         /**
-         * Filter bills by bill number. Accepts exact matches or use <code>bill_number_startswith</code> for prefix matching and <code>bill_number_contains</code> for substring matching. Useful for finding bills by unique identifier or partial patterns.
+         * Filter by entity type. Use <code>self_billed_invoice</code> to list only self-billed invoices.
+         */
+        entity_type?: string;
+        /**
+         * Filter by bill number.
          */
         bill_number?: string;
         /**
-         * Filter bills by reference number. Accepts exact matches or use <code>reference_number_startswith</code> for prefix matching and <code>reference_number_contains</code> for substring matching. Useful for finding bills by external references or vendor invoice numbers.
+         * Filter by status. Allowed values: <code>draft</code>, <code>open</code>, <code>paid</code>, <code>overdue</code>, <code>void</code>.
          */
-        reference_number?: string;
+        status?: string;
         /**
-         * Filter bills by bill date in YYYY-MM-DD format. Use <code>date_start</code>/<code>date_end</code> for ranges, <code>date_before</code>/<code>date_after</code> for relative dates. Useful for billing periods and due date management.
+         * Filter invoices with a bill date on or after this date. Format: yyyy-mm-dd.
          */
-        date?: string;
+        date_start?: string;
         /**
-         * Search bills by due date. Filters bills based on the payment due date. Use yyyy-mm-dd format. Supports variants: <code>due_date_start</code>, <code>due_date_end</code>, <code>due_date_before</code> and <code>due_date_after</code>. Useful for finding overdue bills or bills due within specific periods.
+         * Filter invoices with a bill date on or before this date. Format: yyyy-mm-dd.
          */
-        due_date?: string;
+        date_end?: string;
         /**
-         * Search bills by creation date. Filters bills based on the date they were created. Use yyyy-mm-dd format. Supports variants: <code>created_date_start</code> and <code>created_date_end</code>. Useful for finding bills created within specific time periods or date ranges.
-         */
-        created_date?: string;
-        /**
-         * Filter bills by status: <code>paid</code>, <code>open</code>, <code>overdue</code>, <code>void</code>, or <code>partially_paid</code>. Useful for payment status filtering, accounts payable management, and status-specific reporting.
-         */
-        status?: 'paid' | 'open' | 'overdue' | 'void' | 'partially_paid' | 'unpaid' | 'draft' | 'pending_approval' | 'approval_overdue' | 'my_approvals' | 'rejected' | 'approved';
-        /**
-         * Filter bills by description text. Accepts exact matches or use <code>description_startswith</code> for prefix matching and <code>description_contains</code> for substring matching. Useful for finding bills by line item descriptions or vendor notes.
-         */
-        description?: string;
-        /**
-         * Filter bills by vendor name. Use <code>vendor_name_startswith</code> for prefix matching or <code>vendor_name_contains</code> for substring matching. Useful for finding bills from specific suppliers.
+         * Filter by vendor name.
          */
         vendor_name?: string;
         /**
-         * Search bills by total amount. Filters bills based on the final bill amount including taxes, discounts, and adjustments. Useful for finding bills within specific price ranges or identifying high-value transactions.
+         * Column to sort the list by. Allowed values: <code>vendor_name</code>, <code>bill_number</code>, <code>date</code>, <code>due_date</code>, <code>total</code>, <code>balance</code>.
          */
-        total?: string;
+        sort_column?: string;
         /**
-         * Filter bills by specific vendor ID. Accepts the unique identifier for a vendor to retrieve all bills associated with that particular supplier or vendor account.
+         * Sort order. Allowed values: <code>A</code> (ascending), <code>D</code> (descending).
          */
-        vendor_id?: string;
+        sort_order?: string;
         /**
-         * Filter bills by specific project ID. Accepts the unique identifier for a project to retrieve all bills associated with that particular project.
-         */
-        project_id?: string;
-        /**
-         * Search bills by item name. Filters bills based on product or service names in bill line items. Supports <code>item_name_startswith</code> and <code>item_name_contains</code> variants. Maximum length is 100 characters. Useful for finding bills with specific products or services.
-         */
-        item_name?: string;
-        /**
-         * Search bills by item description. Filters bills based on detailed descriptions of products or services in line items. Supports <code>item_description_startswith</code> and <code>item_description_contains</code> variants. Maximum length is 100 characters. Useful for finding bills with specific item descriptions or technical specifications.
-         */
-        item_description?: string;
-        /**
-         * Filter bills by specific item ID. Retrieves all bills containing a particular product or service item based on its unique identifier.
-         */
-        item_id?: string;
-        /**
-         * Filter bills by recurring bill ID. Retrieves all bills generated from a specific recurring bill template or schedule.
-         */
-        recurring_bill_id?: string;
-        /**
-         * Filter bills by purchase order ID. Retrieves all bills associated with a specific purchase order for tracking procurement workflows.
-         */
-        purchaseorder_id?: string;
-        /**
-         * Search bills modified after a specific time. Filters bills based on their last modification timestamp. Use YYYY-MM-DDTHH:MM:SS-UTC format. Useful for finding recently updated bills or syncing data changes. Example : 2023-11-18T02:02:51-0800, 2025-19-19T02:02:51%2B0800
-         */
-        last_modified_time?: string;
-        /**
-         * Search bills by customer ID. Filters bills based on the unique identifier of the customer associated with the bill. Use the customer ID returned by the Contacts API to find bills for a specific customer. Note: This value is a set of numeric characters.
-         */
-        customer_id?: string;
-        /**
-         * Filter bills by status using predefined status constants. Options include <code>Status.All</code>, <code>Status.PartiallyPaid</code>, <code>Status.Paid</code>, <code>Status.Overdue</code>, <code>Status.Void</code>, and <code>Status.Open</code>.
-         */
-        filter_by?: 'Status.All' | 'Status.Paid' | 'Status.Open' | 'Status.Overdue' | 'Status.Void' | 'Status.PartiallyPaid' | 'Status.Unpaid' | 'Status.Draft' | 'Status.Pending' | 'Status.ApprovalOverdue' | 'Status.CreditNotes' | 'Status.MyApprovals' | 'Status.Network' | 'Status.NetworkPending' | 'Status.EInvoicedBills' | 'Status.EInvoicePendingBills' | 'Status.MSMEDueBills' | 'Status.TDSInvoices' | 'Status.BBPSPendingApproval' | 'Status.BBPSAccepted' | 'Status.BBPSAcceptFailed' | 'Status.BBPSRejected' | 'Status.BBPSRejectFailed' | 'Status.BBPSReturned' | 'Status.BBPSReturnFailed' | 'Status.PMSAppliedBills' | 'Status.ViolatedBills' | 'YetToBeReceived' | 'Received' | 'ExceptionList' | 'WithAttachment' | 'WithoutAttachment' | 'Source.TallyConnector' | 'MissingAdvancedTrackingDetails' | 'TDSCalculationExceptionList' | 'Type.All' | 'Type.Bills' | 'Type.SelfBilled' | 'Type.MyRecentBills';
-        /**
-         * Filter bills using general search text. Searches across bill number, reference number, and vendor name fields to find matching bills. Useful for quick searches when you know part of the bill information.
-         */
-        search_text?: string;
-        /**
-         * Specify the page number for pagination. Use this parameter to navigate through multiple pages of bills when the total number of bills exceeds the per_page limit.
+         * Page number for pagination.
          */
         page?: number;
         /**
-         * Specify the number of bills to retrieve per page.
+         * Number of records per page. Default: 25.
          */
         per_page?: number;
-        /**
-         * List of location IDs to filter bills by their associated locations. Use this parameter to retrieve bills linked to specific business locations. Note: This value is a comma-separated list of numeric location IDs.
-         */
-        location_ids?: string;
-        /**
-         * Specify the column to sort bills by. Available options include <code>vendor_name</code>, <code>bill_number</code>, <code>date</code>, <code>due_date</code>, <code>total</code>, <code>balance</code>, and <code>created_time</code>.
-         */
-        sort_column?: 'vendor_name' | 'bill_number' | 'date' | 'due_date' | 'total' | 'balance' | 'created_time' | 'last_modified_time' | 'txn_value_date' | 'total_retention_amount';
-        /**
-         * Specify the sorting order for bills. Use <code>A</code> for ascending order (A-Z, 0-9, earliest to latest) or <code>D</code> for descending order (Z-A, 9-0, latest to earliest).
-         */
-        sort_order?: string;
     };
     url: '/bills';
 };
 
-export type ListBillsResponses = {
+export type ListSelfBilledInvoicesResponses = {
     /**
      * OK
      */
-    200: ListBillsResponse;
+    200: ListSelfBilledInvoicesResponse;
 };
 
-export type ListBillsResponse2 = ListBillsResponses[keyof ListBillsResponses];
+export type ListSelfBilledInvoicesResponse2 = ListSelfBilledInvoicesResponses[keyof ListSelfBilledInvoicesResponses];
 
-export type CreateBillData = {
-    body?: CreateABillRequest;
+export type CreateSelfBilledInvoiceData = {
+    body: CreateASelfBilledInvoiceRequest;
     path?: never;
     query: {
         /**
          * ID of the organization
          */
         organization_id: string;
-        /**
-         * File to attach. Allowed Extensions: <code>gif</code>, <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>bmp</code> and <code>pdf</code>.
-         */
-        attachment?: Blob | File;
     };
     url: '/bills';
 };
 
-export type CreateBillResponses = {
+export type CreateSelfBilledInvoiceResponses = {
     /**
      * Created
      */
-    201: CreateABillResponse;
+    201: CreateASelfBilledInvoiceResponse;
 };
 
-export type CreateBillResponse = CreateBillResponses[keyof CreateBillResponses];
+export type CreateSelfBilledInvoiceResponse = CreateSelfBilledInvoiceResponses[keyof CreateSelfBilledInvoiceResponses];
 
 export type UpdateBillUsingCustomFieldData = {
     body?: UpdateABillRequest;
@@ -31137,11 +32018,11 @@ export type UpdateBillUsingCustomFieldResponses = {
 
 export type UpdateBillUsingCustomFieldResponse = UpdateBillUsingCustomFieldResponses[keyof UpdateBillUsingCustomFieldResponses];
 
-export type DeleteBillData = {
+export type DeleteSelfBilledInvoiceData = {
     body?: never;
     path: {
         /**
-         * Unique identifier of the bill.
+         * Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.
          */
         bill_id: string;
     };
@@ -31154,20 +32035,20 @@ export type DeleteBillData = {
     url: '/bills/{bill_id}';
 };
 
-export type DeleteBillResponses = {
+export type DeleteSelfBilledInvoiceResponses = {
     /**
      * OK
      */
-    200: DeleteABillResponse;
+    200: DeleteASelfBilledInvoiceResponse;
 };
 
-export type DeleteBillResponse = DeleteBillResponses[keyof DeleteBillResponses];
+export type DeleteSelfBilledInvoiceResponse = DeleteSelfBilledInvoiceResponses[keyof DeleteSelfBilledInvoiceResponses];
 
-export type GetBillData = {
+export type GetSelfBilledInvoiceData = {
     body?: never;
     path: {
         /**
-         * Unique identifier of the bill.
+         * Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.
          */
         bill_id: string;
     };
@@ -31180,20 +32061,20 @@ export type GetBillData = {
     url: '/bills/{bill_id}';
 };
 
-export type GetBillResponses = {
+export type GetSelfBilledInvoiceResponses = {
     /**
      * OK
      */
-    200: GetABillResponse;
+    200: GetASelfBilledInvoiceResponse;
 };
 
-export type GetBillResponse = GetBillResponses[keyof GetBillResponses];
+export type GetSelfBilledInvoiceResponse = GetSelfBilledInvoiceResponses[keyof GetSelfBilledInvoiceResponses];
 
-export type UpdateBillData = {
-    body?: UpdateABillRequest;
+export type UpdateSelfBilledInvoiceData = {
+    body: UpdateASelfBilledInvoiceRequest;
     path: {
         /**
-         * Unique identifier of the bill.
+         * Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.
          */
         bill_id: string;
     };
@@ -31202,22 +32083,18 @@ export type UpdateBillData = {
          * ID of the organization
          */
         organization_id: string;
-        /**
-         * File to attach. Allowed Extensions: <code>gif</code>, <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>bmp</code> and <code>pdf</code>.
-         */
-        attachment?: Blob | File;
     };
     url: '/bills/{bill_id}';
 };
 
-export type UpdateBillResponses = {
+export type UpdateSelfBilledInvoiceResponses = {
     /**
      * OK
      */
-    200: UpdateABillResponse;
+    200: UpdateASelfBilledInvoiceResponse;
 };
 
-export type UpdateBillResponse = UpdateBillResponses[keyof UpdateBillResponses];
+export type UpdateSelfBilledInvoiceResponse = UpdateSelfBilledInvoiceResponses[keyof UpdateSelfBilledInvoiceResponses];
 
 export type UpdateCustomFieldsInBillData = {
     body?: CustomFields;
@@ -46374,116 +47251,6 @@ export type MarkPricebookInactiveResponses = {
 
 export type MarkPricebookInactiveResponse = MarkPricebookInactiveResponses[keyof MarkPricebookInactiveResponses];
 
-export type BulkFetchPricebooksData = {
-    body?: never;
-    path?: never;
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-        /**
-         * Filter the price lists by status.
-         */
-        filter_by?: string;
-        /**
-         * Return only the price lists modified after this time.
-         */
-        last_modified_time?: string;
-        /**
-         * ID of the currency to filter the price lists by.
-         */
-        currency_id?: string;
-    };
-    url: '/pricebooks/bulkfetch';
-};
-
-export type BulkFetchPricebooksResponses = {
-    /**
-     * OK
-     */
-    200: BulkFetchPricebooksResponse;
-};
-
-export type BulkFetchPricebooksResponse2 = BulkFetchPricebooksResponses[keyof BulkFetchPricebooksResponses];
-
-export type ListPricebookItemsData = {
-    body?: never;
-    path?: never;
-    query: {
-        /**
-         * ID of the organization
-         */
-        organization_id: string;
-        /**
-         * ID of the price list whose items are listed.
-         */
-        pricebook_id?: string;
-        /**
-         * Sort the items by the specified column.
-         */
-        sort_column?: string;
-        /**
-         * Filter the items by sales or purchase type.
-         */
-        sales_or_purchase_type?: string;
-        /**
-         * Filter the items by pricing scheme.
-         */
-        pricing_scheme?: string;
-        /**
-         * ID of the category to filter the items by.
-         */
-        category_id?: string;
-        /**
-         * Date on which the pricing is applicable.
-         */
-        applicable_date?: string;
-        /**
-         * Filter the items by package weight.
-         */
-        package_weight?: number;
-        /**
-         * Filter the items with a package weight less than the given value.
-         */
-        package_weight_less_than?: number;
-        /**
-         * Filter the items with a package weight greater than the given value.
-         */
-        package_weight_greater_than?: number;
-        /**
-         * Filter the items with a package weight less than or equal to the given value.
-         */
-        package_weight_less_equals?: number;
-        /**
-         * Filter the items with a package weight greater than or equal to the given value.
-         */
-        package_weight_greater_equals?: number;
-        /**
-         * Filter the items by the pricing rule.
-         */
-        rule?: string;
-        /**
-         * Search the items by text.
-         */
-        search_text?: string;
-        /**
-         * Filter the items by custom field values.
-         */
-        custom_fields?: string;
-    };
-    url: '/pricebooks/items';
-};
-
-export type ListPricebookItemsResponses = {
-    /**
-     * OK
-     */
-    200: ListPricebookItemsResponse;
-};
-
-export type ListPricebookItemsResponse2 = ListPricebookItemsResponses[keyof ListPricebookItemsResponses];
-
 export type ListProjectsData = {
     body?: never;
     path?: never;
@@ -50550,7 +51317,7 @@ export type ReorderTagsData = {
         /**
          * List of reporting tag IDs in the desired order
          */
-        tag_ids?: Array<TagId>;
+        tags?: Array<TagId>;
     };
     path?: never;
     query: {
@@ -52410,6 +53177,32 @@ export type EmailSalesReceiptResponses = {
 };
 
 export type EmailSalesReceiptResponse = EmailSalesReceiptResponses[keyof EmailSalesReceiptResponses];
+
+export type PushSelfBilledInvoiceEinvoiceData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.
+         */
+        bill_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/selfbilledinvoices/{bill_id}/einvoice/push';
+};
+
+export type PushSelfBilledInvoiceEinvoiceResponses = {
+    /**
+     * OK
+     */
+    200: PushSelfBilledInvoiceEinvoiceResponse;
+};
+
+export type PushSelfBilledInvoiceEinvoiceResponse2 = PushSelfBilledInvoiceEinvoiceResponses[keyof PushSelfBilledInvoiceEinvoiceResponses];
 
 export type DeleteTasksData = {
     body?: never;

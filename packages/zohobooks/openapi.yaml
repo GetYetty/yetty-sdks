@@ -83,6 +83,8 @@ tags:
     description: Sales-Order Module
   - name: sales-receipt
     description: Sales Receipt Module
+  - name: self-billed-invoices
+    description: Self-Billed Invoices Module
   - name: tasks
     description: Task Module
   - name: taxes
@@ -2410,292 +2412,109 @@ paths:
       - $ref: '#/components/parameters/organization_id'
   /bills:
     x-mcp-group:
-      - Bills
+      - Self-Billed Invoices
     post:
       tags:
-        - bills
-      operationId: create_bill
-      summary: Create a bill
-      description: Create a bill received from your vendor.
-      parameters:
-        - name: attachment
-          in: query
-          description: 'File to attach. Allowed Extensions: <code>gif</code>, <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>bmp</code> and <code>pdf</code>.'
-          required: false
-          schema:
-            type: string
-            format: binary
-          example: ''
+        - self-billed-invoices
+      operationId: create_self_billed_invoice
+      summary: Create a Self-Billed Invoice
+      description: Create a new self-billed invoice. Set <code>entity_type</code> to <code>self_billed_invoice</code> to identify it as a self-billed invoice.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/create-a-bill-request'
+              $ref: '#/components/schemas/create-a-self-billed-invoice-request'
+        required: true
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/create-a-bill-response'
+                $ref: '#/components/schemas/create-a-self-billed-invoice-response'
       deprecated: false
       security:
         - Zoho_Auth:
             - ZohoBooks.bills.CREATE
     get:
       tags:
-        - bills
-      operationId: list_bills
-      summary: List bills
-      description: List all bills with pagination.
+        - self-billed-invoices
+      operationId: list_self_billed_invoices
+      summary: List Self-Billed Invoices
+      description: Retrieve a paginated list of self-billed invoices. Use the <code>entity_type=self_billed_invoice</code> query parameter to filter self-billed invoices only.
       parameters:
+        - name: entity_type
+          in: query
+          required: false
+          description: Filter by entity type. Use <code>self_billed_invoice</code> to list only self-billed invoices.
+          schema:
+            type: string
+          example: self_billed_invoice
         - name: bill_number
           in: query
-          description: Filter bills by bill number. Accepts exact matches or use <code>bill_number_startswith</code> for prefix matching and <code>bill_number_contains</code> for substring matching. Useful for finding bills by unique identifier or partial patterns.
           required: false
+          description: Filter by bill number.
           schema:
             type: string
-          example: '00454'
-        - name: reference_number
-          in: query
-          description: Filter bills by reference number. Accepts exact matches or use <code>reference_number_startswith</code> for prefix matching and <code>reference_number_contains</code> for substring matching. Useful for finding bills by external references or vendor invoice numbers.
-          required: false
-          schema:
-            type: string
-          example: '4321133'
-        - name: date
-          in: query
-          description: Filter bills by bill date in YYYY-MM-DD format. Use <code>date_start</code>/<code>date_end</code> for ranges, <code>date_before</code>/<code>date_after</code> for relative dates. Useful for billing periods and due date management.
-          required: false
-          schema:
-            type: string
-          example: '2013-09-11'
-        - name: due_date
-          in: query
-          description: 'Search bills by due date. Filters bills based on the payment due date. Use yyyy-mm-dd format. Supports variants: <code>due_date_start</code>, <code>due_date_end</code>, <code>due_date_before</code> and <code>due_date_after</code>. Useful for finding overdue bills or bills due within specific periods.'
-          required: false
-          schema:
-            type: string
-          example: '2013-12-03'
-        - name: created_date
-          in: query
-          description: 'Search bills by creation date. Filters bills based on the date they were created. Use yyyy-mm-dd format. Supports variants: <code>created_date_start</code> and <code>created_date_end</code>. Useful for finding bills created within specific time periods or date ranges.'
-          required: false
-          schema:
-            type: string
-          example: '2013-11-17'
         - name: status
           in: query
-          description: 'Filter bills by status: <code>paid</code>, <code>open</code>, <code>overdue</code>, <code>void</code>, or <code>partially_paid</code>. Useful for payment status filtering, accounts payable management, and status-specific reporting.'
           required: false
+          description: 'Filter by status. Allowed values: <code>draft</code>, <code>open</code>, <code>paid</code>, <code>overdue</code>, <code>void</code>.'
           schema:
             type: string
-            enum:
-              - paid
-              - open
-              - overdue
-              - void
-              - partially_paid
-              - unpaid
-              - draft
-              - pending_approval
-              - approval_overdue
-              - my_approvals
-              - rejected
-              - approved
-          example: open
-        - name: description
+        - name: date_start
           in: query
-          description: Filter bills by description text. Accepts exact matches or use <code>description_startswith</code> for prefix matching and <code>description_contains</code> for substring matching. Useful for finding bills by line item descriptions or vendor notes.
           required: false
+          description: 'Filter invoices with a bill date on or after this date. Format: yyyy-mm-dd.'
           schema:
             type: string
-          example: ''
+            format: date
+        - name: date_end
+          in: query
+          required: false
+          description: 'Filter invoices with a bill date on or before this date. Format: yyyy-mm-dd.'
+          schema:
+            type: string
+            format: date
         - name: vendor_name
           in: query
-          description: Filter bills by vendor name. Use <code>vendor_name_startswith</code> for prefix matching or <code>vendor_name_contains</code> for substring matching. Useful for finding bills from specific suppliers.
           required: false
+          description: Filter by vendor name.
           schema:
             type: string
-          example: ''
-        - name: total
+        - name: sort_column
           in: query
-          description: Search bills by total amount. Filters bills based on the final bill amount including taxes, discounts, and adjustments. Useful for finding bills within specific price ranges or identifying high-value transactions.
           required: false
+          description: 'Column to sort the list by. Allowed values: <code>vendor_name</code>, <code>bill_number</code>, <code>date</code>, <code>due_date</code>, <code>total</code>, <code>balance</code>.'
           schema:
             type: string
-          example: 40.6
-        - name: vendor_id
+        - name: sort_order
           in: query
-          description: Filter bills by specific vendor ID. Accepts the unique identifier for a vendor to retrieve all bills associated with that particular supplier or vendor account.
           required: false
+          description: 'Sort order. Allowed values: <code>A</code> (ascending), <code>D</code> (descending).'
           schema:
             type: string
-          example: '460000000038029'
-        - name: project_id
-          in: query
-          description: Filter bills by specific project ID. Accepts the unique identifier for a project to retrieve all bills associated with that particular project.
-          required: false
-          schema:
-            type: string
-          example: '460000000038030'
-        - name: item_name
-          in: query
-          description: Search bills by item name. Filters bills based on product or service names in bill line items. Supports <code>item_name_startswith</code> and <code>item_name_contains</code> variants. Maximum length is 100 characters. Useful for finding bills with specific products or services.
-          required: false
-          schema:
-            type: string
-          example: Desktop Units
-        - name: item_description
-          in: query
-          description: Search bills by item description. Filters bills based on detailed descriptions of products or services in line items. Supports <code>item_description_startswith</code> and <code>item_description_contains</code> variants. Maximum length is 100 characters. Useful for finding bills with specific item descriptions or technical specifications.
-          required: false
-          schema:
-            type: string
-          example: 500GB, USB 2.0 interface
-        - name: item_id
-          in: query
-          description: Filter bills by specific item ID. Retrieves all bills containing a particular product or service item based on its unique identifier.
-          required: false
-          schema:
-            type: string
-          example: '460000000054135'
-        - name: recurring_bill_id
-          in: query
-          description: Filter bills by recurring bill ID. Retrieves all bills generated from a specific recurring bill template or schedule.
-          required: false
-          schema:
-            type: string
-          example: ''
-        - name: purchaseorder_id
-          in: query
-          description: Filter bills by purchase order ID. Retrieves all bills associated with a specific purchase order for tracking procurement workflows.
-          required: false
-          schema:
-            type: string
-          example: '460000000068231'
-        - name: last_modified_time
-          in: query
-          description: 'Search bills modified after a specific time. Filters bills based on their last modification timestamp. Use YYYY-MM-DDTHH:MM:SS-UTC format. Useful for finding recently updated bills or syncing data changes. Example : 2023-11-18T02:02:51-0800, 2025-19-19T02:02:51%2B0800'
-          required: false
-          schema:
-            type: string
-          example: 2013-11-18T02:02:51-0800
-        - name: customer_id
-          in: query
-          description: 'Search bills by customer ID. Filters bills based on the unique identifier of the customer associated with the bill. Use the customer ID returned by the Contacts API to find bills for a specific customer. Note: This value is a set of numeric characters.'
-          required: false
-          schema:
-            type: string
-          example: 982000000567001
-        - name: filter_by
-          in: query
-          description: Filter bills by status using predefined status constants. Options include <code>Status.All</code>, <code>Status.PartiallyPaid</code>, <code>Status.Paid</code>, <code>Status.Overdue</code>, <code>Status.Void</code>, and <code>Status.Open</code>.
-          required: false
-          schema:
-            type: string
-            enum:
-              - Status.All
-              - Status.Paid
-              - Status.Open
-              - Status.Overdue
-              - Status.Void
-              - Status.PartiallyPaid
-              - Status.Unpaid
-              - Status.Draft
-              - Status.Pending
-              - Status.ApprovalOverdue
-              - Status.CreditNotes
-              - Status.MyApprovals
-              - Status.Network
-              - Status.NetworkPending
-              - Status.EInvoicedBills
-              - Status.EInvoicePendingBills
-              - Status.MSMEDueBills
-              - Status.TDSInvoices
-              - Status.BBPSPendingApproval
-              - Status.BBPSAccepted
-              - Status.BBPSAcceptFailed
-              - Status.BBPSRejected
-              - Status.BBPSRejectFailed
-              - Status.BBPSReturned
-              - Status.BBPSReturnFailed
-              - Status.PMSAppliedBills
-              - Status.ViolatedBills
-              - YetToBeReceived
-              - Received
-              - ExceptionList
-              - WithAttachment
-              - WithoutAttachment
-              - Source.TallyConnector
-              - MissingAdvancedTrackingDetails
-              - TDSCalculationExceptionList
-              - Type.All
-              - Type.Bills
-              - Type.SelfBilled
-              - Type.MyRecentBills
-          example: Status.All
-        - name: search_text
-          in: query
-          description: Filter bills using general search text. Searches across bill number, reference number, and vendor name fields to find matching bills. Useful for quick searches when you know part of the bill information.
-          required: false
-          schema:
-            type: string
-          example: ''
         - name: page
           in: query
-          description: Specify the page number for pagination. Use this parameter to navigate through multiple pages of bills when the total number of bills exceeds the per_page limit.
           required: false
+          description: Page number for pagination.
           schema:
             type: integer
           example: 1
         - name: per_page
           in: query
-          description: Specify the number of bills to retrieve per page.
           required: false
+          description: 'Number of records per page. Default: 25.'
           schema:
             type: integer
-            default: 10
-          example: 10
-        - name: location_ids
-          in: query
-          description: 'List of location IDs to filter bills by their associated locations. Use this parameter to retrieve bills linked to specific business locations. Note: This value is a comma-separated list of numeric location IDs.'
-          required: false
-          schema:
-            type: string
-          example: 460000000038080,460000000038081
-        - name: sort_column
-          in: query
-          description: Specify the column to sort bills by. Available options include <code>vendor_name</code>, <code>bill_number</code>, <code>date</code>, <code>due_date</code>, <code>total</code>, <code>balance</code>, and <code>created_time</code>.
-          required: false
-          schema:
-            type: string
-            enum:
-              - vendor_name
-              - bill_number
-              - date
-              - due_date
-              - total
-              - balance
-              - created_time
-              - last_modified_time
-              - txn_value_date
-              - total_retention_amount
-          example: created_time
-        - name: sort_order
-          in: query
-          description: Specify the sorting order for bills. Use <code>A</code> for ascending order (A-Z, 0-9, earliest to latest) or <code>D</code> for descending order (Z-A, 9-0, latest to earliest).
-          required: false
-          schema:
-            type: string
-          example: D
+          example: 25
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/list-bills-response'
+                $ref: '#/components/schemas/list-self-billed-invoices-response'
       deprecated: false
       security:
         - Zoho_Auth:
@@ -2746,70 +2565,64 @@ paths:
             - ZohoBooks.bills.UPDATE
     parameters:
       - $ref: '#/components/parameters/organization_id'
+    x-node_available_in:
+      - uae
   /bills/{bill_id}:
     x-mcp-group:
-      - Bills
+      - Self-Billed Invoices
     put:
       tags:
-        - bills
-      operationId: update_bill
-      summary: Update a bill
-      description: Update a bill. To delete a line item just remove it from the line_items list.
-      parameters:
-        - name: attachment
-          in: query
-          description: 'File to attach. Allowed Extensions: <code>gif</code>, <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>bmp</code> and <code>pdf</code>.'
-          required: false
-          schema:
-            type: string
-            format: binary
-          example: ''
+        - self-billed-invoices
+      operationId: update_self_billed_invoice
+      summary: Update a Self-Billed Invoice
+      description: Update the details of an existing self-billed invoice.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/update-a-bill-request'
+              $ref: '#/components/schemas/update-a-self-billed-invoice-request'
+        required: true
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/update-a-bill-response'
+                $ref: '#/components/schemas/update-a-self-billed-invoice-response'
       deprecated: false
       security:
         - Zoho_Auth:
             - ZohoBooks.bills.UPDATE
     get:
       tags:
-        - bills
-      operationId: get_bill
-      summary: Get a bill
-      description: Get the details of a bill.
+        - self-billed-invoices
+      operationId: get_self_billed_invoice
+      summary: Get a Self-Billed Invoice
+      description: Fetch the details of a self-billed invoice.
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/get-a-bill-response'
+                $ref: '#/components/schemas/get-a-self-billed-invoice-response'
       deprecated: false
       security:
         - Zoho_Auth:
             - ZohoBooks.bills.READ
     delete:
       tags:
-        - bills
-      operationId: delete_bill
-      summary: Delete a bill
-      description: Delete an existing bill. Bills which have payments applied cannot be deleted.
+        - self-billed-invoices
+      operationId: delete_self_billed_invoice
+      summary: Delete a Self-Billed Invoice
+      description: Delete an existing self-billed invoice.
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/delete-a-bill-response'
+                $ref: '#/components/schemas/delete-a-self-billed-invoice-response'
       deprecated: false
       security:
         - Zoho_Auth:
@@ -2818,11 +2631,13 @@ paths:
       - name: bill_id
         in: path
         required: true
-        description: Unique identifier of the bill.
+        description: 'Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.'
         schema:
           type: string
-        example: '460000000098765'
+        example: '982000000567301'
       - $ref: '#/components/parameters/organization_id'
+    x-node_available_in:
+      - uae
   /bill/{bill_id}/customfields:
     x-mcp-group:
       - Bills
@@ -6506,7 +6321,7 @@ paths:
         - contacts
       operationId: verify_contact_einvoice
       summary: Verify contact e-invoice details
-      description: Verify the e-invoice (GST) details of a contact.
+      description: 'Verify the e-invoice details of a contact. <br> For India: verifies GST registration on the IRP. <br>For UAE: verifies Peppol network registration status.'
       responses:
         '200':
           description: OK
@@ -8761,7 +8576,7 @@ paths:
         - creditnotes
       operationId: push_credit_notes_einvoice
       summary: Push credit note e-invoices
-      description: Push the e-invoices of multiple credit notes to the Invoice Registration Portal (IRP).
+      description: Push the e-invoices of multiple credit notes to the Invoice Registration Portal (IRP) for India or the Peppol network for UAE.
       responses:
         '200':
           description: OK
@@ -8834,7 +8649,7 @@ paths:
         - creditnotes
       operationId: push_credit_note_einvoice
       summary: Push a credit note e-invoice
-      description: Push the e-invoice of a credit note to the Invoice Registration Portal (IRP).
+      description: Push the e-invoice of a credit note to the Invoice Registration Portal (IRP) for India or the Peppol network for UAE.
       responses:
         '200':
           description: OK
@@ -16468,7 +16283,7 @@ paths:
         - invoices
       operationId: push_invoices_einvoice
       summary: Push invoice e-invoices
-      description: Push the e-invoices of multiple invoices to the Invoice Registration Portal (IRP).
+      description: Push the e-invoices of multiple invoices to the Invoice Registration Portal (IRP) for India or the Peppol network for UAE.
       responses:
         '200':
           description: OK
@@ -16541,7 +16356,7 @@ paths:
         - invoices
       operationId: push_invoice_einvoice
       summary: Push an invoice e-invoice
-      description: Push the e-invoice of an invoice to the Invoice Registration Portal (IRP).
+      description: Push the e-invoice of an invoice to the Invoice Registration Portal (IRP) for India or the Peppol network for UAE.
       responses:
         '200':
           description: OK
@@ -20395,171 +20210,6 @@ paths:
         schema:
           type: string
         example: 130426000002924000
-      - $ref: '#/components/parameters/organization_id'
-  /pricebooks/bulkfetch:
-    x-mcp-group:
-      - Price Lists
-    get:
-      tags:
-        - pricebooks
-      operationId: bulk_fetch_pricebooks
-      summary: Bulk fetch price lists
-      description: Retrieve multiple price lists in bulk. Use the filter parameters to narrow the price lists returned.
-      parameters:
-        - name: filter_by
-          in: query
-          required: false
-          description: Filter the price lists by status.
-          schema:
-            type: string
-          example: Status.All
-        - name: last_modified_time
-          in: query
-          required: false
-          description: Return only the price lists modified after this time.
-          schema:
-            type: string
-          example: 2013-11-19T10:00:00+0530
-        - name: currency_id
-          in: query
-          required: false
-          description: ID of the currency to filter the price lists by.
-          schema:
-            type: string
-          example: 130426000000000100
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/bulk-fetch-pricebooks-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.settings.READ
-    parameters:
-      - $ref: '#/components/parameters/organization_id'
-  /pricebooks/items:
-    x-mcp-group:
-      - Price Lists
-    get:
-      tags:
-        - pricebooks
-      operationId: list_pricebook_items
-      summary: List items in a price list
-      description: Retrieve the items in a price list along with their pricing. Use the filter parameters to narrow the items returned.
-      parameters:
-        - name: pricebook_id
-          in: query
-          required: false
-          description: ID of the price list whose items are listed.
-          schema:
-            type: string
-          example: 130426000002924000
-        - name: sort_column
-          in: query
-          required: false
-          description: Sort the items by the specified column.
-          schema:
-            type: string
-          example: name
-        - name: sales_or_purchase_type
-          in: query
-          required: false
-          description: Filter the items by sales or purchase type.
-          schema:
-            type: string
-          example: sales
-        - name: pricing_scheme
-          in: query
-          required: false
-          description: Filter the items by pricing scheme.
-          schema:
-            type: string
-          example: unit
-        - name: category_id
-          in: query
-          required: false
-          description: ID of the category to filter the items by.
-          schema:
-            type: string
-          example: 130426000000067000
-        - name: applicable_date
-          in: query
-          required: false
-          description: Date on which the pricing is applicable.
-          schema:
-            type: string
-          example: '2013-11-19'
-        - name: package_weight
-          in: query
-          required: false
-          description: Filter the items by package weight.
-          schema:
-            type: number
-          example: 1.5
-        - name: package_weight_less_than
-          in: query
-          required: false
-          description: Filter the items with a package weight less than the given value.
-          schema:
-            type: number
-          example: 2
-        - name: package_weight_greater_than
-          in: query
-          required: false
-          description: Filter the items with a package weight greater than the given value.
-          schema:
-            type: number
-          example: 1
-        - name: package_weight_less_equals
-          in: query
-          required: false
-          description: Filter the items with a package weight less than or equal to the given value.
-          schema:
-            type: number
-          example: 2
-        - name: package_weight_greater_equals
-          in: query
-          required: false
-          description: Filter the items with a package weight greater than or equal to the given value.
-          schema:
-            type: number
-          example: 1
-        - name: rule
-          in: query
-          required: false
-          description: Filter the items by the pricing rule.
-          schema:
-            type: string
-          example: markup
-        - name: search_text
-          in: query
-          required: false
-          description: Search the items by text.
-          schema:
-            type: string
-          example: Laptop
-        - name: custom_fields
-          in: query
-          required: false
-          description: Filter the items by custom field values.
-          schema:
-            type: string
-          example: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/list-pricebook-items-response'
-      deprecated: false
-      security:
-        - Zoho_Auth:
-            - ZohoBooks.settings.READ
-    parameters:
       - $ref: '#/components/parameters/organization_id'
   /projects:
     x-mcp-group:
@@ -25616,7 +25266,7 @@ paths:
             schema:
               type: object
               properties:
-                tag_ids:
+                tags:
                   description: List of reporting tag IDs in the desired order
                   type: array
                   items:
@@ -27918,6 +27568,37 @@ paths:
       security:
         - Zoho_Auth:
             - ZohoBooks.invoices.CREATE
+  /selfbilledinvoices/{bill_id}/einvoice/push:
+    x-mcp-group:
+      - Self-Billed Invoices
+    x-node_available_in:
+      - uae
+    post:
+      tags:
+        - self-billed-invoices
+      operationId: push_self_billed_invoice_einvoice
+      summary: Push a self-billed invoice e-invoice
+      description: Push the e-invoice of a self-billed invoice.<br><b>Rate limit:</b> 150 requests per minute. Exceeding this limit triggers a 30-minute lock-out.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/push-self-billed-invoice-einvoice-response'
+      deprecated: false
+      security:
+        - Zoho_Auth:
+            - ZohoBooks.bills.CREATE
+    parameters:
+      - name: bill_id
+        in: path
+        required: true
+        description: 'Unique identifier of the self-billed invoice. Note: This value is a set of numeric characters.'
+        schema:
+          type: string
+        example: '982000000567301'
+      - $ref: '#/components/parameters/organization_id'
   /tasks:
     x-mcp-group:
       - Tasks
@@ -34545,6 +34226,10 @@ components:
       description: Unique sequential identifier for the bill. Used for tracking and reference purposes. Format varies by organization settings. Can be auto-generated or manually entered. Must be unique within the organization.
       type: string
       example: '00454'
+    entity_type:
+      description: 'Type of the bill entity. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.'
+      type: string
+      example: bill
     source_of_supply:
       description: State code where goods/services originate. Used for GST calculations in India. Defaults to vendor contact location if not specified. Supports 2-letter state codes (e.g., AP for Andhra Pradesh, TN for Tamil Nadu).
       type: string
@@ -34586,6 +34271,43 @@ components:
       x-node_available_in:
         - in
       x-node_unavailable_in: []
+    tax_reg_no:
+      description: Tax Registration Number (TRN) of the vendor.
+      type: string
+      x-node_available_in:
+        - gcc
+      x-node_unavailable_in: []
+    registration_details:
+      description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+      type: object
+      properties:
+        company_registration_no:
+          description: Company registration number (Commercial Registration number). Max-length [200].
+          type: string
+          example: '1002004410'
+        einvoice_identifier_label:
+          description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+          type: string
+          example: CRN
+        einvoice_identifier_value:
+          description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+          type: string
+          example: '234324'
+        additionalfield1:
+          description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+          type: string
+          example: Department of Economy and Tourism
+        legal_name:
+          description: Legal registered name of the vendor. Max-length [500].
+          type: string
+          example: Zylker Trading LLC
+        electronic_address_value:
+          description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+          type: string
+          example: '0088:1234567890123'
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     hsn_or_sac:
       description: Add HSN/SAC code for your goods/services
       type: string
@@ -34594,6 +34316,15 @@ components:
         - in
         - ke
         - za
+        - uae
+      x-node_unavailable_in: []
+    unitkey_code:
+      description: Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].
+      type: string
+      example: H87
+      maxLength: 10
+      x-node_available_in:
+        - uae
       x-node_unavailable_in: []
     pricebook_id:
       description: Identifier for the price book containing item rates and pricing rules. Used to apply standardized pricing across bills. If not specified, default pricing from items will be used. Helps maintain consistent pricing across multiple transactions.
@@ -34723,6 +34454,12 @@ components:
       description: Label of the Payment Terms
       type: string
       example: Due on Receipt
+    bank_account_id:
+      description: 'Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.'
+      type: string
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     update-an-bill-customfield-response:
       type: object
       properties:
@@ -34857,12 +34594,8 @@ components:
         properties:
           custom_field_id:
             $ref: '#/components/schemas/custom_field_id'
-          index:
-            $ref: '#/components/schemas/index'
           value:
             $ref: '#/components/schemas/value'
-          label:
-            $ref: '#/components/schemas/label'
     is_single_bill_payment:
       description: Check if it is a Single Bill Payment
       type: boolean
@@ -35047,6 +34780,8 @@ components:
       properties:
         bill_id:
           $ref: '#/components/schemas/bill_id'
+        entity_type:
+          $ref: '#/components/schemas/entity_type'
         purchaseorder_ids:
           $ref: '#/components/schemas/purchaseorder_ids'
         vendor_id:
@@ -35071,6 +34806,10 @@ components:
           $ref: '#/components/schemas/gst_treatment'
         tax_treatment:
           $ref: '#/components/schemas/tax_treatment'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
         is_pre_gst:
           $ref: '#/components/schemas/is_pre_gst'
         pricebook_id:
@@ -35119,6 +34858,10 @@ components:
           $ref: '#/components/schemas/adjustment'
         adjustment_description:
           $ref: '#/components/schemas/adjustment_description'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
+        bank_account_id:
+          $ref: '#/components/schemas/bank_account_id'
         custom_fields:
           $ref: '#/components/schemas/custom_fields'
         tags:
@@ -35191,6 +34934,12 @@ components:
           $ref: '#/components/schemas/attachment_name'
         open_purchaseorders_count:
           $ref: '#/components/schemas/open_purchaseorders_count'
+        einvoice_status:
+          $ref: '#/components/schemas/einvoice_status'
+        is_peppol_supported:
+          $ref: '#/components/schemas/is_peppol_supported'
+        source:
+          $ref: '#/components/schemas/source'
     bill_payments:
       description: List of payments applied to the bill.
       type: array
@@ -35266,6 +35015,12 @@ components:
       description: 'Text description explaining the reason for bill adjustment. Examples: "Early payment discount", "Volume discount", "Rounding adjustment", "Handling fee". Helps in audit trails and reporting. Required when adjustment amount is non-zero. Used in financial reports, tax returns, and vendor communications. Should be clear and specific for compliance purposes.'
       type: string
       example: ' '
+    discount_code:
+      description: Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].
+      type: string
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     create-a-bill-request:
       required:
         - vendor_id
@@ -35284,6 +35039,8 @@ components:
           $ref: '#/components/schemas/purchaseorder_ids'
         bill_number:
           $ref: '#/components/schemas/bill_number'
+        entity_type:
+          $ref: '#/components/schemas/entity_type'
         documents:
           $ref: '#/components/schemas/documents'
         source_of_supply:
@@ -35298,8 +35055,14 @@ components:
           $ref: '#/components/schemas/gst_treatment'
         tax_treatment:
           $ref: '#/components/schemas/tax_treatment'
+        is_reverse_charge_applied:
+          $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
           $ref: '#/components/schemas/gst_no'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
         pricebook_id:
           $ref: '#/components/schemas/pricebook_id'
         reference_number:
@@ -35312,6 +35075,8 @@ components:
           $ref: '#/components/schemas/payment_terms'
         payment_terms_label:
           $ref: '#/components/schemas/payment_terms_label'
+        bank_account_id:
+          $ref: '#/components/schemas/bank_account_id'
         recurring_bill_id:
           $ref: '#/components/schemas/recurring_bill_id'
         exchange_rate:
@@ -35324,6 +35089,8 @@ components:
           $ref: '#/components/schemas/adjustment'
         adjustment_description:
           $ref: '#/components/schemas/adjustment_description'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
         location_id:
           $ref: '#/components/schemas/location_id'
         custom_fields:
@@ -35360,6 +35127,10 @@ components:
                 $ref: '#/components/schemas/rate'
               hsn_or_sac:
                 $ref: '#/components/schemas/hsn_or_sac'
+              unitkey_code:
+                $ref: '#/components/schemas/unitkey_code'
+              discount_code:
+                $ref: '#/components/schemas/discount_code'
               reverse_charge_tax_id:
                 $ref: '#/components/schemas/reverse_charge_tax_id'
               location_id:
@@ -35513,6 +35284,8 @@ components:
           $ref: '#/components/schemas/purchaseorder_ids'
         bill_number:
           $ref: '#/components/schemas/bill_number'
+        entity_type:
+          $ref: '#/components/schemas/entity_type'
         documents:
           $ref: '#/components/schemas/documents'
         source_of_supply:
@@ -35527,8 +35300,14 @@ components:
           $ref: '#/components/schemas/gst_treatment'
         tax_treatment:
           $ref: '#/components/schemas/tax_treatment'
+        is_reverse_charge_applied:
+          $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
           $ref: '#/components/schemas/gst_no'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
         pricebook_id:
           $ref: '#/components/schemas/pricebook_id'
         reference_number:
@@ -35541,6 +35320,8 @@ components:
           $ref: '#/components/schemas/payment_terms'
         payment_terms_label:
           $ref: '#/components/schemas/payment_terms_label'
+        bank_account_id:
+          $ref: '#/components/schemas/bank_account_id'
         recurring_bill_id:
           $ref: '#/components/schemas/recurring_bill_id'
         exchange_rate:
@@ -35553,16 +35334,10 @@ components:
           $ref: '#/components/schemas/adjustment'
         adjustment_description:
           $ref: '#/components/schemas/adjustment_description'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
         custom_fields:
-          type: array
-          description: List of custom fields for the bill.
-          items:
-            type: object
-            properties:
-              index:
-                $ref: '#/components/schemas/index'
-              value:
-                $ref: '#/components/schemas/value'
+          $ref: '#/components/schemas/custom_fields'
         tags:
           $ref: '#/components/schemas/tags'
         line_items:
@@ -35587,6 +35362,10 @@ components:
                 $ref: '#/components/schemas/rate'
               hsn_or_sac:
                 $ref: '#/components/schemas/hsn_or_sac'
+              unitkey_code:
+                $ref: '#/components/schemas/unitkey_code'
+              discount_code:
+                $ref: '#/components/schemas/discount_code'
               reverse_charge_tax_id:
                 $ref: '#/components/schemas/reverse_charge_tax_id'
               location_id:
@@ -35952,6 +35731,22 @@ components:
           type: string
           example: The comment has been deleted.
           readOnly: true
+    einvoice_status:
+      description: E-invoice status of the bill. Peppol-pulled bills use <code>einvoice_received</code>.
+      type: string
+      example: einvoice_received
+      readOnly: true
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
+    is_peppol_supported:
+      description: Indicates whether the vendor supports receiving bills over the e-invoicing network.
+      type: boolean
+      example: true
+      readOnly: true
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     category-response:
       type: object
       properties:
@@ -37316,7 +37111,7 @@ components:
       type: string
       example: 460000000026051
     contact_number:
-      description: Contact number associated with the contact for internal tracking and identification purposes. Max-length [200].
+      description: Contact number associated with the contact for internal tracking and identification purposes. Max-length [50].
       type: string
       example: CNT-001234
     ignore_auto_number_generation:
@@ -37402,11 +37197,12 @@ components:
         - mx
       x-node_unavailable_in: []
     legal_name:
-      description: Official legal name of the contact as registered with tax authorities in Mexico.
+      description: Legal name of the contact as registered with the tax authority.
       type: string
-      example: ESCUELA KEMPER URGATE
+      example: Zylker Trading LLC
       x-node_available_in:
         - mx
+        - uae
       x-node_unavailable_in: []
     is_tds_registered:
       description: Indicates whether the contact is registered for Tax Deducted at Source (TDS) in Mexico.
@@ -37423,16 +37219,6 @@ components:
         - uk
         - gcc
         - Avalara Integration
-      x-node_unavailable_in: []
-    tax_reg_no:
-      description: '<b>For GCC Edition:</b> 15 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>,<code>gcc_vat_registered</code>,<code>dz_vat_registered</code>.<br/><b>For Mexico Edition:</b> 12 digit Tax Registration number of a contact with Tax treatment as </br> <code>home_country_mexico</code>, <code>border_region_mexico</code>, <code>non_mexico</code>.</br> Consumers generic RFC: <code>XAXX010101000</code>, Overseas generic RFC: <code>XEXX010101000</code>.<br/><b>For Kenya Edition:</b> 11 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code><br/><b>For SouthAfrica Edition:</b> 10 digit Tax Registration number of a contact with Tax treatment as <code>vat_registered</code>'
-      type: string
-      example: 12345678912345
-      x-node_available_in:
-        - gcc
-        - mx
-        - ke
-        - za
       x-node_unavailable_in: []
     tax_exemption_certificate_number:
       description: Tax Exemption Certificate number is issued by the Kenya Revenue Authority (KRA) to organizations or individuals who qualify for tax exemption
@@ -37748,6 +37534,10 @@ components:
           $ref: '#/components/schemas/tax_regime'
         legal_name:
           $ref: '#/components/schemas/legal_name'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
+        place_of_supply:
+          $ref: '#/components/schemas/place_of_supply'
         is_tds_registered:
           $ref: '#/components/schemas/is_tds_registered'
         place_of_contact:
@@ -37959,6 +37749,10 @@ components:
           $ref: '#/components/schemas/tax_regime'
         legal_name:
           $ref: '#/components/schemas/legal_name'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
+        place_of_supply:
+          $ref: '#/components/schemas/place_of_supply'
         is_tds_registered:
           $ref: '#/components/schemas/is_tds_registered'
         vat_treatment:
@@ -39377,6 +39171,33 @@ components:
           type: string
           example: success
           readOnly: true
+        data:
+          type: object
+          description: E-invoice verification result.
+          x-node_available_in:
+            - uae
+          readOnly: true
+          properties:
+            code:
+              type: integer
+              description: E-invoice verification response code.
+              example: 6001
+              readOnly: true
+            message:
+              type: string
+              description: Human-readable message describing the e-invoice verification result.
+              example: This customer is registered on the PEPPOL network.
+              readOnly: true
+            status:
+              type: string
+              description: 'E-invoice registration status of the contact. Allowed values: <code>eligible</code>, <code>not_eligible</code>.'
+              example: eligible
+              readOnly: true
+            status_formatted:
+              type: string
+              description: Display-friendly e-invoice registration status.
+              example: Eligible
+              readOnly: true
     disable-contact-portal-response:
       type: object
       properties:
@@ -39826,18 +39647,18 @@ components:
       x-node_available_in:
         - mx
       x-node_unavailable_in: []
-    unitkey_code:
-      description: Add Unit Key Code for your goods/services. Download the <a href= http://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/catCFDI_V_4_07122022.xls  >CFDI Catalogs.</a>
-      type: string
-      example: box
-      x-node_available_in:
-        - mx
-      x-node_unavailable_in: []
     discount:
       description: Discount applied to the credit note, which can be either a percentage or a flat amount. For percentage discounts, the value should include the % symbol (e.g., 10%). For example, on Rs.1000, a 10% discount results in Rs.900, while a flat Rs.200 discount results in Rs.800.
       type: number
       format: double
       example: 10
+    reason_for_credit_debit_note:
+      description: 'Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].'
+      type: string
+      example: change_of_tax_treatment
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     is_draft:
       description: Set to true to create the credit note in draft status. Draft credit notes are not finalized and can be modified before sending to customers.
       type: boolean
@@ -40033,12 +39854,18 @@ components:
                 $ref: '#/components/schemas/tds_tax_id'
               tax_treatment_code:
                 $ref: '#/components/schemas/tax_treatment_code'
+              reverse_charge_tax_id:
+                $ref: '#/components/schemas/reverse_charge_tax_id'
               product_type:
                 $ref: '#/components/schemas/product_type'
+              hsn_or_sac:
+                $ref: '#/components/schemas/hsn_or_sac'
               sat_item_key_code:
                 $ref: '#/components/schemas/sat_item_key_code'
               unitkey_code:
                 $ref: '#/components/schemas/unitkey_code'
+              discount_code:
+                $ref: '#/components/schemas/discount_code'
               serial_numbers:
                 $ref: '#/components/schemas/serial_numbers'
               location_id:
@@ -40057,6 +39884,10 @@ components:
           $ref: '#/components/schemas/gst_treatment'
         tax_treatment:
           $ref: '#/components/schemas/tax_treatment'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
+        reason_for_credit_debit_note:
+          $ref: '#/components/schemas/reason_for_credit_debit_note'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
@@ -40121,6 +39952,8 @@ components:
           $ref: '#/components/schemas/is_inclusive_tax'
         avatax_tax_code:
           $ref: '#/components/schemas/avatax_tax_code'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
     create-a-credit-note-response:
       type: object
       properties:
@@ -40212,6 +40045,10 @@ components:
           $ref: '#/components/schemas/gst_treatment'
         tax_treatment:
           $ref: '#/components/schemas/tax_treatment'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
+        reason_for_credit_debit_note:
+          $ref: '#/components/schemas/reason_for_credit_debit_note'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
@@ -40272,6 +40109,8 @@ components:
           $ref: '#/components/schemas/rate'
         quantity:
           $ref: '#/components/schemas/quantity'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
     update-a-credit-note-response:
       type: object
       properties:
@@ -48030,6 +47869,14 @@ components:
           $ref: '#/components/schemas/tax_treatment'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
+        bank_account_id:
+          $ref: '#/components/schemas/bank_account_id'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
         gst_treatment:
           $ref: '#/components/schemas/gst_treatment'
         gst_no:
@@ -48142,6 +47989,10 @@ components:
                 $ref: '#/components/schemas/tax_percentage'
               tax_treatment_code:
                 $ref: '#/components/schemas/tax_treatment_code'
+              reverse_charge_tax_id:
+                $ref: '#/components/schemas/reverse_charge_tax_id'
+              discount_code:
+                $ref: '#/components/schemas/discount_code'
               salesorder_item_id:
                 $ref: '#/components/schemas/salesorder_item_id'
               line_item_category:
@@ -48689,6 +48540,14 @@ components:
           $ref: '#/components/schemas/tax_treatment'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
+        bank_account_id:
+          $ref: '#/components/schemas/bank_account_id'
+        discount_code:
+          $ref: '#/components/schemas/discount_code'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
+        tax_reg_no:
+          $ref: '#/components/schemas/tax_reg_no'
         gst_treatment:
           $ref: '#/components/schemas/gst_treatment'
         cfdi_usage:
@@ -48799,6 +48658,10 @@ components:
                 $ref: '#/components/schemas/tax_percentage'
               tax_treatment_code:
                 $ref: '#/components/schemas/tax_treatment_code'
+              reverse_charge_tax_id:
+                $ref: '#/components/schemas/reverse_charge_tax_id'
+              discount_code:
+                $ref: '#/components/schemas/discount_code'
               line_item_category:
                 $ref: '#/components/schemas/line_item_category'
         payment_options:
@@ -51067,6 +50930,22 @@ components:
       description: Unit price of the opening stock.
       type: string
       example: ' '
+    gtin:
+      description: Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].
+      type: string
+      example: '32423432'
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
+    item_code:
+      description: Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.
+      type: object
+      properties:
+        gtin:
+          $ref: '#/components/schemas/gtin'
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     item_tax_preferences:
       type: array
       description: Tax preferences for the item.
@@ -51163,6 +51042,8 @@ components:
           $ref: '#/components/schemas/sat_item_key_code'
         unitkey_code:
           $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         is_taxable:
           $ref: '#/components/schemas/is_taxable'
         tax_exemption_id:
@@ -51364,6 +51245,8 @@ components:
           $ref: '#/components/schemas/sat_item_key_code'
         unitkey_code:
           $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         sku:
           $ref: '#/components/schemas/sku'
         product_type:
@@ -51657,6 +51540,12 @@ components:
           $ref: '#/components/schemas/image_type'
         documents:
           $ref: '#/components/schemas/documents'
+        hsn_or_sac:
+          $ref: '#/components/schemas/hsn_or_sac'
+        unitkey_code:
+          $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         custom_fields:
           $ref: '#/components/schemas/custom_fields'
         item_variants:
@@ -51768,6 +51657,8 @@ components:
           $ref: '#/components/schemas/sat_item_key_code'
         unitkey_code:
           $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         brand:
           $ref: '#/components/schemas/brand'
         manufacturer:
@@ -51869,6 +51760,12 @@ components:
                 $ref: '#/components/schemas/vendor_id'
               custom_fields:
                 $ref: '#/components/schemas/custom_fields'
+        hsn_or_sac:
+          $ref: '#/components/schemas/hsn_or_sac'
+        unitkey_code:
+          $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         custom_fields:
           $ref: '#/components/schemas/custom_fields'
     update-an-item-master-request:
@@ -52008,6 +51905,10 @@ components:
           $ref: '#/components/schemas/manufacturer'
         hsn_or_sac:
           $ref: '#/components/schemas/hsn_or_sac'
+        unitkey_code:
+          $ref: '#/components/schemas/unitkey_code'
+        item_code:
+          $ref: '#/components/schemas/item_code'
         locations:
           type: array
           description: List of locations.
@@ -52221,10 +52122,6 @@ components:
       x-node_available_in:
         - au
       x-node_unavailable_in: []
-    entity_type:
-      description: Name of the Entity
-      type: string
-      example: journal
     journal:
       type: object
       properties:
@@ -54001,28 +53898,6 @@ components:
         message:
           type: string
           example: Price list has been deleted.
-          readOnly: true
-    bulk-fetch-pricebooks-response:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 0
-          readOnly: true
-        message:
-          type: string
-          example: success
-          readOnly: true
-    list-pricebook-items-response:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 0
-          readOnly: true
-        message:
-          type: string
-          example: success
           readOnly: true
     project-response:
       type: object
@@ -63235,6 +63110,926 @@ components:
         message:
           type: string
           example: Your Sales Receipt has been sent.
+          readOnly: true
+    create-a-self-billed-invoice-request:
+      type: object
+      required:
+        - bill_number
+        - vendor_id
+        - line_items
+        - entity_type
+      properties:
+        bill_number:
+          type: string
+          description: Unique bill number for the self-billed invoice. Max-length [50].
+          example: B-001982
+          maxLength: 50
+        vendor_id:
+          type: string
+          description: 'Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.'
+          example: '86067000000227074'
+        reference_number:
+          type: string
+          description: Reference number for the self-billed invoice.
+          example: REF-001
+        date:
+          type: string
+          description: 'Date of the self-billed invoice. Format: yyyy-mm-dd.'
+          format: date
+          example: '2026-09-23'
+        due_date:
+          type: string
+          description: 'Due date for payment. Format: yyyy-mm-dd.'
+          format: date
+          example: '2026-09-23'
+        terms:
+          type: string
+          description: Payment terms notes for the self-billed invoice. Max-length [10000].
+          example: Net 30
+          maxLength: 10000
+        adjustment:
+          type: number
+          description: Adjustment amount applied to the total.
+          example: 0
+        adjustment_description:
+          type: string
+          description: Description for the adjustment amount. Max-length [100].
+          example: Adjustment
+          maxLength: 100
+        is_draft:
+          type: boolean
+          description: Set to <code>true</code> to save the self-billed invoice as a draft.
+          example: false
+        pricebook_id:
+          type: string
+          description: 'Unique identifier of the price book to apply. Note: This value is a set of numeric characters.'
+          example: ''
+        is_item_level_tax_calc:
+          type: boolean
+          description: Set to <code>true</code> to calculate tax at the line-item level.
+          example: false
+        is_inclusive_tax:
+          type: boolean
+          description: Set to <code>true</code> if the line-item rates are inclusive of tax.
+          example: false
+        discount:
+          type: number
+          description: Entity-level discount applied to the subtotal.
+          example: 0
+        discount_code:
+          type: string
+          description: Discount reason code for the entity-level discount. Max-length [200].
+          example: special_agreement
+          x-node_available_in:
+            - uae
+        discount_account_id:
+          type: string
+          description: 'Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.'
+          example: '86067000000072001'
+        discount_type:
+          type: string
+          description: 'Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.'
+          example: entity_level
+        is_discount_before_tax:
+          type: boolean
+          description: Set to <code>true</code> to apply the discount before tax calculation.
+          example: true
+        payment_terms:
+          type: integer
+          description: Number of days within which payment is due.
+          example: 0
+        payment_terms_label:
+          type: string
+          description: Label for the payment terms (e.g., Net 30).
+          example: Due on Receipt
+        payment_mode:
+          type: string
+          description: 'Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.'
+          example: cash
+          x-node_available_in:
+            - uae
+        bank_account_id:
+          type: string
+          description: 'Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.'
+          example: '86067000000034003'
+          x-node_available_in:
+            - uae
+        account_id:
+          type: string
+          description: 'Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.'
+          example: '86067000000000373'
+        template_id:
+          type: string
+          description: 'Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.'
+          example: '86067000000093112'
+        entity_type:
+          type: string
+          example: self_billed_invoice
+          description: 'Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.'
+        tax_treatment:
+          type: string
+          example: vat_registered
+          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+          x-node_available_in:
+            - uae
+            - gcc
+        place_of_supply:
+          type: string
+          example: DU
+          description: Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.
+          x-node_available_in:
+            - uae
+        tax_reg_no:
+          type: string
+          example: '100200441040003'
+          description: Tax Registration Number (TRN) of the vendor.
+          x-node_available_in:
+            - uae
+        registration_details:
+          type: object
+          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+          x-node_available_in:
+            - uae
+          properties:
+            company_registration_no:
+              type: string
+              description: Company registration number (Commercial Registration number). Max-length [200].
+              example: '1002004410'
+            einvoice_identifier_label:
+              type: string
+              description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+              example: CRN
+            einvoice_identifier_value:
+              type: string
+              description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+              example: '234324'
+            additionalfield1:
+              type: string
+              description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+              example: Department of Economy and Tourism
+            legal_name:
+              type: string
+              description: Legal registered name of the vendor. Max-length [500].
+              example: Zylker Trading LLC
+            electronic_address_value:
+              type: string
+              description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+              example: '0088:1234567890123'
+        permit_number:
+          type: string
+          description: Customs or import permit number.
+          example: ''
+        billing_address_id:
+          type: string
+          description: 'Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.'
+          example: '86067000000227075'
+        recurring_bill_id:
+          type: string
+          description: 'Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.'
+          example: ''
+        tags:
+          type: array
+          description: List of tags to associate with the self-billed invoice.
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.'
+                example: '86067000000001400'
+              tag_option_id:
+                type: string
+                description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.'
+                example: '86067000000001401'
+        custom_fields:
+          type: array
+          description: List of custom fields for the self-billed invoice.
+          items:
+            type: object
+            properties:
+              custom_field_id:
+                type: string
+                description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.'
+                example: '86067000000072002'
+              value:
+                type: string
+                description: Value of the custom field.
+                example: Warehouse A
+        documents:
+          type: array
+          description: List of documents attached to the self-billed invoice.
+          items:
+            type: object
+            properties:
+              document_id:
+                type: string
+                description: 'Unique identifier of the attached document. Note: This value is a set of numeric characters.'
+                example: '86067000000080001'
+              file_name:
+                type: string
+                description: File name of the attached document.
+                example: vendor-invoice.pdf
+        line_items:
+          type: array
+          description: List of line items in the self-billed invoice.
+          items:
+            type: object
+            properties:
+              item_id:
+                type: string
+                description: 'Unique identifier of the item. Note: This value is a set of numeric characters.'
+                example: '86067000000120060'
+              name:
+                type: string
+                description: Name of the line item. Max-length [200].
+                example: Airpod stand
+                maxLength: 200
+              account_id:
+                type: string
+                description: 'Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.'
+                example: '86067000000034003'
+              description:
+                type: string
+                description: Description of the line item. Max-length [6000].
+                example: Airpod stand
+                maxLength: 6000
+              rate:
+                type: number
+                description: Unit price of the item.
+                example: 400
+              quantity:
+                type: number
+                description: Quantity of the item.
+                example: 1
+              discount:
+                type: number
+                description: Discount percentage or amount applied to the line item.
+                example: 0
+              tax_id:
+                type: string
+                description: 'Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.'
+                example: '86067000000093150'
+              reverse_charge_tax_id:
+                type: string
+                description: 'Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.'
+                example: ''
+              unit:
+                type: string
+                description: Unit of measurement for the item (e.g., kg, pcs).
+                example: ''
+              item_order:
+                type: integer
+                description: Display order of the line item.
+                example: 1
+              is_billable:
+                type: boolean
+                description: Set to <code>true</code> if the line item is billable to a customer.
+                example: false
+              customer_id:
+                type: string
+                description: 'Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.'
+                example: ''
+              project_id:
+                type: string
+                description: 'Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.'
+                example: ''
+              hsn_or_sac:
+                type: string
+                example: '1034'
+                description: HSN or SAC code for the line item.
+                x-node_available_in:
+                  - uae
+              unitkey_code:
+                type: string
+                example: H87
+                description: UN/CEFACT unit code for the line item. Max-length [10].
+                maxLength: 10
+                x-node_available_in:
+                  - uae
+              product_type:
+                type: string
+                example: goods
+                description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.'
+                x-node_available_in:
+                  - uae
+              tax_treatment_code:
+                type: string
+                description: Tax treatment reason code for the line item.
+                example: ''
+                x-node_available_in:
+                  - uae
+              tags:
+                type: array
+                description: List of tags for the line item.
+                items:
+                  type: object
+                  properties:
+                    tag_id:
+                      type: string
+                      description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.'
+                      example: '86067000000001400'
+                    tag_option_id:
+                      type: string
+                      description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.'
+                      example: '86067000000001401'
+              item_custom_fields:
+                type: array
+                description: List of custom fields for the line item.
+                items:
+                  type: object
+                  properties:
+                    custom_field_id:
+                      type: string
+                      description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.'
+                      example: '86067000000072003'
+                    value:
+                      type: string
+                      description: Value of the custom field.
+                      example: '2'
+    update-a-self-billed-invoice-request:
+      type: object
+      properties:
+        bill_number:
+          type: string
+          description: Unique bill number for the self-billed invoice. Max-length [50].
+          example: B-001982
+          maxLength: 50
+        vendor_id:
+          type: string
+          description: 'Unique identifier of the vendor (supplier on whose behalf the invoice is raised). Note: This value is a set of numeric characters.'
+          example: '86067000000227074'
+        reference_number:
+          type: string
+          description: Reference number for the self-billed invoice.
+          example: REF-001
+        date:
+          type: string
+          description: 'Date of the self-billed invoice. Format: yyyy-mm-dd.'
+          format: date
+          example: '2026-09-23'
+        due_date:
+          type: string
+          description: 'Due date for payment. Format: yyyy-mm-dd.'
+          format: date
+          example: '2026-09-23'
+        terms:
+          type: string
+          description: Payment terms notes for the self-billed invoice. Max-length [10000].
+          example: Net 30
+          maxLength: 10000
+        adjustment:
+          type: number
+          description: Adjustment amount applied to the total.
+          example: 0
+        adjustment_description:
+          type: string
+          description: Description for the adjustment amount. Max-length [100].
+          example: Adjustment
+          maxLength: 100
+        is_draft:
+          type: boolean
+          description: Set to <code>true</code> to save the self-billed invoice as a draft.
+          example: false
+        pricebook_id:
+          type: string
+          description: 'Unique identifier of the price book to apply. Note: This value is a set of numeric characters.'
+          example: ''
+        is_item_level_tax_calc:
+          type: boolean
+          description: Set to <code>true</code> to calculate tax at the line-item level.
+          example: false
+        is_inclusive_tax:
+          type: boolean
+          description: Set to <code>true</code> if the line-item rates are inclusive of tax.
+          example: false
+        discount:
+          type: number
+          description: Entity-level discount applied to the subtotal.
+          example: 0
+        discount_code:
+          type: string
+          description: Discount reason code for the entity-level discount. Max-length [200].
+          example: special_agreement
+          x-node_available_in:
+            - uae
+        discount_account_id:
+          type: string
+          description: 'Unique identifier of the account to post the discount amount. Note: This value is a set of numeric characters.'
+          example: '86067000000072001'
+        discount_type:
+          type: string
+          description: 'Level at which the discount is applied. Allowed values: <code>entity_level</code>, <code>item_level</code>.'
+          example: entity_level
+        is_discount_before_tax:
+          type: boolean
+          description: Set to <code>true</code> to apply the discount before tax calculation.
+          example: true
+        payment_terms:
+          type: integer
+          description: Number of days within which payment is due.
+          example: 0
+        payment_terms_label:
+          type: string
+          description: Label for the payment terms (e.g., Net 30).
+          example: Due on Receipt
+        payment_mode:
+          type: string
+          description: 'Mode of payment expected from the buyer. Allowed values: <code>cash</code>, <code>cheque</code>, <code>bank_transfer</code>, <code>sepa_credit_transfer</code>, <code>debit_transfer</code>, <code>card</code>, <code>not_specified</code>, <code>bankers_draft</code>, <code>credit_transfer</code>, <code>direct_debit</code>, <code>sepa_direct_debit</code>, <code>bank_cheque</code>, <code>credit_card</code>, <code>debit_card</code>, <code>online_payment_service</code>.'
+          example: cash
+          x-node_available_in:
+            - uae
+        bank_account_id:
+          type: string
+          description: 'Unique identifier of the bank account for the expected payment. Note: This value is a set of numeric characters.'
+          example: '86067000000034003'
+          x-node_available_in:
+            - uae
+        account_id:
+          type: string
+          description: 'Unique identifier of the expense account for the bill. Note: This value is a set of numeric characters.'
+          example: '86067000000000373'
+        template_id:
+          type: string
+          description: 'Unique identifier of the PDF template for the self-billed invoice. Note: This value is a set of numeric characters.'
+          example: '86067000000093112'
+        entity_type:
+          type: string
+          example: self_billed_invoice
+          description: 'Must be set to <code>self_billed_invoice</code>. Allowed values: <code>bill</code>, <code>self_billed_invoice</code>.'
+        tax_treatment:
+          type: string
+          example: vat_registered
+          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+          x-node_available_in:
+            - uae
+            - gcc
+        place_of_supply:
+          type: string
+          example: DU
+          description: Place where the goods or services are supplied. Use the supported state, emirate, or country code for the organization edition.
+          x-node_available_in:
+            - uae
+        tax_reg_no:
+          type: string
+          example: '100200441040003'
+          description: Tax Registration Number (TRN) of the vendor.
+          x-node_available_in:
+            - uae
+        registration_details:
+          type: object
+          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+          x-node_available_in:
+            - uae
+          properties:
+            company_registration_no:
+              type: string
+              description: Company registration number (Commercial Registration number). Max-length [200].
+              example: '1002004410'
+            einvoice_identifier_label:
+              type: string
+              description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+              example: CRN
+            einvoice_identifier_value:
+              type: string
+              description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+              example: '234324'
+            additionalfield1:
+              type: string
+              description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+              example: Department of Economy and Tourism
+            legal_name:
+              type: string
+              description: Legal registered name of the vendor. Max-length [500].
+              example: Zylker Trading LLC
+            electronic_address_value:
+              type: string
+              description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+              example: '0088:1234567890123'
+        permit_number:
+          type: string
+          description: Customs or import permit number.
+          example: ''
+        billing_address_id:
+          type: string
+          description: 'Unique identifier of the billing address for the vendor. Note: This value is a set of numeric characters.'
+          example: '86067000000227075'
+        recurring_bill_id:
+          type: string
+          description: 'Unique identifier of the recurring bill profile linked to this invoice. Note: This value is a set of numeric characters.'
+          example: ''
+        tags:
+          type: array
+          description: List of tags to associate with the self-billed invoice.
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.'
+                example: '86067000000001400'
+              tag_option_id:
+                type: string
+                description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.'
+                example: '86067000000001401'
+        custom_fields:
+          type: array
+          description: List of custom fields for the self-billed invoice.
+          items:
+            type: object
+            properties:
+              custom_field_id:
+                type: string
+                description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.'
+                example: '86067000000072002'
+              value:
+                type: string
+                description: Value of the custom field.
+                example: Warehouse A
+        documents:
+          type: array
+          description: List of documents attached to the self-billed invoice.
+          items:
+            type: object
+            properties:
+              document_id:
+                type: string
+                description: 'Unique identifier of the attached document. Note: This value is a set of numeric characters.'
+                example: '86067000000080001'
+              file_name:
+                type: string
+                description: File name of the attached document.
+                example: vendor-invoice.pdf
+        line_items:
+          type: array
+          description: List of line items in the self-billed invoice.
+          items:
+            type: object
+            properties:
+              item_id:
+                type: string
+                description: 'Unique identifier of the item. Note: This value is a set of numeric characters.'
+                example: '86067000000120060'
+              name:
+                type: string
+                description: Name of the line item. Max-length [200].
+                example: Airpod stand
+                maxLength: 200
+              account_id:
+                type: string
+                description: 'Unique identifier of the expense account for the line item. Note: This value is a set of numeric characters.'
+                example: '86067000000034003'
+              description:
+                type: string
+                description: Description of the line item. Max-length [6000].
+                example: Airpod stand
+                maxLength: 6000
+              rate:
+                type: number
+                description: Unit price of the item.
+                example: 400
+              quantity:
+                type: number
+                description: Quantity of the item.
+                example: 1
+              discount:
+                type: number
+                description: Discount percentage or amount applied to the line item.
+                example: 0
+              tax_id:
+                type: string
+                description: 'Unique identifier of the tax applied to the line item. Note: This value is a set of numeric characters.'
+                example: '86067000000093150'
+              reverse_charge_tax_id:
+                type: string
+                description: 'Unique identifier of the reverse charge tax for the line item. Note: This value is a set of numeric characters.'
+                example: ''
+              unit:
+                type: string
+                description: Unit of measurement for the item (e.g., kg, pcs).
+                example: ''
+              item_order:
+                type: integer
+                description: Display order of the line item.
+                example: 1
+              is_billable:
+                type: boolean
+                description: Set to <code>true</code> if the line item is billable to a customer.
+                example: false
+              customer_id:
+                type: string
+                description: 'Unique identifier of the customer to bill, if the line item is billable. Note: This value is a set of numeric characters.'
+                example: ''
+              project_id:
+                type: string
+                description: 'Unique identifier of the project associated with the line item. Note: This value is a set of numeric characters.'
+                example: ''
+              hsn_or_sac:
+                type: string
+                example: '1034'
+                description: HSN or SAC code for the line item.
+                x-node_available_in:
+                  - uae
+              unitkey_code:
+                type: string
+                example: H87
+                description: UN/CEFACT unit code for the line item. Max-length [10].
+                maxLength: 10
+                x-node_available_in:
+                  - uae
+              product_type:
+                type: string
+                example: goods
+                description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.'
+                x-node_available_in:
+                  - uae
+              tax_treatment_code:
+                type: string
+                description: Tax treatment reason code for the line item.
+                example: ''
+                x-node_available_in:
+                  - uae
+              tags:
+                type: array
+                description: List of tags for the line item.
+                items:
+                  type: object
+                  properties:
+                    tag_id:
+                      type: string
+                      description: 'Unique identifier of the reporting tag. Note: This value is a set of numeric characters.'
+                      example: '86067000000001400'
+                    tag_option_id:
+                      type: string
+                      description: 'Unique identifier of the selected tag option. Note: This value is a set of numeric characters.'
+                      example: '86067000000001401'
+              item_custom_fields:
+                type: array
+                description: List of custom fields for the line item.
+                items:
+                  type: object
+                  properties:
+                    custom_field_id:
+                      type: string
+                      description: 'Unique identifier of the custom field. Note: This value is a set of numeric characters.'
+                      example: '86067000000072003'
+                    value:
+                      type: string
+                      description: Value of the custom field.
+                      example: '2'
+    create-a-self-billed-invoice-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The self-billed invoice has been created.
+          readOnly: true
+        bill:
+          type: object
+          properties:
+            bill_id:
+              type: string
+              example: '982000000567301'
+              readOnly: true
+            bill_number:
+              type: string
+              example: B-001982
+            vendor_id:
+              type: string
+              example: '86067000000227074'
+            vendor_name:
+              type: string
+              example: Zylker Trading LLC
+              readOnly: true
+            date:
+              type: string
+              example: '2026-09-23'
+            due_date:
+              type: string
+              example: '2026-09-23'
+            status:
+              type: string
+              example: draft
+              readOnly: true
+            entity_type:
+              type: string
+              example: self_billed_invoice
+            total:
+              type: number
+              example: 420
+              readOnly: true
+            balance:
+              type: number
+              example: 420
+              readOnly: true
+    get-a-self-billed-invoice-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+        bill:
+          type: object
+          properties:
+            bill_id:
+              type: string
+              example: '982000000567301'
+              readOnly: true
+            bill_number:
+              type: string
+              example: B-001982
+            vendor_id:
+              type: string
+              example: '86067000000227074'
+            vendor_name:
+              type: string
+              example: Zylker Trading LLC
+              readOnly: true
+            date:
+              type: string
+              example: '2026-09-23'
+            due_date:
+              type: string
+              example: '2026-09-23'
+            status:
+              type: string
+              example: open
+              readOnly: true
+            entity_type:
+              type: string
+              example: self_billed_invoice
+            total:
+              type: number
+              example: 420
+              readOnly: true
+            balance:
+              type: number
+              example: 420
+              readOnly: true
+            einvoice_status:
+              type: string
+              example: pushed
+              readOnly: true
+              x-node_available_in:
+                - uae
+            is_peppol_supported:
+              type: boolean
+              example: true
+              readOnly: true
+              x-node_available_in:
+                - uae
+            source:
+              type: string
+              description: Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.
+              example: e-invoice
+              readOnly: true
+              x-node_available_in:
+                - uae
+    update-a-self-billed-invoice-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The self-billed invoice has been updated.
+          readOnly: true
+        bill:
+          type: object
+          properties:
+            bill_id:
+              type: string
+              example: '982000000567301'
+              readOnly: true
+            bill_number:
+              type: string
+              example: B-001982
+            vendor_id:
+              type: string
+              example: '86067000000227074'
+            vendor_name:
+              type: string
+              example: Zylker Trading LLC
+              readOnly: true
+            date:
+              type: string
+              example: '2026-09-23'
+            due_date:
+              type: string
+              example: '2026-09-23'
+            status:
+              type: string
+              example: draft
+              readOnly: true
+            entity_type:
+              type: string
+              example: self_billed_invoice
+            total:
+              type: number
+              example: 420
+              readOnly: true
+            balance:
+              type: number
+              example: 420
+              readOnly: true
+    list-self-billed-invoices-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+        bills:
+          type: array
+          items:
+            type: object
+            properties:
+              bill_id:
+                type: string
+                example: '982000000567301'
+              bill_number:
+                type: string
+                example: B-001982
+              vendor_name:
+                type: string
+                example: Zylker Trading LLC
+              date:
+                type: string
+                example: '2026-09-23'
+              due_date:
+                type: string
+                example: '2026-09-23'
+              status:
+                type: string
+                example: draft
+              entity_type:
+                type: string
+                example: self_billed_invoice
+              total:
+                type: number
+                example: 420
+              balance:
+                type: number
+                example: 420
+        page_context:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            per_page:
+              type: integer
+              example: 25
+            has_more_page:
+              type: boolean
+              example: false
+            report_name:
+              type: string
+              example: Bills
+            applied_filter:
+              type: string
+              example: Status.All
+            sort_column:
+              type: string
+              example: date
+            sort_order:
+              type: string
+              example: D
+    delete-a-self-billed-invoice-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The self-billed invoice has been deleted.
+          readOnly: true
+    push-self-billed-invoice-einvoice-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The e-invoice has been pushed.
           readOnly: true
     recurring_task_id:
       description: ID of the recurring task.
