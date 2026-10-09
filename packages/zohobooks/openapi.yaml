@@ -527,6 +527,7 @@ paths:
       tags:
         - bankaccounts
       operationId: save_bank_reconciliation_draft
+      x-mcp-operation-type: write
       summary: Save a bank reconciliation as draft
       description: Save the progress of a bank reconciliation as a draft.
       requestBody:
@@ -2766,6 +2767,7 @@ paths:
       tags:
         - bills
       operationId: approve_bill
+      x-mcp-operation-type: write
       summary: Approve a bill
       description: Approve a bill.
       responses:
@@ -3096,6 +3098,7 @@ paths:
       tags:
         - bills
       operationId: convert_purchase_order_to_bill
+      x-mcp-operation-type: write
       summary: Convert PO to Bill
       description: Create a bill for the selected purchase orders. Use this api to fetch the Bill payload by passing the purchaseorder_ids in the query parameters and then use the create bill api and pass the payload to create a bill <br> <a href=/books/api/v3/bills/#create-a-bill>Create bill API Endpoint</a>.
       parameters:
@@ -4716,6 +4719,7 @@ paths:
       tags:
         - contacts
       operationId: enable_contact_portal
+      x-mcp-operation-type: write
       summary: Enable Portal Access
       description: Enable portal access for a contact.
       requestBody:
@@ -4750,6 +4754,7 @@ paths:
       tags:
         - contacts
       operationId: enable_contact_payment_reminder
+      x-mcp-operation-type: write
       summary: Enable Payment Reminders
       description: Enable automated payment reminders for a contact.
       responses:
@@ -4779,6 +4784,7 @@ paths:
       tags:
         - contacts
       operationId: disable_contact_payment_reminder
+      x-mcp-operation-type: write
       summary: Disable Payment Reminders
       description: Disable automated payment reminders for a contact.
       responses:
@@ -5390,6 +5396,7 @@ paths:
       tags:
         - contacts
       operationId: approve_contact_bank_account
+      x-mcp-operation-type: write
       summary: Approve a contact bank account
       description: Approve a bank account added for a contact.
       responses:
@@ -5767,6 +5774,7 @@ paths:
       tags:
         - contacts
       operationId: enable_contact_person_sms
+      x-mcp-operation-type: write
       summary: Enable SMS for a contact person
       description: Enable SMS notifications for a contact person.
       responses:
@@ -5796,6 +5804,7 @@ paths:
       tags:
         - contacts
       operationId: disable_contact_person_sms
+      x-mcp-operation-type: write
       summary: Disable SMS for a contact person
       description: Disable SMS notifications for a contact person.
       responses:
@@ -6291,6 +6300,7 @@ paths:
       tags:
         - contacts
       operationId: merge_contact
+      x-mcp-operation-type: write
       summary: Merge contacts
       description: Merge a duplicate contact into another contact.
       responses:
@@ -6349,6 +6359,7 @@ paths:
       tags:
         - contacts
       operationId: disable_contact_portal
+      x-mcp-operation-type: write
       summary: Disable the contact portal
       description: Disable client portal access for a contact.
       responses:
@@ -6695,6 +6706,7 @@ paths:
       tags:
         - contacts
       operationId: update_contact_trn_status
+      x-mcp-operation-type: write
       summary: Update contact TRN status
       description: Update the tax registration number (TRN) verification status of a contact.
       responses:
@@ -7447,6 +7459,7 @@ paths:
       tags:
         - credit-notes
       operationId: approve_credit_note
+      x-mcp-operation-type: write
       summary: Approve a credit note.
       description: Approve a credit note.
       responses:
@@ -8002,6 +8015,7 @@ paths:
       tags:
         - creditnotes
       operationId: approve_credit_notes
+      x-mcp-operation-type: write
       summary: Approve credit notes
       description: Approve multiple credit notes in a single request. Use this to approve credit notes that are pending approval in bulk.
       parameters:
@@ -8091,6 +8105,7 @@ paths:
       tags:
         - creditnotes
       operationId: reject_credit_note
+      x-mcp-operation-type: write
       summary: Reject a credit note
       description: Reject a credit note that is pending approval. Optionally provide a reason for the rejection.
       parameters:
@@ -8341,6 +8356,7 @@ paths:
       tags:
         - creditnotes
       operationId: update_credit_note_custom_fields
+      x-mcp-operation-type: write
       summary: Update credit note custom fields
       description: Update the values of the custom fields associated with a credit note.
       requestBody:
@@ -8597,6 +8613,7 @@ paths:
       tags:
         - creditnotes
       operationId: cancel_credit_notes_einvoice
+      x-mcp-operation-type: write
       summary: Cancel credit note e-invoices
       description: Cancel the e-invoices of multiple credit notes on the Invoice Registration Portal (IRP).
       responses:
@@ -8677,6 +8694,7 @@ paths:
       tags:
         - creditnotes
       operationId: cancel_credit_note_einvoice
+      x-mcp-operation-type: write
       summary: Cancel a credit note e-invoice
       description: Cancel the e-invoice of a credit note on the Invoice Registration Portal (IRP).
       responses:
@@ -8706,6 +8724,7 @@ paths:
       tags:
         - creditnotes
       operationId: fetch_credit_note_einvoice
+      x-mcp-operation-type: read
       summary: Fetch a credit note e-invoice
       description: Fetch the latest e-invoice status of a credit note from the Invoice Registration Portal (IRP).
       responses:
@@ -8914,6 +8933,7 @@ paths:
       tags:
         - creditnotes
       operationId: update_credit_note_cfdi_status
+      x-mcp-operation-type: write
       summary: Update a credit note CFDI status
       description: Update the CFDI (Comprobante Fiscal Digital por Internet) status of a credit note for the Mexico edition.
       responses:
@@ -8943,6 +8963,7 @@ paths:
       tags:
         - creditnotes
       operationId: cancel_einvoice_credit_note
+      x-mcp-operation-type: write
       summary: Cancel an e-invoice credit note
       description: Cancel the e-invoice generated for a credit note on the Invoice Registration Portal (IRP).
       responses:
@@ -10969,6 +10990,7 @@ paths:
       tags:
         - delivery-challans
       operationId: delete_delivery_challan_attachment
+      x-mcp-operation-type: delete
       summary: Delete a delivery challan attachment
       description: Delete an attachment.
       parameters:
@@ -11635,6 +11657,7 @@ paths:
       tags:
         - estimates
       operationId: approve_estimate
+      x-mcp-operation-type: write
       summary: Approve an estimate.
       description: Approve an estimate.
       responses:
@@ -13551,6 +13574,7 @@ paths:
       tags:
         - invoices
       operationId: map_invoice_with_salesorder
+      x-mcp-operation-type: write
       summary: Associate invoices with sales order
       description: Associate one or more existing invoices with a sales orders.
       parameters:
@@ -13609,6 +13633,7 @@ paths:
       tags:
         - invoices
       operationId: approve_invoice
+      x-mcp-operation-type: write
       summary: Approve an invoice.
       description: Approve an invoice.
       responses:
@@ -13877,6 +13902,7 @@ paths:
       tags:
         - invoices
       operationId: disable_invoice_payment_reminder
+      x-mcp-operation-type: write
       summary: Disable payment reminder
       description: Disable automated payment reminders for an invoice.
       responses:
@@ -13906,6 +13932,7 @@ paths:
       tags:
         - invoices
       operationId: enable_invoice_payment_reminder
+      x-mcp-operation-type: write
       summary: Enable payment reminder
       description: Enable automated payment reminders for an invoice.
       responses:
@@ -13964,6 +13991,7 @@ paths:
       tags:
         - invoices
       operationId: cancel_write_off_invoice
+      x-mcp-operation-type: write
       summary: Cancel write off
       description: Cancel the write off amount of an invoice.
       responses:
@@ -14672,6 +14700,7 @@ paths:
       tags:
         - invoices
       operationId: generate_invoice_payment_link
+      x-mcp-operation-type: write
       summary: Generate payment link
       description: This API generates a payment link for the invoice with an expiry date.
       parameters:
@@ -14703,6 +14732,7 @@ paths:
       tags:
         - invoices
       operationId: approve_invoices
+      x-mcp-operation-type: write
       summary: Approve invoices
       description: Approve multiple invoices in a single request. Use this to approve invoices that are pending approval in bulk.
       parameters:
@@ -14945,6 +14975,7 @@ paths:
       tags:
         - invoices
       operationId: reject_invoice
+      x-mcp-operation-type: write
       summary: Reject an invoice
       description: Reject an invoice that is pending approval. Optionally provide a reason for the rejection.
       parameters:
@@ -15738,6 +15769,7 @@ paths:
       tags:
         - invoices
       operationId: update_invoice_cfdi_status
+      x-mcp-operation-type: write
       summary: Update an invoice CFDI status
       description: Update the CFDI (Comprobante Fiscal Digital por Internet) status of an invoice for the Mexico edition.
       responses:
@@ -15767,6 +15799,7 @@ paths:
       tags:
         - invoices
       operationId: cancel_invoice
+      x-mcp-operation-type: write
       summary: Cancel an invoice
       description: Change the status of an invoice to cancelled.
       responses:
@@ -16304,6 +16337,7 @@ paths:
       tags:
         - invoices
       operationId: cancel_invoices_einvoice
+      x-mcp-operation-type: write
       summary: Cancel invoice e-invoices
       description: Cancel the e-invoices of multiple invoices on the Invoice Registration Portal (IRP).
       responses:
@@ -16384,6 +16418,7 @@ paths:
       tags:
         - invoices
       operationId: cancel_invoice_einvoice
+      x-mcp-operation-type: write
       summary: Cancel an invoice e-invoice
       description: Cancel the e-invoice of an invoice on the Invoice Registration Portal (IRP).
       responses:
@@ -16413,6 +16448,7 @@ paths:
       tags:
         - invoices
       operationId: fetch_invoice_einvoice
+      x-mcp-operation-type: read
       summary: Fetch an invoice e-invoice
       description: Fetch the latest e-invoice status of an invoice from the Invoice Registration Portal (IRP).
       responses:
@@ -16592,6 +16628,7 @@ paths:
       tags:
         - invoices
       operationId: cancel_einvoice_invoice
+      x-mcp-operation-type: write
       summary: Cancel an e-invoice invoice
       description: Cancel the e-invoice generated for an invoice on the Invoice Registration Portal (IRP).
       responses:
@@ -18619,6 +18656,7 @@ paths:
       tags:
         - journals
       operationId: approve_journal
+      x-mcp-operation-type: write
       summary: Approve a journal
       description: Approves a journal.
       responses:
@@ -18648,6 +18686,7 @@ paths:
       tags:
         - journals
       operationId: reject_journal
+      x-mcp-operation-type: write
       summary: Reject a journal
       description: Rejects a journal.
       parameters:
@@ -18896,6 +18935,7 @@ paths:
       tags:
         - journals
       operationId: bulk_approve_journals
+      x-mcp-operation-type: write
       summary: Bulk approve journals
       description: Approves multiple journals.
       parameters:
@@ -18925,6 +18965,7 @@ paths:
       tags:
         - journals
       operationId: bulk_publish_journals
+      x-mcp-operation-type: write
       summary: Bulk publish journals
       description: Publishes multiple draft journals.
       parameters:
@@ -19243,6 +19284,7 @@ paths:
       tags:
         - locations
       operationId: enable_locations
+      x-mcp-operation-type: write
       summary: Enable Locations
       description: Enable Locations for an organisation.
       responses:
@@ -19597,6 +19639,7 @@ paths:
       tags:
         - opening-balance
       operationId: writeoff_opening_balance
+      x-mcp-operation-type: write
       summary: Write off an opening balance
       description: Writes off an opening balance entry.
       parameters:
@@ -19640,6 +19683,7 @@ paths:
       tags:
         - opening-balance
       operationId: cancel_writeoff_opening_balance
+      x-mcp-operation-type: write
       summary: Cancel a write-off
       description: Cancels a previously written-off opening balance.
       responses:
@@ -21499,6 +21543,7 @@ paths:
       tags:
         - purchase-order
       operationId: approve_purchase_order
+      x-mcp-operation-type: write
       summary: Approve a purchase order
       description: Approve a purchase order.
       responses:
@@ -21942,6 +21987,7 @@ paths:
       tags:
         - purchase-order
       operationId: reject_purchase_orders
+      x-mcp-operation-type: write
       summary: Reject Purchase Order
       description: Reject a purchase order.
       parameters:
@@ -24278,6 +24324,7 @@ paths:
       tags:
         - recurringinvoices
       operationId: enable_recurring_invoice_autobill
+      x-mcp-operation-type: write
       summary: Enable auto-bill for a recurring invoice
       description: Enable auto-bill for a recurring invoice so that generated invoices are charged automatically to the associated card or bank account.
       responses:
@@ -24307,6 +24354,7 @@ paths:
       tags:
         - recurringinvoices
       operationId: disable_recurring_invoice_autobill
+      x-mcp-operation-type: write
       summary: Disable auto-bill for a recurring invoice
       description: Disable auto-bill for a recurring invoice so that generated invoices are no longer charged automatically.
       responses:
@@ -24885,6 +24933,7 @@ paths:
       tags:
         - registers
       operationId: bulk_delete_register_transactions
+      x-mcp-operation-type: delete
       summary: Bulk delete register transactions
       description: Bulk delete selected transactions on the account register.
       requestBody:
@@ -24966,6 +25015,7 @@ paths:
       tags:
         - reporting-tags
       operationId: mark_default_option
+      x-mcp-operation-type: write
       summary: Mark an option as default for a reporting tag
       description: Mark an option as the default option or clear default option for a reporting tag.
       parameters:
@@ -25095,6 +25145,7 @@ paths:
       tags:
         - reporting-tags
       operationId: active_tag
+      x-mcp-operation-type: write
       summary: Mark Reporting Tag as active
       description: Mark a reporting tag as active so that you can use it on entities which you allowed.  A newly created tag will be in draft state. Use this to mark that tag as ready.
       responses:
@@ -25122,6 +25173,7 @@ paths:
       tags:
         - reporting-tags
       operationId: inactive_tag
+      x-mcp-operation-type: write
       summary: Mark Reporting Tag as inactive
       description: Mark a reporting tag as inactive.
       responses:
@@ -25149,6 +25201,7 @@ paths:
       tags:
         - reporting-tags
       operationId: active_tag_option
+      x-mcp-operation-type: write
       summary: Mark an option as active
       description: Mark a reporting tag's option as active.
       responses:
@@ -25177,6 +25230,7 @@ paths:
       tags:
         - reporting-tags
       operationId: inactive_tag_option
+      x-mcp-operation-type: write
       summary: Mark an option as inactive
       description: Mark a reporting tag's option as inactive.
       responses:
@@ -25625,6 +25679,7 @@ paths:
       tags:
         - retainer-invoices
       operationId: approve_retainer_invoice
+      x-mcp-operation-type: write
       summary: Approve a retainer invoice.
       description: Approve a retainer invoice.
       responses:
@@ -26711,6 +26766,7 @@ paths:
       tags:
         - sales-order
       operationId: update_sales_order_sub_status
+      x-mcp-operation-type: write
       summary: Update a sales order sub status
       description: Update a sales order sub status.
       responses:
@@ -26874,6 +26930,7 @@ paths:
       tags:
         - sales-order
       operationId: approve_sales_order
+      x-mcp-operation-type: write
       summary: Approve a sales order.
       description: Approve a sales order.
       responses:
@@ -27951,6 +28008,7 @@ paths:
       tags:
         - tasks
       operationId: update_percentage_task
+      x-mcp-operation-type: write
       summary: Update completed percentage
       description: Update completed percentage of a task.
       requestBody:
@@ -29866,6 +29924,7 @@ paths:
       tags:
         - vendor-credits
       operationId: approve_vendor_credit
+      x-mcp-operation-type: write
       summary: Approve a Vendor credit
       description: Approve a Vendor credit.
       responses:
@@ -34278,33 +34337,39 @@ components:
         - gcc
       x-node_unavailable_in: []
     registration_details:
-      description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+      description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
       type: object
       properties:
         company_registration_no:
-          description: Company registration number (Commercial Registration number). Max-length [200].
+          description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.'
           type: string
           example: '1002004410'
+          maxLength: 200
         einvoice_identifier_label:
-          description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+          description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.'
           type: string
-          example: CRN
+          example: EID
+          maxLength: 200
         einvoice_identifier_value:
-          description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+          description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.'
           type: string
           example: '234324'
+          maxLength: 200
         additionalfield1:
-          description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+          description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.'
           type: string
           example: Department of Economy and Tourism
+          maxLength: 200
         legal_name:
-          description: Legal registered name of the vendor. Max-length [500].
+          description: Legal registered name of the vendor.
           type: string
           example: Zylker Trading LLC
+          maxLength: 500
         electronic_address_value:
-          description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+          description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.'
           type: string
           example: '0088:1234567890123'
+          maxLength: 200
       x-node_available_in:
         - uae
       x-node_unavailable_in: []
@@ -34319,7 +34384,7 @@ components:
         - uae
       x-node_unavailable_in: []
     unitkey_code:
-      description: Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].
+      description: 'Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Maximum length: 10 characters.'
       type: string
       example: H87
       maxLength: 10
@@ -34425,11 +34490,12 @@ components:
         - mx
       x-node_unavailable_in: []
     tax_treatment_code:
-      description: Specify reason for using out of scope.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code> and <code>uae_others</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.
+      description: Specify a reason for using the out of scope VAT treatment.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code>, <code>uae_others</code>, <code>uae_financial_services</code>, <code>uae_residential_units</code>, <code>uae_bare_land</code>, <code>uae_local_transportation</code>, <code>uae_financial_services_exempt</code>, <code>uae_residential_units_exempt</code>, <code>uae_bare_land_exempt</code>, and <code>uae_local_transportation_exempt</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.
       type: string
       example: uae_others
       x-node_available_in:
         - gcc
+        - uae
       x-node_unavailable_in: []
     terms:
       description: Terms and conditions that apply to the bill transaction. Includes payment terms, delivery conditions, warranty information, or other contractual obligations. Displayed on bill documents and vendor communications. Important for legal compliance and vendor relationship management.
@@ -34455,7 +34521,7 @@ components:
       type: string
       example: Due on Receipt
     bank_account_id:
-      description: 'Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.'
+      description: 'Unique identifier of the bank account for expected payment. Used for UAE E-Invoicing. Note: This value is a set of numeric characters.'
       type: string
       x-node_available_in:
         - uae
@@ -35016,8 +35082,9 @@ components:
       type: string
       example: ' '
     discount_code:
-      description: Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].
+      description: 'Discount reason code for the entity-level discount. Used for UAE E-Invoicing. Maximum length: 200 characters.'
       type: string
+      maxLength: 200
       x-node_available_in:
         - uae
       x-node_unavailable_in: []
@@ -35264,6 +35331,12 @@ components:
                 $ref: '#/components/schemas/is_tds_applied'
               is_abn_quoted:
                 $ref: '#/components/schemas/is_abn_quoted'
+              einvoice_status:
+                $ref: '#/components/schemas/einvoice_status'
+              is_peppol_supported:
+                $ref: '#/components/schemas/is_peppol_supported'
+              source:
+                $ref: '#/components/schemas/source'
         page_context:
           $ref: '#/components/schemas/page_context'
     update-a-bill-request:
@@ -35740,7 +35813,7 @@ components:
         - uae
       x-node_unavailable_in: []
     is_peppol_supported:
-      description: Indicates whether the vendor supports receiving bills over the e-invoicing network.
+      description: Indicates whether the vendor supports receiving bills over the E-Invoicing network.
       type: boolean
       example: true
       readOnly: true
@@ -39653,7 +39726,7 @@ components:
       format: double
       example: 10
     reason_for_credit_debit_note:
-      description: 'Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].'
+      description: 'Reason for issuing the credit note. For UAE Edition, this field is required. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].'
       type: string
       example: change_of_tax_treatment
       x-node_available_in:
@@ -39806,6 +39879,7 @@ components:
         - date
         - creditnote_number
         - line_items
+        - reason_for_credit_debit_note
       type: object
       properties:
         customer_id:
@@ -39888,6 +39962,8 @@ components:
           $ref: '#/components/schemas/tax_reg_no'
         reason_for_credit_debit_note:
           $ref: '#/components/schemas/reason_for_credit_debit_note'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
@@ -40021,6 +40097,7 @@ components:
         - date
         - creditnote_number
         - line_items
+        - reason_for_credit_debit_note
       type: object
       properties:
         customer_id:
@@ -40049,6 +40126,8 @@ components:
           $ref: '#/components/schemas/tax_reg_no'
         reason_for_credit_debit_note:
           $ref: '#/components/schemas/reason_for_credit_debit_note'
+        registration_details:
+          $ref: '#/components/schemas/registration_details'
         is_reverse_charge_applied:
           $ref: '#/components/schemas/is_reverse_charge_applied'
         gst_no:
@@ -40588,7 +40667,7 @@ components:
                   properties:
                     selected:
                       type: boolean
-                      example: fasle
+                      example: false
                     name:
                       description: Name of the credit
                       type: string
@@ -40607,7 +40686,7 @@ components:
                       example: Will
                     selected:
                       type: boolean
-                      example: fasle
+                      example: false
                     phone:
                       type: string
                       example: +1-925-921-9201
@@ -40640,7 +40719,7 @@ components:
                       example: John Smith
                     selected:
                       type: boolean
-                      example: fasle
+                      example: false
                     email:
                       description: Email address of the customer.
                       type: string
@@ -50931,18 +51010,29 @@ components:
       type: string
       example: ' '
     gtin:
-      description: Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].
+      description: 'Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Maximum length: 100 characters.'
       type: string
+      maxLength: 100
       example: '32423432'
       x-node_available_in:
         - uae
       x-node_unavailable_in: []
+    nature_code:
+      description: 'Nature code for UAE E-Invoicing item classification. For UAE Edition, send this inside <code>item_code</code> on create and update. Allowed values include <code>DL8.48.8.2</code> (Electronic Devices), <code>DL8.48.8.1</code> (Gold and Diamonds), <code>DL8.48.3.1</code> (Crude or refined oil), <code>DL8.48.3.2</code> (Unprocessed or processed natural gas), and <code>DL8.48.3.3</code> (Pure hydrocarbons). Maximum length: 100 characters.'
+      type: string
+      example: DL8.48.8.2
+      maxLength: 100
+      x-node_available_in:
+        - uae
+      x-node_unavailable_in: []
     item_code:
-      description: Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.
+      description: Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code> and nature code under <code>nature_code</code>.
       type: object
       properties:
         gtin:
           $ref: '#/components/schemas/gtin'
+        nature_code:
+          $ref: '#/components/schemas/nature_code'
       x-node_available_in:
         - uae
       x-node_unavailable_in: []
@@ -63121,7 +63211,7 @@ components:
       properties:
         bill_number:
           type: string
-          description: Unique bill number for the self-billed invoice. Max-length [50].
+          description: 'Unique bill number for the self-billed invoice. Maximum length: 50 characters.'
           example: B-001982
           maxLength: 50
         vendor_id:
@@ -63144,7 +63234,7 @@ components:
           example: '2026-09-23'
         terms:
           type: string
-          description: Payment terms notes for the self-billed invoice. Max-length [10000].
+          description: 'Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.'
           example: Net 30
           maxLength: 10000
         adjustment:
@@ -63153,7 +63243,7 @@ components:
           example: 0
         adjustment_description:
           type: string
-          description: Description for the adjustment amount. Max-length [100].
+          description: 'Description for the adjustment amount. Maximum length: 100 characters.'
           example: Adjustment
           maxLength: 100
         is_draft:
@@ -63178,7 +63268,8 @@ components:
           example: 0
         discount_code:
           type: string
-          description: Discount reason code for the entity-level discount. Max-length [200].
+          maxLength: 200
+          description: 'Discount reason code for the entity-level discount. Maximum length: 200 characters.'
           example: special_agreement
           x-node_available_in:
             - uae
@@ -63229,7 +63320,7 @@ components:
         tax_treatment:
           type: string
           example: vat_registered
-          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.
           x-node_available_in:
             - uae
             - gcc
@@ -63247,33 +63338,39 @@ components:
             - uae
         registration_details:
           type: object
-          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
           x-node_available_in:
             - uae
           properties:
             company_registration_no:
               type: string
-              description: Company registration number (Commercial Registration number). Max-length [200].
+              maxLength: 200
+              description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.'
               example: '1002004410'
             einvoice_identifier_label:
               type: string
-              description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
-              example: CRN
+              maxLength: 200
+              description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.'
+              example: EID
             einvoice_identifier_value:
               type: string
-              description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+              maxLength: 200
+              description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.'
               example: '234324'
             additionalfield1:
               type: string
-              description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+              maxLength: 200
+              description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.'
               example: Department of Economy and Tourism
             legal_name:
               type: string
-              description: Legal registered name of the vendor. Max-length [500].
+              maxLength: 500
+              description: 'Legal registered name of the vendor. Maximum length: 500 characters.'
               example: Zylker Trading LLC
             electronic_address_value:
               type: string
-              description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+              maxLength: 200
+              description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.'
               example: '0088:1234567890123'
         permit_number:
           type: string
@@ -63341,7 +63438,7 @@ components:
                 example: '86067000000120060'
               name:
                 type: string
-                description: Name of the line item. Max-length [200].
+                description: 'Name of the line item. Maximum length: 200 characters.'
                 example: Airpod stand
                 maxLength: 200
               account_id:
@@ -63350,7 +63447,7 @@ components:
                 example: '86067000000034003'
               description:
                 type: string
-                description: Description of the line item. Max-length [6000].
+                description: 'Description of the line item. Maximum length: 6000 characters.'
                 example: Airpod stand
                 maxLength: 6000
               rate:
@@ -63402,14 +63499,14 @@ components:
               unitkey_code:
                 type: string
                 example: H87
-                description: UN/CEFACT unit code for the line item. Max-length [10].
+                description: 'UN/CEFACT unit code for the line item. Maximum length: 10 characters.'
                 maxLength: 10
                 x-node_available_in:
                   - uae
               product_type:
                 type: string
                 example: goods
-                description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.'
+                description: 'The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.'
                 x-node_available_in:
                   - uae
               tax_treatment_code:
@@ -63451,7 +63548,7 @@ components:
       properties:
         bill_number:
           type: string
-          description: Unique bill number for the self-billed invoice. Max-length [50].
+          description: 'Unique bill number for the self-billed invoice. Maximum length: 50 characters.'
           example: B-001982
           maxLength: 50
         vendor_id:
@@ -63474,7 +63571,7 @@ components:
           example: '2026-09-23'
         terms:
           type: string
-          description: Payment terms notes for the self-billed invoice. Max-length [10000].
+          description: 'Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.'
           example: Net 30
           maxLength: 10000
         adjustment:
@@ -63483,7 +63580,7 @@ components:
           example: 0
         adjustment_description:
           type: string
-          description: Description for the adjustment amount. Max-length [100].
+          description: 'Description for the adjustment amount. Maximum length: 100 characters.'
           example: Adjustment
           maxLength: 100
         is_draft:
@@ -63508,7 +63605,8 @@ components:
           example: 0
         discount_code:
           type: string
-          description: Discount reason code for the entity-level discount. Max-length [200].
+          maxLength: 200
+          description: 'Discount reason code for the entity-level discount. Maximum length: 200 characters.'
           example: special_agreement
           x-node_available_in:
             - uae
@@ -63559,7 +63657,7 @@ components:
         tax_treatment:
           type: string
           example: vat_registered
-          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+          description: VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.
           x-node_available_in:
             - uae
             - gcc
@@ -63577,33 +63675,39 @@ components:
             - uae
         registration_details:
           type: object
-          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+          description: Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
           x-node_available_in:
             - uae
           properties:
             company_registration_no:
               type: string
-              description: Company registration number (Commercial Registration number). Max-length [200].
+              maxLength: 200
+              description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.'
               example: '1002004410'
             einvoice_identifier_label:
               type: string
-              description: Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
-              example: CRN
+              maxLength: 200
+              description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.'
+              example: EID
             einvoice_identifier_value:
               type: string
-              description: Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+              maxLength: 200
+              description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.'
               example: '234324'
             additionalfield1:
               type: string
-              description: Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+              description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.'
               example: Department of Economy and Tourism
+              maxLength: 200
             legal_name:
               type: string
-              description: Legal registered name of the vendor. Max-length [500].
+              description: 'Legal registered name of the vendor. Maximum length: 500 characters.'
               example: Zylker Trading LLC
+              maxLength: 500
             electronic_address_value:
               type: string
-              description: Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+              maxLength: 200
+              description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.'
               example: '0088:1234567890123'
         permit_number:
           type: string
@@ -63671,7 +63775,7 @@ components:
                 example: '86067000000120060'
               name:
                 type: string
-                description: Name of the line item. Max-length [200].
+                description: 'Name of the line item. Maximum length: 200 characters.'
                 example: Airpod stand
                 maxLength: 200
               account_id:
@@ -63680,7 +63784,7 @@ components:
                 example: '86067000000034003'
               description:
                 type: string
-                description: Description of the line item. Max-length [6000].
+                description: 'Description of the line item. Maximum length: 6000 characters.'
                 example: Airpod stand
                 maxLength: 6000
               rate:
@@ -63732,14 +63836,14 @@ components:
               unitkey_code:
                 type: string
                 example: H87
-                description: UN/CEFACT unit code for the line item. Max-length [10].
+                description: 'UN/CEFACT unit code for the line item. Maximum length: 10 characters.'
                 maxLength: 10
                 x-node_available_in:
                   - uae
               product_type:
                 type: string
                 example: goods
-                description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.'
+                description: 'The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.'
                 x-node_available_in:
                   - uae
               tax_treatment_code:
@@ -63888,7 +63992,7 @@ components:
                 - uae
             source:
               type: string
-              description: Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.
+              description: 'Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Allowed values: <code>Api</code> and <code>e-invoice</code>.'
               example: e-invoice
               readOnly: true
               x-node_available_in:

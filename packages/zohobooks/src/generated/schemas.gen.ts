@@ -5164,38 +5164,44 @@ export const tax_reg_noSchema = {
 } as const;
 
 export const registration_detailsSchema = {
-    description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+    description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.',
     type: 'object',
     properties: {
         company_registration_no: {
-            description: 'Company registration number (Commercial Registration number). Max-length [200].',
+            description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.',
             type: 'string',
-            example: '1002004410'
+            example: '1002004410',
+            maxLength: 200
         },
         einvoice_identifier_label: {
-            description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
+            description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.',
             type: 'string',
-            example: 'CRN'
+            example: 'EID',
+            maxLength: 200
         },
         einvoice_identifier_value: {
-            description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+            description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.',
             type: 'string',
-            example: '234324'
+            example: '234324',
+            maxLength: 200
         },
         additionalfield1: {
-            description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
+            description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.',
             type: 'string',
-            example: 'Department of Economy and Tourism'
+            example: 'Department of Economy and Tourism',
+            maxLength: 200
         },
         legal_name: {
-            description: 'Legal registered name of the vendor. Max-length [500].',
+            description: 'Legal registered name of the vendor.',
             type: 'string',
-            example: 'Zylker Trading LLC'
+            example: 'Zylker Trading LLC',
+            maxLength: 500
         },
         electronic_address_value: {
-            description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+            description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.',
             type: 'string',
-            example: '0088:1234567890123'
+            example: '0088:1234567890123',
+            maxLength: 200
         }
     },
     'x-node_available_in': [
@@ -5218,7 +5224,7 @@ export const hsn_or_sacSchema = {
 } as const;
 
 export const unitkey_codeSchema = {
-    description: 'Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].',
+    description: 'Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Maximum length: 10 characters.',
     type: 'string',
     example: 'H87',
     maxLength: 10,
@@ -5371,11 +5377,12 @@ export const tds_tax_idSchema = {
 } as const;
 
 export const tax_treatment_codeSchema = {
-    description: 'Specify reason for using out of scope.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code> and <code>uae_others</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.',
+    description: 'Specify a reason for using the out of scope VAT treatment.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code>, <code>uae_others</code>, <code>uae_financial_services</code>, <code>uae_residential_units</code>, <code>uae_bare_land</code>, <code>uae_local_transportation</code>, <code>uae_financial_services_exempt</code>, <code>uae_residential_units_exempt</code>, <code>uae_bare_land_exempt</code>, and <code>uae_local_transportation_exempt</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.',
     type: 'string',
     example: 'uae_others',
     'x-node_available_in': [
-        'gcc'
+        'gcc',
+        'uae'
     ],
     'x-node_unavailable_in': []
 } as const;
@@ -5416,7 +5423,7 @@ export const payment_terms_labelSchema = {
 } as const;
 
 export const bank_account_idSchema = {
-    description: 'Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.',
+    description: 'Unique identifier of the bank account for expected payment. Used for UAE E-Invoicing. Note: This value is a set of numeric characters.',
     type: 'string',
     'x-node_available_in': [
         'uae'
@@ -6275,8 +6282,9 @@ export const adjustment_descriptionSchema = {
 } as const;
 
 export const discount_codeSchema = {
-    description: 'Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].',
+    description: 'Discount reason code for the entity-level discount. Used for UAE E-Invoicing. Maximum length: 200 characters.',
     type: 'string',
+    maxLength: 200,
     'x-node_available_in': [
         'uae'
     ],
@@ -6641,6 +6649,15 @@ export const list_bills_responseSchema = {
                     },
                     is_abn_quoted: {
                         $ref: '#/components/schemas/is_abn_quoted'
+                    },
+                    einvoice_status: {
+                        $ref: '#/components/schemas/einvoice_status'
+                    },
+                    is_peppol_supported: {
+                        $ref: '#/components/schemas/is_peppol_supported'
+                    },
+                    source: {
+                        $ref: '#/components/schemas/source'
                     }
                 }
             }
@@ -7357,7 +7374,7 @@ export const einvoice_statusSchema = {
 } as const;
 
 export const is_peppol_supportedSchema = {
-    description: 'Indicates whether the vendor supports receiving bills over the e-invoicing network.',
+    description: 'Indicates whether the vendor supports receiving bills over the E-Invoicing network.',
     type: 'boolean',
     example: true,
     readOnly: true,
@@ -13144,7 +13161,7 @@ export const discountSchema = {
 } as const;
 
 export const reason_for_credit_debit_noteSchema = {
-    description: 'Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].',
+    description: 'Reason for issuing the credit note. For UAE Edition, this field is required. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].',
     type: 'string',
     example: 'change_of_tax_treatment',
     'x-node_available_in': [
@@ -13373,7 +13390,8 @@ export const create_a_credit_note_requestSchema = {
         'customer_id',
         'date',
         'creditnote_number',
-        'line_items'
+        'line_items',
+        'reason_for_credit_debit_note'
     ],
     type: 'object',
     properties: {
@@ -13495,6 +13513,9 @@ export const create_a_credit_note_requestSchema = {
         },
         reason_for_credit_debit_note: {
             $ref: '#/components/schemas/reason_for_credit_debit_note'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
         },
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
@@ -13693,7 +13714,8 @@ export const update_a_credit_note_requestSchema = {
         'customer_id',
         'date',
         'creditnote_number',
-        'line_items'
+        'line_items',
+        'reason_for_credit_debit_note'
     ],
     type: 'object',
     properties: {
@@ -13735,6 +13757,9 @@ export const update_a_credit_note_requestSchema = {
         },
         reason_for_credit_debit_note: {
             $ref: '#/components/schemas/reason_for_credit_debit_note'
+        },
+        registration_details: {
+            $ref: '#/components/schemas/registration_details'
         },
         is_reverse_charge_applied: {
             $ref: '#/components/schemas/is_reverse_charge_applied'
@@ -14536,7 +14561,7 @@ export const get_email_content_responseSchema = {
                             properties: {
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 name: {
                                     description: 'Name of the credit',
@@ -14562,7 +14587,7 @@ export const get_email_content_responseSchema = {
                                 },
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 phone: {
                                     type: 'string',
@@ -14607,7 +14632,7 @@ export const get_email_content_responseSchema = {
                                 },
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 email: {
                                     description: 'Email address of the customer.',
@@ -29738,8 +29763,9 @@ export const initial_stock_rateSchema = {
 } as const;
 
 export const gtinSchema = {
-    description: 'Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].',
+    description: 'Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Maximum length: 100 characters.',
     type: 'string',
+    maxLength: 100,
     example: '32423432',
     'x-node_available_in': [
         'uae'
@@ -29747,12 +29773,26 @@ export const gtinSchema = {
     'x-node_unavailable_in': []
 } as const;
 
+export const nature_codeSchema = {
+    description: 'Nature code for UAE E-Invoicing item classification. For UAE Edition, send this inside <code>item_code</code> on create and update. Allowed values include <code>DL8.48.8.2</code> (Electronic Devices), <code>DL8.48.8.1</code> (Gold and Diamonds), <code>DL8.48.3.1</code> (Crude or refined oil), <code>DL8.48.3.2</code> (Unprocessed or processed natural gas), and <code>DL8.48.3.3</code> (Pure hydrocarbons). Maximum length: 100 characters.',
+    type: 'string',
+    example: 'DL8.48.8.2',
+    maxLength: 100,
+    'x-node_available_in': [
+        'uae'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
 export const item_codeSchema = {
-    description: 'Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.',
+    description: 'Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code> and nature code under <code>nature_code</code>.',
     type: 'object',
     properties: {
         gtin: {
             $ref: '#/components/schemas/gtin'
+        },
+        nature_code: {
+            $ref: '#/components/schemas/nature_code'
         }
     },
     'x-node_available_in': [
@@ -47737,7 +47777,7 @@ export const create_a_self_billed_invoice_requestSchema = {
     properties: {
         bill_number: {
             type: 'string',
-            description: 'Unique bill number for the self-billed invoice. Max-length [50].',
+            description: 'Unique bill number for the self-billed invoice. Maximum length: 50 characters.',
             example: 'B-001982',
             maxLength: 50
         },
@@ -47765,7 +47805,7 @@ export const create_a_self_billed_invoice_requestSchema = {
         },
         terms: {
             type: 'string',
-            description: 'Payment terms notes for the self-billed invoice. Max-length [10000].',
+            description: 'Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.',
             example: 'Net 30',
             maxLength: 10000
         },
@@ -47776,7 +47816,7 @@ export const create_a_self_billed_invoice_requestSchema = {
         },
         adjustment_description: {
             type: 'string',
-            description: 'Description for the adjustment amount. Max-length [100].',
+            description: 'Description for the adjustment amount. Maximum length: 100 characters.',
             example: 'Adjustment',
             maxLength: 100
         },
@@ -47807,7 +47847,8 @@ export const create_a_self_billed_invoice_requestSchema = {
         },
         discount_code: {
             type: 'string',
-            description: 'Discount reason code for the entity-level discount. Max-length [200].',
+            maxLength: 200,
+            description: 'Discount reason code for the entity-level discount. Maximum length: 200 characters.',
             example: 'special_agreement',
             'x-node_available_in': [
                 'uae'
@@ -47872,7 +47913,7 @@ export const create_a_self_billed_invoice_requestSchema = {
         tax_treatment: {
             type: 'string',
             example: 'vat_registered',
-            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.',
+            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.',
             'x-node_available_in': [
                 'uae',
                 'gcc'
@@ -47896,39 +47937,45 @@ export const create_a_self_billed_invoice_requestSchema = {
         },
         registration_details: {
             type: 'object',
-            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.',
             'x-node_available_in': [
                 'uae'
             ],
             properties: {
                 company_registration_no: {
                     type: 'string',
-                    description: 'Company registration number (Commercial Registration number). Max-length [200].',
+                    maxLength: 200,
+                    description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.',
                     example: '1002004410'
                 },
                 einvoice_identifier_label: {
                     type: 'string',
-                    description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
-                    example: 'CRN'
+                    maxLength: 200,
+                    description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.',
+                    example: 'EID'
                 },
                 einvoice_identifier_value: {
                     type: 'string',
-                    description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+                    maxLength: 200,
+                    description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.',
                     example: '234324'
                 },
                 additionalfield1: {
                     type: 'string',
-                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
+                    maxLength: 200,
+                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.',
                     example: 'Department of Economy and Tourism'
                 },
                 legal_name: {
                     type: 'string',
-                    description: 'Legal registered name of the vendor. Max-length [500].',
+                    maxLength: 500,
+                    description: 'Legal registered name of the vendor. Maximum length: 500 characters.',
                     example: 'Zylker Trading LLC'
                 },
                 electronic_address_value: {
                     type: 'string',
-                    description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+                    maxLength: 200,
+                    description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.',
                     example: '0088:1234567890123'
                 }
             }
@@ -48018,7 +48065,7 @@ export const create_a_self_billed_invoice_requestSchema = {
                     },
                     name: {
                         type: 'string',
-                        description: 'Name of the line item. Max-length [200].',
+                        description: 'Name of the line item. Maximum length: 200 characters.',
                         example: 'Airpod stand',
                         maxLength: 200
                     },
@@ -48029,7 +48076,7 @@ export const create_a_self_billed_invoice_requestSchema = {
                     },
                     description: {
                         type: 'string',
-                        description: 'Description of the line item. Max-length [6000].',
+                        description: 'Description of the line item. Maximum length: 6000 characters.',
                         example: 'Airpod stand',
                         maxLength: 6000
                     },
@@ -48094,7 +48141,7 @@ export const create_a_self_billed_invoice_requestSchema = {
                     unitkey_code: {
                         type: 'string',
                         example: 'H87',
-                        description: 'UN/CEFACT unit code for the line item. Max-length [10].',
+                        description: 'UN/CEFACT unit code for the line item. Maximum length: 10 characters.',
                         maxLength: 10,
                         'x-node_available_in': [
                             'uae'
@@ -48103,7 +48150,7 @@ export const create_a_self_billed_invoice_requestSchema = {
                     product_type: {
                         type: 'string',
                         example: 'goods',
-                        description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.',
+                        description: 'The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.',
                         'x-node_available_in': [
                             'uae'
                         ]
@@ -48165,7 +48212,7 @@ export const update_a_self_billed_invoice_requestSchema = {
     properties: {
         bill_number: {
             type: 'string',
-            description: 'Unique bill number for the self-billed invoice. Max-length [50].',
+            description: 'Unique bill number for the self-billed invoice. Maximum length: 50 characters.',
             example: 'B-001982',
             maxLength: 50
         },
@@ -48193,7 +48240,7 @@ export const update_a_self_billed_invoice_requestSchema = {
         },
         terms: {
             type: 'string',
-            description: 'Payment terms notes for the self-billed invoice. Max-length [10000].',
+            description: 'Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.',
             example: 'Net 30',
             maxLength: 10000
         },
@@ -48204,7 +48251,7 @@ export const update_a_self_billed_invoice_requestSchema = {
         },
         adjustment_description: {
             type: 'string',
-            description: 'Description for the adjustment amount. Max-length [100].',
+            description: 'Description for the adjustment amount. Maximum length: 100 characters.',
             example: 'Adjustment',
             maxLength: 100
         },
@@ -48235,7 +48282,8 @@ export const update_a_self_billed_invoice_requestSchema = {
         },
         discount_code: {
             type: 'string',
-            description: 'Discount reason code for the entity-level discount. Max-length [200].',
+            maxLength: 200,
+            description: 'Discount reason code for the entity-level discount. Maximum length: 200 characters.',
             example: 'special_agreement',
             'x-node_available_in': [
                 'uae'
@@ -48300,7 +48348,7 @@ export const update_a_self_billed_invoice_requestSchema = {
         tax_treatment: {
             type: 'string',
             example: 'vat_registered',
-            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.',
+            description: 'VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.',
             'x-node_available_in': [
                 'uae',
                 'gcc'
@@ -48324,39 +48372,45 @@ export const update_a_self_billed_invoice_requestSchema = {
         },
         registration_details: {
             type: 'object',
-            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.',
+            description: 'Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.',
             'x-node_available_in': [
                 'uae'
             ],
             properties: {
                 company_registration_no: {
                     type: 'string',
-                    description: 'Company registration number (Commercial Registration number). Max-length [200].',
+                    maxLength: 200,
+                    description: 'Company registration number (Commercial Registration number). Maximum length: 200 characters.',
                     example: '1002004410'
                 },
                 einvoice_identifier_label: {
                     type: 'string',
-                    description: 'Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].',
-                    example: 'CRN'
+                    maxLength: 200,
+                    description: 'Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.',
+                    example: 'EID'
                 },
                 einvoice_identifier_value: {
                     type: 'string',
-                    description: 'Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].',
+                    maxLength: 200,
+                    description: 'Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.',
                     example: '234324'
                 },
                 additionalfield1: {
                     type: 'string',
-                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].',
-                    example: 'Department of Economy and Tourism'
+                    description: 'Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.',
+                    example: 'Department of Economy and Tourism',
+                    maxLength: 200
                 },
                 legal_name: {
                     type: 'string',
-                    description: 'Legal registered name of the vendor. Max-length [500].',
-                    example: 'Zylker Trading LLC'
+                    description: 'Legal registered name of the vendor. Maximum length: 500 characters.',
+                    example: 'Zylker Trading LLC',
+                    maxLength: 500
                 },
                 electronic_address_value: {
                     type: 'string',
-                    description: 'Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].',
+                    maxLength: 200,
+                    description: 'Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.',
                     example: '0088:1234567890123'
                 }
             }
@@ -48446,7 +48500,7 @@ export const update_a_self_billed_invoice_requestSchema = {
                     },
                     name: {
                         type: 'string',
-                        description: 'Name of the line item. Max-length [200].',
+                        description: 'Name of the line item. Maximum length: 200 characters.',
                         example: 'Airpod stand',
                         maxLength: 200
                     },
@@ -48457,7 +48511,7 @@ export const update_a_self_billed_invoice_requestSchema = {
                     },
                     description: {
                         type: 'string',
-                        description: 'Description of the line item. Max-length [6000].',
+                        description: 'Description of the line item. Maximum length: 6000 characters.',
                         example: 'Airpod stand',
                         maxLength: 6000
                     },
@@ -48522,7 +48576,7 @@ export const update_a_self_billed_invoice_requestSchema = {
                     unitkey_code: {
                         type: 'string',
                         example: 'H87',
-                        description: 'UN/CEFACT unit code for the line item. Max-length [10].',
+                        description: 'UN/CEFACT unit code for the line item. Maximum length: 10 characters.',
                         maxLength: 10,
                         'x-node_available_in': [
                             'uae'
@@ -48531,7 +48585,7 @@ export const update_a_self_billed_invoice_requestSchema = {
                     product_type: {
                         type: 'string',
                         example: 'goods',
-                        description: 'Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.',
+                        description: 'The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.',
                         'x-node_available_in': [
                             'uae'
                         ]
@@ -48733,7 +48787,7 @@ export const get_a_self_billed_invoice_responseSchema = {
                 },
                 source: {
                     type: 'string',
-                    description: 'Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.',
+                    description: 'Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Allowed values: <code>Api</code> and <code>e-invoice</code>.',
                     example: 'e-invoice',
                     readOnly: true,
                     'x-node_available_in': [
@@ -56660,6 +56714,9 @@ export const list_bills_responseWritableSchema = {
                     },
                     is_abn_quoted: {
                         $ref: '#/components/schemas/is_abn_quoted'
+                    },
+                    source: {
+                        $ref: '#/components/schemas/source'
                     }
                 }
             }
@@ -58891,7 +58948,7 @@ export const get_email_content_responseWritableSchema = {
                             properties: {
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 name: {
                                     description: 'Name of the credit',
@@ -58917,7 +58974,7 @@ export const get_email_content_responseWritableSchema = {
                                 },
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 phone: {
                                     type: 'string',
@@ -58962,7 +59019,7 @@ export const get_email_content_responseWritableSchema = {
                                 },
                                 selected: {
                                     type: 'boolean',
-                                    example: 'fasle'
+                                    example: false
                                 },
                                 email: {
                                     description: 'Email address of the customer.',

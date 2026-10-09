@@ -2458,31 +2458,31 @@ export type GstNo = string;
 export type TaxRegNo = string;
 
 /**
- * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+ * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
  */
 export type RegistrationDetails = {
     /**
-     * Company registration number (Commercial Registration number). Max-length [200].
+     * Company registration number (Commercial Registration number). Maximum length: 200 characters.
      */
     company_registration_no?: string;
     /**
-     * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+     * Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.
      */
     einvoice_identifier_label?: string;
     /**
-     * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+     * Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.
      */
     einvoice_identifier_value?: string;
     /**
-     * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+     * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.
      */
     additionalfield1?: string;
     /**
-     * Legal registered name of the vendor. Max-length [500].
+     * Legal registered name of the vendor.
      */
     legal_name?: string;
     /**
-     * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+     * Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.
      */
     electronic_address_value?: string;
 };
@@ -2493,7 +2493,7 @@ export type RegistrationDetails = {
 export type HsnOrSac = string;
 
 /**
- * Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Max-length [10].
+ * Unit code for the goods or services.<br/><b>For UAE Edition:</b> use the UN/CEFACT unit code (for example <code>H87</code> for piece, <code>KGM</code> for kilogram). Maximum length: 10 characters.
  */
 export type UnitkeyCode = string;
 
@@ -2577,7 +2577,7 @@ export type Quantity = number;
 export type TdsTaxId = string;
 
 /**
- * Specify reason for using out of scope.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code> and <code>uae_others</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.
+ * Specify a reason for using the out of scope VAT treatment.</br>Supported values for <b>UAE</b> are <code>uae_same_tax_group</code>, <code>uae_reimbursed_expense</code>, <code>uae_others</code>, <code>uae_financial_services</code>, <code>uae_residential_units</code>, <code>uae_bare_land</code>, <code>uae_local_transportation</code>, <code>uae_financial_services_exempt</code>, <code>uae_residential_units_exempt</code>, <code>uae_bare_land_exempt</code>, and <code>uae_local_transportation_exempt</code>.</br> Supported values for <b>Bahrain</b> are <code>bahrain_same_tax_group</code>, <code>bahrain_transfer_of_concern</code>, <code>bahrain_disbursement</code>, <code>bahrain_head_to_branch_transaction</code> and <code>bahrain_others</code>.</br> Supported values for <b>KSA</b> are <code>ksa_reimbursed_expense</code>.
  */
 export type TaxTreatmentCode = string;
 
@@ -2612,7 +2612,7 @@ export type PaymentTerms = number;
 export type PaymentTermsLabel = string;
 
 /**
- * Unique identifier of the bank account for expected payment. Used for UAE e-invoicing. Note: This value is a set of numeric characters.
+ * Unique identifier of the bank account for expected payment. Used for UAE E-Invoicing. Note: This value is a set of numeric characters.
  */
 export type BankAccountId = string;
 
@@ -3061,7 +3061,7 @@ export type Adjustment = number;
 export type AdjustmentDescription = string;
 
 /**
- * Discount reason code for the entity-level discount. Used for UAE e-invoicing. Max-length [200].
+ * Discount reason code for the entity-level discount. Used for UAE E-Invoicing. Maximum length: 200 characters.
  */
 export type DiscountCode = string;
 
@@ -3188,6 +3188,9 @@ export type ListBillsResponse = {
         has_attachment?: HasAttachment;
         is_tds_applied?: IsTdsApplied;
         is_abn_quoted?: IsAbnQuoted;
+        einvoice_status?: EinvoiceStatus;
+        is_peppol_supported?: IsPeppolSupported;
+        source?: Source;
     }>;
     page_context?: PageContext;
 };
@@ -3430,7 +3433,7 @@ export type DeleteACommentResponse = {
 export type EinvoiceStatus = string;
 
 /**
- * Indicates whether the vendor supports receiving bills over the e-invoicing network.
+ * Indicates whether the vendor supports receiving bills over the E-Invoicing network.
  */
 export type IsPeppolSupported = boolean;
 
@@ -5899,7 +5902,7 @@ export type SatItemKeyCode = string;
 export type Discount = number;
 
 /**
- * Reason for issuing the credit note. Required for UAE e-invoicing. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].
+ * Reason for issuing the credit note. For UAE Edition, this field is required. Allowed values: <code>tax_treatment_error</code>, <code>supply_cancellation</code>, <code>change_of_tax_treatment</code>, <code>consideration_adjustment</code>, <code>return_of_goods_or_services</code>, <code>volume_discount</code>, <code>others</code>. Max-length [200].
  */
 export type ReasonForCreditDebitNote = string;
 
@@ -6087,7 +6090,8 @@ export type CreateACreditNoteRequest = {
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
     tax_reg_no?: TaxRegNo;
-    reason_for_credit_debit_note?: ReasonForCreditDebitNote;
+    reason_for_credit_debit_note: ReasonForCreditDebitNote;
+    registration_details?: RegistrationDetails;
     is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
     shipping_gst_no?: ShippingGstNo;
@@ -6168,7 +6172,8 @@ export type UpdateACreditNoteRequest = {
     gst_treatment?: GstTreatment;
     tax_treatment?: TaxTreatment;
     tax_reg_no?: TaxRegNo;
-    reason_for_credit_debit_note?: ReasonForCreditDebitNote;
+    reason_for_credit_debit_note: ReasonForCreditDebitNote;
+    registration_details?: RegistrationDetails;
     is_reverse_charge_applied?: IsReverseChargeApplied;
     gst_no?: GstNo;
     shipping_gst_no?: ShippingGstNo;
@@ -12797,15 +12802,21 @@ export type InitialStock = string;
 export type InitialStockRate = string;
 
 /**
- * Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Max-length [100].
+ * Global Trade Item Number (GTIN/barcode) for the item. For UAE Edition, send this inside <code>item_code</code> on create and update. Maximum length: 100 characters.
  */
 export type Gtin = string;
 
 /**
- * Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code>.
+ * Nature code for UAE E-Invoicing item classification. For UAE Edition, send this inside <code>item_code</code> on create and update. Allowed values include <code>DL8.48.8.2</code> (Electronic Devices), <code>DL8.48.8.1</code> (Gold and Diamonds), <code>DL8.48.3.1</code> (Crude or refined oil), <code>DL8.48.3.2</code> (Unprocessed or processed natural gas), and <code>DL8.48.3.3</code> (Pure hydrocarbons). Maximum length: 100 characters.
+ */
+export type NatureCode = string;
+
+/**
+ * Item identification codes. For UAE Edition, provide GTIN under <code>gtin</code> and nature code under <code>nature_code</code>.
  */
 export type ItemCode = {
     gtin?: Gtin;
+    nature_code?: NatureCode;
 };
 
 /**
@@ -20176,7 +20187,7 @@ export type EmailASalesReceiptResponse = {
 
 export type CreateASelfBilledInvoiceRequest = {
     /**
-     * Unique bill number for the self-billed invoice. Max-length [50].
+     * Unique bill number for the self-billed invoice. Maximum length: 50 characters.
      */
     bill_number: string;
     /**
@@ -20196,7 +20207,7 @@ export type CreateASelfBilledInvoiceRequest = {
      */
     due_date?: string;
     /**
-     * Payment terms notes for the self-billed invoice. Max-length [10000].
+     * Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.
      */
     terms?: string;
     /**
@@ -20204,7 +20215,7 @@ export type CreateASelfBilledInvoiceRequest = {
      */
     adjustment?: number;
     /**
-     * Description for the adjustment amount. Max-length [100].
+     * Description for the adjustment amount. Maximum length: 100 characters.
      */
     adjustment_description?: string;
     /**
@@ -20228,7 +20239,7 @@ export type CreateASelfBilledInvoiceRequest = {
      */
     discount?: number;
     /**
-     * Discount reason code for the entity-level discount. Max-length [200].
+     * Discount reason code for the entity-level discount. Maximum length: 200 characters.
      */
     discount_code?: string;
     /**
@@ -20272,7 +20283,7 @@ export type CreateASelfBilledInvoiceRequest = {
      */
     entity_type: string;
     /**
-     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.
      */
     tax_treatment?: string;
     /**
@@ -20284,31 +20295,31 @@ export type CreateASelfBilledInvoiceRequest = {
      */
     tax_reg_no?: string;
     /**
-     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
      */
     registration_details?: {
         /**
-         * Company registration number (Commercial Registration number). Max-length [200].
+         * Company registration number (Commercial Registration number). Maximum length: 200 characters.
          */
         company_registration_no?: string;
         /**
-         * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+         * Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.
          */
         einvoice_identifier_label?: string;
         /**
-         * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+         * Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.
          */
         einvoice_identifier_value?: string;
         /**
-         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.
          */
         additionalfield1?: string;
         /**
-         * Legal registered name of the vendor. Max-length [500].
+         * Legal registered name of the vendor. Maximum length: 500 characters.
          */
         legal_name?: string;
         /**
-         * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+         * Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.
          */
         electronic_address_value?: string;
     };
@@ -20372,7 +20383,7 @@ export type CreateASelfBilledInvoiceRequest = {
          */
         item_id?: string;
         /**
-         * Name of the line item. Max-length [200].
+         * Name of the line item. Maximum length: 200 characters.
          */
         name?: string;
         /**
@@ -20380,7 +20391,7 @@ export type CreateASelfBilledInvoiceRequest = {
          */
         account_id?: string;
         /**
-         * Description of the line item. Max-length [6000].
+         * Description of the line item. Maximum length: 6000 characters.
          */
         description?: string;
         /**
@@ -20428,11 +20439,11 @@ export type CreateASelfBilledInvoiceRequest = {
          */
         hsn_or_sac?: string;
         /**
-         * UN/CEFACT unit code for the line item. Max-length [10].
+         * UN/CEFACT unit code for the line item. Maximum length: 10 characters.
          */
         unitkey_code?: string;
         /**
-         * Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.
+         * The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.
          */
         product_type?: string;
         /**
@@ -20470,7 +20481,7 @@ export type CreateASelfBilledInvoiceRequest = {
 
 export type UpdateASelfBilledInvoiceRequest = {
     /**
-     * Unique bill number for the self-billed invoice. Max-length [50].
+     * Unique bill number for the self-billed invoice. Maximum length: 50 characters.
      */
     bill_number?: string;
     /**
@@ -20490,7 +20501,7 @@ export type UpdateASelfBilledInvoiceRequest = {
      */
     due_date?: string;
     /**
-     * Payment terms notes for the self-billed invoice. Max-length [10000].
+     * Payment terms notes for the self-billed invoice. Maximum length: 10000 characters.
      */
     terms?: string;
     /**
@@ -20498,7 +20509,7 @@ export type UpdateASelfBilledInvoiceRequest = {
      */
     adjustment?: number;
     /**
-     * Description for the adjustment amount. Max-length [100].
+     * Description for the adjustment amount. Maximum length: 100 characters.
      */
     adjustment_description?: string;
     /**
@@ -20522,7 +20533,7 @@ export type UpdateASelfBilledInvoiceRequest = {
      */
     discount?: number;
     /**
-     * Discount reason code for the entity-level discount. Max-length [200].
+     * Discount reason code for the entity-level discount. Maximum length: 200 characters.
      */
     discount_code?: string;
     /**
@@ -20566,7 +20577,7 @@ export type UpdateASelfBilledInvoiceRequest = {
      */
     entity_type?: string;
     /**
-     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code> and <code>dz_vat_not_registered</code>.
+     * VAT treatment of the vendor. Allowed values include <code>vat_registered</code>, <code>vat_not_registered</code>, <code>gcc_vat_not_registered</code>, <code>gcc_vat_registered</code>, and <code>non_gcc</code>. <br/><b>For UAE Edition:</b> also <code>dz_vat_registered</code>, <code>dz_vat_not_registered</code>, <code>out_of_scope</code>, <code>gcc_non_vat</code>, <code>fz_vat_registered</code>, and <code>fz_vat_not_registered</code>.
      */
     tax_treatment?: string;
     /**
@@ -20578,31 +20589,31 @@ export type UpdateASelfBilledInvoiceRequest = {
      */
     tax_reg_no?: string;
     /**
-     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for e-invoicing.
+     * Registration details of the vendor. Includes buyer identification, tax registration, and legal information used for E-Invoicing.
      */
     registration_details?: {
         /**
-         * Company registration number (Commercial Registration number). Max-length [200].
+         * Company registration number (Commercial Registration number). Maximum length: 200 characters.
          */
         company_registration_no?: string;
         /**
-         * Label for the buyer identifier used in e-invoicing (Buyer ID label). Max-length [200].
+         * Label for the buyer identifier used in E-Invoicing (Buyer ID label). Allowed values: <code>TL</code>, <code>EID</code>, <code>PAS</code>, <code>CD</code>. Maximum length: 200 characters.
          */
         einvoice_identifier_label?: string;
         /**
-         * Value of the buyer identifier used in e-invoicing (Buyer ID value). Max-length [200].
+         * Value of the buyer identifier used in E-Invoicing (Buyer ID value). Maximum length: 200 characters.
          */
         einvoice_identifier_value?: string;
         /**
-         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Max-length [200].
+         * Authority or scheme that issued the buyer identifier (Buyer ID authority, for example Department of Economy and Tourism). Maximum length: 200 characters.
          */
         additionalfield1?: string;
         /**
-         * Legal registered name of the vendor. Max-length [500].
+         * Legal registered name of the vendor. Maximum length: 500 characters.
          */
         legal_name?: string;
         /**
-         * Electronic address (Peppol ID or similar) of the vendor used for e-invoicing routing. Max-length [200].
+         * Electronic address (Peppol ID or similar) of the vendor used for E-Invoicing routing. Maximum length: 200 characters.
          */
         electronic_address_value?: string;
     };
@@ -20666,7 +20677,7 @@ export type UpdateASelfBilledInvoiceRequest = {
          */
         item_id?: string;
         /**
-         * Name of the line item. Max-length [200].
+         * Name of the line item. Maximum length: 200 characters.
          */
         name?: string;
         /**
@@ -20674,7 +20685,7 @@ export type UpdateASelfBilledInvoiceRequest = {
          */
         account_id?: string;
         /**
-         * Description of the line item. Max-length [6000].
+         * Description of the line item. Maximum length: 6000 characters.
          */
         description?: string;
         /**
@@ -20722,11 +20733,11 @@ export type UpdateASelfBilledInvoiceRequest = {
          */
         hsn_or_sac?: string;
         /**
-         * UN/CEFACT unit code for the line item. Max-length [10].
+         * UN/CEFACT unit code for the line item. Maximum length: 10 characters.
          */
         unitkey_code?: string;
         /**
-         * Type of product or service for the line item. Allowed values: <code>goods</code> or <code>service</code>.
+         * The product or service type the line item belongs to. Allowed values: <code>goods</code> or <code>service</code>.
          */
         product_type?: string;
         /**
@@ -20796,7 +20807,7 @@ export type GetASelfBilledInvoiceResponse = {
         readonly einvoice_status?: string;
         readonly is_peppol_supported?: boolean;
         /**
-         * Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Possible values include <code>Api</code> and <code>e-invoice</code>.
+         * Source of the bill. <code>e-invoice</code> indicates the bill was pulled via Peppol. Allowed values: <code>Api</code> and <code>e-invoice</code>.
          */
         readonly source?: string;
     };
@@ -24025,6 +24036,7 @@ export type ListBillsResponseWritable = {
         has_attachment?: HasAttachment;
         is_tds_applied?: IsTdsApplied;
         is_abn_quoted?: IsAbnQuoted;
+        source?: Source;
     }>;
     page_context?: PageContext;
 };
