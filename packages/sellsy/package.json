@@ -42,7 +42,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "~0.88.0",
+    "@hey-api/openapi-ts": "~0.99.0",
     "@stoplight/prism-cli": "^5.15.11",
     "@types/node": "^25.9.1",
     "tsdown": "^0.22.2",
