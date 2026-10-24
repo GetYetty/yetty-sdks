@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.99.0",
-    "@mistralai/mistralai": "^2.2.5",
+    "@mistralai/mistralai": "^3.0.0",
     "@stoplight/prism-cli": "^5.15.11",
     "@types/node": "^25.9.1",
     "tsdown": "^0.22.2",
