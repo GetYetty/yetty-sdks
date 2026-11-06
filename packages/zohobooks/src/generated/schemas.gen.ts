@@ -5431,6 +5431,16 @@ export const bank_account_idSchema = {
     'x-node_unavailable_in': []
 } as const;
 
+export const update_a_bill_customfield_requestSchema = {
+    description: 'Update the custom fields of a bill.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
 export const update_an_bill_customfield_responseSchema = {
     type: 'object',
     properties: {
@@ -18218,6 +18228,16 @@ export const custom_fields_updateSchema = {
     }
 } as const;
 
+export const update_a_customerpayment_customfield_requestSchema = {
+    description: 'Update the custom fields of a customer payment.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
 export const update_an_customerpayment_customfield_responseSchema = {
     type: 'object',
     properties: {
@@ -20199,6 +20219,16 @@ export const retainer_percentageSchema = {
     description: 'Percentage of the estimate amount to be collected as a retainer (upfront payment) when the estimate is accepted. Specify a value between 0 and 100. This determines the portion of the total estimate that will be invoiced as a retainer.',
     type: 'integer',
     example: 10
+} as const;
+
+export const update_an_estimate_customfield_requestSchema = {
+    description: 'Update the custom fields of an estimate.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields_update'
+        }
+    }
 } as const;
 
 export const show_on_pdfSchema = {
@@ -25058,6 +25088,16 @@ export const entity_idSchema = {
     example: '2000000007037'
 } as const;
 
+export const update_an_invoice_customfield_requestSchema = {
+    description: 'Update the custom fields of an invoice.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
 export const is_emailedSchema = {
     description: 'Boolean check to see if the mail has been sent',
     type: 'boolean',
@@ -25118,6 +25158,92 @@ export const shipping_address_idSchema = {
     description: 'Unique identifier of the shipping address to be used for this invoice. Use the `shipping_address_id` returned by the Addresses API for the same customer and organization. This address appears on the invoice document and is used for delivery purposes. If omitted, the customer\'s default shipping address will be used. Note: This value is a set of numeric characters.',
     type: 'string',
     example: '218500000000142014'
+} as const;
+
+export const automatic_tax_enabledSchema = {
+    description: 'Boolean flag that enables automated sales tax calculation for the invoice or line item. Set to <code>true</code> together with <code>tax_selection_mode</code> as <code>automated</code> on create or update. For manual tax, omit this field or set <code>tax_selection_mode</code> to <code>manual</code>. When this field and <code>tax_selection_mode</code> are both omitted on API create, the invoice defaults to manual tax mode.',
+    type: 'boolean',
+    example: true,
+    'x-node_available_in': [
+        'us'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const tax_selection_modeSchema = {
+    description: 'Decides whether tax on the invoice is applied manually or by tax automation. Allowed values: <code>manual</code> and <code>automated</code>. Use <code>automated</code> with <code>automatic_tax_enabled</code> as <code>true</code> for US automated sales tax. Use <code>manual</code> when you select taxes yourself. Supported on the invoice and on line items when tax automation is enabled for the organization.',
+    type: 'string',
+    enum: [
+        'manual',
+        'automated'
+    ],
+    example: 'automated',
+    'x-node_available_in': [
+        'us'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const tax_category_codeSchema = {
+    description: 'Product tax category code for the line item used by automated sales tax (for example, <code>PC040100</code> for Apparel). Max-length [25] characters. Maps to the line item tax category on create and update. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is applied for lines that include <code>item_id</code>. Send this field to override or ensure a specific category.',
+    type: 'string',
+    example: 'PC040100',
+    'x-node_available_in': [
+        'us'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const product_tax_categorySchema = {
+    description: 'Tax category of the product or service on the line item. Used by automated sales tax to classify the line. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is inherited when the line includes <code>item_id</code>. You can send flat <code>tax_category_code</code> on the line instead of this object.',
+    type: 'object',
+    properties: {
+        tax_category_code: {
+            description: 'Code of the tax category. Max-length [25].',
+            type: 'string',
+            example: 'PC040100'
+        },
+        tax_category_name: {
+            description: 'Name of the tax category.',
+            type: 'string',
+            example: 'Apparel'
+        },
+        description: {
+            description: 'Description of the tax category.',
+            type: 'string',
+            example: ''
+        }
+    },
+    'x-node_available_in': [
+        'us'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
+export const shipping_charge_tax_categorySchema = {
+    description: 'Tax category applied to the shipping charge when automated sales tax is enabled (for example, <code>FR020000</code>). Send when <code>shipping_charge</code> is greater than zero. Omit when there is no shipping charge.',
+    type: 'object',
+    properties: {
+        tax_category_code: {
+            description: 'Code of the shipping tax category. Max-length [25].',
+            type: 'string',
+            example: 'FR020000'
+        },
+        tax_category_name: {
+            description: 'Name of the shipping tax category.',
+            type: 'string',
+            example: 'Shipping'
+        },
+        description: {
+            description: 'Description of the shipping tax category.',
+            type: 'string',
+            example: ''
+        }
+    },
+    'x-node_available_in': [
+        'us'
+    ],
+    'x-node_unavailable_in': []
 } as const;
 
 export const time_entry_idsSchema = {
@@ -25460,6 +25586,18 @@ export const create_an_invoice_requestSchema = {
                     },
                     line_item_category: {
                         $ref: '#/components/schemas/line_item_category'
+                    },
+                    tax_selection_mode: {
+                        $ref: '#/components/schemas/tax_selection_mode'
+                    },
+                    automatic_tax_enabled: {
+                        $ref: '#/components/schemas/automatic_tax_enabled'
+                    },
+                    tax_category_code: {
+                        $ref: '#/components/schemas/tax_category_code'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     }
                 }
             }
@@ -25485,6 +25623,9 @@ export const create_an_invoice_requestSchema = {
         shipping_charge: {
             $ref: '#/components/schemas/shipping_charge'
         },
+        shipping_charge_tax_category: {
+            $ref: '#/components/schemas/shipping_charge_tax_category'
+        },
         adjustment: {
             $ref: '#/components/schemas/adjustment'
         },
@@ -25509,6 +25650,12 @@ export const create_an_invoice_requestSchema = {
         shipping_address: {
             description: 'Address of the party the goods are shipped to. Use this field to provide a one-time shipping address that is not saved under the customer. When using this field, do not provide <code>shipping_address_id</code> in the same request.',
             $ref: '#/components/schemas/shipping_address'
+        },
+        automatic_tax_enabled: {
+            $ref: '#/components/schemas/automatic_tax_enabled'
+        },
+        tax_selection_mode: {
+            $ref: '#/components/schemas/tax_selection_mode'
         },
         avatax_use_code: {
             $ref: '#/components/schemas/avatax_use_code'
@@ -26456,6 +26603,18 @@ export const update_an_invoice_requestSchema = {
                     },
                     line_item_category: {
                         $ref: '#/components/schemas/line_item_category'
+                    },
+                    tax_selection_mode: {
+                        $ref: '#/components/schemas/tax_selection_mode'
+                    },
+                    automatic_tax_enabled: {
+                        $ref: '#/components/schemas/automatic_tax_enabled'
+                    },
+                    tax_category_code: {
+                        $ref: '#/components/schemas/tax_category_code'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     }
                 }
             }
@@ -26481,6 +26640,9 @@ export const update_an_invoice_requestSchema = {
         shipping_charge: {
             $ref: '#/components/schemas/shipping_charge'
         },
+        shipping_charge_tax_category: {
+            $ref: '#/components/schemas/shipping_charge_tax_category'
+        },
         adjustment: {
             $ref: '#/components/schemas/adjustment'
         },
@@ -26495,6 +26657,12 @@ export const update_an_invoice_requestSchema = {
         },
         tax_exemption_id: {
             $ref: '#/components/schemas/tax_exemption_id'
+        },
+        automatic_tax_enabled: {
+            $ref: '#/components/schemas/automatic_tax_enabled'
+        },
+        tax_selection_mode: {
+            $ref: '#/components/schemas/tax_selection_mode'
         },
         avatax_use_code: {
             $ref: '#/components/schemas/avatax_use_code'
@@ -29742,6 +29910,16 @@ export const inventory_account_idSchema = {
     description: 'ID of the stock account to which the item has to be associated with. Mandatory, if item_type is inventory. Note: This value is a set of numeric characters.',
     type: 'string',
     example: ' '
+} as const;
+
+export const update_an_item_customfield_requestSchema = {
+    description: 'Update the custom fields of an item.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
 } as const;
 
 export const reorder_levelSchema = {
@@ -36338,6 +36516,16 @@ export const can_mark_as_unbillSchema = {
     example: false
 } as const;
 
+export const update_a_purchaseorder_customfield_requestSchema = {
+    description: 'Update the custom fields of a purchase order.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
+} as const;
+
 export const update_an_purchaseorder_customfield_responseSchema = {
     type: 'object',
     properties: {
@@ -42816,10 +43004,10 @@ export const multi_preference_entitiesSchema = {
                         description: 'Entity Name. Possible Values:  <br>Sales - <code>sales</code>,  <br>Purchases - <code>purchases</code>,  <br>Journal - <code>journals</code>,  <br>Inventory Adjustment - <code>inventory_adjustment</code>',
                         type: 'string',
                         enum: [
-                            'Sales',
-                            'Purchases',
-                            'Journal',
-                            'Inventory Adjustment'
+                            'sales',
+                            'purchases',
+                            'journals',
+                            'inventory_adjustment'
                         ]
                     },
                     is_enabled: {
@@ -45861,6 +46049,16 @@ export const avatax_use_code_idSchema = {
         'Avalara Integration'
     ],
     'x-node_unavailable_in': []
+} as const;
+
+export const update_a_salesorder_customfield_requestSchema = {
+    description: 'Update the custom fields of a sales order.',
+    type: 'object',
+    properties: {
+        custom_fields: {
+            $ref: '#/components/schemas/custom_fields'
+        }
+    }
 } as const;
 
 export const update_an_salesorder_customfield_responseSchema = {

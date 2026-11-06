@@ -2616,6 +2616,13 @@ export type PaymentTermsLabel = string;
  */
 export type BankAccountId = string;
 
+/**
+ * Update the custom fields of a bill.
+ */
+export type UpdateABillCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
+
 export type UpdateAnBillCustomfieldResponse = {
     readonly code?: number;
     readonly message?: string;
@@ -8064,6 +8071,13 @@ export type CustomFieldsUpdate = Array<{
     value?: Value;
 }>;
 
+/**
+ * Update the custom fields of a customer payment.
+ */
+export type UpdateACustomerpaymentCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
+
 export type UpdateAnCustomerpaymentCustomfieldResponse = {
     readonly code?: number;
     readonly message?: string;
@@ -9110,6 +9124,13 @@ export type AcceptRetainer = boolean;
  * Percentage of the estimate amount to be collected as a retainer (upfront payment) when the estimate is accepted. Specify a value between 0 and 100. This determines the portion of the total estimate that will be invoiced as a retainer.
  */
 export type RetainerPercentage = number;
+
+/**
+ * Update the custom fields of an estimate.
+ */
+export type UpdateAnEstimateCustomfieldRequest = {
+    custom_fields?: CustomFieldsUpdate;
+};
 
 export type ShowOnPdf = boolean;
 
@@ -11001,6 +11022,13 @@ export type AttachPdf = boolean;
 export type EntityId = string;
 
 /**
+ * Update the custom fields of an invoice.
+ */
+export type UpdateAnInvoiceCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
+
+/**
  * Boolean check to see if the mail has been sent
  */
 export type IsEmailed = boolean;
@@ -11049,6 +11077,62 @@ export type BillingAddressId = string;
  * Unique identifier of the shipping address to be used for this invoice. Use the `shipping_address_id` returned by the Addresses API for the same customer and organization. This address appears on the invoice document and is used for delivery purposes. If omitted, the customer's default shipping address will be used. Note: This value is a set of numeric characters.
  */
 export type ShippingAddressId = string;
+
+/**
+ * Boolean flag that enables automated sales tax calculation for the invoice or line item. Set to <code>true</code> together with <code>tax_selection_mode</code> as <code>automated</code> on create or update. For manual tax, omit this field or set <code>tax_selection_mode</code> to <code>manual</code>. When this field and <code>tax_selection_mode</code> are both omitted on API create, the invoice defaults to manual tax mode.
+ */
+export type AutomaticTaxEnabled = boolean;
+
+/**
+ * Decides whether tax on the invoice is applied manually or by tax automation. Allowed values: <code>manual</code> and <code>automated</code>. Use <code>automated</code> with <code>automatic_tax_enabled</code> as <code>true</code> for US automated sales tax. Use <code>manual</code> when you select taxes yourself. Supported on the invoice and on line items when tax automation is enabled for the organization.
+ */
+export const TaxSelectionMode = { MANUAL: 'manual', AUTOMATED: 'automated' } as const;
+
+/**
+ * Decides whether tax on the invoice is applied manually or by tax automation. Allowed values: <code>manual</code> and <code>automated</code>. Use <code>automated</code> with <code>automatic_tax_enabled</code> as <code>true</code> for US automated sales tax. Use <code>manual</code> when you select taxes yourself. Supported on the invoice and on line items when tax automation is enabled for the organization.
+ */
+export type TaxSelectionMode = typeof TaxSelectionMode[keyof typeof TaxSelectionMode];
+
+/**
+ * Product tax category code for the line item used by automated sales tax (for example, <code>PC040100</code> for Apparel). Max-length [25] characters. Maps to the line item tax category on create and update. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is applied for lines that include <code>item_id</code>. Send this field to override or ensure a specific category.
+ */
+export type TaxCategoryCode = string;
+
+/**
+ * Tax category of the product or service on the line item. Used by automated sales tax to classify the line. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is inherited when the line includes <code>item_id</code>. You can send flat <code>tax_category_code</code> on the line instead of this object.
+ */
+export type ProductTaxCategory = {
+    /**
+     * Code of the tax category. Max-length [25].
+     */
+    tax_category_code?: string;
+    /**
+     * Name of the tax category.
+     */
+    tax_category_name?: string;
+    /**
+     * Description of the tax category.
+     */
+    description?: string;
+};
+
+/**
+ * Tax category applied to the shipping charge when automated sales tax is enabled (for example, <code>FR020000</code>). Send when <code>shipping_charge</code> is greater than zero. Omit when there is no shipping charge.
+ */
+export type ShippingChargeTaxCategory = {
+    /**
+     * Code of the shipping tax category. Max-length [25].
+     */
+    tax_category_code?: string;
+    /**
+     * Name of the shipping tax category.
+     */
+    tax_category_name?: string;
+    /**
+     * Description of the shipping tax category.
+     */
+    description?: string;
+};
 
 /**
  * Array of time entry IDs to be billed on this line item. This allows you to bill specific time entries against this line item, enabling detailed time-based invoicing and project cost tracking. Note: This value is a set of numeric characters separated by comma.
@@ -11201,6 +11285,10 @@ export type CreateAnInvoiceRequest = {
         discount_code?: DiscountCode;
         salesorder_item_id?: SalesorderItemId;
         line_item_category?: LineItemCategory;
+        tax_selection_mode?: TaxSelectionMode;
+        automatic_tax_enabled?: AutomaticTaxEnabled;
+        tax_category_code?: TaxCategoryCode;
+        product_tax_category?: ProductTaxCategory;
     }>;
     payment_options?: PaymentOptions;
     allow_partial_payments?: AllowPartialPayments;
@@ -11209,6 +11297,7 @@ export type CreateAnInvoiceRequest = {
     notes?: Notes;
     terms?: Terms;
     shipping_charge?: ShippingCharge;
+    shipping_charge_tax_category?: ShippingChargeTaxCategory;
     adjustment?: Adjustment;
     adjustment_description?: AdjustmentDescription;
     reason?: Reason;
@@ -11217,6 +11306,8 @@ export type CreateAnInvoiceRequest = {
     billing_address_id?: BillingAddressId;
     shipping_address_id?: ShippingAddressId;
     shipping_address?: ShippingAddress;
+    automatic_tax_enabled?: AutomaticTaxEnabled;
+    tax_selection_mode?: TaxSelectionMode;
     avatax_use_code?: AvataxUseCode;
     avatax_exempt_no?: AvataxExemptNo;
     tax_id?: TaxId;
@@ -11545,6 +11636,10 @@ export type UpdateAnInvoiceRequest = {
         reverse_charge_tax_id?: ReverseChargeTaxId;
         discount_code?: DiscountCode;
         line_item_category?: LineItemCategory;
+        tax_selection_mode?: TaxSelectionMode;
+        automatic_tax_enabled?: AutomaticTaxEnabled;
+        tax_category_code?: TaxCategoryCode;
+        product_tax_category?: ProductTaxCategory;
     }>;
     payment_options?: PaymentOptions;
     allow_partial_payments?: AllowPartialPayments;
@@ -11553,11 +11648,14 @@ export type UpdateAnInvoiceRequest = {
     notes?: Notes;
     terms?: Terms;
     shipping_charge?: ShippingCharge;
+    shipping_charge_tax_category?: ShippingChargeTaxCategory;
     adjustment?: Adjustment;
     adjustment_description?: AdjustmentDescription;
     reason?: Reason;
     tax_authority_id?: TaxAuthorityId;
     tax_exemption_id?: TaxExemptionId;
+    automatic_tax_enabled?: AutomaticTaxEnabled;
+    tax_selection_mode?: TaxSelectionMode;
     avatax_use_code?: AvataxUseCode;
     avatax_exempt_no?: AvataxExemptNo;
     tax_id?: TaxId;
@@ -12785,6 +12883,13 @@ export type PurchaseAccountId = string;
  * ID of the stock account to which the item has to be associated with. Mandatory, if item_type is inventory. Note: This value is a set of numeric characters.
  */
 export type InventoryAccountId = string;
+
+/**
+ * Update the custom fields of an item.
+ */
+export type UpdateAnItemCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
 
 /**
  * Reorder level of the item.
@@ -15636,6 +15741,13 @@ export type CanMarkAsBill = boolean;
 
 export type CanMarkAsUnbill = boolean;
 
+/**
+ * Update the custom fields of a purchase order.
+ */
+export type UpdateAPurchaseorderCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
+
 export type UpdateAnPurchaseorderCustomfieldResponse = {
     readonly code?: number;
     readonly message?: string;
@@ -18319,7 +18431,7 @@ export type MultiPreferenceEntities = {
         /**
          * Entity Name. Possible Values:  <br>Sales - <code>sales</code>,  <br>Purchases - <code>purchases</code>,  <br>Journal - <code>journals</code>,  <br>Inventory Adjustment - <code>inventory_adjustment</code>
          */
-        entity_name?: 'Sales' | 'Purchases' | 'Journal' | 'Inventory Adjustment';
+        entity_name?: 'sales' | 'purchases' | 'journals' | 'inventory_adjustment';
         /**
          * Is Enabled
          */
@@ -19363,6 +19475,13 @@ export type AvataxUseCodeDesc = string;
  * ID of Avalara Tax Code Used. Note: This value is a set of numeric characters.
  */
 export type AvataxUseCodeId = string;
+
+/**
+ * Update the custom fields of a sales order.
+ */
+export type UpdateASalesorderCustomfieldRequest = {
+    custom_fields?: CustomFields;
+};
 
 export type UpdateAnSalesorderCustomfieldResponse = {
     readonly code?: number;
@@ -32109,7 +32228,7 @@ export type UpdateSelfBilledInvoiceResponses = {
 export type UpdateSelfBilledInvoiceResponse = UpdateSelfBilledInvoiceResponses[keyof UpdateSelfBilledInvoiceResponses];
 
 export type UpdateCustomFieldsInBillData = {
-    body?: CustomFields;
+    body?: UpdateABillCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the bill.
@@ -38930,7 +39049,7 @@ export type CreateCustomerPaymentRefundResponses = {
 export type CreateCustomerPaymentRefundResponse = CreateCustomerPaymentRefundResponses[keyof CreateCustomerPaymentRefundResponses];
 
 export type UpdateCustomFieldsInCustomerPaymentData = {
-    body?: CustomFieldsUpdate;
+    body?: UpdateACustomerpaymentCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the customer payment. Note: This value is a set of numeric characters.
@@ -39797,7 +39916,7 @@ export type UpdateEstimateResponses = {
 export type UpdateEstimateResponse = UpdateEstimateResponses[keyof UpdateEstimateResponses];
 
 export type UpdateCustomFieldsInEstimateData = {
-    body?: CustomFieldsUpdate;
+    body?: UpdateAnEstimateCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the estimate. Note: This value is a set of numeric characters.
@@ -42457,7 +42576,7 @@ export type DeleteInvoiceExpenseReceiptResponses = {
 export type DeleteInvoiceExpenseReceiptResponse = DeleteInvoiceExpenseReceiptResponses[keyof DeleteInvoiceExpenseReceiptResponses];
 
 export type UpdateCustomFieldsInInvoiceData = {
-    body?: CustomFields;
+    body?: UpdateAnInvoiceCustomfieldRequest;
     path: {
         /**
          * Unique identifier for the debit note
@@ -44589,7 +44708,7 @@ export type UpdateItemResponses = {
 export type UpdateItemResponse = UpdateItemResponses[keyof UpdateItemResponses];
 
 export type UpdateCustomFieldsInItemData = {
-    body?: CustomFields;
+    body?: UpdateAnItemCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the item. Note: This value is a set of numeric characters.
@@ -48210,7 +48329,7 @@ export type UpdatePurchaseOrderResponses = {
 export type UpdatePurchaseOrderResponse = UpdatePurchaseOrderResponses[keyof UpdatePurchaseOrderResponses];
 
 export type UpdateCustomFieldsInPurchaseOrderData = {
-    body?: CustomFields;
+    body?: UpdateAPurchaseorderCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the purchase order. Note: This value is a set of numeric characters.
@@ -52369,7 +52488,7 @@ export type UpdateSalesOrderResponses = {
 export type UpdateSalesOrderResponse = UpdateSalesOrderResponses[keyof UpdateSalesOrderResponses];
 
 export type UpdateSalesorderCustomfieldsData = {
-    body?: CustomFields;
+    body?: UpdateASalesorderCustomfieldRequest;
     path: {
         /**
          * Unique identifier of the sales order. Note: This value is a set of numeric characters.
