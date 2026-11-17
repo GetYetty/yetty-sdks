@@ -13214,6 +13214,39 @@ export const typeSchema = {
     example: 1
 } as const;
 
+export const product_tax_categorySchema = {
+    description: 'Tax category of the product or service on the line item, used for automated sales tax. <code>tax_category_code</code> is required; <code>tax_category_name</code> and <code>description</code> can be omitted or empty. If the code already exists in the organization, the existing category is used; otherwise, a new category is created with the details sent. When omitted and automated sales tax is enabled, the line uses the tax category of the item in <code>item_id</code>.',
+    type: 'object',
+    required: [
+        'tax_category_code'
+    ],
+    properties: {
+        tax_category_code: {
+            description: 'Code of the tax category, as listed by the tax provider (for example, <code>PC040100</code>). Maximum length: 1000 characters.',
+            type: 'string',
+            example: 'PC040100'
+        },
+        tax_category_name: {
+            description: 'Name of the tax category (for example, <code>Apparel</code>). Can be omitted or empty. Maximum length: 1000 characters.',
+            type: 'string',
+            example: 'Apparel'
+        },
+        description: {
+            description: 'Description of the tax category. Can be omitted or empty. Max-length [8000]',
+            type: 'string',
+            example: ''
+        }
+    },
+    'x-node_available_in': [
+        'us',
+        'ca',
+        'sg',
+        'my',
+        'ng'
+    ],
+    'x-node_unavailable_in': []
+} as const;
+
 export const template_nameSchema = {
     description: 'Name of the default template of the creditnote.',
     type: 'string',
@@ -13385,6 +13418,109 @@ export const mailhistory_idSchema = {
     example: 982000000570005
 } as const;
 
+export const update_a_credit_note_line_itemsSchema = {
+    description: 'Line items of a credit note.',
+    type: 'array',
+    items: {
+        type: 'object',
+        properties: {
+            item_id: {
+                $ref: '#/components/schemas/item_id'
+            },
+            line_item_id: {
+                $ref: '#/components/schemas/line_item_id'
+            },
+            account_id: {
+                $ref: '#/components/schemas/account_id'
+            },
+            name: {
+                $ref: '#/components/schemas/name'
+            },
+            description: {
+                $ref: '#/components/schemas/description'
+            },
+            item_order: {
+                $ref: '#/components/schemas/item_order'
+            },
+            rate: {
+                $ref: '#/components/schemas/rate'
+            },
+            quantity: {
+                $ref: '#/components/schemas/quantity'
+            },
+            unit: {
+                $ref: '#/components/schemas/unit'
+            },
+            discount: {
+                $ref: '#/components/schemas/discount'
+            },
+            discount_code: {
+                $ref: '#/components/schemas/discount_code'
+            },
+            tax_id: {
+                $ref: '#/components/schemas/tax_id'
+            },
+            tds_tax_id: {
+                $ref: '#/components/schemas/tds_tax_id'
+            },
+            tax_exemption_id: {
+                $ref: '#/components/schemas/tax_exemption_id'
+            },
+            tax_exemption_code: {
+                $ref: '#/components/schemas/tax_exemption_code'
+            },
+            tax_treatment_code: {
+                $ref: '#/components/schemas/tax_treatment_code'
+            },
+            reverse_charge_tax_id: {
+                $ref: '#/components/schemas/reverse_charge_tax_id'
+            },
+            avatax_use_code: {
+                $ref: '#/components/schemas/avatax_use_code'
+            },
+            avatax_tax_code: {
+                $ref: '#/components/schemas/avatax_tax_code'
+            },
+            product_tax_category: {
+                $ref: '#/components/schemas/product_tax_category'
+            },
+            product_type: {
+                $ref: '#/components/schemas/product_type'
+            },
+            hsn_or_sac: {
+                $ref: '#/components/schemas/hsn_or_sac'
+            },
+            sat_item_key_code: {
+                $ref: '#/components/schemas/sat_item_key_code'
+            },
+            unitkey_code: {
+                $ref: '#/components/schemas/unitkey_code'
+            },
+            item_custom_fields: {
+                $ref: '#/components/schemas/item_custom_fields'
+            },
+            location_id: {
+                $ref: '#/components/schemas/location_id'
+            },
+            location_name: {
+                $ref: '#/components/schemas/location_name'
+            },
+            serial_numbers: {
+                $ref: '#/components/schemas/serial_numbers'
+            },
+            project_id: {
+                $ref: '#/components/schemas/project_id'
+            },
+            tags: {
+                $ref: '#/components/schemas/tags_response'
+            },
+            line_item_category: {
+                $ref: '#/components/schemas/line_item_category'
+            }
+        }
+    }
+} as const;
+
 export const template_idSchema2 = {
     type: 'string',
     example: 982000000010019
@@ -13463,6 +13599,9 @@ export const create_a_credit_note_requestSchema = {
                     },
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
@@ -13748,7 +13887,7 @@ export const update_a_credit_note_requestSchema = {
             $ref: '#/components/schemas/exchange_rate'
         },
         line_items: {
-            $ref: '#/components/schemas/line_items'
+            $ref: '#/components/schemas/update-a-credit-note-line-items'
         },
         location_id: {
             $ref: '#/components/schemas/location_id'
@@ -20520,6 +20659,9 @@ export const create_an_estimate_requestSchema = {
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
                     },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
+                    },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
                     },
@@ -20922,6 +21064,9 @@ export const update_an_estimate_requestSchema = {
                     },
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
@@ -25188,32 +25333,6 @@ export const tax_category_codeSchema = {
     description: 'Product tax category code for the line item used by automated sales tax (for example, <code>PC040100</code> for Apparel). Max-length [25] characters. Maps to the line item tax category on create and update. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is applied for lines that include <code>item_id</code>. Send this field to override or ensure a specific category.',
     type: 'string',
     example: 'PC040100',
-    'x-node_available_in': [
-        'us'
-    ],
-    'x-node_unavailable_in': []
-} as const;
-
-export const product_tax_categorySchema = {
-    description: 'Tax category of the product or service on the line item. Used by automated sales tax to classify the line. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is inherited when the line includes <code>item_id</code>. You can send flat <code>tax_category_code</code> on the line instead of this object.',
-    type: 'object',
-    properties: {
-        tax_category_code: {
-            description: 'Code of the tax category. Max-length [25].',
-            type: 'string',
-            example: 'PC040100'
-        },
-        tax_category_name: {
-            description: 'Name of the tax category.',
-            type: 'string',
-            example: 'Apparel'
-        },
-        description: {
-            description: 'Description of the tax category.',
-            type: 'string',
-            example: ''
-        }
-    },
     'x-node_available_in': [
         'us'
     ],
@@ -29832,6 +29951,9 @@ export const item_responseSchema = {
         product_type: {
             $ref: '#/components/schemas/product_type'
         },
+        product_tax_category: {
+            $ref: '#/components/schemas/product_tax_category'
+        },
         item_tax_preferences: {
             $ref: '#/components/schemas/item_tax_preferences'
         },
@@ -30141,6 +30263,9 @@ export const create_an_item_requestSchema = {
         },
         avatax_use_code: {
             $ref: '#/components/schemas/avatax_use_code'
+        },
+        product_tax_category: {
+            $ref: '#/components/schemas/product_tax_category'
         },
         item_type: {
             $ref: '#/components/schemas/item_type'
@@ -30452,6 +30577,9 @@ export const update_an_item_requestSchema = {
         },
         avatax_use_code: {
             $ref: '#/components/schemas/avatax_use_code'
+        },
+        product_tax_category: {
+            $ref: '#/components/schemas/product_tax_category'
         },
         item_type: {
             $ref: '#/components/schemas/item_type'
@@ -31188,6 +31316,9 @@ export const create_an_item_master_requestSchema = {
                     vendor_id: {
                         $ref: '#/components/schemas/vendor_id'
                     },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
+                    },
                     custom_fields: {
                         $ref: '#/components/schemas/custom_fields'
                     }
@@ -31364,6 +31495,9 @@ export const create_an_item_variant_requestSchema = {
         },
         tax_id: {
             $ref: '#/components/schemas/tax_id'
+        },
+        product_tax_category: {
+            $ref: '#/components/schemas/product_tax_category'
         },
         description: {
             $ref: '#/components/schemas/description'
@@ -41203,6 +41337,9 @@ export const create_a_recurring_invoice_requestSchema = {
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
                     },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
+                    },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
                     },
@@ -41549,6 +41686,9 @@ export const update_recurring_invoice_requestSchema = {
                     },
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
@@ -46366,6 +46506,9 @@ export const create_a_sales_order_requestSchema = {
                     tax_id: {
                         $ref: '#/components/schemas/tax_id'
                     },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
+                    },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
                     },
@@ -46734,6 +46877,9 @@ export const update_a_sales_order_requestSchema = {
                         description: 'Tax ID for the Sales Order. Note: This value is a set of numeric characters.',
                         type: 'string',
                         example: '460000000017094'
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     },
                     tds_tax_id: {
                         $ref: '#/components/schemas/tds_tax_id'
@@ -47728,6 +47874,9 @@ export const create_a_sales_receipt_requestSchema = {
                         type: 'string',
                         example: '460000000017094'
                     },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
+                    },
                     tags: {
                         $ref: '#/components/schemas/tags'
                     },
@@ -47820,6 +47969,9 @@ export const update_a_sales_receipt_requestSchema = {
                         type: 'number',
                         format: 'double',
                         example: 2
+                    },
+                    product_tax_category: {
+                        $ref: '#/components/schemas/product_tax_category'
                     },
                     tags: {
                         $ref: '#/components/schemas/tags'

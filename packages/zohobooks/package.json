@@ -1,6 +1,6 @@
 {
   "name": "@getyetty-sdk/zohobooks",
-  "version": "2026.11.6",
+  "version": "2026.11.17",
   "description": "TypeScript client for the ZohoBooks API, auto-generated from OpenAPI spec",
   "keywords": [
     "api",

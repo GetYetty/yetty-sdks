@@ -5939,6 +5939,24 @@ export type Code = string;
 export type Type = number;
 
 /**
+ * Tax category of the product or service on the line item, used for automated sales tax. <code>tax_category_code</code> is required; <code>tax_category_name</code> and <code>description</code> can be omitted or empty. If the code already exists in the organization, the existing category is used; otherwise, a new category is created with the details sent. When omitted and automated sales tax is enabled, the line uses the tax category of the item in <code>item_id</code>.
+ */
+export type ProductTaxCategory = {
+    /**
+     * Code of the tax category, as listed by the tax provider (for example, <code>PC040100</code>). Maximum length: 1000 characters.
+     */
+    tax_category_code: string;
+    /**
+     * Name of the tax category (for example, <code>Apparel</code>). Can be omitted or empty. Maximum length: 1000 characters.
+     */
+    tax_category_name?: string;
+    /**
+     * Description of the tax category. Can be omitted or empty. Max-length [8000]
+     */
+    description?: string;
+};
+
+/**
  * Name of the default template of the creditnote.
  */
 export type TemplateName = string;
@@ -6049,6 +6067,43 @@ export type Accept = string;
 
 export type MailhistoryId = string;
 
+/**
+ * Line items of a credit note.
+ */
+export type UpdateACreditNoteLineItems = Array<{
+    item_id?: ItemId;
+    line_item_id?: LineItemId;
+    account_id?: AccountId;
+    name?: Name;
+    description?: Description;
+    item_order?: ItemOrder;
+    rate?: Rate;
+    quantity?: Quantity;
+    unit?: Unit;
+    discount?: Discount;
+    discount_code?: DiscountCode;
+    tax_id?: TaxId;
+    tds_tax_id?: TdsTaxId;
+    tax_exemption_id?: TaxExemptionId;
+    tax_exemption_code?: TaxExemptionCode;
+    tax_treatment_code?: TaxTreatmentCode;
+    reverse_charge_tax_id?: ReverseChargeTaxId;
+    avatax_use_code?: AvataxUseCode;
+    avatax_tax_code?: AvataxTaxCode;
+    product_tax_category?: ProductTaxCategory;
+    product_type?: ProductType;
+    hsn_or_sac?: HsnOrSac;
+    sat_item_key_code?: SatItemKeyCode;
+    unitkey_code?: UnitkeyCode;
+    item_custom_fields?: ItemCustomFields;
+    location_id?: LocationId;
+    location_name?: LocationName;
+    serial_numbers?: SerialNumbers;
+    project_id?: ProjectId;
+    tags?: TagsResponse;
+    line_item_category?: LineItemCategory;
+}>;
+
 export type TemplateId2 = string;
 
 export type TemplateType = string;
@@ -6078,6 +6133,7 @@ export type CreateACreditNoteRequest = {
         account_name?: AccountName;
         quantity?: Quantity;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tax_treatment_code?: TaxTreatmentCode;
         reverse_charge_tax_id?: ReverseChargeTaxId;
@@ -6173,7 +6229,7 @@ export type UpdateACreditNoteRequest = {
     date: Date;
     is_draft?: IsDraft;
     exchange_rate?: ExchangeRate;
-    line_items: LineItems;
+    line_items: UpdateACreditNoteLineItems;
     location_id?: LocationId;
     creditnote_number: CreditnoteNumber;
     gst_treatment?: GstTreatment;
@@ -9262,6 +9318,7 @@ export type CreateAnEstimateRequest = {
         discount_amount?: DiscountAmount;
         discount?: Discount;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tax_name?: TaxName;
         tax_type?: TaxType;
@@ -9418,6 +9475,7 @@ export type UpdateAnEstimateRequest = {
         discount_amount?: DiscountAmount;
         discount?: Discount;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tax_name?: TaxName;
         tax_type?: TaxType;
@@ -11097,24 +11155,6 @@ export type TaxSelectionMode = typeof TaxSelectionMode[keyof typeof TaxSelection
  * Product tax category code for the line item used by automated sales tax (for example, <code>PC040100</code> for Apparel). Max-length [25] characters. Maps to the line item tax category on create and update. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is applied for lines that include <code>item_id</code>. Send this field to override or ensure a specific category.
  */
 export type TaxCategoryCode = string;
-
-/**
- * Tax category of the product or service on the line item. Used by automated sales tax to classify the line. When omitted and automated tax is enabled, the category configured on the item in Zoho Books is inherited when the line includes <code>item_id</code>. You can send flat <code>tax_category_code</code> on the line instead of this object.
- */
-export type ProductTaxCategory = {
-    /**
-     * Code of the tax category. Max-length [25].
-     */
-    tax_category_code?: string;
-    /**
-     * Name of the tax category.
-     */
-    tax_category_name?: string;
-    /**
-     * Description of the tax category.
-     */
-    description?: string;
-};
 
 /**
  * Tax category applied to the shipping charge when automated sales tax is enabled (for example, <code>FR020000</code>). Send when <code>shipping_charge</code> is greater than zero. Omit when there is no shipping charge.
@@ -12842,6 +12882,7 @@ export type ItemResponse = {
     tax_type?: TaxType;
     sku?: Sku;
     product_type?: ProductType;
+    product_tax_category?: ProductTaxCategory;
     item_tax_preferences?: ItemTaxPreferences;
     custom_fields?: CustomFields;
     locations?: Locations;
@@ -12996,6 +13037,7 @@ export type CreateAnItemRequest = {
     account_id?: AccountId;
     avatax_tax_code?: AvataxTaxCode;
     avatax_use_code?: AvataxUseCode;
+    product_tax_category?: ProductTaxCategory;
     item_type?: ItemType;
     purchase_description?: PurchaseDescription;
     purchase_rate?: PurchaseRate;
@@ -13103,6 +13145,7 @@ export type UpdateAnItemRequest = {
     account_id?: AccountId;
     avatax_tax_code?: AvataxTaxCode;
     avatax_use_code?: AvataxUseCode;
+    product_tax_category?: ProductTaxCategory;
     item_type?: ItemType;
     purchase_description?: PurchaseDescription;
     purchase_rate?: PurchaseRate;
@@ -13403,6 +13446,7 @@ export type CreateAnItemMasterRequest = {
          */
         attribute_option_name3?: string;
         vendor_id?: VendorId;
+        product_tax_category?: ProductTaxCategory;
         custom_fields?: CustomFields;
     }>;
     hsn_or_sac?: HsnOrSac;
@@ -13458,6 +13502,7 @@ export type CreateAnItemVariantRequest = {
     track_inventory?: TrackInventory;
     is_taxable?: IsTaxable;
     tax_id?: TaxId;
+    product_tax_category?: ProductTaxCategory;
     description?: Description;
     purchase_description?: PurchaseDescription;
     purchase_rate?: PurchaseRate;
@@ -17703,6 +17748,7 @@ export type CreateARecurringInvoiceRequest = {
         tags?: Tags;
         location_id?: LocationId;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tax_treatment_code?: TaxTreatmentCode;
         project_id?: ProjectId;
@@ -17819,6 +17865,7 @@ export type UpdateRecurringInvoiceRequest = {
         discount?: Discount;
         tags?: Tags;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tax_exemption_id?: TaxExemptionId;
         tax_treatment_code?: TaxTreatmentCode;
@@ -19637,6 +19684,7 @@ export type CreateASalesOrderRequest = {
         location_id?: LocationId;
         discount?: Discount;
         tax_id?: TaxId;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tags?: Tags;
         unit?: Unit;
@@ -19772,6 +19820,7 @@ export type UpdateASalesOrderRequest = {
          * Tax ID for the Sales Order. Note: This value is a set of numeric characters.
          */
         tax_id?: string;
+        product_tax_category?: ProductTaxCategory;
         tds_tax_id?: TdsTaxId;
         tags?: Tags;
         unit?: Unit;
@@ -20198,6 +20247,7 @@ export type CreateASalesReceiptRequest = {
          * ID of the tax to be applied
          */
         tax_id?: string;
+        product_tax_category?: ProductTaxCategory;
         tags?: Tags;
         line_item_category?: LineItemCategory;
     }>;
@@ -20251,6 +20301,7 @@ export type UpdateASalesReceiptRequest = {
          * Quantity of the item
          */
         quantity?: number;
+        product_tax_category?: ProductTaxCategory;
         tags?: Tags;
         line_item_category?: LineItemCategory;
     }>;
