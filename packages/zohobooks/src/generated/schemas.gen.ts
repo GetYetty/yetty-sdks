@@ -47647,6 +47647,143 @@ export const list_sales_order_comments_and_history_responseSchema = {
     }
 } as const;
 
+export const fulfill_salesorder_shipment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Sales order(s) status has been changed to \'Fulfilled\'.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const unfulfill_salesorder_shipment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Sales order(s) status has been changed to \'Unfulfilled\'.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const bulk_fulfill_salesorder_shipment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Sales order(s) status has been changed to \'Fulfilled\'.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const bulk_unfulfill_salesorder_shipment_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'Sales order(s) status has been changed to \'Unfulfilled\'.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const salesorder_shipment_fulfillment_requestSchema = {
+    type: 'object',
+    required: [
+        'line_items'
+    ],
+    properties: {
+        line_items: {
+            description: 'Line items to be fulfilled or unfulfilled, each with its quantity. Omit the request body to fulfill or unfulfill every line item of the sales order. Max of [1000] line items.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/salesorder-shipment-fulfillment-line-item'
+            }
+        }
+    }
+} as const;
+
+export const salesorder_shipment_fulfillment_line_itemSchema = {
+    type: 'object',
+    required: [
+        'salesorder_item_id',
+        'quantity'
+    ],
+    properties: {
+        salesorder_item_id: {
+            description: 'Unique identifier of the sales order line item.',
+            type: 'string',
+            example: '460000000039131'
+        },
+        picklist_item_id: {
+            description: 'Unique identifier of the picklist line item, when the line item is picked through a picklist.',
+            type: 'string',
+            example: '0'
+        },
+        quantity: {
+            description: 'Quantity of the line item to fulfill or unfulfill.',
+            type: 'number',
+            example: 40
+        },
+        mapped_items: {
+            description: 'Items mapped to this line item, each with its own quantity. Max [1000] items.',
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/salesorder-shipment-fulfillment-mapped-item'
+            }
+        }
+    }
+} as const;
+
+export const salesorder_shipment_fulfillment_mapped_itemSchema = {
+    type: 'object',
+    required: [
+        'salesorder_item_id',
+        'quantity'
+    ],
+    properties: {
+        salesorder_item_id: {
+            description: 'Unique identifier of the mapped sales order line item.',
+            type: 'string',
+            example: '460000000039131'
+        },
+        picklist_item_id: {
+            description: 'Unique identifier of the picklist line item, when the item was picked through a picklist.',
+            type: 'string',
+            example: '0'
+        },
+        quantity: {
+            description: 'Quantity of the mapped item to fulfill or unfulfill.',
+            type: 'number',
+            example: 40
+        }
+    }
+} as const;
+
 export const salesreceipt_responseSchema = {
     type: 'object',
     properties: {

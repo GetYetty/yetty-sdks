@@ -20087,6 +20087,67 @@ export type ListSalesOrderCommentsAndHistoryResponse = {
     comments?: unknown;
 };
 
+export type FulfillSalesorderShipmentResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type UnfulfillSalesorderShipmentResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type BulkFulfillSalesorderShipmentResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type BulkUnfulfillSalesorderShipmentResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type SalesorderShipmentFulfillmentRequest = {
+    /**
+     * Line items to be fulfilled or unfulfilled, each with its quantity. Omit the request body to fulfill or unfulfill every line item of the sales order. Max of [1000] line items.
+     */
+    line_items: Array<SalesorderShipmentFulfillmentLineItem>;
+};
+
+export type SalesorderShipmentFulfillmentLineItem = {
+    /**
+     * Unique identifier of the sales order line item.
+     */
+    salesorder_item_id: string;
+    /**
+     * Unique identifier of the picklist line item, when the line item is picked through a picklist.
+     */
+    picklist_item_id?: string;
+    /**
+     * Quantity of the line item to fulfill or unfulfill.
+     */
+    quantity: number;
+    /**
+     * Items mapped to this line item, each with its own quantity. Max [1000] items.
+     */
+    mapped_items?: Array<SalesorderShipmentFulfillmentMappedItem>;
+};
+
+export type SalesorderShipmentFulfillmentMappedItem = {
+    /**
+     * Unique identifier of the mapped sales order line item.
+     */
+    salesorder_item_id: string;
+    /**
+     * Unique identifier of the picklist line item, when the item was picked through a picklist.
+     */
+    picklist_item_id?: string;
+    /**
+     * Quantity of the mapped item to fulfill or unfulfill.
+     */
+    quantity: number;
+};
+
 export type SalesreceiptResponse = {
     /**
      * ID of the Sales Receipt
@@ -53165,6 +53226,124 @@ export type UpdateSalesOrderCommentResponses = {
 };
 
 export type UpdateSalesOrderCommentResponse = UpdateSalesOrderCommentResponses[keyof UpdateSalesOrderCommentResponses];
+
+export type FulfillSalesorderShipmentData = {
+    body?: SalesorderShipmentFulfillmentRequest;
+    path: {
+        /**
+         * Unique identifier of the sales order.
+         */
+        salesorder_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Reason for fulfilling the sales order. Max-length [500]
+         */
+        reason?: string;
+    };
+    url: '/salesorders/{salesorder_id}/status/fulfilled';
+};
+
+export type FulfillSalesorderShipmentResponses = {
+    /**
+     * OK
+     */
+    200: FulfillSalesorderShipmentResponse;
+};
+
+export type FulfillSalesorderShipmentResponse2 = FulfillSalesorderShipmentResponses[keyof FulfillSalesorderShipmentResponses];
+
+export type UnfulfillSalesorderShipmentData = {
+    body?: SalesorderShipmentFulfillmentRequest;
+    path: {
+        /**
+         * Unique identifier of the sales order.
+         */
+        salesorder_id: string;
+    };
+    query: {
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+        /**
+         * Reason for unfulfilling the sales order. Max-length [500]
+         */
+        reason?: string;
+    };
+    url: '/salesorders/{salesorder_id}/status/unfulfilled';
+};
+
+export type UnfulfillSalesorderShipmentResponses = {
+    /**
+     * OK
+     */
+    200: UnfulfillSalesorderShipmentResponse;
+};
+
+export type UnfulfillSalesorderShipmentResponse2 = UnfulfillSalesorderShipmentResponses[keyof UnfulfillSalesorderShipmentResponses];
+
+export type FulfillBulkSalesorderShipmentData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Comma-separated list of sales order IDs. Max of [200] IDs.
+         */
+        salesorder_ids: string;
+        /**
+         * Reason for fulfilling the sales orders. Max-length [500]
+         */
+        reason?: string;
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/salesorders/status/fulfilled';
+};
+
+export type FulfillBulkSalesorderShipmentResponses = {
+    /**
+     * OK
+     */
+    200: BulkFulfillSalesorderShipmentResponse;
+};
+
+export type FulfillBulkSalesorderShipmentResponse = FulfillBulkSalesorderShipmentResponses[keyof FulfillBulkSalesorderShipmentResponses];
+
+export type UnfulfillBulkSalesorderShipmentData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Comma-separated list of sales order IDs. Max of [200] IDs.
+         */
+        salesorder_ids: string;
+        /**
+         * Reason for unfulfilling the sales orders. Max-length [500]
+         */
+        reason?: string;
+        /**
+         * ID of the organization
+         */
+        organization_id: string;
+    };
+    url: '/salesorders/status/unfulfilled';
+};
+
+export type UnfulfillBulkSalesorderShipmentResponses = {
+    /**
+     * OK
+     */
+    200: BulkUnfulfillSalesorderShipmentResponse;
+};
+
+export type UnfulfillBulkSalesorderShipmentResponse = UnfulfillBulkSalesorderShipmentResponses[keyof UnfulfillBulkSalesorderShipmentResponses];
 
 export type ListSalesReceiptsData = {
     body?: never;
