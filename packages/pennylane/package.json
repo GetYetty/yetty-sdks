@@ -47,7 +47,7 @@
     "@mistralai/mistralai": "^2.2.5",
     "@stoplight/prism-cli": "^5.15.11",
     "@types/node": "^25.9.1",
-    "tsdown": "^0.22.2",
+    "tsdown": "^0.23.0",
     "vitest": "^4.1.8"
   },
   "engines": {
