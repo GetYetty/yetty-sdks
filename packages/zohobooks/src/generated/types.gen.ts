@@ -7189,6 +7189,21 @@ export type DeleteAnExchageRateResponse = {
     readonly message?: string;
 };
 
+export type GetBaseCurrencyEditpageResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type UpdateBaseCurrencyResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type ConfigureExchangeRateFeedsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
 export type ModuleRecordResponse = {
     module_record_id?: RecordId;
     module_api_name?: ModuleApiName;
@@ -22821,6 +22836,102 @@ export type MarkUserAsInactiveResponse = {
     readonly message?: string;
 };
 
+export type UserEditpageResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+export type MarkUserAsSuperAdminResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
+/**
+ * Person identity and active personas in the organization.
+ */
+export type PersonDetails = {
+    /**
+     * Unique identifier (Users.USERID).
+     */
+    people_id?: string;
+    name?: string;
+    /**
+     * Zoho account user id when linked.
+     */
+    zuid?: string;
+    email?: string;
+    mobile?: string;
+    /**
+     * IAM contact email when ZUID is present.
+     */
+    iam_contact_email?: string;
+    /**
+     * IAM contact mobile when ZUID is present.
+     */
+    iam_contact_mobile?: string;
+    /**
+     * yet_to_invite, invited, or accepted.
+     */
+    invitation_status?: string;
+    /**
+     * Invitation type from Users.InvitationType.
+     */
+    invitation_type?: string;
+    /**
+     * Active persona keys for this person.
+     */
+    personas?: Array<'user' | 'employee' | 'salesperson' | 'worker' | 'quality_analyst' | 'retail_staff' | 'warehouse_staff'>;
+};
+
+export type GetPersonDetailsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    person?: PersonDetails;
+};
+
+/**
+ * A person row for autocomplete selection.
+ */
+export type AutocompletePersonRow = {
+    /**
+     * Unique identifier of the person (Users.USERID).
+     */
+    people_id?: string;
+    /**
+     * Display name.
+     */
+    name?: string;
+    /**
+     * Email address.
+     */
+    email?: string;
+    /**
+     * Mobile number when available.
+     */
+    mobile?: string;
+};
+
+export type AutocompletePersonsResponse = {
+    readonly code?: number;
+    readonly message?: string;
+    results?: Array<AutocompletePersonRow>;
+    /**
+     * Pagination metadata when present.
+     */
+    page_context?: {
+        page?: number;
+        per_page?: number;
+        has_more_page?: boolean;
+        sort_column?: string;
+        sort_order?: string;
+    };
+};
+
+export type ChangeUserLanguageResponse = {
+    readonly code?: number;
+    readonly message?: string;
+};
+
 export type VendorCreditResponse = {
     vendor_credit_id?: VendorCreditId;
     vendor_credit_number?: VendorCreditNumber;
@@ -29462,6 +29573,24 @@ export type GetCurrentUserResponseWritable = {
         is_employee?: IsEmployee;
         created_time?: CreatedTime;
         custom_fields?: CustomFields;
+    };
+};
+
+export type GetPersonDetailsResponseWritable = {
+    person?: PersonDetails;
+};
+
+export type AutocompletePersonsResponseWritable = {
+    results?: Array<AutocompletePersonRow>;
+    /**
+     * Pagination metadata when present.
+     */
+    page_context?: {
+        page?: number;
+        per_page?: number;
+        has_more_page?: boolean;
+        sort_column?: string;
+        sort_order?: string;
     };
 };
 

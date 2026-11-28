@@ -9460,7 +9460,7 @@ paths:
       operationId: get_exchange_rate
       x-mcp-operation-type: read
       summary: Get an exchange rate.
-      description: Get the details of an exchange rate that has been asscoiated to the currency.
+      description: Get the details of an exchange rate that has been associated to the currency.
       parameters:
         - name: exchange_rate_id
           in: path
@@ -9516,7 +9516,7 @@ paths:
         - currency
       operationId: delete_exchange_rate
       x-mcp-operation-type: delete
-      summary: Delete an exchage rate
+      summary: Delete an exchange rate
       description: Delete an exchange rate for the specified currency.
       parameters:
         - name: exchange_rate_id
@@ -42984,6 +42984,39 @@ components:
           type: string
           example: Exchange rate successfully deleted
           readOnly: true
+    get-base-currency-editpage-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+    update-base-currency-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The base currency has been updated.
+          readOnly: true
+    configure-exchange-rate-feeds-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
     module_record-response:
       type: object
       properties:
@@ -68040,6 +68073,159 @@ components:
         message:
           type: string
           example: The user has been marked as inactive.
+          readOnly: true
+    user-editpage-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+    mark-user-as-super-admin-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: The Super Admin has been changed.
+          readOnly: true
+    person-details:
+      type: object
+      description: Person identity and active personas in the organization.
+      properties:
+        people_id:
+          type: string
+          description: Unique identifier (Users.USERID).
+          example: '982000000554041'
+        name:
+          type: string
+          example: John Smith
+        zuid:
+          type: string
+          description: Zoho account user id when linked.
+          example: '12345678'
+        email:
+          type: string
+          example: johndavid@zilliuminc.com
+        mobile:
+          type: string
+          example: ''
+        iam_contact_email:
+          type: string
+          description: IAM contact email when ZUID is present.
+          example: ''
+        iam_contact_mobile:
+          type: string
+          description: IAM contact mobile when ZUID is present.
+          example: ''
+        invitation_status:
+          type: string
+          description: yet_to_invite, invited, or accepted.
+          example: accepted
+        invitation_type:
+          type: string
+          description: Invitation type from Users.InvitationType.
+          example: email
+        personas:
+          type: array
+          description: Active persona keys for this person.
+          items:
+            type: string
+            enum:
+              - user
+              - employee
+              - salesperson
+              - worker
+              - quality_analyst
+              - retail_staff
+              - warehouse_staff
+          example:
+            - user
+            - employee
+    get-person-details-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+        person:
+          $ref: '#/components/schemas/person-details'
+    autocomplete-person-row:
+      type: object
+      description: A person row for autocomplete selection.
+      properties:
+        people_id:
+          type: string
+          description: Unique identifier of the person (Users.USERID).
+          example: '982000000554041'
+        name:
+          type: string
+          description: Display name.
+          example: John Smith
+        email:
+          type: string
+          description: Email address.
+          example: johndavid@zilliuminc.com
+        mobile:
+          type: string
+          description: Mobile number when available.
+          example: ''
+    autocomplete-persons-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: success
+          readOnly: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/autocomplete-person-row'
+        page_context:
+          type: object
+          description: Pagination metadata when present.
+          properties:
+            page:
+              type: integer
+              example: 1
+            per_page:
+              type: integer
+              example: 1000
+            has_more_page:
+              type: boolean
+              example: false
+            sort_column:
+              type: string
+              example: name
+            sort_order:
+              type: string
+              example: A
+    change-user-language-response:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+          readOnly: true
+        message:
+          type: string
+          example: User language has been changed successfully.
           readOnly: true
     vendor_credit-response:
       type: object

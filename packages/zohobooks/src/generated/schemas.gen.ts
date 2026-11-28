@@ -16538,6 +16538,54 @@ export const delete_an_exchage_rate_responseSchema = {
     }
 } as const;
 
+export const get_base_currency_editpage_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const update_base_currency_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The base currency has been updated.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const configure_exchange_rate_feeds_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        }
+    }
+} as const;
+
 export const module_record_responseSchema = {
     type: 'object',
     properties: {
@@ -53332,6 +53380,217 @@ export const mark_user_as_inactive_responseSchema = {
     }
 } as const;
 
+export const user_editpage_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const mark_user_as_super_admin_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'The Super Admin has been changed.',
+            readOnly: true
+        }
+    }
+} as const;
+
+export const person_detailsSchema = {
+    type: 'object',
+    description: 'Person identity and active personas in the organization.',
+    properties: {
+        people_id: {
+            type: 'string',
+            description: 'Unique identifier (Users.USERID).',
+            example: '982000000554041'
+        },
+        name: {
+            type: 'string',
+            example: 'John Smith'
+        },
+        zuid: {
+            type: 'string',
+            description: 'Zoho account user id when linked.',
+            example: '12345678'
+        },
+        email: {
+            type: 'string',
+            example: 'johndavid@zilliuminc.com'
+        },
+        mobile: {
+            type: 'string',
+            example: ''
+        },
+        iam_contact_email: {
+            type: 'string',
+            description: 'IAM contact email when ZUID is present.',
+            example: ''
+        },
+        iam_contact_mobile: {
+            type: 'string',
+            description: 'IAM contact mobile when ZUID is present.',
+            example: ''
+        },
+        invitation_status: {
+            type: 'string',
+            description: 'yet_to_invite, invited, or accepted.',
+            example: 'accepted'
+        },
+        invitation_type: {
+            type: 'string',
+            description: 'Invitation type from Users.InvitationType.',
+            example: 'email'
+        },
+        personas: {
+            type: 'array',
+            description: 'Active persona keys for this person.',
+            items: {
+                type: 'string',
+                enum: [
+                    'user',
+                    'employee',
+                    'salesperson',
+                    'worker',
+                    'quality_analyst',
+                    'retail_staff',
+                    'warehouse_staff'
+                ]
+            },
+            example: [
+                'user',
+                'employee'
+            ]
+        }
+    }
+} as const;
+
+export const get_person_details_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        person: {
+            $ref: '#/components/schemas/person-details'
+        }
+    }
+} as const;
+
+export const autocomplete_person_rowSchema = {
+    type: 'object',
+    description: 'A person row for autocomplete selection.',
+    properties: {
+        people_id: {
+            type: 'string',
+            description: 'Unique identifier of the person (Users.USERID).',
+            example: '982000000554041'
+        },
+        name: {
+            type: 'string',
+            description: 'Display name.',
+            example: 'John Smith'
+        },
+        email: {
+            type: 'string',
+            description: 'Email address.',
+            example: 'johndavid@zilliuminc.com'
+        },
+        mobile: {
+            type: 'string',
+            description: 'Mobile number when available.',
+            example: ''
+        }
+    }
+} as const;
+
+export const autocomplete_persons_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'success',
+            readOnly: true
+        },
+        results: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/autocomplete-person-row'
+            }
+        },
+        page_context: {
+            type: 'object',
+            description: 'Pagination metadata when present.',
+            properties: {
+                page: {
+                    type: 'integer',
+                    example: 1
+                },
+                per_page: {
+                    type: 'integer',
+                    example: 1000
+                },
+                has_more_page: {
+                    type: 'boolean',
+                    example: false
+                },
+                sort_column: {
+                    type: 'string',
+                    example: 'name'
+                },
+                sort_order: {
+                    type: 'string',
+                    example: 'A'
+                }
+            }
+        }
+    }
+} as const;
+
+export const change_user_language_responseSchema = {
+    type: 'object',
+    properties: {
+        code: {
+            type: 'integer',
+            example: 0,
+            readOnly: true
+        },
+        message: {
+            type: 'string',
+            example: 'User language has been changed successfully.',
+            readOnly: true
+        }
+    }
+} as const;
+
 export const vendor_credit_responseSchema = {
     type: 'object',
     properties: {
@@ -70748,6 +71007,53 @@ export const get_current_user_responseWritableSchema = {
                 },
                 custom_fields: {
                     $ref: '#/components/schemas/custom_fields'
+                }
+            }
+        }
+    }
+} as const;
+
+export const get_person_details_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        person: {
+            $ref: '#/components/schemas/person-details'
+        }
+    }
+} as const;
+
+export const autocomplete_persons_responseWritableSchema = {
+    type: 'object',
+    properties: {
+        results: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/autocomplete-person-row'
+            }
+        },
+        page_context: {
+            type: 'object',
+            description: 'Pagination metadata when present.',
+            properties: {
+                page: {
+                    type: 'integer',
+                    example: 1
+                },
+                per_page: {
+                    type: 'integer',
+                    example: 1000
+                },
+                has_more_page: {
+                    type: 'boolean',
+                    example: false
+                },
+                sort_column: {
+                    type: 'string',
+                    example: 'name'
+                },
+                sort_order: {
+                    type: 'string',
+                    example: 'A'
                 }
             }
         }

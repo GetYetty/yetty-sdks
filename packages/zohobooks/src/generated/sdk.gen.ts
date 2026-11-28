@@ -2427,7 +2427,7 @@ export const createExchangeRate = <ThrowOnError extends boolean = false>(options
 });
 
 /**
- * Delete an exchage rate
+ * Delete an exchange rate
  *
  * Delete an exchange rate for the specified currency.
  */
@@ -2436,7 +2436,7 @@ export const deleteExchangeRate = <ThrowOnError extends boolean = false>(options
 /**
  * Get an exchange rate.
  *
- * Get the details of an exchange rate that has been asscoiated to the currency.
+ * Get the details of an exchange rate that has been associated to the currency.
  */
 export const getExchangeRate = <ThrowOnError extends boolean = false>(options: Options<GetExchangeRateData, ThrowOnError>): RequestResult<GetExchangeRateResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetExchangeRateResponses, unknown, ThrowOnError>({ url: '/settings/currencies/{currency_id}/exchangerates/{exchange_rate_id}', ...options });
 
